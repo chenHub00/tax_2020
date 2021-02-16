@@ -3,38 +3,51 @@
 #cat(readLines("test.log"), sep="\n")
 
 #library(lubridate)
+#install.packages("dplyr")
 #library(dplyr)
+library(dplyr)
 #install.packages("plyr")
 #library(plyr)
+library(plyr)
 
 #install.packages("tidyverse")
 library(tidyverse)
 library(readxl)
 
 # working directory
-#getwd()
+getwd()
 #setwd("C:/Users/USUARIO/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
 #
-#setwd("C:/Users/vicen/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
+directorio <- "C:/Users/vicen/Documents/R/tax_ene2020/"
+#setwd("C:/Users/vicen/Documents/R/tax_ene2020")
+#setwd("C:/Users/danny/Downloads/")
 
+#Parte1 = read_xlsx("C:/Users/danny/Downloads/Tabla_descriptivos_diciembre.xlsx")
+#Parte2 = read_xlsx("C:/Users/danny/Downloads/Actualizacion_oct_dic _2020.xlsx")
 
 # load data
 # https://drive.google.com/file/d/1gjiYxukBHpPwxGeZUK9FjCnshuQN0jPU/view?usp=sharing
 # tabla2011_ <- read_xlsx("Tabla2011_.xlsx")
-tabla_ago18_sep20 <- read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
+archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
+tabla_ago18_sep20<-read_xlsx(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
+tabla_ago18_sep20<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
 tabla_ene11_jul18<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ene11_jul18",range="A8:Y24851")
-tabla_oct20_dic20<-read_xlsx("Actualizacion_oct_dic_2020.xlsx",sheet="aux_oct_dic_2020",range="A8:Y953")
+tabla_oct20_dic20<-read_xlsx("oct_dic_2020.xlsx",sheet="aux_oct_dic_2020",range="A8:Y953")
+# SAFETY checks?
 
 tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
 #tabla2011_ <- tabla_ago18_sep20
+#tabla2018_20 <- bind_rows(tabla_ago18_sep20,tabla_oct20_dic20)
+tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
 # summary(tabla2011_)
+summary(tabla2011_2020)
 
 # variables para descripcion
 # fecha
-# mes y año
-#Year <- tabla2011_$`Año`
-Year <- tabla2011_$Año
-Month <- tabla2011_$Mes
+# mes y a?o
+#Year <- tabla2011_2020$`A?o`
+Year <- tabla2011_2020$A?o
+Month <- tabla2011_2020$Mes
 Day <- 1
 df1<-data.frame(Year,Month,Day)
 
@@ -44,11 +57,11 @@ df1
 
 # ciudad
 # marca-tipo: generar un "alternativo" consecutivo?
-#df <-data.frame(df1,tabla2011_$cve_ciudad,tabla2011_$pp,tabla2011_$pzas,tabla2011_$marca,tabla2011_$esp)
-df <-tibble(df1,tabla2011_$cve_ciudad,tabla2011_$pp,tabla2011_$pzas,tabla2011_$marca,tabla2011_$esp)
+#df <-data.frame(df1,tabla2011_2020$cve_ciudad,tabla2011_2020$pp,tabla2011_$pzas,tabla2011_$marca,tabla2011_$esp)
+df <-tibble(df1,tabla2011_2020$cve_ciudad,tabla2011_2020$pp,tabla2011_2020$pzas,tabla2011_2020$marca,tabla2011_2020$esp)
 
-# precio por unidad
-df$ppu <- tabla2011_$pp/tabla2011_$pzas
+ # precio por unidad
+df$ppu <- tabla2011_2020$pp/tabla2011_2020$pzas
 
 ## Agrupacion
 # ppu, por ciudad, por tipo(agrupado?)
@@ -82,7 +95,7 @@ ggplot(df_review, aes(Date, ppu, colour = tabla2011_.marca)) +
 
 # agrupar
 # dos grupos de marca-tipo, por el precio
-# qué tanto afecta los descriptivos las agrupaciones por nombre?
+# qu? tanto afecta los descriptivos las agrupaciones por nombre?
 tabEsp <- table(df$tabla2011_.esp)
 LimpiezaEsp <- data.frame(tabEsp)
 write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
