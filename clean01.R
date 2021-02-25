@@ -4,10 +4,8 @@
 
 #library(lubridate)
 #install.packages("dplyr")
-#library(dplyr)
 library(dplyr)
 #install.packages("plyr")
-#library(plyr)
 library(plyr)
 
 #install.packages("tidyverse")
@@ -30,10 +28,14 @@ directorio <- "C:/Users/vicen/Documents/R/tax_ene2020/"
 # tabla2011_ <- read_xlsx("Tabla2011_.xlsx")
 archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
 tabla_ago18_sep20<-read_xlsx(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
-tabla_ago18_sep20<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
-tabla_ene11_jul18<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ene11_jul18",range="A8:Y24851")
-tabla_oct20_dic20<-read_xlsx("oct_dic_2020.xlsx",sheet="aux_oct_dic_2020",range="A8:Y953")
+#tabla_ago18_sep20<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
+tabla_ene11_jul18<-read_xlsx(archivo,sheet="aux_ene11_jul18",range="A8:Y24851")
+#tabla_ene11_jul18<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ene11_jul18",range="A8:Y24851")
+archivo2 <- paste0(directorio,"Actualizacion_oct_dic_2020.xlsx")
+tabla_oct20_dic20<-read_xlsx(archivo2,sheet="aux_oct_dic_2020",range="A8:Y953")
+#tabla_oct20_dic20<-read_xlsx("Actualizacion_oct_dic_2020.xlsx",sheet="aux_oct_dic_2020",range="A8:Y953")
 # SAFETY checks?
+# rangos, recortar por fechas
 
 tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
 #tabla2011_ <- tabla_ago18_sep20
@@ -41,34 +43,41 @@ tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
 tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
 # summary(tabla2011_)
 summary(tabla2011_2020)
-
+rm(tabla2011_,tabla_ago18_sep20,tabla_ene11_jul18,tabla_oct20_dic20)
+rm(archivo, archivo2)
 # variables para descripcion
 # fecha
 # mes y a?o
-#Year <- tabla2011_2020$`A?o`
-Year <- tabla2011_2020$A?o
-Month <- tabla2011_2020$Mes
-Day <- 1
-df1<-data.frame(Year,Month,Day)
-
-# fecha 
-df1$fecha<-as.Date(with(df1,paste(Year,Month,Day,sep="-")),"%Y-%m-%d")
-df1
 
 # ciudad
 # marca-tipo: generar un "alternativo" consecutivo?
-#df <-data.frame(df1,tabla2011_2020$cve_ciudad,tabla2011_2020$pp,tabla2011_$pzas,tabla2011_$marca,tabla2011_$esp)
-df <-tibble(df1,tabla2011_2020$cve_ciudad,tabla2011_2020$pp,tabla2011_2020$pzas,tabla2011_2020$marca,tabla2011_2020$esp)
+
+# nombres de variables
+names(tabla2011_2020)[names(tabla2011_2020) == "Mes"] <- "month"
+names(tabla2011_2020)[names(tabla2011_2020) == "Año"] <- "year"
+names(tabla2011_2020)[names(tabla2011_2020) == "Clave ciudad"] <- "cve_ciudad"
+names(tabla2011_2020)[names(tabla2011_2020) == "Precio promedio"] <- "pp"
+names(tabla2011_2020)[names(tabla2011_2020) == "PIEZAS"] <- "pzas"
+names(tabla2011_2020)[names(tabla2011_2020) == "marca-tipo"] <- "marca"
+names(tabla2011_2020)[names(tabla2011_2020) == "Especificación"] <- "esp"
+names(tabla2011_2020)[names(tabla2011_2020) == "CAJETILLAS"] <- "caj"
+tabla2011_2020$day <- 1
+
+# fecha 
+tabla2011_2020$fecha<-as.Date(with(tabla2011_2020,paste(year,month,day,sep="-")),"%Y-%m-%d")
+
+# tibble de trabajo
+tabla2011_2020 <- tibble(tabla2011_2020)
+df <-tabla2011_2020 %>% select(cve_ciudad,pp,pzas,marca,esp,caj,year,month,day,fecha)
 
  # precio por unidad
-df$ppu <- tabla2011_2020$pp/tabla2011_2020$pzas
-
+df$ppu <- df$pp/(as.integer(df$pzas))
 ## Agrupacion
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df)
 
 # http://www.sthda.com/english/wiki/creating-and-saving-graphs-r-base-graphs
-pdf("rplot.pdf") 
+#pdf("rplot.pdf") 
 #jpeg('rplot.jpg')
 
 #jpeg("rplot.jpg", width = 500, height = 350)
@@ -77,97 +86,94 @@ pdf("rplot.pdf")
 #     pch = 16, frame = FALSE,
 #     xlab = "wt", ylab = "mpg", col = "#2E9FDF")
 # Close the pdf file
-ggplot(df, aes(fecha, ppu, colour = tabla2011_.marca)) + 
+ggplot(df, aes(fecha, ppu, colour = marca)) + 
   geom_point()
 #dev.copy(png,'myplot.png')
-dev.off() 
+#dev.off() 
+
+# Limpiar o corregir los nombres de las marcas
+tabEsp <- table(df$esp)
+LimpiezaEsp <- data.frame(tabEsp)
+write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
+
+## re-code 
+revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
+
+revalue(df$marca, c("´DELICADOS" = "DELICADOS")) -> df$marca 
+revalue(df$marca, c("ALAS EXTRA" = "ALAS")) -> df$marca
+
+revalue(df$marca, c("BENSON" = "BENSON & HEDGES")) -> df$marca
+revalue(df$marca, c("BENSON &HEDGES" = "BENSON & HEDGES")) -> df$marca
+revalue(df$marca, c("BENSON AND HEDGES" = "BENSON & HEDGES")) -> df$marca
+revalue(df$marca, c("BENSON&HEDGES" = "BENSON & HEDGES")) -> df$marca
+
+revalue(df$marca, c("CHESTERFIEL" = "CHESTERFIELD")) -> df$marca
+revalue(df$marca, c("CHESTER FIELD" = "CHESTERFIELD")) -> df$marca
+
+revalue(df$marca, c("LUCKIES" = "LUCKY STRIKE")) -> df$marca
+revalue(df$marca, c("LUCKY" = "LUCKY STRIKE")) -> df$marca
+
+revalue(df$marca, c("LUCKY STRIKE ROJOS" = "LUCKY STRIKE")) -> df$marca
+revalue(df$marca, c("MALBOO" = "MARLBORO")) -> df$marca
+revalue(df$marca, c("MALBORO" = "MARLBORO")) -> df$marca
+revalue(df$marca, c("MARLBORO" = "MARLBORO")) -> df$marca
+revalue(df$marca, c("MARLBORO GOLD" = "MARLBORO")) -> df$marca
+
+revalue(df$marca, c("MONTANA SHOT" = "MONTANA")) -> df$marca
+revalue(df$marca, c("MONTANA SHOTS" = "MONTANA")) -> df$marca
+
+revalue(df$marca, c("PALL MALL XL" = "PALL MALL")) -> df$marca
+revalue(df$marca, c("PALL MALL/XL" = "PALL MALL")) -> df$marca
+revalue(df$marca, c("PALLMALL" = "PALL MALL")) -> df$marca
+revalue(df$marca, c("PALLMALL XL" = "PALL MALL")) -> df$marca
+
+revalue(df$marca, c("RALEIGHT" = "RALEIGH")) -> df$marca
+
+revalue(df$marca, c("SHOT" = "MONTANA")) -> df$marca
+revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca
+
+# plot2
+ggplot(df, aes(fecha, ppu, colour = marca)) + 
+  geom_point()
 
 # identificar los que vienen por paquete
 # ppu > 10
 to_review <- subset(df,ppu>=10)
+view(to_review)
+library("openxlsx")
+write.xlsx(to_review, "to_review.xlsx")
+# 103 rows, CAMEL, 2017, 22.4 por unidad
+# delicados-> chesterfield
 df_review <- subset(df,ppu<10)
 
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df_review)
 
-ggplot(df_review, aes(Date, ppu, colour = tabla2011_.marca)) + 
+ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
   geom_point()
 
 # agrupar
 # dos grupos de marca-tipo, por el precio
 # qu? tanto afecta los descriptivos las agrupaciones por nombre?
-tabEsp <- table(df$tabla2011_.esp)
-LimpiezaEsp <- data.frame(tabEsp)
-write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
 
 # by_marca
 df_review %>%
-  group_by(tabla2011_.marca) 
+  group_by(marca) 
 
-df_review %>% summarise(
-  ppu = mean(ppu)
-)
+df_means <- df_review %>%
+  group_by(marca) %>%
+  summarise_at(vars(ppu), list(name = mean))
 
 #tabMarcas <- table(df_review$tabla2011_.marca)
-LimpiezaMarcas <- data.frame(table(df_review$tabla2011_.marca))
-write.csv(LimpiezaMarcas,"LimpiezaMarcas.csv", row.names = FALSE)
+write.csv(df_means,"df_means.csv", row.names = FALSE)
 
-# Chesterfield
-#
-df_review$marca2 <- df_review$tabla2011_.marca
-# Solo funciona si los factores se cargan como Texto
-#df_review$marca2[df_review$marca2=="CHESTER FIELD"]<- "CHESTERFIELD"
-#df_review$marca2[df_review$marca2=="CHESTERFIEL"]<- "CHESTERFIELD"
-
-library(plyr)
-
-revalue(df_review$marca2, c("`DELICADOS" = "DELICADOS")) -> df_review$marca2
-revalue(df_review$marca2, c("ALAS EXTRA" = "ALAS")) -> df_review$marca2
-
-revalue(df_review$marca2, c("BENSON" = "BENSON & HEDGES")) -> df_review$marca2
-revalue(df_review$marca2, c("BENSON &HEDGES" = "BENSON & HEDGES")) -> df_review$marca2
-revalue(df_review$marca2, c("BENSON AND HEDGES" = "BENSON & HEDGES")) -> df_review$marca2
-revalue(df_review$marca2, c("BENSON&HEDGES" = "BENSON & HEDGES")) -> df_review$marca2
-
-revalue(df_review$marca2, c("CHESTERFIEL" = "CHESTERFIELD")) -> df_review$marca2
-revalue(df_review$marca2, c("CHESTER FIELD" = "CHESTERFIELD")) -> df_review$marca2
-
-revalue(df_review$marca2, c("LUCKIES" = "LUCKY STRIKE")) -> df_review$marca2
-revalue(df_review$marca2, c("LUCKY" = "LUCKY STRIKE")) -> df_review$marca2
-
-revalue(df_review$marca2, c("LUCKY STRIKE ROJOS" = "LUCKY STRIKE")) -> df_review$marca2
-revalue(df_review$marca2, c("MALBOO" = "MARLBORO")) -> df_review$marca2
-revalue(df_review$marca2, c("MALBORO" = "MARLBORO")) -> df_review$marca2
-revalue(df_review$marca2, c("MARLBORO" = "MARLBORO")) -> df_review$marca2
-revalue(df_review$marca2, c("MARLBORO GOLD" = "MARLBORO")) -> df_review$marca2
-
-revalue(df_review$marca2, c("MONTANA SHOT" = "MONTANA")) -> df_review$marca2
-revalue(df_review$marca2, c("MONTANA SHOTS" = "MONTANA")) -> df_review$marca2
-
-revalue(df_review$marca2, c("PALL MALL XL" = "PALL MALL")) -> df_review$marca2
-revalue(df_review$marca2, c("PALL MALL/XL" = "PALL MALL")) -> df_review$marca2
-revalue(df_review$marca2, c("PALLMALL" = "PALL MALL")) -> df_review$marca2
-revalue(df_review$marca2, c("PALLMALL XL" = "PALL MALL")) -> df_review$marca2
-
-revalue(df_review$marca2, c("RALEIGHT" = "RALEIGH")) -> df_review$marca2
-
-revalue(df_review$marca2, c("SHOT" = "MONTANA")) -> df_review$marca2
-revalue(df_review$marca2, c("SHOTS" = "MONTANA")) -> df_review$marca2
-
-# Ejemplo
-#mtcars %>%
-#  mutate(mpg=replace(mpg, cyl==4, NA)) %>%
-#  as.data.frame()
-
-# by_marca2
-df_review %>%
-  group_by(marca2) 
-#tabMarcas2 <- table(by_marca2$marca2)
-LimpiezaMarcas2 <- data.frame(table(df_review$marca2))
+LimpiezaMarcas2 <- data.frame(table(df_review$marca))
 write.csv(LimpiezaMarcas2,"LimpiezaMarcas2.csv", row.names = FALSE)
 
+# 
+
 summary(df_review)
-ggplot(df_review, aes(Date, ppu, colour = marca2)) + 
+ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
   geom_point()
 
 # agregar "rangos" para el impuesto
@@ -178,3 +184,6 @@ ggplot(df_review, aes(Date, ppu, colour = marca2)) +
 save(df_review, file = "df_review.RData")
 
 rm(list=ls())
+
+# notar que se puede agrupar por ciudad
+# 
