@@ -145,6 +145,10 @@ write.xlsx(to_review, "to_review.xlsx")
 # 103 rows, CAMEL, 2017, 22.4 por unidad
 # delicados-> chesterfield
 df_review <- subset(df,ppu<10)
+# reemplazar
+#data$num1[data$num1 == 1] <- 99 
+# 
+df$caj[df$ppu > 10] <- 10 
 
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df_review)
