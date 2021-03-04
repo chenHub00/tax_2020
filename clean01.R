@@ -19,6 +19,7 @@ getwd()
 directorio <- "C:/Users/vicen/Documents/R/tax_ene2020/"
 #setwd("C:/Users/vicen/Documents/R/tax_ene2020")
 #setwd("C:/Users/danny/Downloads/")
+setwd(directorio)
 
 #Parte1 = read_xlsx("C:/Users/danny/Downloads/Tabla_descriptivos_diciembre.xlsx")
 #Parte2 = read_xlsx("C:/Users/danny/Downloads/Actualizacion_oct_dic _2020.xlsx")
@@ -139,16 +140,21 @@ ggplot(df, aes(fecha, ppu, colour = marca)) +
 # identificar los que vienen por paquete
 # ppu > 10
 to_review <- subset(df,ppu>=10)
-view(to_review)
+#view(to_review)
 library("openxlsx")
 write.xlsx(to_review, "to_review.xlsx")
 # 103 rows, CAMEL, 2017, 22.4 por unidad
 # delicados-> chesterfield
 df_review <- subset(df,ppu<10)
 # reemplazar
-#data$num1[data$num1 == 1] <- 99 
 # 
-df$caj[df$ppu > 10] <- 10 
+#df$caj[df$ppu > 10] <- 10 
+# recalcular estos
+#df$pzas <-df$pzas*df$caj  
+# pp
+#df$ppu <-df$pp/df$pzas  
+# ppu
+
 
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df_review)
