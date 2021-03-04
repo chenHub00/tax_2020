@@ -69,6 +69,8 @@ menores <- fecha_marca_sum  %>%
 table11_principales7 <- table11_ %>% 
   filter(marca %in% as.vector(t(marcas_10mas)))
 save(table11_principales7, file = "table11_principales7.RData")
+# load("~/R/tax_ene2020/table11_principales7.RData")
+write.csv(table11_principales7,"table11_principales7.csv", row.names = FALSE)
 
 # Saving on object in RData format
 save(principales7, file = "principales7.RData")
