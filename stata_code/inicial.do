@@ -30,7 +30,7 @@ save datos\df_review.dta, replace
 use  datos\df_review.dta, clear
 drop day fecha
 */
-import delimited datos/csv/table11_principales7.csv, clear 
+import delimited datos/table11_principales7.csv, clear 
 
 save datos\table11_principales7.dta, replace
 
