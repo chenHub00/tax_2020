@@ -15,25 +15,59 @@ su ppu*
 
 * how long does it take for the entire panel?
 * is it just the computer
-xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
-		 (ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym), 
+// xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
+//		 (ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym), 
 		 
 // en primer instancia sólo se tienen algunas marcas
 /// (ppu6 m1 m1_20 ym) 
 ///	 (ppu2 m1 m1_20 ym) 
  
-xtsur (ppu1 m1 m1_20 ym) (ppu5 m1 m1_20 ym) ///	
-		 (ppu7 m1 m1_20 ym)
+// premium  
+xtsur (ppu1 m1 m1_20 ym) ///
+			(ppu2 m1 m1_20 ym) ///
+		(ppu5 m1 m1_20 ym) 
 
-test [ppu5]m1_20=[ppu1]m1_20=[ppu7]m1_20
-		 
+    outreg2 m1 m1_20 ym using est_xtsur_premium ///
+			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+
+		test [ppu5]m1_20=[ppu1]m1_20=[ppu2]m1_20
+		// rejects equality
+		
+		test [ppu5]m1_20=[ppu1]m1_20
+		// rejects equality
+
+		test [ppu5]m1_20=[ppu2]m1_20
+		// rejects equality
+		
+// bajo  
+xtsur (ppu3 m1 m1_20 ym) ///
+			(ppu6 m1 m1_20 ym) 
+
+		outreg2 using est_xtsur_bajo ///
+			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+
+			
+		test [ppu6]m1_20=[ppu3]m1_20
+		// No se rechaza igualdad 
+
+// medio  
+xtsur (ppu4 m1 m1_20 ym) ///
+			(ppu7 m1 m1_20 ym) 
+
+		outreg2 using est_xtsur_medio ///
+			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace  
+
+			
+		test [ppu4]m1_20=[ppu7]m1_20
+		// it has no Std. Err. Estimations!! "sign is changed"
+		
+// solo estimaciones con periodo de 2015 en adelante		
+xtsur (ppu4 m1 m1_20 ym) ///
+			(ppu7 m1 m1_20 ym) if ym >= ym[43]
+// los estimadores resultan "invertidos"
+			
 log close
 
-/*
-
-xtsur (d_ppu1 m1 m1_20 lag_ppu1) (d_ppu5 m1 m1_20 lag_ppu5) (d_ppu7 m1 m1_20 lag_ppu7)
-
-xtsur (d_ppu1 m1 m1_20 lag_ppu1) (d_ppu5 m1 m1_20 lag_ppu5)
 
 
 
