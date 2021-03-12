@@ -1,0 +1,9 @@
+
+est_ > estimaciones
+ xtsur > seemingly unrelated regressions en panel
+ xtgls > usar gls con transformacion de los datos
+
+inicial > transformaciones iniciales de los datos
+- limita total de ciudades
+- 
+

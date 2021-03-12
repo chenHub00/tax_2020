@@ -2,8 +2,9 @@
 // complete_panel_data.do
 // se preparan variables usadas en esta parte
 
-cd "C:\Users\vicen\OneDrive\Documentos\colabs\salud\tabaco\"
-
+*cd "C:\Users\vicen\Documentos\colabs\salud\tabaco\"
+cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
+ 
 capture log close
 log using resultados/wide_complete_panel.log, replace
 
@@ -13,10 +14,15 @@ ta cve_ciudad
 
 su ppu*
 
+xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
+		(ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
+		if ym >= ym[43]
+		
 * how long does it take for the entire panel?
 * is it just the computer
 // xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
 //		 (ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym), 
+// if ym >= ym[43]
 		 
 // en primer instancia sólo se tienen algunas marcas
 /// (ppu6 m1 m1_20 ym) 
