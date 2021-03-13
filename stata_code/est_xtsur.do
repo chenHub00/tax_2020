@@ -16,7 +16,6 @@ su ppu*
 
 xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
 		(ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
-		if ym >= ym[43]
 		
 * how long does it take for the entire panel?
 * is it just the computer

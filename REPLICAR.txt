@@ -1,0 +1,31 @@
+
+descargar zip [tax_2020-master] y descomprimir (clonar con git) 
+https://github.com/chenHub00
+
+> dentro de la carpeta tax_2020-master
+* descargar DATOS: 
+- Tabla_descriptivos_diciembre.xlsx
+- Actualizacion_oct_dic_2020.xlsx
+
+* crear carpeta \datos
+
+Ejecutar codigo .R:
+(cambiar la referencia del directorio)
+- clear01.R
+- clear02.R
+
+* crear carpeta \resultados
+* descargar en \datos
+- precios_indices.xlsx 
+- pp_lt_cerveza11_.dta
+
+Ejecutar codigo .do:
+(cambiar el directorio de trabajo: asegurar que es el archivo relevante)
+- inicial.do
+- datos_paneles_promedios.do
+- est_xtsur.do
+
+
+// Definir estimadores de:
+// Cómo son diferentes las trayectorias de precios por ciudad?
+// 

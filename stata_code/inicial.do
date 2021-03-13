@@ -6,6 +6,7 @@
 * https://www.inegi.org.mx/sistemas/bie/
 * indice de precios al productor : sin petroleo
 * indice de precios al consumidor
+cd "C:\Users\USUARIO\Desktop\tax_2020-master"
 
 capture log close 
 log using resultados\inicial.log, replace
