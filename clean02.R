@@ -49,7 +49,7 @@ fecha_marca_sum <- por_fecha_marca2 %>% dplyr::summarise(
 # (respecto a las que tienen menos presencia)
 # AD-HOC
 marcas_en_ciudades_201912 <- filter(fecha_marca_sum, fecha=="2019-11-01")
-# para el ultimo mes de 2019
+# cercano al ultimo mes de 2019, podria ser trimestre?
 # son 10 el minimo "count" en CAMEL
 # quedan 7 presentaciones
 # DELICADOS SON CHESTERFIELD
@@ -73,6 +73,7 @@ save(table11_principales7, file = "datos/table11_principales7.RData")
 write.csv(table11_principales7,"datos/table11_principales7.csv", row.names = FALSE)
 
 # Saving on object in RData format
+setwd("C:/Users/vicen/Documents/R/tax_ene2020/tax_2020/")
 save(principales7, file = "principales7.RData")
 save(menores, file = "menores.RData")
 

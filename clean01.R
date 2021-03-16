@@ -3,6 +3,19 @@
 ## Calcular el precio por unidad
 ## Agrupación de datos: 10 ciudades (poner a Montana) > clean02.R
 ## Una sola observacion por ciudad, por marca. (promedio) 
+## cercano al ultimo mes de 2019, podria ser trimestre?
+## Resultados: graficos de tiempo, precio promedio por cada periodo
+## Entrada: 
+#- Tabla_descriptivos_diciembre.xlsx
+#- Actualizacion_oct_dic_2020.xlsx
+## Salida: 
+# - df_review.RData : ?LimpiezaMarcas2.csv
+# - table11_principales7.RData: table11_principales7.csv
+# - principales7.RData > clean02.R
+# - menores.RData  > clean02.R
+## ppu por fila, en algunas ciudades hay m'as de un precio por unidad, 
+## ? hacer una fila por cada ciudad, antes de calcular el precio por unidad 
+## ? promedio hacerlo geometrico?
 
 # And look at the log...
 #cat(readLines("test.log"), sep="\n")
