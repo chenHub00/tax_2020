@@ -1,3 +1,8 @@
+## Objetivo: 
+## Limpiar variables: marca, jajas o cajetillas
+## Calcular el precio por unidad
+## Agrupación de datos: 10 ciudades (poner a Montana) > clean02.R
+## Una sola observacion por ciudad, por marca. (promedio) 
 
 # And look at the log...
 #cat(readLines("test.log"), sep="\n")
