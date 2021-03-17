@@ -14,9 +14,13 @@ ta cve_ciudad
 
 su ppu*
 
-xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
+/*xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
 		(ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
-		
+NOT RUNNING...		
+classdef _b_stat() in use
+(nothing dropped)
+(327 lines skipped)
+(error occurred while loading xtsur.ado)
 * how long does it take for the entire panel?
 * is it just the computer
 // xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///	
@@ -26,7 +30,7 @@ xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym
 // en primer instancia sólo se tienen algunas marcas
 /// (ppu6 m1 m1_20 ym) 
 ///	 (ppu2 m1 m1_20 ym) 
- 
+ */
 // premium  
 xtsur (ppu1 m1 m1_20 ym) ///
 			(ppu2 m1 m1_20 ym) ///
