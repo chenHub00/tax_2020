@@ -8,8 +8,9 @@ est_ > estimaciones
  one_panel_dyn > group tiempo y ciudad: lags & diff
  xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex
  xt_means_marcas > mean by marca: lags & diff > est_xt_means_marcas.tex
+ xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un
+
 
 inicial > transformaciones iniciales de los datos
 - limita total de ciudades
-- 
 
