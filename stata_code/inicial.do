@@ -6,7 +6,8 @@
 * https://www.inegi.org.mx/sistemas/bie/
 * indice de precios al productor : sin petroleo
 * indice de precios al consumidor
-cd "C:\Users\USUARIO\Desktop\tax_2020-master"
+*cd "C:\Users\USUARIO\Desktop\tax_2020-master"
+cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020"
 
 capture log close 
 log using resultados\inicial.log, replace
@@ -98,6 +99,8 @@ gen ym_y2020=y2020*ym
 
 
 save datos\tpCiudad.dta, replace
+export excel using "datos\tpCiudad.xlsx", replace
+ 
 * 
 use datos\tpCiudad.dta, clear
 

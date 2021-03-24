@@ -1,9 +1,12 @@
 .Rproj.user
 .Rhistory
-.RData
 .Ruserdata
+*.RData
 *.csv
 *.jpg
 *.png
+*.txt
+*.tex
+*.xlsx
 /datos/*
 /resultados/*

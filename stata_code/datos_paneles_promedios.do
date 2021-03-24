@@ -49,7 +49,10 @@ drop if cve_ciudad > 46
 egen gr_marca_ciudad = group(marca cve_ciudad)
 xtset gr_marca_ciudad ym 
 
+gen dppu = d.ppu
+
 save datos\panel_marca_ciudad.dta, replace
+export excel using "datos\panel_marca_ciudad.xlsx", replace
 
 use datos\panel_marca_ciudad.dta, clear
 

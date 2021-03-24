@@ -12,7 +12,9 @@ su ppu4 ppu7
 * program: 
 quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
 // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
-
+// ajustar la muestra para la estimaci'on con 
+gen smp_xtsur_medium = e(sample) == 1
+ 
 putexcel set "resultados\sample_changes\marcas_medias.xlsx", replace
  
 putexcel (B2) = matrix( e(b) ), names
@@ -21,7 +23,7 @@ putexcel (A4) = "`e(cmdline)'"
 
 putexcel (B2) = matrix( e(b) ), names
 
-su ppu4 ppu7 if e(sample)==1
+su ppu4 ppu7 if smp_xtsur_medium ==1
 
 // minimo 2 anios, se agrega un anio cada vez
 // quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2019,1)
@@ -84,5 +86,9 @@ quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2012,1)
  	putexcel (A12) = "`e(cmdline)'"
 su ppu4 ppu7 if e(sample)==1
 
+save datos/wide_complete_medium_smp.dta, replace
 
 log close
+
+su ppu4 ppu7 if smp_xtsur_medium 
+xtreg ppu4 m1 m1_20 ym if smp_xtsur_medium 
