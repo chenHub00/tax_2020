@@ -1,0 +1,78 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.2.3)  10 MAR 2021 07:15
+entering extended mode
+**./document_example.tex
+(document_example.tex
+LaTeX2e <2018-12-01>
+("C:\Users\vicen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls"
+Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Users\vicen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size10.clo"
+File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (document_example.aux)
+\openout1 = `document_example.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+ (tab_base_price_j.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 1.
+) (tab_base_headroom_j.tex)
+(tab_base_trunk_j.tex)
+Overfull \hbox (76.51013pt too wide) in paragraph at lines 3--10
+[]\OT1/cmr/m/n/10 ... text be-fore in-clu-sion of ta-ble ... []
+ []
+
+
+Overfull \hbox (32.14891pt too wide) in paragraph at lines 3--10
+\OT1/cmr/m/n/10 ... text af-ter in-clu-sion of ta-ble ... []
+ []
+
+
+Overfull \hbox (1.78775pt too wide) in paragraph at lines 3--10
+\OT1/cmr/m/n/10 ... text af-ter in-clu-sion of ta-ble ... []
+ []
+
+[1
+
+{C:/Users/vicen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+(document_example.aux) ) 
+Here is how much of TeX's memory you used:
+ 214 strings out of 492946
+ 2951 string characters out of 3126267
+ 67252 words of memory out of 3000000
+ 4188 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 23i,7n,19p,142b,112s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/vicen/AppData/Local/Programs/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on document_example.pdf (2 pages, 29554 bytes).
+PDF statistics:
+ 17 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
