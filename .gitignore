@@ -9,4 +9,5 @@
 *.tex
 *.xlsx
 /datos/*
-/resultados/*
+/resultados/*.log
+/resultados/*.xlsx
