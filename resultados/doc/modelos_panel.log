@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.2.3)  5 APR 2021 09:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.2.3)  6 APR 2021 15:06
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -83,68 +83,62 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
 \mathdisplay@stack=\toks18
 LaTeX Info: Redefining \[ on input line 2844.
 LaTeX Info: Redefining \] on input line 2845.
-) (modelos_panel.aux)
+)
+("C:\Users\vicen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\makeidx.sty"
+Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
+)
+\@indexfile=\write3
+\openout3 = `modelos_panel.idx'.
+
+Writing index file modelos_panel.idx
+(modelos_panel.aux)
 \openout1 = `modelos_panel.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+ (est_areg_total.tex) [1
 
-Overfull \hbox (106.27965pt too wide) detected at line 28
-\OML/cmm/m/it/10 y[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 [] \OT1/cmr/m/n/10 + \
-OML/cmm/m/it/10  \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 t \OT1/cmr/m/n/10 + \OML/
-cmm/m/it/10 []Dummy\OT1/cmr/m/n/10 2012[] + [] + \OML/cmm/m/it/10 []Dummy\OT1
-/cmr/m/n/10 2020[] + \OML/cmm/m/it/10 []janDummy[] \OT1/cmr/m/n/10 + \OML/cmm/
-m/it/10 []taxDummy[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 u[]\OT1/cmr/m/n/10 ;
- []
-
-(est_xtsur_spline.tex) [1
-
-{C:/Users/vicen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (est_xtsur_
-det2.tex) (est_xt_medium.tex) [2] (est_areg_total.tex) (est_areg_tipo.tex) [3] 
-(est_xtsur_premium.tex) (est_xtsur_bajo.tex) [4]
-(est_xtsur_medio.tex)
-Overfull \hbox (10.8556pt too wide) in paragraph at lines 114--114
-[]\OT1/cmr/bx/n/12 Restrictions to the con-stant pa-ram-e-ters over time model 
-
- []
-
-[5] [6] (est_xtreg_dif.tex) (est_xtreg_2dif.tex) [7] [8] (modelos_panel.aux) ) 
+{C:/Users/vicen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (est_areg_t
+ipo.tex) [2] (est_xtsur_premium.tex) (est_xtsur_bajo.tex) (est_xtsur_medio.tex)
+ [3] [4] (est_xtreg_dif.tex)
+[5] (est_xtreg_2dif.tex) [6] (est_xtsur_spline.tex [7]) (est_xtsur_det2.tex)
+[8] (est_xt_medium.tex) [9] (modelos_panel.aux) ) 
 Here is how much of TeX's memory you used:
- 883 strings out of 492946
- 11180 string characters out of 3126267
- 78634 words of memory out of 3000000
- 4805 multiletter control sequences out of 15000+200000
+ 895 strings out of 492946
+ 11422 string characters out of 3126267
+ 77634 words of memory out of 3000000
+ 4813 multiletter control sequences out of 15000+200000
  9322 words of font info for 34 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,7n,21p,337b,198s stack positions out of 5000i,500n,10000p,200000b,50000s
-<
+ 27i,8n,21p,337b,200s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/vicen/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/vicen/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/U
+sers/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmmi7.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/vicen/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/vicen/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/vi
+cen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><
 C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmbx12.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmbx9.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/vicen/AppData/Local/Programs/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/vicen/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/vicen/Ap
-pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Us
-ers/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmr7.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr9.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/vicen/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/vicen/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (8 pages, 152842 bytes).
+/cmsy10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmsy5.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (9 pages, 153282 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
+ 80 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
