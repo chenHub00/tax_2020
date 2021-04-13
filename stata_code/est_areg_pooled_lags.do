@@ -113,7 +113,7 @@ foreach number of numlist 6 7 {
 
 	xtreg ppu m1_20 m1 ym L.ppu, fe
 	*estimates store fixed
-	outreg2 using resultados/doc/est_xt_marcas_p2 ///
+	outreg2 using resultados/doc/est_xt_marcas_lags_p2 ///
 				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
 
 	predict error_ppu_ym_fe, e

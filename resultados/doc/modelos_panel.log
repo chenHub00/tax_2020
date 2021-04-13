@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.2.3)  13 APR 2021 12:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.2.3)  13 APR 2021 14:05
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -111,35 +111,35 @@ LaTeX Font Info:    ... okay on input line 11.
 {C:/Users/vicen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (est_areg_t
 ipo.tex) [2] (est_xtsur_premium.tex) (est_xtsur_bajo.tex) (est_xtsur_medio.tex)
  [3] (est_xt_marcas.tex) [4]
-(est_xt_marcas_p2.tex) [5] (est_xtreg_dif.tex) [6] (est_xtreg_2dif.tex)
-[7] (est_xtsur_spline.tex [8]) (est_xtsur_det2.tex) [9] (est_xt_medium.tex)
-[10] (modelos_panel.aux) ) 
+(est_xt_marcas_lags.tex) (est_xt_marcas_lags_p2.tex) [5] [6] (est_xtreg_dif.tex
+) [7] (est_xtreg_2dif.tex) [8] (est_xtsur_spline.tex [9]) (est_xtsur_det2.tex)
+[10] (est_xt_medium.tex) [11] (modelos_panel.aux) ) 
 Here is how much of TeX's memory you used:
- 901 strings out of 492946
- 11651 string characters out of 3126267
- 77634 words of memory out of 3000000
+ 904 strings out of 492946
+ 11791 string characters out of 3126267
+ 79634 words of memory out of 3000000
  4813 multiletter control sequences out of 15000+200000
  9322 words of font info for 34 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  27i,8n,21p,337b,200s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/vicen/AppData/Local/Programs/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/vicen/AppData/Loca
-l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/vicen
-/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
+<C:/Users/vicen/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/vicen
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:
 /Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mr10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmr12.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr17.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/vicen/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/vicen/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/v
-icen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb
+mmi10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmmi7.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/vicen/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/vicen/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/
+vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb
 ><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (10 pages, 156601 bytes).
+cm/cmsy10.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmsy5.pfb><C:/Users/vicen/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (11 pages, 158211 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
+ 86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
