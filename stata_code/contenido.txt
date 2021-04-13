@@ -11,6 +11,10 @@ est_ > estimaciones
  xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un
  xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium
  xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos
+s3 ? restricciones sobre parametros, constantes en el tiempo?
+/ fixed-random coeficients < testing_panel_data.do
+/ unit-root test (i = ciudad y marca) 
+s4 ? three way, with mixed coefs? 
 
 inicial > transformaciones iniciales de los datos
 - limita total de ciudades

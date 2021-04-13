@@ -1,6 +1,5 @@
 
-cd ../../datos/encuesta/
-use "91224059_w01_w05_appended_vers_update_dup_06042020_LABEL SEND ULT.dta", clear
+use "$datos/91224059_w01_w05_appended_vers_update_dup_06042020_LABEL SEND ULT.dta", clear
 
 * la mayoria han fumado en los ultimos dias
 ta q005 q006
@@ -25,4 +24,3 @@ ta q005 q006, sum(consumo_semanal)
 // modelling count!
 // cuánto han fumado?
 // por marca
-
