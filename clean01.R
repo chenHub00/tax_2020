@@ -116,7 +116,6 @@ LimpiezaEsp <- data.frame(tabEsp)
 write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
 
 ## re-code 
-revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
 
 revalue(df$marca, c("´DELICADOS" = "DELICADOS")) -> df$marca 
 revalue(df$marca, c("ALAS EXTRA" = "ALAS")) -> df$marca
@@ -150,6 +149,10 @@ revalue(df$marca, c("RALEIGHT" = "RALEIGH")) -> df$marca
 
 revalue(df$marca, c("SHOT" = "MONTANA")) -> df$marca
 revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca
+
+# ajustes de nombres
+revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
+revalue(df$marca, c("RALEIGHT" = "LUCKY STRIKE")) -> df$marca
 
 # plot2
 ggplot(df, aes(fecha, ppu, colour = marca)) + 
@@ -209,7 +212,7 @@ ggplot(df_review, aes(fecha, ppu, colour = marca)) +
 # como cantidad fija
 
 # Saving on object in RData format
-save(df_review, file = "df_review.RData")
+save(df_review, file = "datos/df_review.RData")
 
 rm(list=ls())
 

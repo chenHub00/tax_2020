@@ -20,7 +20,7 @@ summary(df_review)
 write.csv(df_review,"df_review.csv", row.names = FALSE)
 
 # tibble format
-table11_ <- tbl_df(df_review)
+table11_ <- tibble(df_review)
 
 # ? c'omo usar esta parte?
 #df_review %>% count(fecha)
@@ -68,14 +68,14 @@ menores <- fecha_marca_sum  %>%
 # agrupar el resto de las marcas?
 table11_principales7 <- table11_ %>% 
   filter(marca %in% as.vector(t(marcas_10mas)))
+setwd("C:/Users/vicen/Documents/R/tax_ene2020/tax_2020/")
 save(table11_principales7, file = "datos/table11_principales7.RData")
 # load("~/R/tax_ene2020/table11_principales7.RData")
 write.csv(table11_principales7,"datos/table11_principales7.csv", row.names = FALSE)
 
 # Saving on object in RData format
-setwd("C:/Users/vicen/Documents/R/tax_ene2020/tax_2020/")
-save(principales7, file = "principales7.RData")
-save(menores, file = "menores.RData")
+save(principales7, file = "datos/principales7.RData")
+save(menores, file = "datos/menores.RData")
 
 #pdf("pp_ciudad_7marcasZero.pdf") 
 #jpeg('rplot.jpg')
