@@ -11,11 +11,17 @@ est_ > estimaciones
  xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un
  xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium
  xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos
-est_areg_pooled_lags
-(section 3) restricciones sobre parametros, constantes en el tiempo?
-/ fixed-random coeficients < testing_panel_data.do
+?util: areg_pooled_city
+areg_pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
+/ fixed-random coeficients <= testing_panel_data.do
 / unit-root test (i = ciudad y marca) 
-s4 ? three way, with mixed coefs? 
+(section 4) three way, with mixed coefs? 
+
+xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es, 
+para pruebas directas de coeficientes por marcas : testparm
+// resta la cuesti'on de los coeficientes de tiempo, 
+// usar multiplicacion por 100 para analizar el cambio en terminos de centavos
+
 
 inicial > transformaciones iniciales de los datos
 - limita total de ciudades
