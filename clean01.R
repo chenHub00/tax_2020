@@ -34,10 +34,7 @@ library(readxl)
 getwd()
 #setwd("C:/Users/USUARIO/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
 #
-directorio <- "C:/Users/vicen/Documents/R/tax_ene2020/"
-#setwd("C:/Users/vicen/Documents/R/tax_ene2020")
-#setwd("C:/Users/danny/Downloads/")
-setwd(directorio)
+directorio <- "datos/iniciales/"
 
 #Parte1 = read_xlsx("C:/Users/danny/Downloads/Tabla_descriptivos_diciembre.xlsx")
 #Parte2 = read_xlsx("C:/Users/danny/Downloads/Actualizacion_oct_dic _2020.xlsx")
