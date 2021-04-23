@@ -19,7 +19,9 @@
 
 # And look at the log...
 #cat(readLines("test.log"), sep="\n")
-
+###############################################
+# Lectura de librerias
+###############################################
 #library(lubridate)
 #install.packages("dplyr")
 library(dplyr)
@@ -39,7 +41,9 @@ directorio <- "datos/iniciales/"
 #Parte1 = read_xlsx("C:/Users/danny/Downloads/Tabla_descriptivos_diciembre.xlsx")
 #Parte2 = read_xlsx("C:/Users/danny/Downloads/Actualizacion_oct_dic _2020.xlsx")
 
-# load data
+###############################################
+# Carga de datos
+###############################################
 # https://drive.google.com/file/d/1gjiYxukBHpPwxGeZUK9FjCnshuQN0jPU/view?usp=sharing
 # tabla2011_ <- read_xlsx("Tabla2011_.xlsx")
 archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
@@ -68,7 +72,9 @@ rm(archivo, archivo2)
 # ciudad
 # marca-tipo: generar un "alternativo" consecutivo?
 
-# nombres de variables
+###############################################
+# renombrar columnas
+###############################################
 names(tabla2011_2020)[names(tabla2011_2020) == "Mes"] <- "month"
 names(tabla2011_2020)[names(tabla2011_2020) == "Año"] <- "year"
 names(tabla2011_2020)[names(tabla2011_2020) == "Clave ciudad"] <- "cve_ciudad"
@@ -86,7 +92,7 @@ tabla2011_2020$fecha<-as.Date(with(tabla2011_2020,paste(year,month,day,sep="-"))
 tabla2011_2020 <- tibble(tabla2011_2020)
 df <-tabla2011_2020 %>% select(cve_ciudad,pp,pzas,marca,esp,caj,year,month,day,fecha)
 
- # precio por unidad
+# precio por unidad
 df$ppu <- df$pp/(as.integer(df$pzas))
 ## Agrupacion
 # ppu, por ciudad, por tipo(agrupado?)
@@ -107,13 +113,16 @@ ggplot(df, aes(fecha, ppu, colour = marca)) +
 #dev.copy(png,'myplot.png')
 #dev.off() 
 
-# Limpiar o corregir los nombres de las marcas
+#######################################################
+# Limpiar/corregir los nombres de las marcas, para consistencia
+#######################################################
 tabEsp <- table(df$esp)
 LimpiezaEsp <- data.frame(tabEsp)
 write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
 
 ## re-code 
-
+df$marca_inicial <- df$marca
+  
 revalue(df$marca, c("´DELICADOS" = "DELICADOS")) -> df$marca 
 revalue(df$marca, c("ALAS EXTRA" = "ALAS")) -> df$marca
 
@@ -144,12 +153,17 @@ revalue(df$marca, c("PALLMALL XL" = "PALL MALL")) -> df$marca
 
 revalue(df$marca, c("RALEIGHT" = "RALEIGH")) -> df$marca
 
-revalue(df$marca, c("SHOT" = "MONTANA")) -> df$marca
-revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca
+revalue(df$marca, c("SHOT" = "SHOTS")) -> df$marca
 
-# ajustes de nombres
+
+#######################################################
+# Cambios en nombres por ajuste en "branding"
+#######################################################
+df$marca2 <- df$marca
+
 revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
-revalue(df$marca, c("RALEIGHT" = "LUCKY STRIKE")) -> df$marca
+revalue(df$marca, c("RALEIGH" = "LUCKY STRIKE")) -> df$marca
+revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca
 
 # plot2
 ggplot(df, aes(fecha, ppu, colour = marca)) + 
@@ -160,7 +174,7 @@ ggplot(df, aes(fecha, ppu, colour = marca)) +
 to_review <- subset(df,ppu>=10)
 #view(to_review)
 library("openxlsx")
-write.xlsx(to_review, "to_review.xlsx")
+write.xlsx(to_review, "datos/prelim/to_review.xlsx")
 # 103 rows, CAMEL, 2017, 22.4 por unidad
 # delicados-> chesterfield
 df_review <- subset(df,ppu<10)
@@ -193,10 +207,10 @@ df_means <- df_review %>%
   summarise_at(vars(ppu), list(name = mean))
 
 #tabMarcas <- table(df_review$tabla2011_.marca)
-write.csv(df_means,"df_means.csv", row.names = FALSE)
+write.csv(df_means,"datos/prelim/df_means.csv", row.names = FALSE)
 
 LimpiezaMarcas2 <- data.frame(table(df_review$marca))
-write.csv(LimpiezaMarcas2,"LimpiezaMarcas2.csv", row.names = FALSE)
+write.csv(LimpiezaMarcas2,"datos/prelim/LimpiezaMarcas2.csv", row.names = FALSE)
 
 # 
 

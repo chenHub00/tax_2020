@@ -17,7 +17,7 @@ library(dplyr)
 load("datos/df_review.RData")
 summary(df_review)
 
-write.csv(df_review,"df_review.csv", row.names = FALSE)
+write.csv(df_review,"datos/df_review.csv", row.names = FALSE)
 
 # tibble format
 table11_ <- tibble(df_review)
