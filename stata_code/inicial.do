@@ -7,7 +7,7 @@
 * indice de precios al productor : sin petroleo
 * indice de precios al consumidor
 *cd "C:\Users\USUARIO\Desktop\tax_2020-master"
-cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020"
+*cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020"
 
 capture log close 
 log using resultados\inicial.log, replace
