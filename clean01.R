@@ -161,6 +161,7 @@ revalue(df$marca, c("SHOT" = "SHOTS")) -> df$marca
 #######################################################
 df$marca2 <- df$marca
 
+revalue(df$marca, c("BOOTS" = "PALL MALL")) -> df$marca
 revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
 revalue(df$marca, c("RALEIGH" = "LUCKY STRIKE")) -> df$marca
 revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca

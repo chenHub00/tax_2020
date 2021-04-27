@@ -77,15 +77,15 @@ write.csv(table11_principales7,"datos/table11_principales7.csv", row.names = FAL
 save(principales7, file = "datos/principales7.RData")
 save(menores, file = "datos/menores.RData")
 
-#pdf("pp_ciudad_7marcasZero.pdf") 
-#jpeg('rplot.jpg')
+pdf("ppu_ciudad_7marcas2011.pdf") 
+jpeg('rplot.jpg')
 
 # gr'afico con las principales marcas
 ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
   labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
 #  scale_y_continuous(limits =   c(0,3.5)) +
   geom_point()
-#dev.off() 
+dev.off() 
 
 
 rm(list=ls())
