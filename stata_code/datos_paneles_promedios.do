@@ -3,7 +3,6 @@
 // ajustes en numero de ciudades
 // ajustes en total de marcas
 // para algunas especificaciones se considerarian solo ciudades principales
-cd "C:\Users\USUARIO\Desktop\tax_2020-master"
 
 capture log close
 log using resultados/paneles_promedio.log, replace
