@@ -7,11 +7,9 @@ panel-data systems
 J. Lloyd Blackwell, III
 Department of Economics
 University of North Dakota
-*/
 
-*cd "C:\Users\vicen\Documentos\colabs\salud\tabaco\"
-cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
- 
+cuál es la razón por la qué no se ejecuta?
+
 capture log close
 log using resultados/est_xtgls.log, replace
 

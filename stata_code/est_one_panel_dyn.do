@@ -1,8 +1,7 @@
 // a partir de las estimaciones en:
 // complete_panel_data.do 
 
-do cd_tabaco.do
- 
+
 capture log close
 log using resultados/est_one_panel_dyn.log, replace
 

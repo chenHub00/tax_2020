@@ -1,9 +1,6 @@
 // a partir de los resultados en
 // complete_panel_data.do
 // se preparan variables usadas en esta parte
-
-*cd "C:\Users\vicen\Documentos\colabs\salud\tabaco\"
-cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
  
 capture log close
 log using resultados/wide_complete_panel.log, replace

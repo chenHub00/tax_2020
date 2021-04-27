@@ -1,6 +1,4 @@
 
-cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
-
 capture log close
 log using resultados/est_xtsur_medium.log, replace
 
