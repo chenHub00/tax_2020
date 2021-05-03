@@ -25,4 +25,9 @@ para pruebas directas de coeficientes por marcas : testparm
 
 inicial > transformaciones iniciales de los datos
 - limita total de ciudades
+- promedios por marca/ciudad> 
+- promedios por marca
+- promedio por ciudades
+usa: inicial_marcas(2).do / marcas2.do
+
 

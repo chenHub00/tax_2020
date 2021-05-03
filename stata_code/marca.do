@@ -2,7 +2,7 @@
  
  // establecer el panel
  rename marca marca_str
- encode marca, gen(marca)
+ encode marca_str, gen(marca)
 
 ta marca, sum(ppu)
 // tipo_marca
