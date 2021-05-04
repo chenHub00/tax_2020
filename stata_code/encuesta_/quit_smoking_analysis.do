@@ -49,7 +49,7 @@ ta time_sample wave if islead==1
 	keep if islead==1
 	xtdes, patterns (10) 
 	
-	xtdes if disc_rate!=. & susqalead!=., patterns (10) //754 smokers with follow-up & complete info in main vars
+	*xtdes if disc_rate!=. & susqalead!=., patterns (10) //754 smokers with follow-up & complete info in main vars
 
 	egen samplemiss = rowmiss(susqalead depen_psic disc_rate smokstigma dual_use sexo edad_cat4 educ_4cat family_income_2 wave time_sample smokstatus3 selfefquit)
 	ta samplemiss //los . se deben a susqalead y dependence (samplemiss 0=1016)
