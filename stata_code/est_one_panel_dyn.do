@@ -6,7 +6,10 @@ capture log close
 log using resultados/est_one_panel_dyn.log, replace
 
 use datos\panel_marca_ciudad.dta, clear
+// establecer el panel
+ decode marca, gen(marca_str)
 
+do stata_code/marca.do
 // 
 xtreg ppu m1 m1_20 d.ppu, fe
 *predict resid_d_marcas, resid

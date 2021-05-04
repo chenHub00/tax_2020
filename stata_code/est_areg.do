@@ -8,7 +8,9 @@
 capture log close
 log using resultados/est_areg.log, replace
 
-use datos\tpCiudad.dta, clear
+* use datos\tpCiudad.dta, clear
+* marca con Raleigh por Lucky
+use datos\tpCiudad2.dta, clear
 
 * sin interacciones > tendencia 
 *regress ppu m1 m1_20 ym i.marca i.cve_ciudad 

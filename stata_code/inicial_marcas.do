@@ -10,6 +10,10 @@ restore
 collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu, ///
 		by(year month cve_ciudad marca)
 
+// establecer el panel
+ rename marca marca_str
+ encode marca_str, gen(marca)
+
 do stata_code/marca.do
 
 merge m:1 year month using datos\precios_indices.dta, gen(m_df_p)

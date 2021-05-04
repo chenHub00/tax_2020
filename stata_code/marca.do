@@ -1,8 +1,5 @@
  // marca.do
  
- // establecer el panel
- rename marca marca_str
- encode marca_str, gen(marca)
 
 ta marca, sum(ppu)
 // tipo_marca

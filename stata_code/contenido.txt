@@ -4,6 +4,9 @@ est_ > estimaciones
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
  areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? 
 	- c'omo probar vs aleatorios en ciudad?
+     _pooled:
+     _pooled_city: 
+     _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
  one_panel > group tiempo y ciudad
  one_panel_dyn > group tiempo y ciudad: lags & diff
  xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex
@@ -12,7 +15,6 @@ est_ > estimaciones
  xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium
  xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos
 ?util: areg_pooled_city
-areg_pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
 / fixed-random coeficients <= testing_panel_data.do
 / unit-root test (i = ciudad y marca) 
 (section 4) three way, with mixed coefs? 

@@ -86,7 +86,8 @@ su ppu4 ppu7 if e(sample)==1
 
 save datos/wide_complete_medium_smp.dta, replace
 
-log close
 
 su ppu4 ppu7 if smp_xtsur_medium 
 xtreg ppu4 m1 m1_20 ym if smp_xtsur_medium 
+
+log close
