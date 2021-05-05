@@ -41,12 +41,12 @@ xtreg dm_ppu_cm dm_m1_cm dm_m1_20_cm ym, fe
 // the coefficient for m1_20 in the same range as previous estimation
 // outreg
 outreg2 using resultados/doc/est_xt_dm ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+			, keep(dm_m1_cm dm_m1_20_cm  ym) bdec(3) nocons  tex(fragment) replace
 
 // por marca
 xtreg dm_ppu_cm dm_m1_cm i.marca##c.dm_m1_20_cm ym, fe
 outreg2 using resultados/doc/est_xt_dm ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+			, keep(dm_m1_cm dm_m1_20_cm  ym) bdec(3) nocons  tex(fragment) append
 // includes dm_m1_20 
 testparm i.marca##c.dm_m1_20 
 // exclude dm_m1_20 
