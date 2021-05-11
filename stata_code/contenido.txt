@@ -20,7 +20,7 @@ est_ > estimaciones
 (section 4) three way, with mixed coefs? 
 
 xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es, 
-para pruebas directas de coeficientes por marcas : testparm
+para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex
 // resta la cuesti'on de los coeficientes de tiempo, 
 // usar multiplicacion por 100 para analizar el cambio en terminos de centavos
 
