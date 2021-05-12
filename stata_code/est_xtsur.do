@@ -33,7 +33,7 @@ xtsur (ppu1 m1 m1_20 ym) ///
 			(ppu2 m1 m1_20 ym) ///
 		(ppu5 m1 m1_20 ym) 
 
-    outreg2 m1 m1_20 ym using est_xtsur_premium ///
+    outreg2 m1 m1_20 ym using resultados/doc/est_xtsur_premium ///
 			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
 
 		test [ppu5]m1_20=[ppu1]m1_20=[ppu2]m1_20
@@ -49,7 +49,7 @@ xtsur (ppu1 m1 m1_20 ym) ///
 xtsur (ppu3 m1 m1_20 ym) ///
 			(ppu6 m1 m1_20 ym) 
 
-		outreg2 using est_xtsur_bajo ///
+		outreg2 using resultados/doc/est_xtsur_bajo ///
 			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
 
 			
@@ -60,18 +60,15 @@ xtsur (ppu3 m1 m1_20 ym) ///
 xtsur (ppu4 m1 m1_20 ym) ///
 			(ppu7 m1 m1_20 ym) 
 
-		outreg2 using est_xtsur_medio ///
+		outreg2 using resultados/doc/est_xtsur_medio ///
 			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace  
 
 			
 		test [ppu4]m1_20=[ppu7]m1_20
-		// it has no Std. Err. Estimations!! "sign is changed"
+		// before the change in Raleigh to Lucky
+		// no Std. Err. Estimations!! "sign error"
 		
-// solo estimaciones con periodo de 2015 en adelante		
-xtsur (ppu4 m1 m1_20 ym) ///
-			(ppu7 m1 m1_20 ym) if ym >= ym[43]
-// los estimadores resultan "invertidos"
-			
+
 log close
 
 

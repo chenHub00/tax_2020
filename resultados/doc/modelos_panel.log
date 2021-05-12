@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  11 MAY 2021 13:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  12 MAY 2021 10:43
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -117,35 +117,35 @@ Overfull \vbox (118.19998pt too high) has occurred while \output is active []
 
 
 [2] (est_areg_tipo.tex) (est_xtsur_premium.tex) [3] (est_xtsur_bajo.tex)
-(est_xtsur_medio.tex) [4] (est_xt_marcas.tex) (est_xt_marcas_lags.tex)
-(est_xt_marcas_lags_p2.tex [5]) (est_xt_dm.tex) [6] [7] (est_xtreg_dif.tex)
-[8] (est_xtreg_2dif.tex) [9] (est_xtsur_spline.tex [10]) (est_xtsur_det2.tex)
-[11] (est_xt_medium.tex) [12] (modelos_panel.aux) ) 
+(est_xtsur_medio.tex) [4] (est_xtsur_det2.tex) (est_xt_medium.tex) [5]
+(est_xt_marcas.tex) (est_xt_marcas_lags.tex) (est_xt_marcas_lags_p2.tex
+[6]) (est_xt_dm.tex) [7] [8] (est_xtreg_dif.tex) [9] (est_xtreg_2dif.tex)
+[10] [11] (modelos_panel.aux) ) 
 Here is how much of TeX's memory you used:
- 1124 strings out of 479334
- 17303 string characters out of 2857559
+ 1120 strings out of 479334
+ 17155 string characters out of 2857559
  323505 words of memory out of 3000000
- 18584 multiletter control sequences out of 15000+200000
+ 18583 multiletter control sequences out of 15000+200000
  409112 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,8n,74p,359b,203s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/chen/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/che
-n/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/U
-sers/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pf
-b><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmr12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr17.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmr7.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (12 pages, 163586 bytes).
+ 67i,7n,74p,324b,203s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/chen/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/c
+hen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/
+Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.p
+fb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr7.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (11 pages, 161178 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
+ 86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

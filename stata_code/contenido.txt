@@ -2,25 +2,29 @@
 est_ > estimaciones
  03/17 (no 'llama' la funci'on, s'i funcionaba la semana pasada) xtsur > seemingly unrelated regressions en panel
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
- areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? 
-	- c'omo probar vs aleatorios en ciudad?
+ areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
+	- c'omo probar vs aleatorios en ciudad? 
      _pooled:
      _pooled_city: 
      _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
  one_panel > group tiempo y ciudad
- one_panel_dyn > group tiempo y ciudad: lags & diff
- xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex
+ one_panel_dyn > group tiempo y ciudad: lags & diff : est_xtreg_dif.tex, est_xtreg_2dif.tex
+ xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex, est_xt_means_diff.tex
  xt_means_marcas > mean by marca: lags & diff > est_xt_means_marcas.tex
- xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un
- xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium
- xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos
+ xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un :
+	est_xt_means_marcas.tex
+ xtsur > usa: wide_complete_panel.dta > est_xtsur_premium.tex, est_xtsur_medio.tex, est_xtsur_bajo.tex > section 2
+ xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium :
+	est_xtsur_det2.tex :  (to section 3, subsection)
+ xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos : 
+	resultados\sample_changes\marcas_medias.xlsx 
 ?util: areg_pooled_city
 / fixed-random coeficients <= testing_panel_data.do
 / unit-root test (i = ciudad y marca) 
 (section 4) three way, with mixed coefs? 
 
 xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es, 
-para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex
+para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex > Section 4
 // resta la cuesti'on de los coeficientes de tiempo, 
 // usar multiplicacion por 100 para analizar el cambio en terminos de centavos
 
@@ -32,4 +36,7 @@ inicial > transformaciones iniciales de los datos
 - promedio por ciudades
 usa: inicial_marcas(2).do / marcas2.do
 
-
+datos_paneles_promedios.do >
+ usa: 
+ resultados:
+   - datos/wide_complete_panel.dta

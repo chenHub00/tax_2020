@@ -42,25 +42,3 @@ test d_ppu_marcas_sq
 * se rechaza misespecificación
 
 log close
-
-
-/* sin interacciones
-
-/////// TESTS
-			test [ppu4]m1_20=[ppu7]m1_20
-		// it has no Std. Err. Estimations!! "sign is changed"
-
-** por tipo
-
-outreg2 m1 m1_20 ym using est_areg_tipo ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
-
-
-/////// TESTS
-			test [ppu4]m1_20=[ppu7]m1_20
-		// it has no Std. Err. Estimations!! "sign is changed"
-					
-
-
-
-
