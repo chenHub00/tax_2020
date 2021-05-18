@@ -1,0 +1,18 @@
+{\rtf1\ansi\deff0 {\fonttbl{\f0\fnil Garamond;}}
+{\info {\author .}{\company .}{\title .}}
+\deflang1033\plain\fs20
+{\footer\pard\qc\plain\f0\fs20\chpgn\par}
+{
+{\b\qc\line  }{\par}
+\fs20 { ( 1)  1b.marca#1.m1_20 = 0}\line
+\fs20 { ( 2)  2.marca#0b.m1_20 = 0}\line
+\fs20 { ( 3)  3.marca#0b.m1_20 = 0}\line
+\fs20 { ( 4)  4.marca#0b.m1_20 = 0}\line
+\fs20 { ( 5)  5.marca#0b.m1_20 = 0}\line
+\fs20 { ( 6)  6.marca#0b.m1_20 = 0}\line
+\fs20 {       F(  6, 22972) =    9.95}\line
+\fs20 {            Prob > F =    0.0000}\line
+
+
+\writepositionforappend
+}}

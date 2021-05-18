@@ -42,9 +42,11 @@ testparm i.cve_ciudad
 // por marca
 use datos\panel_marca_ciudad.dta if marca == 1, clear
 
-xtset cve_ciudad ym 
+xtreg ppu m1_20 m1 ym , fe
+//xtset cve_ciudad ym 
 
-xtreg ppu m1_20 m1 ym, fe
+use datos\panel_marca_ciudad.dta, clear
+xtreg ppu m1_20 m1 ym if marca == 1, fe
 estimates store fixed
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
@@ -62,15 +64,17 @@ xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 *xtunitroot fisher ppu, dfuller lags(4)
 
 foreach number of numlist 2/4 {
+local number = 2
 	di "`number'"
 
-	use datos\panel_marca_ciudad.dta if marca == `number', clear
+//	use datos\panel_marca_ciudad.dta if marca == `number', clear
 
-	xtset cve_ciudad ym 
+//	xtset cve_ciudad ym 
 	// gen dif_ppu = d.ppu
 
-	xtreg ppu m1_20 m1 ym, fe
-	estimates store fixed
+	//xtreg ppu m1_20 m1 ym, fe
+	xtreg ppu m1_20 m1 ym if marca == `number', fe
+	estimates store fixed`number'
 	outreg2 using resultados/doc/est_xt_marcas ///
 				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
 
@@ -108,7 +112,7 @@ hausman fixed random
 predict error_ppu_ym_re, e
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 
-foreach number of numlist 5 6 7 {
+foreach number of numlist 6 7 {
 	di "`number'"
 
 	use datos\panel_marca_ciudad.dta if marca == `number', clear
@@ -131,6 +135,13 @@ foreach number of numlist 5 6 7 {
 	predict error_ppu_ym_re, e
 	xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 }
+
+// 18/05/21
+// Prueba de diferencia de coeficiente de inter'es
+// Pooled 
+xtreg ppu m1_20 i.marca#m1_20 m1 ym, fe
+
+asdoc testparm i.marca#m1_20, save(resultados/doc/est_areg_pooled) replace
 
 					
 log close

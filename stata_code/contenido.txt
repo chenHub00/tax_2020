@@ -4,7 +4,8 @@ est_ > estimaciones
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
  areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
 	- c'omo probar vs aleatorios en ciudad? 
-     _pooled:
+     _pooled: regresion con ciudad y marcas como un nivel, por marcas > est_xt_marcas.tex, est_xt_marcas_p2.tex
+
      _pooled_city: 
      _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
  one_panel > group tiempo y ciudad
