@@ -1,5 +1,5 @@
 
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA.dta", clear
 
 * la mayoria han fumado en los ultimos dias
 ta q005 q006

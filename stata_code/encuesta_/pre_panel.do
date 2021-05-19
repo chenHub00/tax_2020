@@ -1,15 +1,17 @@
 // 
 // seccion dejar de fumar p. 31
 // seccion no fumadores p. 47
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA.dta", clear
+use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
-keep wave id q001-q030 q006a q029a edad_cat4 consumo escolaridad sexo /// 
-	educ_9cat educ_3catr fum_100cig_vida current_smoker
+keep wave id weight* q001-q030 q006a q029a edad_cat4 consumo escolaridad sexo /// 
+	educ_9cat educ_3catr fum_100cig_vida current_smoker 
 
 // Long data
 * x = individual id, wave = wave (5 available)
-duplicates report x wave
-rename x id
+*rename x id
+// 'util antes
+duplicates report id wave
 
 destring id, replace
 

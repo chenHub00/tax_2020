@@ -47,5 +47,4 @@ ta wave, su(consumo_semanal)
 ta q019 wave if q018 == 1
 ta q026 wave
 
-do "$codigo\precios_consumo.do"
 
