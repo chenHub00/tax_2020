@@ -46,21 +46,31 @@ directorio <- "datos/iniciales/"
 ###############################################
 # https://drive.google.com/file/d/1gjiYxukBHpPwxGeZUK9FjCnshuQN0jPU/view?usp=sharing
 # tabla2011_ <- read_xlsx("Tabla2011_.xlsx")
+# termina en septiembre, se llama diciembre pues hicimos la revision en esa fecha
 archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
+# datos de la muestra de ciudades actual desde 2018
+# se hizo manual la actualizaci'on del rango
 tabla_ago18_sep20<-read_xlsx(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
 #tabla_ago18_sep20<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
+# tiene hojas de INPC 2011 a 2018, con la muestra anterior de ciudades
+# el rango se actualiza manualmente
 tabla_ene11_jul18<-read_xlsx(archivo,sheet="aux_ene11_jul18",range="A8:Y24851")
 #tabla_ene11_jul18<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ene11_jul18",range="A8:Y24851")
-archivo2 <- paste0(directorio,"Actualizacion_oct_dic_2020.xlsx")
-tabla_oct20_dic20<-read_xlsx(archivo2,sheet="aux_oct_dic_2020",range="A8:Y953")
-#tabla_oct20_dic20<-read_xlsx("Actualizacion_oct_dic_2020.xlsx",sheet="aux_oct_dic_2020",range="A8:Y953")
+#
+# archivo2 <- paste0(directorio,"Actualizacion_oct_dic_2020.xlsx")
+archivo2 <- paste0(directorio,"Oct2020_abr2021.xlsx")
+# 
+# tabla_oct20_dic20<-read_xlsx(archivo2,sheet="aux_oct_dic_2020",range="A8:Y953")
+# actualizacion contiene los datos previos
+tabla_oct20_abr21<-read_xlsx(archivo2,sheet="aux_oct20_abr21",range="A6:Y2211")
 # SAFETY checks?
 # rangos, recortar por fechas
 
 tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
 #tabla2011_ <- tabla_ago18_sep20
 #tabla2018_20 <- bind_rows(tabla_ago18_sep20,tabla_oct20_dic20)
-tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
+#tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
+tabla2011_2021 <- bind_rows(tabla_oct20_abr21,tabla2011_)
 # summary(tabla2011_)
 summary(tabla2011_2020)
 rm(tabla2011_,tabla_ago18_sep20,tabla_ene11_jul18,tabla_oct20_dic20)
