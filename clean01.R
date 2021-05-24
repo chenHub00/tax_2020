@@ -72,8 +72,8 @@ tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
 #tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
 tabla2011_2021 <- bind_rows(tabla_oct20_abr21,tabla2011_)
 # summary(tabla2011_)
-summary(tabla2011_2020)
-rm(tabla2011_,tabla_ago18_sep20,tabla_ene11_jul18,tabla_oct20_dic20)
+summary(tabla2011_2021)
+rm(tabla2011_,tabla_ago18_sep20,tabla_ene11_jul18,tabla_oct20_abr21)
 rm(archivo, archivo2)
 # variables para descripcion
 # fecha
@@ -85,22 +85,22 @@ rm(archivo, archivo2)
 ###############################################
 # renombrar columnas
 ###############################################
-names(tabla2011_2020)[names(tabla2011_2020) == "Mes"] <- "month"
-names(tabla2011_2020)[names(tabla2011_2020) == "Año"] <- "year"
-names(tabla2011_2020)[names(tabla2011_2020) == "Clave ciudad"] <- "cve_ciudad"
-names(tabla2011_2020)[names(tabla2011_2020) == "Precio promedio"] <- "pp"
-names(tabla2011_2020)[names(tabla2011_2020) == "PIEZAS"] <- "pzas"
-names(tabla2011_2020)[names(tabla2011_2020) == "marca-tipo"] <- "marca"
-names(tabla2011_2020)[names(tabla2011_2020) == "Especificación"] <- "esp"
-names(tabla2011_2020)[names(tabla2011_2020) == "CAJETILLAS"] <- "caj"
-tabla2011_2020$day <- 1
+names(tabla2011_2021)[names(tabla2011_2021) == "Mes"] <- "month"
+names(tabla2011_2021)[names(tabla2011_2021) == "Año"] <- "year"
+names(tabla2011_2021)[names(tabla2011_2021) == "Clave ciudad"] <- "cve_ciudad"
+names(tabla2011_2021)[names(tabla2011_2021) == "Precio promedio"] <- "pp"
+names(tabla2011_2021)[names(tabla2011_2021) == "PIEZAS"] <- "pzas"
+names(tabla2011_2021)[names(tabla2011_2021) == "marca-tipo"] <- "marca"
+names(tabla2011_2021)[names(tabla2011_2021) == "Especificación"] <- "esp"
+names(tabla2011_2021)[names(tabla2011_2021) == "CAJETILLAS"] <- "caj"
+tabla2011_2021$day <- 1
 
 # fecha 
-tabla2011_2020$fecha<-as.Date(with(tabla2011_2020,paste(year,month,day,sep="-")),"%Y-%m-%d")
+tabla2011_2021$fecha<-as.Date(with(tabla2011_2021,paste(year,month,day,sep="-")),"%Y-%m-%d")
 
 # tibble de trabajo
-tabla2011_2020 <- tibble(tabla2011_2020)
-df <-tabla2011_2020 %>% select(cve_ciudad,pp,pzas,marca,esp,caj,year,month,day,fecha)
+tabla2011_2021 <- tibble(tabla2011_2021)
+df <-tabla2011_2021 %>% select(cve_ciudad,pp,pzas,marca,esp,caj,year,month,day,fecha)
 
 # precio por unidad
 df$ppu <- df$pp/(as.integer(df$pzas))
