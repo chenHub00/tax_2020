@@ -39,32 +39,33 @@ testparm i.marca
 areg ppu m1 m1_20 ym i.cve_ciudad, absorb(marca)
 testparm i.cve_ciudad 
 
+// *******************************************************
 // por marca
-use datos\panel_marca_ciudad.dta if marca == 1, clear
+// *******************************************************
+// use datos\panel_marca_ciudad.dta if marca == 1, clear
 
-xtreg ppu m1_20 m1 ym , fe
+// xtreg ppu m1_20 m1 ym , fe
 //xtset cve_ciudad ym 
 
 use datos\panel_marca_ciudad.dta, clear
 xtreg ppu m1_20 m1 ym if marca == 1, fe
-estimates store fixed
+estimates store fixed1
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
 
-xtreg ppu m1_20 m1 ym, re
-estimates store random
+xtreg ppu m1_20 m1 ym if marca == 1, re
+estimates store random1
 xttest0 
 * significance of random effects
 * Hausmann Test
-hausman fixed random 
+hausman fixed1 random1 
 
-predict error_ppu_ym_re, e
-xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+predict error_ppu_ym_re1, e
+xtunitroot fisher error_ppu_ym_re1, dfuller lags(4)
 
 *xtunitroot fisher ppu, dfuller lags(4)
 
 foreach number of numlist 2/4 {
-local number = 2
 	di "`number'"
 
 //	use datos\panel_marca_ciudad.dta if marca == `number', clear
@@ -79,61 +80,70 @@ local number = 2
 				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
 
 	xtreg ppu m1_20 m1 ym, re
-	estimates store random
+	estimates store random`number'
 	xttest0 
 	* significance of random effects
 	* Hausmann Test
-	hausman fixed random 
+	hausman fixed`number' random`number' 
 
-	predict error_ppu_ym_re, e
-	xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+	predict error_ppu_ym_re`number', e
+	xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
 }
 
 local number = 5 
 di "`number'"
 
-use datos\panel_marca_ciudad.dta if marca == `number', clear
+*use datos\panel_marca_ciudad.dta if marca == `number', clear
 
-xtset cve_ciudad ym 
+//xtset cve_ciudad ym 
 // gen dif_ppu = d.ppu
 
-xtreg ppu m1_20 m1 ym, fe
-estimates store fixed
-outreg2 using resultados/doc/est_xt_marcas_p2 ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+xtreg ppu m1_20 m1 ym if marca == `number', fe
+estimates store fixed`number'
+* HORiZONTAL
+outreg2 using resultados/doc/est_xt_marcas ///
+			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+* VERTICAL
+			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
+*			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
 
-xtreg ppu m1_20 m1 ym, re
-estimates store random
+xtreg ppu m1_20 m1 ym if marca == `number', re
+estimates store random`number'
 xttest0 
 * significance of random effects
 * Hausmann Test
-hausman fixed random 
+hausman fixed`number' random`number' 
 
-predict error_ppu_ym_re, e
-xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+predict error_ppu_ym_re`number', e
+xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
 
 foreach number of numlist 6 7 {
 	di "`number'"
 
-	use datos\panel_marca_ciudad.dta if marca == `number', clear
+*	use datos\panel_marca_ciudad.dta if marca == `number', clear
 
-	xtset cve_ciudad ym 
+*	xtset cve_ciudad ym 
 	// gen dif_ppu = d.ppu
 
-	xtreg ppu m1_20 m1 ym, fe
-	estimates store fixed
-	outreg2 using resultados/doc/est_xt_marcas_p2 ///
-				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+	xtreg ppu m1_20 m1 ym if marca == `number', fe
+	estimates store fixed`number'
+* HORiZONTAL
+outreg2 using resultados/doc/est_xt_marcas ///
+			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+* VERTICAL
+			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
+*				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
 
-	xtreg ppu m1_20 m1 ym, re
-	estimates store random
+	xtreg ppu m1_20 m1 ym if marca == `number', re
+
+	estimates store random`number'
 	xttest0 
 	* significance of random effects
 	* Hausmann Test
-	hausman fixed random 
+	hausman fixed`number' random`number' 
 
-	predict error_ppu_ym_re, e
-	xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+	predict error_ppu_ym_re`number', e
+	xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
 }
 
 // 18/05/21
