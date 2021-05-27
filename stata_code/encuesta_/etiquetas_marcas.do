@@ -18,14 +18,20 @@ replace marca = 1 if q019 == 2
 replace marca = 2 if q019 == 4
 replace marca = 3 if q019 == 5
 replace marca = 3 if q019 == 7
-// completar..
+replace marca = 4 if q019 == 15
+replace marca = 4 if q019 == 22
+replace marca = 5 if q019 == 16
+replace marca = 6 if q019 == 17
+replace marca = 7 if q019 == 19
 
 #delimit ;
 label define marca 1 "Benson y Hedges" 
 				2 "Camel"
 				3 "Chesterfield"
 				4 "Lucky Strike"
-				// completar
+				5 "Marlboro"
+				6 "Montana"
+				7 "Pall Mall"
 		;
 #delimit cr
 
