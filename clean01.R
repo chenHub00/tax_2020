@@ -1,13 +1,13 @@
 ## Objetivo: 
-## Limpiar variables: marca, jajas o cajetillas
+## Limpiar variables: marca, cajas o cajetillas
 ## Calcular el precio por unidad
-## Agrupación de datos: 10 ciudades (poner a Montana) > clean02.R
+## AgrupaciÃ³n de datos: 10 ciudades (poner a Montana) > clean02.R
 ## Una sola observacion por ciudad, por marca. (promedio) 
 ## cercano al ultimo mes de 2019, podria ser trimestre?
 ## Resultados: graficos de tiempo, precio promedio por cada periodo
 ## Entrada: 
 #- Tabla_descriptivos_diciembre.xlsx
-#- Actualizacion_oct_dic_2020.xlsx
+#- Actualizacion_oct_dic_2020.xlsx, sustituido por Oct2020_abr2020.xlsx
 ## Salida: 
 # - df_review.RData : ?LimpiezaMarcas2.csv
 # - table11_principales7.RData: table11_principales7.csv
@@ -18,11 +18,9 @@
 ## ? promedio hacerlo geometrico?
 
 # And look at the log...
-#cat(readLines("test.log"), sep="\n")
 ###############################################
 # Lectura de librerias
 ###############################################
-#library(lubridate)
 #install.packages("dplyr")
 library(dplyr)
 #install.packages("plyr")
@@ -34,39 +32,35 @@ library(readxl)
 
 # working directory
 getwd()
-#setwd("C:/Users/USUARIO/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
 #
 directorio <- "datos/iniciales/"
-
-#Parte1 = read_xlsx("C:/Users/danny/Downloads/Tabla_descriptivos_diciembre.xlsx")
-#Parte2 = read_xlsx("C:/Users/danny/Downloads/Actualizacion_oct_dic _2020.xlsx")
 
 ###############################################
 # Carga de datos
 ###############################################
-# https://drive.google.com/file/d/1gjiYxukBHpPwxGeZUK9FjCnshuQN0jPU/view?usp=sharing
-# tabla2011_ <- read_xlsx("Tabla2011_.xlsx")
 # termina en septiembre, se llama diciembre pues hicimos la revision en esa fecha
 archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
+# Al parecer la versi'on de 14 de abril tiene alg'un tipo de ajuste en 
+# el tipo de datos, no es la que estuve utilizando anteriormente
+#archivoB <- paste0(directorio,"Tabla_descriptivos_diciembre (2).xlsx")
+
 # datos de la muestra de ciudades actual desde 2018
 # se hizo manual la actualizaci'on del rango
-tabla_ago18_sep20<-read_xlsx(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
-#tabla_ago18_sep20<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ago18_sept20",range="A6:Y8196")
+#tabla_ago18_sep20<-read_xlsx(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
+tabla_ago18_sep20<-read_excel(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
 # tiene hojas de INPC 2011 a 2018, con la muestra anterior de ciudades
 # el rango se actualiza manualmente
 tabla_ene11_jul18<-read_xlsx(archivo,sheet="aux_ene11_jul18",range="A8:Y24851")
-#tabla_ene11_jul18<-read_xlsx("Tabla_descriptivos_diciembre.xlsx",sheet="aux_ene11_jul18",range="A8:Y24851")
 #
-# archivo2 <- paste0(directorio,"Actualizacion_oct_dic_2020.xlsx")
 archivo2 <- paste0(directorio,"Oct2020_abr2021.xlsx")
 # 
-# tabla_oct20_dic20<-read_xlsx(archivo2,sheet="aux_oct_dic_2020",range="A8:Y953")
-# actualizacion contiene los datos previos
 tabla_oct20_abr21<-read_xlsx(archivo2,sheet="aux_oct20_abr21",range="A6:Y2211")
 # SAFETY checks?
 # rangos, recortar por fechas
 
 tabla2011_ <- bind_rows(tabla_ago18_sep20,tabla_ene11_jul18)
+# NECESARIO PARA ACTUALIZAR EL ARCHIVO DE ABRIL
+#tabla2011_$encontrar_PZAS_ <- as.numeric(tabla2011_$encontrar_PZAS_)
 #tabla2011_ <- tabla_ago18_sep20
 #tabla2018_20 <- bind_rows(tabla_ago18_sep20,tabla_oct20_dic20)
 #tabla2011_2020 <- bind_rows(tabla_oct20_dic20,tabla2011_)
@@ -128,7 +122,7 @@ ggplot(df, aes(fecha, ppu, colour = marca)) +
 #######################################################
 tabEsp <- table(df$esp)
 LimpiezaEsp <- data.frame(tabEsp)
-write.csv(LimpiezaEsp,"LimpiezaEsp.csv", row.names = FALSE)
+write.csv(LimpiezaEsp,"datos/prelim/de_inpc/LimpiezaEsp.csv", row.names = FALSE)
 
 ## re-code 
 df$marca_inicial <- df$marca
@@ -165,7 +159,6 @@ revalue(df$marca, c("RALEIGHT" = "RALEIGH")) -> df$marca
 
 revalue(df$marca, c("SHOT" = "SHOTS")) -> df$marca
 
-
 #######################################################
 # Cambios en nombres por ajuste en "branding"
 #######################################################
@@ -185,7 +178,7 @@ ggplot(df, aes(fecha, ppu, colour = marca)) +
 to_review <- subset(df,ppu>=10)
 #view(to_review)
 library("openxlsx")
-write.xlsx(to_review, "datos/prelim/to_review.xlsx")
+write.xlsx(to_review, "datos/prelim/de_inpc/to_review.xlsx")
 # 103 rows, CAMEL, 2017, 22.4 por unidad
 # delicados-> chesterfield
 df_review <- subset(df,ppu<10)
@@ -218,10 +211,10 @@ df_means <- df_review %>%
   summarise_at(vars(ppu), list(name = mean))
 
 #tabMarcas <- table(df_review$tabla2011_.marca)
-write.csv(df_means,"datos/prelim/df_means.csv", row.names = FALSE)
+write.csv(df_means,"datos/prelim/de_inpc/df_means.csv", row.names = FALSE)
 
 LimpiezaMarcas2 <- data.frame(table(df_review$marca))
-write.csv(LimpiezaMarcas2,"datos/prelim/LimpiezaMarcas2.csv", row.names = FALSE)
+write.csv(LimpiezaMarcas2,"datos/prelim/de_inpc/LimpiezaMarcas2.csv", row.names = FALSE)
 
 # 
 
@@ -234,7 +227,7 @@ ggplot(df_review, aes(fecha, ppu, colour = marca)) +
 # como cantidad fija
 
 # Saving on object in RData format
-save(df_review, file = "datos/df_review.RData")
+save(df_review, file = "datos/prelim/de_inpc/df_review.RData")
 
 rm(list=ls())
 

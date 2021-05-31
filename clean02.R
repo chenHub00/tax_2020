@@ -1,12 +1,7 @@
 
 # working directory
 getwd()
-#setwd("C:/Users/USUARIO/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
-#
-#setwd("C:/Users/vicen/OneDrive/Documentos/colabs/salud/tabaco/datos_inpc")
-#directorio <- "C:/Users/vicen/Documents/R/tax_ene2020/"
 directorio <- "datos/iniciales/"
-#setwd(directorio)
 # 
 # queremos las marcas o presentaciones m'as representativas
 # considerar las que tienen una presencia mayor en las ciudades
@@ -14,10 +9,10 @@ directorio <- "datos/iniciales/"
 library(tidyverse)
 library(dplyr)
 
-load("datos/df_review.RData")
+load("datos/prelim/de_inpc/df_review.RData")
 summary(df_review)
 
-write.csv(df_review,"datos/df_review.csv", row.names = FALSE)
+write.csv(df_review,"datos/prelim/de_inpc/df_review.csv", row.names = FALSE)
 
 # tibble format
 table11_ <- tibble(df_review)
@@ -69,13 +64,13 @@ menores <- fecha_marca_sum  %>%
 table11_principales7 <- table11_ %>% 
   filter(marca %in% as.vector(t(marcas_10mas)))
 #setwd("C:/Users/vicen/Documents/R/tax_ene2020/tax_2020/")
-save(table11_principales7, file = "datos/table11_principales7.RData")
+save(table11_principales7, file = "datos/prelim/de_inpc/table11_principales7.RData")
 # load("~/R/tax_ene2020/table11_principales7.RData")
-write.csv(table11_principales7,"datos/table11_principales7.csv", row.names = FALSE)
+write.csv(table11_principales7,"datos/prelim/de_inpc/table11_principales7.csv", row.names = FALSE)
 
 # Saving on object in RData format
-save(principales7, file = "datos/principales7.RData")
-save(menores, file = "datos/menores.RData")
+save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
+save(menores, file = "datos/prelim/de_inpc/menores.RData")
 
 pdf("ppu_ciudad_7marcas2011.pdf") 
 jpeg('rplot.jpg')
