@@ -42,14 +42,14 @@ save datos\df_review.dta, replace
 use  datos\df_review.dta, clear
 drop day fecha
 */
-import delimited datos/table11_principales7.csv, clear 
+import delimited datos/prelim/de_inpc/table11_principales7.csv, clear 
 
-save datos\table11_principales7.dta, replace
+save datos/prelim/de_inpc/table11_principales7.dta, replace
 
 * sustitución del proceso de las marcas: 
 * - anterior: inicial_marcas.do
 * - actual: inicial_marcas2.do
-do inicial_marcas2.do
+do stata_code/inicial_marcas2.do
 * ahora tpCiudad2.dta / 
 
 use datos\tpCiudad2.dta, clear
