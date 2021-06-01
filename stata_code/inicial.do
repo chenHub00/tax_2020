@@ -8,13 +8,14 @@
 * https://www.inegi.org.mx/sistemas/bie/
 * indice de precios al productor : sin petroleo
 * indice de precios al consumidor
-*cd "C:\Users\USUARIO\Desktop\tax_2020-master"
-*cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020"
 
 capture log close 
 log using resultados\inicial.log, replace
 
-import excel "datos\precios_indices.xlsx", firstrow clear
+/*
+Otros precios
+*/
+import excel "datos/iniciales/precios_indices.xlsx", firstrow clear
 * Agregar informacion de periodo
 gen year= real(substr(Periodo,1,4))
 gen month= real(substr(Periodo,6,2))
@@ -29,18 +30,10 @@ gen m1 = month == 1
 // variables para la regresion
 gen m1_20 = m1 == 1 & year == 2020
 
-save datos\precios_indices.dta, replace
+save datos/prelim/de_inpc/precios_indices.dta, replace
 
-* C:\Users\vicen\OneDrive\Documentos\colabs\salud\tabaco\datos_inpc\
 /* 
-* todos los precios, corroborar fechas
-import delimited df_review.csv, clear 
-
-save datos\df_review.dta, replace
-
-
-use  datos\df_review.dta, clear
-drop day fecha
+precios de las marcas principales
 */
 import delimited datos/prelim/de_inpc/table11_principales7.csv, clear 
 
@@ -48,11 +41,12 @@ save datos/prelim/de_inpc/table11_principales7.dta, replace
 
 * sustitución del proceso de las marcas: 
 * - anterior: inicial_marcas.do
+//do stata_code/inicial_marcas.do
 * - actual: inicial_marcas2.do
 do stata_code/inicial_marcas2.do
 * ahora tpCiudad2.dta / 
 
-use datos\tpCiudad2.dta, clear
+use datos/prelim/de_inpc/tpCiudad2.dta, clear
 
 collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu ///
 		(count) n_pzas = pzas n_pp=pp n_ppu=ppu , by(year month marca)

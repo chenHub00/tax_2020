@@ -1,4 +1,6 @@
-// gen marca desde marca2
+// crear una variable de marca a partir de otra variable de 
+// marca (marca2), m'as detallada
+// 
 
 gen marca = marca2_str
 

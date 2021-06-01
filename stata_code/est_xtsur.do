@@ -74,3 +74,5 @@ log close
 
 
 
+asdoc test [ppu4]m1_20=[ppu7]m1_20, save(medium_effects) replace
+ 

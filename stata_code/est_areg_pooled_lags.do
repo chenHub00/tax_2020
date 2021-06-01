@@ -8,7 +8,7 @@
 capture log close
 log using resultados/est_areg_pooled_lags.log, replace
 
-use datos\panel_marca_ciudad.dta, clear
+use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 gen dif_ppu = d.ppu
 

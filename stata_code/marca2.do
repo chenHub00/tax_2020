@@ -1,4 +1,8 @@
- // marca2.do
+ // 
+ // recodificar variable (marca2)  
+ // para mantener el mismo codigo
+ // generar variables de 
+ // 
 replace marca2 = "xBOOTS" if marca2 == "BOOTS" 
 replace marca2 = "yDELICADOS" if marca2 == "DELICADOS" 
 replace marca2 = "wRALEIGH" if marca2 == "RALEIGH" 
