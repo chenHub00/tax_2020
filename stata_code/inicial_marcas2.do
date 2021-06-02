@@ -5,6 +5,9 @@
 // para comparar resultados, sin embargo, es aparente que algunas marcas coinciden 
 // por lo que ser'ia necesario hacer un criterio para separar las clasificaciones
 // 
+capture log close
+log using resultados/inicial_marcas2.do
+
 use  datos/prelim/de_inpc/table11_principales7.dta, clear
 drop day fecha
 ta marca2, sum(ppu)
@@ -46,7 +49,12 @@ gen l_ppu_y2020=y2020*l_ppu
 
 gen ym_y2020=y2020*ym 
 
+gen y2021 = year==2021
+gen l_ppu_y2021=y2021*l_ppu 
+
 do stata_code/marca_marca2.do
 
 save datos/prelim/de_inpc/tpCiudad2.dta, replace
 export excel using "datos/prelim/de_inpc/tpCiudad2.xlsx", replace
+
+log close

@@ -1,23 +1,31 @@
 
-// a partir de las estimaciones en:
-// testing_panel_data.do 
+// se separan las estimaciones xtreg
+// definiendo panel por combinación de marca y ciudad
+// estimaciones por marca
 
-*cd "C:\Users\vicen\Documentos\colabs\salud\tabaco\"
-*cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
+set more off
  
 capture log close
 log using resultados/est_areg_pooled_lags.log, replace
 
+
+global varsReg "m1_20 m1_21 m1 ym L.ppu"
+
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 gen dif_ppu = d.ppu
+gen ppu100 = 100*ppu
 
+// inicial 
 xtreg ppu m1_20 m1 ym L.ppu, fe
+// actualizado junio (con datos de abril)
+xtreg ppu $varsReg, fe
+
 //testparm ym L.ppu
 //testparm L.ppu
 //xtreg ppu m1_20 m1 ym, fe
 estimates store fixed
-xtreg ppu m1_20 m1 ym, re
+xtreg ppu $varsReg, re
 estimates store random
 xttest0 
 * significance of random effects
@@ -25,34 +33,30 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // fixed effects
-xtreg ppu m1_20 m1 ym L.ppu, fe
+xtreg ppu $varsReg, fe
 
 predict error_ppu_ym_fe, e
 xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
 // Sin presencia de ra'iz unitaria
 
-areg ppu m1 m1_20 ym L.ppu i.marca, absorb(cve_ciudad)
+areg ppu $varsReg i.marca, absorb(cve_ciudad)
 testparm i.marca 
-areg ppu m1 m1_20 ym L.ppu i.cve_ciudad, absorb(marca)
+// por marca son significativamente diferentes
+areg ppu $varsReg i.cve_ciudad, absorb(marca)
 testparm i.cve_ciudad 
+
 // por ciudad no son significativos
 // un mismo coeficiente para cada ciudad,
 // ? take the mean by city 
 // ? take the random effects on city or brand
+// sort marca 
 
-// por marca
-use datos\panel_marca_ciudad.dta if marca == 1, clear
-
-gen dif_ppu = d.ppu
-
-xtset cve_ciudad ym 
-
-xtreg ppu m1_20 m1 ym L.ppu , fe
+xtreg ppu $varsReg if marca == 1, fe
 estimates store fixed
 outreg2 using resultados/doc/est_xt_marcas_lags ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+			, keep($varsReg) bdec(3) nocons  tex(fragment) replace
 
-xtreg ppu m1_20 m1 ym L.ppu , re
+xtreg ppu $varsReg, re
 estimates store random
 xttest0 
 * significance of random effects
@@ -60,66 +64,38 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // fixed effects
-xtreg ppu m1_20 m1 ym L.ppu, fe
+xtreg ppu $varsReg, fe
 
-predict error_ppu_ym_fe, e
-xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
+predict error_ppu_ym_fe1, e
+xtunitroot fisher error_ppu_ym_fe1, dfuller lags(4)
 
 /*
-xtunitroot fisher dif_ppu , dfuller lags(4)
-xtreg dif_ppu m1_20 m1 ym, fe
+preserve 
+keep if marca == 1
+restore
 */
 
-foreach number of numlist 2/4 {
+foreach number of numlist 2/7 {
 di "`number'"
 
-use datos\panel_marca_ciudad.dta if marca == `number', clear
-
-xtset cve_ciudad ym 
-// gen dif_ppu = d.ppu
-
-xtreg ppu m1_20 m1 ym L.ppu, fe
+xtreg ppu $varsReg if marca == `number', fe
 *estimates store fixed
 outreg2 using resultados/doc/est_xt_marcas_lags ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+			, keep($varsReg) bdec(3) nocons  tex(fragment) append
 
-predict error_ppu_ym_fe, e
-xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
+xtreg ppu $varsReg, re
+estimates store random
+xttest0 
+* significance of random effects
+* Hausmann Test
+// hausman consistent efficient
+hausman fixed random , sigmamore
+// fixed effects
+xtreg ppu $varsReg, fe
+
+predict error_ppu_ym_fe`number', e
+xtunitroot fisher error_ppu_ym_fe`number', dfuller lags(4)
 }
-
-local number = 5 
-di "`number'"
-
-use datos\panel_marca_ciudad.dta if marca == `number', clear
-
-xtset cve_ciudad ym 
-// gen dif_ppu = d.ppu
-
-xtreg ppu m1_20 m1 ym L.ppu, fe
-*estimates store fixed
-outreg2 using resultados/doc/est_xt_marcas_lags_p2 ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
-
-predict error_ppu_ym_fe, e
-xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
-
-foreach number of numlist 6 7 {
-	di "`number'"
-
-	use datos\panel_marca_ciudad.dta if marca == `number', clear
-
-	xtset cve_ciudad ym 
-	// gen dif_ppu = d.ppu
-
-	xtreg ppu m1_20 m1 ym L.ppu, fe
-	*estimates store fixed
-	outreg2 using resultados/doc/est_xt_marcas_lags_p2 ///
-				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
-
-	predict error_ppu_ym_fe, e
-	xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
-}
-
 					
 log close
 

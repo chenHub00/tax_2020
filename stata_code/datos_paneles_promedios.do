@@ -3,9 +3,12 @@
 // ajustes en numero de ciudades
 // ajustes en total de marcas
 // para algunas especificaciones se considerarian solo ciudades principales
+set more off
 
 capture log close
 log using resultados/paneles_promedio.log, replace
+
+global varskeep m1 m1_20 m1_21 INPPsec_nopetro INPCgen m_df_p ppu pp pp_lt_cerveza 
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear 
 * dos variables para marca2 y marca
@@ -16,8 +19,8 @@ drop if cve_ciudad > 46
 *gen marca_3 = marca == 3
 *drop if marca == 3
 
-collapse (mean) m1 m1_20 INPPsec_nopetro INPCgen m_df_p ppu pp /// 
-	pp_lt_cerveza m_otro_, by(ym marca2)
+collapse (mean) $varskeep ///
+	, by(ym marca2)
 xtset marca2 ym 
 
 *collapse (mean) m1 m1_20 INPPsec_nopetro INPCgen m_df_p ppu pp /// 
@@ -39,8 +42,8 @@ drop if cve_ciudad > 46
 *gen marca_3 = marca == 3
 *drop if marca == 3
 
-collapse (mean) m1 m1_20 INPPsec_nopetro INPCgen m_df_p ppu pp pp_lt_cerveza ///
-	m_otro_, by(ym cve_ciudad)
+collapse (mean) $varskeep  ///
+	, by(ym cve_ciudad)
 
 xtset cve_ciudad ym 
 
@@ -72,10 +75,11 @@ use datos/prelim/de_inpc/panel_marca2_ciudad.dta, clear
 egen gr_marca_ciudad = group(marca cve_ciudad)
 duplicates report gr_marca_ciudad ym
 
-collapse (mean) m1 m1_20 INPPsec_nopetro INPCgen m_df_p ppu pp pp_lt_cerveza ///
-	m_otro_, by(ym marca cve_ciudad gr_marca_ciudad)
+collapse (mean) $varskeep ///
+	, by(ym marca cve_ciudad gr_marca_ciudad)
 
 xtset gr_marca_ciudad ym 
+tab1 m1 m1_20 m1_21
 
 save datos/prelim/de_inpc/panel_marca_ciudad.dta, replace
 export excel using "datos/prelim/de_inpc/panel_marca_ciudad.xlsx", replace
@@ -108,3 +112,5 @@ xtset cve_ciudad ym
 
 save datos/prelim/de_inpc/wide_complete_panel.dta, replace
 * inicial: febrero 2021 tiene 5 marcas 1,2,5,6,7
+
+log close

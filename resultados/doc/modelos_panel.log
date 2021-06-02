@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  26 MAY 2021 21:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  2 JUN 2021 10:55
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -159,55 +159,40 @@ Overfull \vbox (118.19998pt too high) has occurred while \output is active []
 (est_xtsur_medio.tex) [4] (est_xtsur_det2.tex) (est_xt_medium.tex) [5] [6]
 (est_xt_marcas.tex) [7
 
-] (est_xt_marcas_lags.tex)
-Overfull \hbox (27.2953pt too wide) in paragraph at lines 1--146
-[][]
- []
+] [8
 
+] (est_xt_marcas_lags.tex) [9
 
-Underfull \hbox (badness 10000) in paragraph at lines 1--146
+] (est_xt_dm.tex)
+[10
 
- []
-
-(est_xt_marcas_lags_p2.tex)
-Overfull \hbox (27.2953pt too wide) in paragraph at lines 1--149
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1--149
-
- []
-
-[8
-
-] (est_xt_dm.tex) [9] (est_xtreg_dif.tex) [10] (est_xtreg_2dif.tex) [11]
-[12] (modelos_panel.aux) ) 
+] (est_xtreg_dif.tex) [11] (est_xtreg_2dif.tex) [12] [13] (modelos_panel.aux) )
+ 
 Here is how much of TeX's memory you used:
- 1824 strings out of 479334
- 26915 string characters out of 2857559
+ 1820 strings out of 479334
+ 26747 string characters out of 2857559
  334433 words of memory out of 3000000
- 19259 multiletter control sequences out of 15000+200000
+ 19258 multiletter control sequences out of 15000+200000
  409112 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,7n,74p,324b,203s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users
-/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C
-:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
-pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmr9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (12 pages, 162187 bytes).
+<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmb
+x12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/chen/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/chen/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/chen/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/chen/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/User
+s/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><
+C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
+7.pfb>
+Output written on modelos_panel.pdf (13 pages, 162141 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
+ 93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
