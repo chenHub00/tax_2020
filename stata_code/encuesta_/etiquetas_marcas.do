@@ -23,6 +23,7 @@ replace marca = 4 if q019 == 22
 replace marca = 5 if q019 == 16
 replace marca = 6 if q019 == 17
 replace marca = 7 if q019 == 19
+recode marca . = 9
 
 #delimit ;
 label define marca 1 "Benson y Hedges" 
@@ -32,9 +33,11 @@ label define marca 1 "Benson y Hedges"
 				5 "Marlboro"
 				6 "Montana"
 				7 "Pall Mall"
+				9 "Otras"
 		;
 #delimit cr
 
+label values marca marca
 
 // tipo_marca
 gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
