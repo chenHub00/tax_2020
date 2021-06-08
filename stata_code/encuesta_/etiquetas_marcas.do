@@ -23,7 +23,7 @@ replace marca = 4 if q019 == 22
 replace marca = 5 if q019 == 16
 replace marca = 6 if q019 == 17
 replace marca = 7 if q019 == 19
-recode marca . = 9
+recode marca . = 99
 
 #delimit ;
 label define marca 1 "Benson y Hedges" 
@@ -33,7 +33,7 @@ label define marca 1 "Benson y Hedges"
 				5 "Marlboro"
 				6 "Montana"
 				7 "Pall Mall"
-				9 "Otras"
+				99 "Otras"
 		;
 #delimit cr
 
@@ -46,6 +46,17 @@ replace tipo = 3 if marca == 3 | marca == 6
 
 label define tipo 1 "premium" 2 "medio" 3 "bajo"
 label values tipo tipo
+
+// Juntar Chesterfield y Delicados
+// Raleigh : Lucky
+// ajustar manual q019r30oe.xls
+// 
+replace marca = 5 if q019r30oe =="Malboro rubi"
+replace marca = 5 if q019r30oe =="marlboro ice"
+replace marca = 5 if q019r30oe =="Marlboro Sandía"
+replace marca = 5 if q019r30oe =="Marlboro"
+replace marca = 7 if q019r30oe =="Pall mall"
+
 
 /*
 [IF 018=1] ¿Qué marca es?

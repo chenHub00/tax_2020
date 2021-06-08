@@ -1,4 +1,5 @@
-
+// cd al inicio de tax_2020 por ejemplo:
+// cd ~/Documentos/R/tax_ene2020/tax_2020
 global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 
@@ -7,6 +8,7 @@ global codigo = "stata_code\encuesta_\"
 
 do "$codigo\pre_panel.do"
 
+// recodificar 
 do "$codigo\recodificar_.do"
 
 // etiquetas
