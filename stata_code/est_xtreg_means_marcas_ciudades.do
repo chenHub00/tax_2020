@@ -10,7 +10,7 @@
 capture log close
 log using resultados/est_xtreg_means_marcas_ciudades.log, replace
 
-use datos\panel_marca_ciudad.dta, clear
+use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 // means by "spell": combinations of worker and firm, over time
 // (they do not coincide in time)
@@ -19,7 +19,7 @@ use datos\panel_marca_ciudad.dta, clear
 egen m_ppu_cm = mean(ppu), by(cve_ marca)
 gen dm_ppu_cm = ppu - m_ppu_cm
 
-foreach var of varlist m1_20 m1 ym {
+foreach var of varlist m1_20 m1 ym m1_21 {
 	egen m_`var'_cm = mean(`var'), by(cve_ marca)
 	gen dm_`var'_cm = `var' - m_`var'_cm
 }
