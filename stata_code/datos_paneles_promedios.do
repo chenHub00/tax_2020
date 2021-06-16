@@ -87,7 +87,8 @@ export excel using "datos/prelim/de_inpc/panel_marca_ciudad.xlsx", replace
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 * promedio  elimina year, month, Periodo, tipo, marca_str, marca2_str, dppu
-drop  INP* pp_lt_cerveza m_df_p m_otro_precio 
+drop  INP* pp_lt_cerveza m_df_p 
+// m_otro_precio 
  
 
 * solo ciudades con 118 observaciones (panel completo)
