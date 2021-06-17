@@ -6,7 +6,7 @@
 *.jpg
 *.png
 *.txt
-*.tex
+/resultados/doc/*.aux
 *.xlsx
 /datos/*
 /resultados/*.log

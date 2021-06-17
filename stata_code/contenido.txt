@@ -1,11 +1,24 @@
 
-est_ > estimaciones
+# transformaciones iniciales de los datos
+inicial.do 
+- limita total de ciudades
+- promedios por marca/ciudad> 
+- promedios por marca
+- promedio por ciudades
+usa: inicial_marcas2.do / marcas2.do
+
+datos_paneles_promedios.do >
+ usa: 
+ resultados:
+   - datos/wide_complete_panel.dta
+
+# estimaciones
+est_ 
  03/17 (no 'llama' la funci'on, s'i funcionaba la semana pasada) xtsur > seemingly unrelated regressions en panel
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
  areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
 	- c'omo probar vs aleatorios en ciudad? 
      _pooled: regresion con ciudad y marcas como un nivel, por marcas > est_xt_marcas.tex, est_xt_marcas_p2.tex
-
      _pooled_city: 
      _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
  one_panel > group tiempo y ciudad
@@ -28,16 +41,3 @@ xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es,
 para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex > Section 4
 // resta la cuesti'on de los coeficientes de tiempo, 
 // usar multiplicacion por 100 para analizar el cambio en terminos de centavos
-
-
-inicial > transformaciones iniciales de los datos
-- limita total de ciudades
-- promedios por marca/ciudad> 
-- promedios por marca
-- promedio por ciudades
-usa: inicial_marcas(2).do / marcas2.do
-
-datos_paneles_promedios.do >
- usa: 
- resultados:
-   - datos/wide_complete_panel.dta

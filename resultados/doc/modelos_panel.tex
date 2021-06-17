@@ -1,0 +1,259 @@
+\documentclass[]{article}
+
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{lscape}
+	 
+%opening
+\title{Reportes resultados sobre modelos panel}
+\author{Vicente López Díaz}
+\makeindex
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+In these note there is a summary of the relations between several models that can use panel data.
+\end{abstract}
+
+The objective of these note is to give a broad overview of the possible models that can use panel data. There are several usual features to consider in a model with panel data, for example, changes on parameters for time or individual. Also, specification on error term is relevant for interpretation.
+
+These notes are based on Hsiao (2014) 
+It goes from the theory in the text, to the application.
+
+\section{Dummies for each level: city, brand, time}
+Estimations using areg, fixed effects.
+
+One simple regression with indicators for city, brand and time.
+Same effect on all the brands.
+
+\begin{equation*} 
+y_{itm}  = \alpha_{i}^{*} + \gamma_{m}^{*} + \lambda*t + \beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
+Results for principal brands:
+
+\input{est_areg_total.tex}
+
+The columns 1 and 3 consider the same effect for each brand, the columns 2 and 4 estimate a different effect for each brand. The columns 1 and 2 consider a trend, columns 3 and 4 use a combination of dummy variables for year and month.
+
+MANUAL: REMOVE THE CATEGORIES ZERO IN m1-20.marca
+
+\subsection{Comparisons by segment}
+
+Results for brand type: 1 is premium, 2 is medium, 3 is low.
+
+\input{est_areg_tipo.tex}
+
+\section{Different parameters for each brand}
+Uses xtsur, user-defined, command.
+One estimate of each parameter for each brand. 
+
+\begin{equation*} 
+	y_{itm}  = \alpha_{i}^{*} + \lambda_{1}*t +\beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+	;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. m = 1,2,\ldots,7$
+
+\subsection{Comparisons by segment}
+Results for premium brands
+
+\input{est_xtsur_premium.tex}
+
+Results for lower segment brands
+
+\input{est_xtsur_bajo.tex}
+
+Results for mid-range segment brands
+
+\input{est_xtsur_medio.tex}
+
+
+\subsection{for medium brands: Quadratic trend}
+Each dummy is one for the period that ends in the first month of the year. 
+
+\begin{equation*} 
+	y_{itm}  = \alpha_{i}^{*} + \lambda_{1}*t +  \lambda_{2}*t^{2} +\beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+	;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. $
+
+\input{est_xtsur_det2.tex}
+
+There is no common sample. 
+
+\begin{equation*} 
+	y_{itm}  = \alpha_{i}^{*} + \lambda*t +  \beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+	;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. $
+
+\subsection{for medium brands: sample adjustments }
+Results for medium brands: Lucky , PallMall.
+
+\input{est_xt_medium.tex}
+
+\section{Parameters are constant over time }
+Estimations using xtreg, first some static estimations, next the dynamic estimates.
+Separate regression for each brand.
+The estimation routine has the possibility to distinguish between fixed or random individual coefficients.
+
+Separate regression for each individual as city and brand.
+\begin{equation*}
+	y_{it} = \alpha_{i}^{*} + \beta_{i}^{'}x_{it} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+Fixed effects test
+ F(259, 21559) =  385.75
+ $Prob \geq F =    0.0000$
+
+
+\subsection{Parameters restricted over time}
+Separate regression for each individual
+
+\subsection{Static models}
+The proposed model only uses fixed regressors. 
+It includes interactions, for the effect of the price change in every january and in january of 2020, when the tax was in place, for different brand-types.
+In general:
+\begin{equation*}
+	y_{it} = \alpha_{i}^{*} + \beta_{i}^{'}x_{it} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+Specifically:
+\begin{equation*}
+	y_{it} = \gamma y_{i,t-1} + x_{it}^{'} \beta_{i} + \alpha_{i}^{*} + \lambda_{t} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+Because there are many omitted variables captured in the individual effects, there is the question of the relevance of them as fixed or random.
+
+It can be restricted in several ways. 
+Only slope coefficients are identical, intercepts are individual.
+\begin{equation*}
+y_{it} = \alpha_{i}^{*} + \beta^{'}x_{it} + u_{it}.
+\end{equation*}
+Both slope coefficients and intercepts are identical.
+\begin{equation*}
+y_{it} = \alpha^{*} + \beta^{'}x_{it} + u_{it}.
+\end{equation*}
+Following Hsiao(2014) the first model is called unrestrincted, the second as individual-mean regression model and the last model is known as pooled model. 
+
+Static Results by brand 
+%1 to 4
+%Results by brand 5 to 7
+
+\begin{landscape}
+\input{est_xt_marcas.tex}
+\end{landscape}
+
+%\input{est_xt_marcas.tex}
+
+Testing difference in brands.
+
+Brand 1 ()
+ F(43, 4466) = 33.51                   
+$ Prob \geq F = 0.0000 $
+
+%\input{est_xt_marcas_p2.tex}
+ 
+\subsection{Dynamic models}
+An alternative model is to consider dynamics in the equation, with a difference in the dependent variable. 
+
+The second equation includes interactions, to consider the effect of the price change in every january and in january of 2020, when the tax was in place, different brand-types.
+
+\begin{equation*}
+	y_{it} = x_{it}^{'} \beta_{i} + \alpha_{i}^{*} + \lambda_{t} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+
+Because there are many omitted variables captured in the individual effects, there is the question of the relevance of them as fixed or random.
+
+The initial values become relevant.
+The way in which the T and N tend to infinity become relevant for asymptotic properties, like consistency.
+
+\input{est_xtreg_dif.tex}
+
+\subsection{Lag or trend }
+Separate regression for each brand
+We consider one lag of the dependent variable.
+\begin{equation*}
+	y_{it} = \alpha_{i}^{*} + \beta_{i}^{'}y_{i,t-1}  + \beta_{i}^{'}x_{it} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+
+Results by brand
+
+\begin{landscape}
+	\input{est_xt_marcas_lags.tex}
+\end{landscape}
+
+\subsection{Dynamic on differences}
+The dependent variable is the change of price in a given city. 
+\begin{equation*}
+	\Delta y_{it} = \gamma \Delta y_{i,t-1} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+
+\input{est_xtreg_2dif.tex}
+
+MANUAL: REMOVE THE ZEROS 
+
+With premium for the first label, it shows that the medium brands has lower impact on the tax, although, counterintuitively the lowest impact is estimated for the medium brands with a decrease of 8.9 cents while the lower brand only decreased 5 cents, both with respect to the premium brands average. 
+
+ 
+\section{Consistent estimation for Variable Intercept}
+This models are based on Andrews, et al. (2006). The initial model comes from the transformation of:
+\begin{equation*}
+	y_{it} = x_{it} \beta_{i} + w_{j(i,t)t} \gamma + u_{it} \eta + q_{j(i,t)} \rho + \alpha_{i}  + \phi_{j(i,t)} + \mu_{t} + \epsilon_{i,t}; 
+\end{equation*}
+$$i = 1,\ldots,N; t=1,\ldots,T$$
+
+Given the interest only on the fixed independent variables, we can define an heterogeneity measure on brand and city (s), take the averages at that level, and make the transformation of variables, following:
+ 
+\begin{equation*}
+y_{it} - \bar{y_s} = (x_{it} - \bar{x_{s}}) \beta_{i} + (w_{j(i,t)t}-\bar{w_{s}}) \gamma + (\epsilon_{i,t} - \bar{\epsilon_{s}}); 
+\end{equation*}
+$$i = 1,\ldots,N; t=1,\ldots,T$$
+ 
+Results in the left have the same estimate for the effect. Estimates in second column correspond to the first labeled brand, Benson.
+ 
+\input{est_xt_dm.tex}
+
+RESULTADOS DE PRUEBAS DE DIFERENCIA DEL EFECTO POR MARCA FUERON NO SIGNIFICATIVOS.
+
+
+This models are one way to consider unobserved heterogeneity across individuals and/or through time. The assumption is that the effects of that heterogeneity come from three types of variables: time-invariant, individual-invariant and individual time-variant.
+The model can be written:
+\begin{equation*}
+y_{it} = \alpha_{i}^{*} + x_{it}^{'} \beta_{i} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+\end{equation*}
+
+With the assumption that $u_{it}$ is uncorrelated with $(x_{i1},\ldots,x_{iT})$
+and have an independent identically distributed random variable with mean 0 and constant variance.
+
+Following Hsiao(2014), the OLS estimator is called least-squares dummy variable (LSDV), covariance (CV) estimator or within-group estimator.
+If the variance is constant for every individual an efficient estimator can be obtained using weighted least-squares with the initial estimator for individual variance from the individual errors. 
+ 
+\subsection{Estimations of Variance-Components models}
+The individual-specific effects as random variables.
+The residual can be assumed to consist three components:
+\begin{equation*}
+v_{it} = \alpha_{i} + \lambda_{t} + u_{it}.
+\end{equation*}
+The estimation for random-effects model assume a distribution on the conditional distribution of $f(\alpha_{i},\lambda_{t}|x_i)$.
+With the assumption of constant $\lambda_{t}$ for all t, the presence of $\alpha_{i}$ produces correlations in $v_{it} $ over time for a given individual.
+Consistent estimates in finite samples can be obtained by Generalized Least-Squares (GLS).
+The GLS estimator is a weighted average of the between-group and the within-group estimator.
+In a practical situation, without knowing the constants from variance components, the estimation uses feasible GLS or two-step GLS.
+
+\subsection{Fixed or Random effects}
+When N is fixed and T is large LSDV and GLS are the same estimator. 
+[The time-specific effects could be a problem?]
+The residual can be assumed to consist three components:
+\begin{equation*}
+v_{it} = \alpha_{i} + \lambda_{t} + u_{it}.
+\end{equation*}
+The estimation for random-effects model assume a distribution on the conditional 
+
+Marca 1
+Ho: All panels contain unit roots           Number of panels       =     44
+Ha: At least one panel is stationary        Avg. number of periods = 102.57
+
+
+\end{document}

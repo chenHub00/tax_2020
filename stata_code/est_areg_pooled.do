@@ -4,21 +4,24 @@
 
 *cd "C:\Users\vicen\Documentos\colabs\salud\tabaco\"
 *cd "C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\"
- 
+set more off
+
 capture log close
 log using resultados/est_areg_pooled.log, replace
 
-use datos\panel_marca_ciudad.dta, clear
+global varsRegStatic "m1_20 m1_21 m1 ym"
+
+use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 // unitroot test, on levels
 xtunitroot fisher ppu, dfuller lags(4)
 
-xtreg ppu m1_20 m1 ym, fe
+xtreg ppu $varsRegStatic, fe
 estimates store fixed
 // F : fixed effects are significant
 // di  e(F_f)
 // 385.7471
-xtreg ppu m1_20 m1 ym, re
+xtreg ppu $varsRegStatic, re
 estimates store random
 xttest0 
 * significance of random effects
@@ -31,12 +34,12 @@ predict error_ppu_ym_re, e
 
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 
-regress ppu m1_20 m1 ym i.gr_marca_ciudad 
+regress ppu $varsRegStatic i.gr_marca_ciudad 
 testparm i.gr_marca_ciudad 
 
-areg ppu m1 m1_20 ym i.marca, absorb(cve_ciudad)
+areg ppu $varsRegStatic i.marca, absorb(cve_ciudad)
 testparm i.marca 
-areg ppu m1 m1_20 ym i.cve_ciudad, absorb(marca)
+areg ppu $varsRegStatic i.cve_ciudad, absorb(marca)
 testparm i.cve_ciudad 
 
 // *******************************************************
@@ -47,13 +50,13 @@ testparm i.cve_ciudad
 // xtreg ppu m1_20 m1 ym , fe
 //xtset cve_ciudad ym 
 
-use datos\panel_marca_ciudad.dta, clear
-xtreg ppu m1_20 m1 ym if marca == 1, fe
+use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+xtreg ppu $varsRegStatic if marca == 1, fe
 estimates store fixed1
 outreg2 using resultados/doc/est_xt_marcas ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) replace
 
-xtreg ppu m1_20 m1 ym if marca == 1, re
+xtreg ppu $varsRegStatic if marca == 1, re
 estimates store random1
 xttest0 
 * significance of random effects
@@ -74,12 +77,12 @@ foreach number of numlist 2/4 {
 	// gen dif_ppu = d.ppu
 
 	//xtreg ppu m1_20 m1 ym, fe
-	xtreg ppu m1_20 m1 ym if marca == `number', fe
+	xtreg ppu $varsRegStatic if marca == `number', fe
 	estimates store fixed`number'
 	outreg2 using resultados/doc/est_xt_marcas ///
-				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+				, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
 
-	xtreg ppu m1_20 m1 ym, re
+	xtreg ppu $varsRegStatic, re
 	estimates store random`number'
 	xttest0 
 	* significance of random effects
@@ -98,16 +101,16 @@ di "`number'"
 //xtset cve_ciudad ym 
 // gen dif_ppu = d.ppu
 
-xtreg ppu m1_20 m1 ym if marca == `number', fe
+xtreg ppu $varsRegStatic if marca == `number', fe
 estimates store fixed`number'
 * HORiZONTAL
 outreg2 using resultados/doc/est_xt_marcas ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
 * VERTICAL
 			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
 *			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
 
-xtreg ppu m1_20 m1 ym if marca == `number', re
+xtreg ppu $varsRegStatic if marca == `number', re
 estimates store random`number'
 xttest0 
 * significance of random effects
@@ -125,16 +128,16 @@ foreach number of numlist 6 7 {
 *	xtset cve_ciudad ym 
 	// gen dif_ppu = d.ppu
 
-	xtreg ppu m1_20 m1 ym if marca == `number', fe
+	xtreg ppu $varsRegStatic if marca == `number', fe
 	estimates store fixed`number'
 * HORiZONTAL
 outreg2 using resultados/doc/est_xt_marcas ///
-			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
 * VERTICAL
 			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
 *				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
 
-	xtreg ppu m1_20 m1 ym if marca == `number', re
+	xtreg ppu $varsRegStatic if marca == `number', re
 
 	estimates store random`number'
 	xttest0 
