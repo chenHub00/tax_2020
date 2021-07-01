@@ -20,7 +20,7 @@ label define wave 1 "24 November–10 December, 2018"
 4 "November 20- December 5, 2019"
 5 "March 16-26, 2020"
 6 "July 16th-28, 2020"
-7 "November 17th-30, 2021"
+7 "November 17th-30, 2020"
 8 "March 16th- April 2, 2021"
 ; 
 #delimit cr
@@ -40,3 +40,5 @@ label define h_educ 1 "less than high school " 2 "high school or technical studi
 3= college degree or postgraduate studies
 
 */
+
+save "$datos/otras_etiquetas.dta", replace

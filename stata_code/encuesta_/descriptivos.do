@@ -22,7 +22,11 @@ ta q001 edad_cat4
 
 ta wave, su(q001)
 
-// 
+// sexo
+tab q002 sexo, nol
+
+// identidad: identidad_genero
+
 tab1 q002 q003
 
 ta wave, su(sexo)

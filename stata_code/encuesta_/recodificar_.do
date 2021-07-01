@@ -24,14 +24,17 @@ gen singles_cajetilla = q028 == 2
 gen precioSingles = q030 
 recode precioSingles . = 0 if singles == 1
 
-// 
-// max_20 : corte de 20 piezas por cajetilla
-scalar max_20 = 100
-gen precioCigarroCajetilla = q029/20 if q029 < max_20
-label variable precioCigarroCajetilla "precio por cigarro"
 
-//gen precioCigarro
+label define numcaj 1 "14 cigarros" 2 "20 cigarros" 3 "25 cigarros" ///
+	4 "Otro" 5 "No sé"
+label variable q029a numcaj
 
-
-// grupo de marcas principales
-
+/*
+NUMCAJ	[IF 028=1]
+¿Cuántos cigarros tenía la cajetilla?
+1.	14 cigarros
+2.	20 cigarros 
+3.	25 cigarros 
+4.	Otro [Especificar] ___________ 
+5.	No sé 
+*/
