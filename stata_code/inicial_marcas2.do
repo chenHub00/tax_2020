@@ -54,6 +54,11 @@ gen l_ppu_y2021=y2021*l_ppu
 
 do stata_code/marca_marca2.do
 
+// etiquetas
+label variable m1 "jan"
+label variable m1_20 "tax jan 20"
+label variable m1_21 "tax jan 21"
+
 save datos/prelim/de_inpc/tpCiudad2.dta, replace
 export excel using "datos/prelim/de_inpc/tpCiudad2.xlsx", replace
 

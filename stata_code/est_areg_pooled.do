@@ -152,7 +152,8 @@ outreg2 using resultados/doc/est_xt_marcas ///
 // 18/05/21
 // Prueba de diferencia de coeficiente de inter'es
 // Pooled 
-xtreg ppu m1_20 i.marca#m1_20 m1 ym, fe
+*xtreg ppu m1_20 i.marca#m1_20 m1 ym, fe
+xtreg ppu m1_20 m1_21 i.marca#m1_20 i.marca#m1_21 m1 ym, fe
 
 asdoc testparm i.marca#m1_20, save(resultados/doc/est_areg_pooled) replace
 

@@ -8,7 +8,6 @@ set more off
 capture log close
 log using resultados/est_areg_pooled_lags.log, replace
 
-
 global varsReg "m1_20 m1_21 m1 ym L.ppu"
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear

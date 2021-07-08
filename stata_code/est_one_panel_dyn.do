@@ -6,6 +6,9 @@ capture log close
 log using resultados/est_one_panel_dyn.log, replace
 
 use datos\panel_marca_ciudad.dta, clear
+
+global varsRegStatic "m1_20 m1_21 m1 ym"
+
 // establecer el panel
  decode marca, gen(marca_str)
 
