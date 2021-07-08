@@ -5,7 +5,8 @@
 capture log close
 log using resultados/wide_complete_panel.log, replace
 
-use datos/wide_complete_panel.dta, clear
+*use datos/wide_complete_panel.dta, clear
+use datos/prelim/de_inpc/wide_complete_panel.dta, clear
 
 ta cve_ciudad
 
@@ -29,7 +30,7 @@ classdef _b_stat() in use
 ///	 (ppu2 m1 m1_20 ym) 
  */
 // premium  
-xtsur (ppu1 m1 m1_20 ym) ///
+xtsur (ppu1 m1_20 m1_21 m1 ym) ///
 			(ppu2 m1 m1_20 ym) ///
 		(ppu5 m1 m1_20 ym) 
 

@@ -6,12 +6,13 @@
 // a partir de:
 // practical_3way
 // 
+set more off
 
 capture log close
 log using resultados/est_xtreg_means_marcas_ciudades.log, replace
 
 // "ym L.ppu"
-global varsRegConsistent "dm_m1_cm dm_m1_20_cm dm_m1_21_cm"
+global varsRegConsistent "dm_m1_20_cm dm_m1_21_cm dm_m1_cm "
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
