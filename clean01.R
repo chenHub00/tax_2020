@@ -195,8 +195,14 @@ df_review <- subset(df,ppu<10)
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df_review)
 
+#pdf("df_review_ppu_marcas.pdf") 
+#jpeg('graficos/df_review_ppu_marcas.jpg')
+jpeg('resultados/doc/df_review_ppu_marcas.jpg')
+
 ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
   geom_point()
+
+dev.off() 
 
 # agrupar
 # dos grupos de marca-tipo, por el precio

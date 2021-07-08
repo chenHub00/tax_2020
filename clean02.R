@@ -72,8 +72,9 @@ write.csv(table11_principales7,"datos/prelim/de_inpc/table11_principales7.csv", 
 save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
 save(menores, file = "datos/prelim/de_inpc/menores.RData")
 
-pdf("ppu_ciudad_7marcas2011.pdf") 
-jpeg('rplot.jpg')
+#pdf("ppu_ciudad_7marcas2011.pdf") 
+#jpeg('rplot.jpg')
+jpeg('resultados/doc/prin7_prom_ppu_marcas.jpg')
 
 # gr'afico con las principales marcas
 ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
