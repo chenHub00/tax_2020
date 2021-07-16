@@ -1,0 +1,23 @@
+\subsection{for medium brands: Quadratic trend}
+Each dummy is one for the period that ends in the first month of the year. 
+
+\begin{equation*} 
+	y_{itm}  = \alpha_{i}^{*} + \lambda_{1}*t +  \lambda_{2}*t^{2} +\beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+	;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. $
+
+\input{est_xtsur_det2.tex}
+
+There is no common sample. 
+
+\begin{equation*} 
+	y_{itm}  = \alpha_{i}^{*} + \lambda*t +  \beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+	;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. $
+
+\subsection{for medium brands: sample adjustments }
+Results for medium brands: Lucky , PallMall.
+
+\input{est_xt_medium.tex}
