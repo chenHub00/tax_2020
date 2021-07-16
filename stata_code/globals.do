@@ -1,0 +1,2 @@
+
+global resultados "resultados\doc"
