@@ -74,7 +74,8 @@ save(menores, file = "datos/prelim/de_inpc/menores.RData")
 
 #pdf("ppu_ciudad_7marcas2011.pdf") 
 #jpeg('rplot.jpg')
-jpeg('resultados/doc/prin7_prom_ppu_marcas.jpg')
+#jpeg('resultados/doc/prin7_prom_ppu_marcas.jpg')
+pdf('resultados/doc/prin7_prom_ppu_marcas.pdf')
 
 # gr'afico con las principales marcas
 ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
