@@ -73,7 +73,8 @@ $c  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
 
 Results with data for the 7 brands:
 
-\input{est_areg_total_mod.tex}
+%\input{est_areg_total_mod.tex}
+\input{est_areg_total.tex}
 
 The columns 1 and 3 consider the same effect for each brand, the columns 2 and 4 estimate a different effect for each brand. The columns 1 and 2 consider a trend, columns 3 and 4 use a combination of dummy variables for year and month.
 
@@ -83,7 +84,8 @@ MANUAL: REMOVE THE CATEGORIES ZERO IN m1-20.marca
 
 Results for brand type: 1 is premium, 2 is medium, 3 is low.
 
-\input{est_areg_tipo_mod.tex}
+%\input{est_areg_tipo_mod.tex}
+\input{est_areg_tipo.tex}
 
 Table with results to test for difference of coeficients in brands.
 
@@ -155,8 +157,14 @@ Because there are many omitted variables captured in the individual effects, the
 The result of the Hausman test for fixed effects does not rule out the non systematic difference in coefficients, this is in favour of the random effects model: Chi2(4) =  0.60,
 $Prob \geq chi2 =    0.9628$
 
+Similarly the Breusch-Pagan test for random effects does rule out the alternative of OLS : chibar2(01) =  7.5e+05,
+$Prob \geq chibar2 =    0.0000$
+
 The test of unit root, using the Fischer type estimation from Choi (2001): 
 Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel.
+
+Next are the most fa
+\input{est_xtreg_total.tex}
 
 The next table presents the static results by brand.
 %1 to 4

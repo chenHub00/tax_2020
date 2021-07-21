@@ -28,8 +28,11 @@ testparm i.marca
 putexcel (A2) = "marca"
 putexcel (B2) = rscalars, colwise overwritefmt
 
+/*outreg2 using resultados/doc/est_areg_total ///
+			, keep($varsRegStatic i.marca) bdec(3)  tex(fragment) replace
+*/
 outreg2 using resultados/doc/est_areg_total ///
-			, keep($varsRegStatic i.marca) bdec(3) nocons  tex(fragment) replace
+			, bdec(3) tex(fragment) replace
 
 // absorb marca
 areg ppu $varsRegStatic i.cve_ciudad, absorb(marca)
@@ -67,16 +70,18 @@ putexcel (N3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-outreg2 using resultados/doc/est_areg_total ///
+/*outreg2 using resultados/doc/est_areg_total ///
 			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
+*/
+outreg2 using resultados/doc/est_areg_total ///
+			, bdec(3) tex(fragment) append
 
-
-* comparacion de cambio de definicion de marca
+/* comparacion de cambio de definicion de marca
 *areg ppu m1_20  m1_21 m1  ym i.marca if marca2 < 9, absorb(cve_ciudad)
 areg ppu $varsRegStatic  i.marca if marca2 < 9, absorb(cve_ciudad)
 * Mayo11: se pierden 41 observaciones en esta selecci'on, 
 * respecto a la seleccion del documento anterior
-
+*/
 /*-------------------------------------------------------
 ** por tipo o SEGMENTO
 -------------------------------------------------------*/
@@ -170,22 +175,19 @@ outreg2 using resultados\doc/est_areg_tipo ///
 areg ppu m1_20 m1_21 m1 i.marca i.month i.year, absorb(cve_ciudad)
 
 outreg2 using resultados\doc/est_areg_total ///
-			, keep(m1_20 m1_21 i.marca) bdec(3) tex(fragment) append
+			, keep(m1_20 m1_21 m1 i.marca) bdec(3) tex(fragment) append
 			
 * dummies para mes y anio, con interacciones
 *regress ppu i.marca i.month##year i.cve_ciudad
 *areg ppu i.marca i.month##year, absorb(cve_ciudad)
 *areg ppu m1_20##i.marca m1 i.month i.year, absorb(cve_ciudad)
-areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 i.month i.year, absorb(cve_ciudad)
+areg ppu i.marca m1_20 m1_21 m1_20##i.marca m1_21##i.marca m1 i.month i.year, absorb(cve_ciudad)
 
 outreg2 using resultados\doc/est_areg_total ///
-			, keep(m1_20##i.marca m1_21##i.marca m1 i.marca) bdec(3) tex(fragment) append
+			, keep(i.marca m1_20 m1_21 m1_20##i.marca m1_21##i.marca m1) bdec(3) tex(fragment) append
 
 testparm m1_20#i.marca
 testparm m1_21#i.marca
 
 log close
-
-
-
 
