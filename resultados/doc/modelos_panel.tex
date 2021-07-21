@@ -57,7 +57,7 @@ Specification with indicators for city, brand and trend for time.
 Same tax effect on all the brands.
 
 \begin{equation*} 
-y_{itm}  = \alpha_{i}^{*} + \gamma_{m}^{*} + \lambda*t + \beta_{0}^{'}jan + \beta_{1}^{'}tax2020 + \beta_{1}^{'}tax2021 + u_{itm}
+y_{ctm}  = \alpha_{i}^{*} + \gamma_{m}^{*} + \lambda*t + \beta_{0}^{'}jan + \beta_{1}^{'}tax2020 + \beta_{1}^{'}tax2021 + u_{ctm}
 ;   \tag{2.1}
 \end{equation*}
 $c  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
@@ -124,33 +124,41 @@ Separate regression for each brand.
 
 The estimation routine has the possibility to distinguish between fixed or random individual coefficients.
 
-Separate regression for each individual as city and brand.
+Separate regression for each individual defined by city and brand.
 \begin{equation*}
 	y_{it} = \alpha_{i}^{*} + \beta_{i}^{'}x_{it} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
 \end{equation*}
+Where i represents a combination of city and brand.
 
-
-\subsection{Parameters restricted over time}
-Separate regression for each individual
+%\subsection{Parameters restricted over time}
+%Separate regression for each individual
 
 \subsection{Static models}
-The proposed model only uses fixed regressors. 
-It includes interactions, for the effect of the price change in every january, january 2020 and january 2021, considering the most visible changes in price, for different brand-types.
-In general:
-\begin{equation*}
-	y_{it} = \alpha_{i}^{*} + \beta_{i}^{'}x_{it} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+The proposed model only uses fixed regressors, the effect of the price change in every january, january 2020 and january 2021,
+
+\begin{equation*} 
+	y_{it}  = \alpha_{i}^{*} + \gamma_{m}^{*} + \lambda*t + \beta_{0}^{'}jan + \beta_{1}^{'}tax2020 + \beta_{1}^{'}tax2021 + u_{it}
+	;   \tag{4.1}
 \end{equation*}
-Specific:
-\begin{equation*}
-	y_{it} = x_{it}^{'} \beta_{i} + \alpha_{i}^{*} + \lambda_{t} + u_{it}; i = 1,\ldots,N; t=1,\ldots,T.
+$c  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
+
+It includes interactions, for the effect of the price change in january 2020 and january 2021, for different brand-types.
+
+\begin{equation*} 
+	y_{it}  = \alpha_{i}^{*} + \gamma_{m}^{*} + \lambda*t + \beta_{0}^{'}jan + \beta_{1m}^{'}tax2020 + \beta_{2m}^{'}tax2021 + u_{it}
+	;   \tag{4.2}
 \end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
+
 Because there are many omitted variables captured in the individual effects, there is the question of the relevance of them as fixed or random.
 
-Fixed effects test
-F(259, 21559) =  385.75
-$Prob \geq F =    0.0000$
+The result of the Hausman test for fixed effects does not rule out the non systematic difference in coefficients, this is in favour of the random effects model: Chi2(4) =  0.60,
+$Prob \geq chi2 =    0.9628$
 
-Static Results by brand 
+The test of unit root, using the Fischer type estimation from Choi (2001): 
+Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel.
+
+The next table presents the static results by brand.
 %1 to 4
 %Results by brand 5 to 7
 
@@ -159,6 +167,7 @@ Static Results by brand
 \end{landscape}
 
 %\input{est_xt_marcas.tex}
+The test of unit roots
 
 Testing difference in brands.
 

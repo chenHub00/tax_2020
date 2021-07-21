@@ -28,7 +28,7 @@ testparm i.marca
 putexcel (A2) = "marca"
 putexcel (B2) = rscalars, colwise overwritefmt
 
-outreg2 using resultados\doc/est_areg_total ///
+outreg2 using resultados/doc/est_areg_total ///
 			, keep($varsRegStatic i.marca) bdec(3) nocons  tex(fragment) replace
 
 // absorb marca
@@ -67,7 +67,7 @@ putexcel (N3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-outreg2 using resultados\doc/est_areg_total ///
+outreg2 using resultados/doc/est_areg_total ///
 			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
 
 

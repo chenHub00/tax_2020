@@ -10,11 +10,19 @@ capture log close
 log using resultados/est_areg_pooled.log, replace
 
 global varsRegStatic "m1_20 m1_21 m1 ym"
+putexcel set "resultados\doc\f_tests_areg_pooled.xlsx", sheet(areg, replace) modify
+putexcel (C1) = "gl Denominator"
+putexcel (E1) = "gl Numerator"
+putexcel (D1) = "F"
+putexcel (F1) = "prob > F"
+
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 // unitroot test, on levels
 xtunitroot fisher ppu, dfuller lags(4)
+xtunitroot fisher ppu, dfuller lags(4) trend
+xtunitroot fisher ppu, dfuller lags(4) drift
 
 xtreg ppu $varsRegStatic, fe
 estimates store fixed
@@ -33,6 +41,8 @@ hausman fixed random , sigmamore
 predict error_ppu_ym_re, e
 
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+xtunitroot fisher error_ppu_ym_re, dfuller lags(4) trend
+xtunitroot fisher error_ppu_ym_re, dfuller lags(4) drift
 
 regress ppu $varsRegStatic i.gr_marca_ciudad 
 testparm i.gr_marca_ciudad 
@@ -50,7 +60,7 @@ testparm i.cve_ciudad
 // xtreg ppu m1_20 m1 ym , fe
 //xtset cve_ciudad ym 
 
-use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+*use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 xtreg ppu $varsRegStatic if marca == 1, fe
 estimates store fixed1
 outreg2 using resultados/doc/est_xt_marcas ///
