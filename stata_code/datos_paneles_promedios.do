@@ -8,7 +8,8 @@ set more off
 capture log close
 log using resultados/paneles_promedio.log, replace
 
-global varskeep m1 m1_20 m1_21 INPPsec_nopetro INPCgen m_df_p ppu pp pp_lt_cerveza tipo month year
+global varskeep m1 m1_20 m1_21 INPPsec_nopetro INPCgen m_df_p ppu pp ///
+	pp_lt_cerveza tipo month year
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear 
 * dos variables para marca2 y marca
@@ -81,6 +82,11 @@ collapse (mean) $varskeep ///
 xtset gr_marca_ciudad ym 
 tab1 m1 m1_20 m1_21
 
+// establecer el panel
+decode marca, gen(marca_str)
+
+do stata_code/marca.do
+
 save datos/prelim/de_inpc/panel_marca_ciudad.dta, replace
 export excel using "datos/prelim/de_inpc/panel_marca_ciudad.xlsx", replace
 
@@ -88,6 +94,7 @@ use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 * promedio  elimina year, month, Periodo, tipo, marca_str, marca2_str, dppu
 drop  INP* pp_lt_cerveza m_df_p tipo
+drop marca_str tipo2
 // m_otro_precio 
  
 
