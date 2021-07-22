@@ -49,7 +49,7 @@ testparm i.marca
 putexcel (A2) = "marca"
 putexcel (C2) = rscalars, colwise overwritefmt
 
-outreg2 using resultados\doc/est_xtreg_total ///
+outreg2 using resultados/doc/est_xtreg_total ///
 			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
 
 /*****************************************/
@@ -76,7 +76,7 @@ r(198);
 //xtoverid,  cluster(gr_)
 */
 xtreg ppu i.marca $varsRegStatic i.marca##m1_20 i.marca##m1_21, re
-// testparm i.marca
+testparm i.marca
 // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
 putexcel (A3) = "impuesto y marca"
 putexcel (C3) = rscalars, colwise overwritefmt
@@ -84,13 +84,13 @@ putexcel (C3) = rscalars, colwise overwritefmt
 
 testparm m1_20#i.marca
 putexcel (H1) = "marca con impuesto 2020"
-putexcel (H3) = rscalars, colwise overwritefmt
+putexcel (I3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
 testparm m1_21#i.marca
 putexcel (N1) = "marca con impuesto 2021"
-putexcel (N3) = rscalars, colwise overwritefmt
+putexcel (O3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
@@ -102,7 +102,7 @@ outreg2 using resultados\doc/est_xtreg_total ///
 xtreg ppu i.marca $varsRegStatic i.marca##m1_20 i.marca##m1_21, fe
 // testparm i.marca
 // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
-putexcel (A10) = "impuesto y marca"
+putexcel (A10) = "impuesto y marca> fe"
 // putexcel (C3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 putexcel (C10) =  `e(df_r)' // =  13266
@@ -338,5 +338,6 @@ putexcel (N9) = rscalars, colwise overwritefmt
 
 outreg2 using resultados\doc/est_xtreg_tipo ///
 			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
+
 
 capture log close

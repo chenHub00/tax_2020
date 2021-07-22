@@ -7,7 +7,7 @@ x1
 set more off
 
 capture log close
-log using resultados/est_xtreg_pooled_fe_re.log, replace
+log using resultados/est_xtreg_fe_re_xtunitroot.log, replace
 
 global varsRegStatic "m1_20 m1_21 m1 ym"
 putexcel set "resultados\doc\f_tests_xtreg_fe_re_xtunitroot.xlsx", sheet(xtreg, replace) modify
