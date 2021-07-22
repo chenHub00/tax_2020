@@ -1,4 +1,3 @@
-
 // a partir de las estimaciones en:
 // testing_panel_data.do 
 
@@ -12,16 +11,16 @@ log using resultados/est_areg_pooled.log, replace
 global varsRegStatic "m1_20 m1_21 m1 ym"
 putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
 putexcel (C1) = "gl Denominator"
-putexcel (E1) = "gl Numerator"
-putexcel (D1) = "F"
-putexcel (F1) = "prob > F"
+putexcel (E1) = "gl Numerator/gl_chi"
+putexcel (D1) = "F/chi2"
+putexcel (F1) = "prob > F/ Prob > chi2"
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 // unitroot test, on levels
-xtunitroot fisher ppu, dfuller lags(4)
+/*xtunitroot fisher ppu, dfuller lags(4)
 xtunitroot fisher ppu, dfuller lags(4) trend
-xtunitroot fisher ppu, dfuller lags(4) drift
+xtunitroot fisher ppu, dfuller lags(4) drift*/
 
 // i.marca no se puede estimar en fe, es co-linear
 xtreg ppu $varsRegStatic , fe 
@@ -38,7 +37,6 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // 
-// predict est_ppu_ym_fe, xb
 predict error_ppu_ym_re, e
 
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
@@ -49,15 +47,39 @@ xtunitroot fisher error_ppu_ym_re, dfuller lags(4) drift
 xtreg ppu i.marca $varsRegStatic, re
 testparm i.marca
 putexcel (A2) = "marca"
-putexcel (B2) = rscalars, colwise overwritefmt
+putexcel (C2) = rscalars, colwise overwritefmt
 
 outreg2 using resultados\doc/est_xtreg_total ///
 			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
 
+/*****************************************/
+xtreg ppu i.marca $varsRegStatic i.marca#m1_20 i.marca#m1_21, fe
+estimates store fixed
+// xttest2
+// Error: too few common observations across panel.
+// no observations
+// r(2000);
+
 xtreg ppu i.marca $varsRegStatic i.marca#m1_20 i.marca#m1_21, re
-testparm i.marca
+estimates store random
+xttest0 
+// no OLS
+hausman fixed random , sigmamore
+/*  chi2(15) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =       83.08
+                Prob>chi2 =      0.0000
+                (V_b-V_B is not positive definite)*/
+// 
+//xtoverid
+/*1b:  operator invalid
+r(198); 
+//xtoverid,  cluster(gr_)
+*/
+xtreg ppu i.marca $varsRegStatic i.marca##m1_20 i.marca##m1_21, re
+// testparm i.marca
+// F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
 putexcel (A3) = "impuesto y marca"
-putexcel (B3) = rscalars, colwise overwritefmt
+putexcel (C3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 
 testparm m1_20#i.marca
@@ -69,6 +91,34 @@ putexcel (H3) = rscalars, colwise overwritefmt
 testparm m1_21#i.marca
 putexcel (N1) = "marca con impuesto 2021"
 putexcel (N3) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+// rechazo h0, son iguales
+
+outreg2 using resultados\doc/est_xtreg_total ///
+			, keep($varsRegStatic i.marca i.marca#m1_20 i.marca#m1_21) bdec(3) tex(fragment) append
+
+// doing the estimation for each brand most are fixed effects
+
+xtreg ppu i.marca $varsRegStatic i.marca##m1_20 i.marca##m1_21, fe
+// testparm i.marca
+// F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
+putexcel (A10) = "impuesto y marca"
+// putexcel (C3) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+putexcel (C10) =  `e(df_r)' // =  13266
+putexcel (D10) =  `e(F_f)' // =  22.31938299622964
+putexcel (E10) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F10) = F_ui
+
+testparm m1_20#i.marca
+putexcel (H10) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+// rechazo h0, son iguales
+
+testparm m1_21#i.marca
+putexcel (N1) = "marca con impuesto 2021"
+putexcel (N10) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
@@ -121,31 +171,44 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // rechazo de efectos aleatorios!
-// predict est_ppu_ym_fe, xb
-predict error_ppu_ym_re_t1, e
+predict error_ppu_ym_fe_t1, e
 
-xtunitroot fisher error_ppu_ym_re_t1, dfuller lags(4)
-xtunitroot fisher error_ppu_ym_re_t1, dfuller lags(4) trend
-xtunitroot fisher error_ppu_ym_re_t1, dfuller lags(4) drift
+xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4)
+xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4) trend
+xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4) drift
 // no se puede rechazar raiz unitaria en todos los paneles 
 // (i es combinación de ciudad y marca)
 // excepto drift: cambio en nivel
 
-// hausman favorece efectos individuales aleatorios
+// hausman favorece efectos individuales fijos
 xtreg ppu i.marca $varsRegStatic if tipo == 1, fe
-testparm i.marca
+// F test that all u_i=0: F(125, 13266) = 22.32                 Prob > F = 0.0000
+// testparm i.marca
 putexcel (A4) = "Alto"
-putexcel (B4) = rscalars, colwise overwritefmt
+// putexcel (B4) = rscalars, colwise overwritefmt 
+// para efectos fijos anoto el resultado
+putexcel (C4) =  `e(df_r)' // =  13266
+putexcel (D4) =  `e(F_f)' // =  22.31938299622964
+putexcel (E4) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F4) = F_ui
+// Ftail(`e(df_a)',`e(df_r)',`e(F_f)') // =  0
+
 // H0: igualdad de parametros 
 
 outreg2 using resultados\doc/est_xtreg_tipo ///
 			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
 // interacciones marca e impuestos
-areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 1, absorb(cve_ciudad)
-testparm i.marca
-
+xtreg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 1, fe
+//testparm i.marca
 putexcel (A5) = "Alto: con interacción marca e impuestos"
-putexcel (B5) = rscalars, colwise overwritefmt
+//putexcel (B5) = rscalars, colwise overwritefmt
+// para efectos fijos anoto el resultado
+putexcel (C5) =  `e(df_r)' // =  13266
+putexcel (D5) =  `e(F_f)' // =  22.31938299622964
+putexcel (E5) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F5) = F_ui
 
 testparm m1_20#i.marca
 putexcel (H5) = rscalars, colwise overwritefmt
@@ -158,123 +221,122 @@ putexcel (N5) = rscalars, colwise overwritefmt
 outreg2 using resultados\doc/est_xtreg_tipo ///
 			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
 			
+// ************ Medio
+xtreg ppu i.marca $varsRegStatic if tipo == 2, fe
+estimates store fixed
+// xttest2: Error: too few common observations across panel.
+// cannot decide over 
+// F : fixed effects are significant
+// di  e(F_f)
+// 22.319383
+xtreg ppu i.marca $varsRegStatic if tipo == 2, re
+estimates store random
+// xttest0 
+// invalid syntax
+// r(111);
 
-
-// *******************************************************
-// por marca
-// *******************************************************
-// use datos\panel_marca_ciudad.dta if marca == 1, clear
-
-// xtreg ppu m1_20 m1 ym , fe
-//xtset cve_ciudad ym 
-
-*use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
-xtreg ppu $varsRegStatic if marca == 1, fe
-estimates store fixed1
-outreg2 using resultados/doc/est_xt_marcas ///
-			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) replace
-
-xtreg ppu $varsRegStatic if marca == 1, re
-estimates store random1
-xttest0 
 * significance of random effects
 * Hausmann Test
-hausman fixed1 random1 
+// hausman consistent efficient
+hausman fixed random , sigmamore
+// No se rechaza de efectos aleatorios
+predict error_ppu_ym_re_t2, e
 
-predict error_ppu_ym_re1, e
-xtunitroot fisher error_ppu_ym_re1, dfuller lags(4)
+xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4)
+xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) trend
+xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) drift
+// no se puede rechazar raiz unitaria en todos los paneles 
+// (i es combinación de ciudad y marca)
+// excepto drift: cambio en nivel
 
-*xtunitroot fisher ppu, dfuller lags(4)
+// hausman favorece efectos individuales aleatorios
+xtreg ppu i.marca $varsRegStatic if tipo == 2, re
+testparm i.marca
+putexcel (A6) = "Medio"
+putexcel (C6) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+// rechazo de igualdad de parametros
 
-foreach number of numlist 2/4 {
-	di "`number'"
+outreg2 using resultados\doc/est_xtreg_tipo ///
+			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+// interacciones marca e impuestos
+xtreg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 2, re
+testparm i.marca
 
-//	use datos\panel_marca_ciudad.dta if marca == `number', clear
+putexcel (A7) = "Medio: con interacción marca e impuestos"
+putexcel (C7) = rscalars, colwise overwritefmt
 
-//	xtset cve_ciudad ym 
-	// gen dif_ppu = d.ppu
+testparm m1_20#i.marca
+putexcel (I7) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+// rechazo h0, son iguales
 
-	//xtreg ppu m1_20 m1 ym, fe
-	xtreg ppu $varsRegStatic if marca == `number', fe
-	estimates store fixed`number'
-	outreg2 using resultados/doc/est_xt_marcas ///
-				, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
+testparm m1_21#i.marca
+putexcel (O7) = rscalars, colwise overwritefmt
 
-	xtreg ppu $varsRegStatic, re
-	estimates store random`number'
-	xttest0 
-	* significance of random effects
-	* Hausmann Test
-	hausman fixed`number' random`number' 
+outreg2 using resultados\doc/est_xtreg_tipo ///
+			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
 
-	predict error_ppu_ym_re`number', e
-	xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
-}
-
-local number = 5 
-di "`number'"
-
-*use datos\panel_marca_ciudad.dta if marca == `number', clear
-
-//xtset cve_ciudad ym 
-// gen dif_ppu = d.ppu
-
-xtreg ppu $varsRegStatic if marca == `number', fe
-estimates store fixed`number'
-* HORiZONTAL
-outreg2 using resultados/doc/est_xt_marcas ///
-			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
-* VERTICAL
-			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
-*			, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
-
-xtreg ppu $varsRegStatic if marca == `number', re
-estimates store random`number'
+// ************ Bajo
+xtreg ppu i.marca $varsRegStatic if tipo == 3, fe
+estimates store fixed
+// xttest2  : Error: too few common observations across panel.
+// cannot decide over 
+// F : fixed effects are significant
+// F test that all u_i=0: F(56, 3849) = 41.93                   Prob > F = 0.0000
+xtreg ppu i.marca $varsRegStatic if tipo == 3, re
+estimates store random
 xttest0 
+// Rechazo OLS
 * significance of random effects
 * Hausmann Test
-hausman fixed`number' random`number' 
+// hausman consistent efficient
+hausman fixed random , sigmamore
+// Rechaza efectos aleatorios
+predict error_ppu_ym_fe_t3, e
 
-predict error_ppu_ym_re`number', e
-xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
+xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4)
+xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) trend
+xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) drift
+// no se puede rechazar raiz unitaria en todos los paneles 
+// (i es combinación de ciudad y marca)
+// excepto drift: cambio en nivel
 
-foreach number of numlist 6 7 {
-	di "`number'"
+// hausman favorece efectos individuales aleatorios
+xtreg ppu i.marca $varsRegStatic if tipo == 3, fe
+//testparm i.marca
+putexcel (A8) = "Bajo"
+//putexcel (B8) = rscalars, colwise overwritefmt
+// para efectos fijos anoto el resultado
+putexcel (C8) =  `e(df_r)' // =  13266
+putexcel (D8) =  `e(F_f)' // =  22.31938299622964
+putexcel (E8) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F8) = F_ui
 
-*	use datos\panel_marca_ciudad.dta if marca == `number', clear
+outreg2 using resultados\doc/est_xtreg_tipo ///
+			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+// interacciones marca e impuestos
+xtreg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 3, fe
+//testparm i.marca
 
-*	xtset cve_ciudad ym 
-	// gen dif_ppu = d.ppu
+putexcel (A9) = "Bajo: con interacción marca e impuestos"
+//putexcel (B9) = rscalars, colwise overwritefmt
+putexcel (C9) =  `e(df_r)' // =  13266
+putexcel (D9) =  `e(F_f)' // =  22.31938299622964
+putexcel (E9) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F9) = F_ui
 
-	xtreg ppu $varsRegStatic if marca == `number', fe
-	estimates store fixed`number'
-* HORiZONTAL
-outreg2 using resultados/doc/est_xt_marcas ///
-			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
-* VERTICAL
-			*outreg2 using resultados/doc/est_xt_marcas_p2 ///
-*				, keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+testparm m1_20#i.marca
+putexcel (H9) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+// rechazo h0, son iguales
 
-	xtreg ppu $varsRegStatic if marca == `number', re
+testparm m1_21#i.marca
+putexcel (N9) = rscalars, colwise overwritefmt
 
-	estimates store random`number'
-	xttest0 
-	* significance of random effects
-	* Hausmann Test
-	hausman fixed`number' random`number' 
+outreg2 using resultados\doc/est_xtreg_tipo ///
+			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
 
-	predict error_ppu_ym_re`number', e
-	xtunitroot fisher error_ppu_ym_re`number', dfuller lags(4)
-}
-
-// 18/05/21
-// Prueba de diferencia de coeficiente de inter'es
-// Pooled 
-*xtreg ppu m1_20 i.marca#m1_20 m1 ym, fe
-xtreg ppu m1_20 m1_21 i.marca#m1_20 i.marca#m1_21 m1 ym, fe
-
-asdoc testparm i.marca#m1_20, save(resultados/doc/est_areg_pooled) replace
-
-					
-log close
-
+capture log close
