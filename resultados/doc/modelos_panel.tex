@@ -34,21 +34,21 @@ Figure 1 presents the initial data points, these are used for the analysis.
 I made a decision on which brands to include based on the number of observations on the period previous to the tax implementation, the tax started in january 2021, I made an exploratory analysis on the december 2020 data. This would ease the inclusion of brand explicitly in the analysis, brands with few observations, with difficulties to calculate most estimates could be analyzed after applying some criteria to make groups of brands out of the individual ones.
 
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\textwidth]{df_review_ppu_marcas.pdf} 
-\end{center}
- \caption{All brands average price per unit}
-\end{figure}
+%\begin{figure}
+%\begin{center}
+%	\includegraphics[width=\textwidth]{df_review_ppu_marcas.pdf} 
+%\end{center}
+% \caption{All brands average price per unit}
+%\end{figure}
 
 Figure 2 only considers the 7 most frequent brands. The graph provides some guidance on what to consider for the proposed descriptive model.  In particular, there is clear trend over time and there are price adjustments in january. 
 
-\begin{figure}
-\begin{center}
-		\includegraphics[width=\textwidth]{prin7_prom_ppu_marcas.pdf} 
-\end{center}
- \caption{Seven brands average price per unit}
-\end{figure}
+%\begin{figure}
+%\begin{center}
+%		\includegraphics[width=\textwidth]{prin7_prom_ppu_marcas.pdf} 
+%\end{center}
+% \caption{Seven brands average price per unit}
+%\end{figure}
 
 
 Except for prices of other products, there are no other potential regressors to consider at the same level of the data.
@@ -81,8 +81,6 @@ Results with data for the 7 brands:
 
 The columns 1 and 3 consider the same effect for each brand, the columns 2 and 4 estimate a different effect for each brand. The columns 1 and 2 consider a trend, columns 3 and 4 use a combination of dummy variables for year and month.
 
-MANUAL: REMOVE THE CATEGORIES ZERO IN m1-20.marca
-
 \subsection{Comparisons by segment}
 Results by brand type: premium, columns 1 and 2; medium, columns 3 and 4; low, columns 5 and 6.
 The omitted identifier corresponds to the reference brand.
@@ -92,10 +90,19 @@ The omitted identifier corresponds to the reference brand.
 %\input{est_areg_tipo.tex}
 %\end{landscape}
 
-Table with results to test for difference of coeficients in brands.
+Table with results to test for difference of coeficients in brands. The first two rows correspond to the complete sample. Rows third and fourth test for difference in premium brands. Rows fifth and sixth test for difference in medium brands. Rows seventh and eighth test for difference in lower priced brands.
+Columns 1 to 3 indicate the parameters and result for the the test of fixed effects or individual effects by brand. Columns 4 to 6 show the values to test for the equality of the effect by brand of the tax in 2020. Columns 7 to 9 show the values and test result for the equality of the effect by brand of the tax in 2021.
+
 
 \begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{F tests for equality of coefficients \label{tab:F_areg}} 
 	\input{testparam_areg_total.tex}
+	%\caption{Caption below table.}
+
+	\end{table}
 \end{landscape}
 
 
@@ -188,13 +195,22 @@ $Prob \geq chibar2 =    0.0000$
 The test of unit root, using the Fischer type estimation from Choi (2001): 
 Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel.
 
-F tests or Chi2 estimated for equality of coeficients. 
+The next table presents F or Chi-squared tests for equality of coeficients, F corresponds to models by fixed effects, Chi-squared corresponds to models estimated by random effects.
 
-Testing difference in brand effects, F corresponds to models by fixed effects, chi2 corresponds to models estimated by random effects.
+The distribution is the same used in Table \ref{tab:F_areg}, first two rows correspond to the complete sample. Rows third and fourth test for difference in premium brands. Rows fifth and sixth test for difference in medium brands. Rows seventh and eighth test for difference in lower priced brands.
+Columns 1 to 3 indicate the parameters and result for the the test of fixed effects or individual effects by brand. Columns 4 to 6 show the values to test for the equality of the effect by brand of the tax in 2020. Columns 7 to 9 show the values and test result for the equality of the effect by brand of the tax in 2021.
 
 \begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{F tests for equality of coefficients \label{tab:F_xtreg}} 
 	\input{testparam_xtreg.tex}
+	\end{table}
 \end{landscape}
+%\begin{landscape}
+%	\input{testparam_xtreg.tex}
+%\end{landscape}
 
 The next table presents the static results by brand. Considering the Hausman test, the model was estimated using random or fixed effects, for each brand. The column number corresponds to the brand label.
 
@@ -202,8 +218,14 @@ The next table presents the static results by brand. Considering the Hausman tes
 %Results by brand 5 to 7
 
 \begin{landscape}
-\input{est_xt_marcas.tex}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Fixed/Random individual effects for each brand \label{tab:static_xtreg_marcas}} 
+	\input{est_xt_marcas.tex}
+	\end{table}
 \end{landscape}
+
 
 %\input{est_xt_marcas.tex}
 %\input{est_xt_marcas_p2.tex}
@@ -226,27 +248,48 @@ Similar to the previous section, estimations include interactions, to consider t
 \end{equation*}
 $i  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
 
-The table shows the results fixed effects, prefered by the Hausmann test. It shows also the estimates by type. F tests for the equality of the effects by brand and by segment.
+The table shows the results prefered by the Hausmann test, in this case fixed effects. It shows also the estimates by type. 
+The first two columns correspond to the model estimation without interactions. The third and fourth include interactions by brand.
+The fifth and sixth columns consider interactions by brand type.
+Columns 2, 4 and 6 present, for reference, an estimation without lagged dependent variable. 
 
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Fixed/Random individual effects \label{tab:dyn_xtreg}} 
+		\input{est_xtreg_dif_mod.tex}
+%\input{est_xtreg_dif.tex}
+	\end{table}
 
-\input{est_xtreg_dif_mod.tex}
+The results show that the lag effect is captured, when ommitted, by the parameter of the linear trend and the effect of the tax in january 2021.
 
-Estimates by type.
+The estimation by brand type is extended in the next table, (1) and (2) show the estimates for premium brands, (3) and (4) show the estimates for medium brands, (5) and (6) show the estimates for lower brands.  Columns (2,4,6) show results with interactions for brand and tax coefficients and columns (1,3,5) without interactions.
+In the next table, the dependent variable was transformed to cents.
 
-\begin{landscape}
+The coefficient for m1\_20 and m1\_21 correspond to the value of the reference brand within a brand type.
+The coefficient for the other brands indicate the difference to that reference brand for the correspondent brand. The labels correspond to the alphabetical order, 1 is Benson, reference for premium brands, 2 is Camel, 3 is Chesterfield, reference for lower brands, 4 is Lucky Strike, reference for medium brands, 5 is Marlboro, 6 is Montana and 7 is Pall Mall.
+
+\begin{table}[ht]
+	\centering
+	% To place a caption above a table
+	\caption{Fixed individual effects by brand type, interacted \label{tab:dyn_xtreg_tipo}} 
 \input{est_xtreg_dif_tipo_mod.tex}
-	
-\end{landscape}
+%\input{est_xtreg_dif_tipo.tex}
+\end{table}
 
-MANUAL: REMOVE THE ZEROS 
-
-Interpretation:
 With premium for the first label, it shows that the medium brands have the smallest tax impact , although, counterintuitively the lowest impact is estimated for the medium brands with a decrease of 8.9 cents while the lower brand only decreased 5 cents, both with respect to the premium brands average. 
 
-F tests for equality of coeficients, the significant indicate there is difference in the coeficients, the first two rows correspond to the complete sample. The third and fourth to the premium brands, where the equality is still relevant. Fifth and sixth rows are medium brands, where only is difference for the impact of the tax in 2021. The last two rows correspond to the lower priced brands, here there is no difference in the coefficients for each brand.
+The distribution in the next table is the same used in Table \ref{tab:F_areg} and Table \ref{tab:F_xtreg} . F tests for equality of coeficients, significant indicates difference between coeficients, the first two rows correspond to the complete sample. The third and fourth to the premium brands, where the equality is still relevant. Fifth and sixth rows are medium brands, where only is difference for the impact of the tax in 2021. The last two rows correspond to the lower priced brands, here there is no difference in the coefficients for each brand.
+
+Columns 1 to 3 indicate the parameters and result for the the test individual effects by brand. Columns 4 to 6 show the values to test for the equality of the effect by brand of the tax in 2020. Columns 7 to 9 show the values and test result for the equality of the effect by brand of the tax in 2021.
  
 \begin{landscape}
+\begin{table}[ht]
+	\centering
+	% To place a caption above a table
+	\caption{F tests by brand type, interacted \label{tab:F_tests_dyn}} 
 	\input{testparam_xtreg_dyn.tex}
+\end{table}
 \end{landscape}
  
 \section{Consistent estimation for Variable Intercept}
@@ -265,8 +308,12 @@ $$i = 1,\ldots,N; t=1,\ldots,T$$
  
 Results in the left have the same estimate for the effect. Estimates in second column correspond to the first labeled brand, Benson.
  
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Transformation for consistency \label{tab:xt_dm}} 
 \input{est_xt_dm.tex}
+	\end{table}
 
-RESULTADOS DE PRUEBAS DE DIFERENCIA DEL EFECTO POR MARCA FUERON NO SIGNIFICATIVOS.
 
 \end{document}

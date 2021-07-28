@@ -7,6 +7,8 @@ log using resultados/est_one_panel_dyn.log, replace
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
+global vardep "ppu100"
+*global vardep "ppu"
 global varsRegStatic "m1_20 m1_21 m1 ym"
 global varsReg_notrend "m1_20 m1_21 m1"
 global varsRegDiff "m1_20 m1_21 m1 ym L.ppu"
@@ -18,7 +20,7 @@ putexcel (D1) = "F/chi2"
 putexcel (F1) = "prob > F/ Prob > chi2"
 
 // xtreg ppu $varsRegStatic L.ppu, fe 
-xtreg ppu $varsRegDiff, fe 
+xtreg $vardep $varsRegDiff, fe 
 
 // F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
 estimates store fixed
@@ -30,11 +32,11 @@ gen ppu_marcas_ymL_sq = ppu_marcas_ymL^2
 * Pregibon test (https://www.jstor.org/stable/2346405):
 * https://www.statalist.org/forums/forum/general-stata-discussion/general/1481398-residuals-in-a-panel-data-model 
 
-xtreg ppu ppu_marcas_ymL ppu_marcas_ymL_sq
+xtreg $vardep ppu_marcas_ymL ppu_marcas_ymL_sq
 test ppu_marcas_ymL_sq
 * No se rechaza especificacion
 
-xtreg ppu $varsRegStatic L.ppu, re
+xtreg $vardep $varsRegStatic L.ppu, re
 estimates store random
 xttest0 
 // no se rechaza Pooled (OLS)
@@ -44,7 +46,7 @@ xttest0
 hausman fixed random , sigmamore
 // rechaza efectos fijos
 
-xtreg ppu $varsRegStatic L.ppu, fe
+xtreg $vardep $varsRegStatic L.ppu, fe
 // testparm i.marca
 putexcel (A2) = "marca"
 putexcel (C2) =  `e(df_r)' // =  13266
@@ -54,12 +56,12 @@ scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F2) = F_ui
 
 outreg2 using resultados/doc/est_xtreg_dif ///
-			, keep($varsReg_notrend) bdec(3) nocons  tex(fragment) replace
+			, keep($varsRegStatic L.ppu) bdec(3)  tex(fragment) replace
 
-xtreg ppu $varsRegStatic, fe
+xtreg $vardep $varsRegStatic, fe
 			
 outreg2 using resultados/doc/est_xtreg_dif ///
-			, keep($varsReg_notrend) bdec(3) nocons  tex(fragment) append
+			, keep($varsRegStatic) bdec(3)  tex(fragment) append
 			
 /* xtreg ppu $varsRegStatic d.ppu, fe 
 // F test that all u_i=0: F(261, 23349) = 357.29                Prob > F = 0.0000
@@ -87,16 +89,16 @@ gen ppu_marcas_sq = ppu_marcas^2
 xtreg ppu ppu_marcas ppu_marcas_sq
 test ppu_marcas_sq
 */
-xtreg ppu $varsRegStatic L.ppu, fe
+*xtreg ppu $varsRegStatic L.ppu, fe
 
-xtreg ppu $varsRegStatic i.marca#m1_20 i.marca#m1_21  L.ppu, fe
+xtreg $vardep $varsRegStatic i.marca#m1_20 i.marca#m1_21  L.ppu, fe
 estimates store fixed
 // xttest2
 // Error: too few common observations across panel.
 // no observations
 // r(2000);
 
-xtreg ppu $varsRegStatic i.marca#m1_20 i.marca#m1_21 L.ppu, re
+xtreg $vardep $varsRegStatic i.marca#m1_20 i.marca#m1_21 L.ppu, re
 estimates store random
 xttest0 
 // no OLS
@@ -110,7 +112,7 @@ hausman fixed random , sigmamore
 r(198); 
 //xtoverid,  cluster(gr_)
 */
-xtreg ppu $varsRegStatic i.marca##m1_20 i.marca##m1_21 L.ppu, fe
+xtreg $vardep $varsRegStatic i.marca##m1_20 i.marca##m1_21 L.ppu, fe
 // testparm i.marca
 // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
 putexcel (A3) = "impuesto y marca"
@@ -135,21 +137,15 @@ putexcel (N3) = rscalars, colwise overwritefmt
 // rechazo h0, son iguales
 
 outreg2 using resultados\doc/est_xtreg_dif ///
-			, keep($varsRegStatic i.marca#m1_20 i.marca#m1_21) bdec(3) tex(fragment) append
+			, keep($varsRegStatic L.ppu i.marca##m1_20 i.marca##m1_21) bdec(3) tex(fragment) append
 
-xtreg ppu $varsRegStatic i.marca##m1_20 i.marca##m1_21, fe
+xtreg $vardep $varsRegStatic i.marca##m1_20 i.marca##m1_21, fe
 
 outreg2 using resultados\doc/est_xtreg_dif ///
-			, keep($varsRegStatic i.marca#m1_20 i.marca#m1_21) bdec(3) tex(fragment) append
+			, keep($varsRegStatic L.ppu  i.marca#m1_20 i.marca#m1_21) bdec(3) tex(fragment) append
 			
-*----------------- mismo efecto por tipo:
-* Reference:
-xtreg ppu $varsRegStatic , fe
-outreg2 using resultados/doc/est_xtreg_dif ///
-			, keep($varsRegStatic ) bdec(3) nocons  tex(fragment) append
-
 *------- interacciones:
-xtreg ppu $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
+xtreg $vardep $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
 // F test that all u_i=0: F(261, 23345) = 1.61                  Prob > F = 0.0000
 estimates store fixed
 // xttest2
@@ -157,14 +153,14 @@ estimates store fixed
 // no observations
 // r(2000);
 
-xtreg ppu $varsRegStatic i.tipo##m1_20 i.tipo##m1_21 L.ppu, re
+xtreg $vardep $varsRegStatic i.tipo##m1_20 i.tipo##m1_21 L.ppu, re
 estimates store random
 xttest0 
 // Pooled no se rechaza
 hausman fixed random , sigmamore
 // rechaza random effects
 
-xtreg ppu $varsRegStatic  i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
+xtreg $vardep $varsRegStatic  i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
 // testparm i.tipo
 putexcel (A10) = "Diferencias entre tipos: con interacción marca e impuestos"
 putexcel (C10) =  `e(df_r)' // =  13266
@@ -182,20 +178,26 @@ testparm m1_21#i.tipo
 putexcel (N10) = rscalars, colwise overwritefmt
 
 *coefplot, xline(0)
-xtreg ppu $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21, fe
+xtreg $vardep $varsRegStatic L.ppu i.tipo##i.m1_20 i.tipo##i.m1_21 , fe
 
 outreg2 using resultados/doc/est_xtreg_dif ///
-			, keep(i.tipo##i.m1_20 i.tipo##i.m1_21 m1 ym ) bdec(3) nocons  tex(fragment) append
+			, keep(i.tipo##i.m1_20 i.tipo##i.m1_21 m1 ym L.ppu) bdec(3)  tex(fragment) append
+			
+*----------------- mismo efecto por tipo:
+* Reference:
+xtreg $vardep $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21, fe
+outreg2 using resultados/doc/est_xtreg_dif ///
+			, keep($varsRegStatic ) bdec(3)  tex(fragment) append
+			
 			
 // *******************************************************************		
 // Por tipo
-
 /*-------------------------------------------------------
 ** por tipo o SEGMENTO
 -------------------------------------------------------*/
 // ALTO
 /* FE-RE :*/
-xtreg ppu $varsRegStatic L.ppu if tipo == 1, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 1, fe
 // F test that all u_i=0: F(261, 23345) = 1.61                  Prob > F = 0.0000
 estimates store fixed
 // xttest2
@@ -203,7 +205,7 @@ estimates store fixed
 // no observations
 // r(2000);
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 1, re
+xtreg $vardep $varsRegStatic L.ppu if tipo == 1, re
 estimates store random
 xttest0 
 // Pooled no se rechaza
@@ -211,7 +213,7 @@ hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 1, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 1, fe
 * testparm i.marca
 * F test that all u_i=0: F(124, 13125) = 0.59                  Prob > F = 0.9999
 * No efectos fijos!
@@ -224,10 +226,10 @@ putexcel (E4) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F4) = F_ui
 
-outreg2 using resultados\doc/est_areg_dif_tipo ///
+outreg2 using resultados\doc/est_xtreg_dif_tipo ///
 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) replace
 // interacciones marca e impuestos
-xtreg ppu m1_20##i.marca m1_21##i.marca m1 ym L.ppu if tipo == 1, fe
+xtreg $vardep m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu if tipo == 1, fe
 // F test that all u_i=0: F(124, 13121) = 0.60                  Prob > F = 0.9999
 
 putexcel (A5) = "Alto: con interacción marca e impuestos"
@@ -247,12 +249,12 @@ testparm m1_21#i.marca
 putexcel (N5) = rscalars, colwise overwritefmt
 
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
-			, keep(m1_20 m1_21 m1_20##i.marca m1_21##i.marca m1 ym L.ppu) bdec(3) tex(fragment) append
+			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic  L.ppu) bdec(3) tex(fragment) append
 			
 *-------------------------------------------------------
 // MEDIO
 /* FE-RE :*/
-xtreg ppu $varsRegStatic L.ppu if tipo == 2, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 2, fe
 // F test that all u_i=0: F(79, 6439) = 0.92                    Prob > F = 0.6821
 // no efecto fijo significativo
 estimates store fixed
@@ -261,7 +263,7 @@ estimates store fixed
 // no observations
 // r(2000);
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 2, re
+xtreg $vardep $varsRegStatic L.ppu if tipo == 2, re
 estimates store random
 xttest0 
 //                             chibar2(01) =     0.00
@@ -271,7 +273,7 @@ hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 2, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 2, fe
 // testparm i.marca
 putexcel (A6) = "Medio"
 // putexcel (B6) = rscalars, colwise overwritefmt
@@ -282,10 +284,10 @@ putexcel (E6) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F6) = F_ui
 
-outreg2 using resultados\doc/est_areg_tipo ///
-			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+outreg2 using resultados\doc/est_xtreg_dif_tipo ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
-xtreg ppu $varsRegStatic m1_20##i.marca m1_21##i.marca  L.ppu if tipo == 2, fe
+xtreg $vardep $varsRegStatic m1_20##i.marca m1_21##i.marca  L.ppu if tipo == 2, fe
 // testparm i.marca
 putexcel (A7) = "Medio: con interacción marca e impuestos"
 //putexcel (B7) = rscalars, colwise overwritefmt
@@ -305,13 +307,13 @@ putexcel (N7) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 						
-outreg2 using resultados\doc/est_areg_tipo ///
-			, keep(i.marca m1_20##i.marca m1_21##i.marca $varsRegStatic) bdec(3) tex(fragment) append
+outreg2 using resultados\doc/est_xtreg_dif_tipo ///
+			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
 			
 *-------------------------------------------------------
 // BAJO
 /* FE-RE :*/
-xtreg ppu $varsRegStatic L.ppu if tipo == 3, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 3, fe
 // F test that all u_i=0: F(79, 6439) = 0.92                    Prob > F = 0.6821
 // no efecto fijo significativo
 estimates store fixed
@@ -320,7 +322,7 @@ estimates store fixed
 // no observations
 // r(2000);
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 3, re
+xtreg $vardep $varsRegStatic L.ppu if tipo == 3, re
 estimates store random
 xttest0 
 //                             chibar2(01) =     0.00
@@ -330,7 +332,7 @@ hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
 
-xtreg ppu $varsRegStatic L.ppu if tipo == 3, fe
+xtreg $vardep $varsRegStatic L.ppu if tipo == 3, fe
 //testparm i.marca
 putexcel (A8) = "Bajo"
 //putexcel (B8) = rscalars, colwise overwritefmt
@@ -340,10 +342,10 @@ putexcel (E8) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F8) = F_ui
 
-outreg2 using resultados\doc/est_areg_tipo ///
-			, keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+outreg2 using resultados\doc/est_xtreg_dif_tipo ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 			
-xtreg ppu $varsRegStatic m1_20##i.marca m1_21##i.marca L.ppu if tipo == 3, fe
+xtreg $vardep $varsRegStatic m1_20##i.marca m1_21##i.marca L.ppu if tipo == 3, fe
 // F test that all u_i=0: F(56, 3773) = 0.95                    Prob > F = 0.5758
 //testparm i.marca
 putexcel (A9) = "Bajo: con interacción marca e impuestos"
@@ -365,8 +367,8 @@ putexcel (N9) = rscalars, colwise overwritefmt
 // rechazo h0, son iguales al 5 %
 // no son iguales al 10 % []
 
-outreg2 using resultados\doc/est_areg_tipo ///			
-			, keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment) append
+outreg2 using resultados\doc/est_xtreg_dif_tipo ///			
+			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
 
 log close

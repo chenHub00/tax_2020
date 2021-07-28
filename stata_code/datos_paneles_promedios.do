@@ -87,8 +87,12 @@ decode marca, gen(marca_str)
 
 do stata_code/marca.do
 
+// reescalar los resultados
+gen ppu100 = ppu*100
+
 save datos/prelim/de_inpc/panel_marca_ciudad.dta, replace
 export excel using "datos/prelim/de_inpc/panel_marca_ciudad.xlsx", replace
+
 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 

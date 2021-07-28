@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  22 JUL 2021 15:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  27 JUL 2021 19:09
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -200,28 +200,12 @@ se.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-)
-<df_review_ppu_marcas.pdf, id=1, 505.89pt x 505.89pt>
-File: df_review_ppu_marcas.pdf Graphic file (type pdf)
-<use df_review_ppu_marcas.pdf>
-Package pdftex.def Info: df_review_ppu_marcas.pdf  used on input line 39.
-(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
-<prin7_prom_ppu_marcas.pdf, id=2, 505.89pt x 505.89pt>
-File: prin7_prom_ppu_marcas.pdf Graphic file (type pdf)
-<use prin7_prom_ppu_marcas.pdf>
-Package pdftex.def Info: prin7_prom_ppu_marcas.pdf  used on input line 48.
-(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
- [1
+) [1
 
 {C:/Users/chen/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
-[2 <./df_review_ppu_marcas.pdf>] [3 <./prin7_prom_ppu_marcas.pdf>]
-(est_areg_total_mod.tex [4]) (est_areg_tipo_mod.tex
+(est_areg_total_mod.tex [2]) (est_areg_tipo_mod.tex
 Overfull \hbox (73.7399pt too wide) in alignment at lines 1--24
  [] [] [] [] [] [] [] 
- []
-
-
-Underfull \vbox (badness 10000) detected at line 24
  []
 
 
@@ -229,32 +213,17 @@ Overfull \hbox (73.7399pt too wide) in alignment at lines 24--44
  [] [] [] [] [] [] [] 
  []
 
-[5]
+[3]
 Overfull \hbox (73.7399pt too wide) in alignment at lines 44--54
  [] [] [] [] [] [] [] 
  []
 
-) [6] [7] (testparam_areg_total.tex
-Overfull \hbox (12.19568pt too wide) in paragraph at lines 1--16
-[][] 
- []
+) [4] [5] (testparam_areg_total.tex) [6
 
-)
-Overfull \hbox (12.19568pt too wide) in paragraph at lines 17--99
-[][]
- []
+] (est_xtsur_premium.tex)
+(est_xtsur_bajo.tex) [7
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 17--99
-
- []
-
-[8
-
-] (est_xtsur_premium.tex) (est_xtsur_bajo.tex) [9
-
-] (est_xtsur_medio.tex)
-[10] (est_xtreg_total_mod.tex
+] (est_xtsur_medio.tex) [8] (est_xtreg_total_mod.tex
 Overfull \hbox (54.28424pt too wide) in alignment at lines 2--25
  [] [] [] [] [] [] 
  []
@@ -264,7 +233,7 @@ Overfull \hbox (54.28424pt too wide) in alignment at lines 25--45
  [] [] [] [] [] [] 
  []
 
-[11]
+[9]
 Overfull \hbox (54.28424pt too wide) in alignment at lines 45--65
  [] [] [] [] [] [] 
  []
@@ -274,7 +243,7 @@ Overfull \hbox (54.28424pt too wide) in alignment at lines 65--86
  [] [] [] [] [] [] 
  []
 
-[12]
+[10]
 Overfull \hbox (54.28424pt too wide) in alignment at lines 86--86
  [] [] [] [] [] [] 
  []
@@ -289,74 +258,64 @@ Overfull \hbox (107.39548pt too wide) in alignment at lines 24--44
  [] [] [] [] [] [] [] 
  []
 
-[13]
+[11]
 Overfull \hbox (107.39548pt too wide) in alignment at lines 44--49
  [] [] [] [] [] [] [] 
  []
 
-) [14] (testparam_xtreg.tex) [15
+) [12] [13] (testparam_xtreg.tex) [14
 
-] [16
+] [15
 
-] (est_xt_marcas.tex) [17
+] (est_xt_marcas.tex) [16
 
 ]
-(est_xtreg_dif_mod.tex
-Overfull \hbox (104.06215pt too wide) in alignment at lines 1--23
- [] [] [] [] [] [] [] 
+(est_xtreg_dif_mod.tex)
+Overfull \hbox (107.39548pt too wide) in paragraph at lines 1--262
+ [][] 
  []
 
 
-Underfull \vbox (badness 10000) detected at line 23
+LaTeX Warning: Float too large for page by 110.19998pt on input line 262.
+
+(est_xtreg_dif_tipo_mod.tex)
+Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--278
+ [][] 
  []
 
+[17
 
-Overfull \hbox (104.06215pt too wide) in alignment at lines 23--43
- [] [] [] [] [] [] [] 
- []
+] [18] [19] [20] (testparam_xtreg_dyn.tex) [21
 
+] (est_xt_dm.tex) [22
 
-Overfull \hbox (104.06215pt too wide) in alignment at lines 43--58
- [] [] [] [] [] [] [] 
- []
-
-[18
-
-]) [19] (est_xtreg_dif_tipo_mod.tex) [20
-
-] [21
-
-] (testparam_xtreg_dyn.tex)
-[22
-
-] (est_xt_dm.tex) [23
-
-] (modelos_panel.aux) ) 
+]
+(modelos_panel.aux) ) 
 Here is how much of TeX's memory you used:
- 3316 strings out of 479334
- 55155 string characters out of 2857559
- 362668 words of memory out of 3000000
- 20727 multiletter control sequences out of 15000+200000
+ 3308 strings out of 479334
+ 54847 string characters out of 2857559
+ 374668 words of memory out of 3000000
+ 20721 multiletter control sequences out of 15000+200000
  409112 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,9n,74p,487b,349s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/ch
-en/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/U
-sers/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb
-><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (23 pages, 706165 bytes).
+ 68i,9n,74p,591b,349s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/chen
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Use
+rs/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><
+C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9
+.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (22 pages, 172695 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
+ 121 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
