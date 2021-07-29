@@ -21,6 +21,8 @@ est_
      _pooled: regresion con ciudad y marcas como un nivel, por marcas > est_xt_marcas.tex, est_xt_marcas_p2.tex
      _pooled_city: 
      _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
+ xtreg_fe_re_xtunitroot> pruebas de raiz unitaria sobre la especificacion por marca
+      _pooled_fe_re> continua areg_pooled, por marcas, pruebas de especificacion pooled, fe, re
  one_panel > group tiempo y ciudad
  one_panel_dyn > group tiempo y ciudad: lags & diff : est_xtreg_dif.tex, est_xtreg_2dif.tex
  xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex, est_xt_means_diff.tex
