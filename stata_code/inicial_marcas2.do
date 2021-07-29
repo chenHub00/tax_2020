@@ -6,7 +6,7 @@
 // por lo que ser'ia necesario hacer un criterio para separar las clasificaciones
 // 
 capture log close
-log using resultados/inicial_marcas2.do
+log using resultados/inicial_marcas2.do, replace
 
 use  datos/prelim/de_inpc/table11_principales7.dta, clear
 drop day fecha
@@ -56,8 +56,12 @@ do stata_code/marca_marca2.do
 
 // etiquetas
 label variable m1 "jan"
-label variable m1_20 "tax jan 20"
-label variable m1_21 "tax jan 21"
+label variable m1_20 "jan20"
+label variable m1_21 "jan21"
+
+rename m1 jan
+rename m1_20 jan20
+rename m1_21 jan21
 
 save datos/prelim/de_inpc/tpCiudad2.dta, replace
 export excel using "datos/prelim/de_inpc/tpCiudad2.xlsx", replace

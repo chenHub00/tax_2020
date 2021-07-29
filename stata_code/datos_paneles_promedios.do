@@ -8,7 +8,7 @@ set more off
 capture log close
 log using resultados/paneles_promedio.log, replace
 
-global varskeep m1 m1_20 m1_21 INPPsec_nopetro INPCgen m_df_p ppu pp ///
+global varskeep jan jan20 jan21 INPPsec_nopetro INPCgen m_df_p ppu pp ///
 	pp_lt_cerveza tipo month year
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear 
@@ -24,7 +24,7 @@ collapse (mean) $varskeep ///
 	, by(ym marca2)
 xtset marca2 ym 
 
-*collapse (mean) m1 m1_20 INPPsec_nopetro INPCgen m_df_p ppu pp /// 
+*collapse (mean jan jan20 jan21 INPPsec_nopetro INPCgen m_df_p ppu pp /// 
 *	pp_lt_cerveza m_otro_, by(ym marca2)
 *xtset marca ym 
 decode marca2, gen(marca2_str)
@@ -80,7 +80,7 @@ collapse (mean) $varskeep ///
 	, by(ym marca cve_ciudad gr_marca_ciudad)
 
 xtset gr_marca_ciudad ym 
-tab1 m1 m1_20 m1_21
+tab1 jan jan20 jan21
 
 // establecer el panel
 decode marca, gen(marca_str)
@@ -113,7 +113,7 @@ gen lagd_ppu = L.d.ppu
 drop gr_
 
 * promedio elimina: l_*, pzas, sd_*
-reshape wide d_ lag_ lagd_  pp ppu  , i(ym cve_ciudad) j(marca) 
+reshape wide d_ lag_ lagd_  pp ppu ppu100 , i(ym cve_ciudad) j(marca) 
 * cómo se podría elegir solo las ciudades con mayor número de marcas?
 * egen s_gr_m_ciudad= total(1), by(gr_)
 * reshape wide l_ pp ppu pzas sd_* cve_ciudad marca, i(ym) j(gr_)
