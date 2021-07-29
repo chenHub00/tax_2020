@@ -72,39 +72,19 @@ write.csv(table11_principales7,"datos/prelim/de_inpc/table11_principales7.csv", 
 save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
 save(menores, file = "datos/prelim/de_inpc/menores.RData")
 
+dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
+  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  geom_point()
+dfplot2 
+
 #pdf("ppu_ciudad_7marcas2011.pdf") 
 #jpeg('rplot.jpg')
 #jpeg('resultados/doc/prin7_prom_ppu_marcas.jpg')
-pdf('resultados/doc/prin7_prom_ppu_marcas.pdf')
-
+pdf('resultados/doc/prin7_prom_ppu_marcas.pdf', height=11,width=8.5)
 # gr'afico con las principales marcas
-ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
-  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
-#  scale_y_continuous(limits =   c(0,3.5)) +
-  geom_point()
+dfplot2 
 dev.off() 
 
 
-rm(list=ls())
+#rm(list=ls())
 
-# ejemplos de instrucciones
-result3 <-
-  cran %>%
-  group_by(package) %>%
-  summarize(count = n(),
-            unique = n_distinct(ip_id),
-            countries = n_distinct(country),
-            avg_bytes = mean(size)
-  ) %>%
-  filter(countries > 60) %>%
-  arrange(desc(countries), avg_bytes)
-
-# Print result to console
-print(result3)
-
-
-cran %>%
-  select(ip_id, country, package, size) %>%
-  mutate(size_mb = size / 2^20) %>%
-  filter(size_mb <= 0.5) %>%
-  arrange(desc(size_mb))

@@ -195,14 +195,15 @@ df_review <- subset(df,ppu<10)
 # ppu, por ciudad, por tipo(agrupado?)
 summary(df_review)
 
+dfplot1 = ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
+  geom_point()
+dfplot1
+
 #pdf("df_review_ppu_marcas.pdf") 
 #jpeg('graficos/df_review_ppu_marcas.jpg')
 #jpeg('resultados/doc/df_review_ppu_marcas.jpg')
-pdf('resultados/doc/df_review_ppu_marcas.pdf')
-
-ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
-  geom_point()
-
+pdf('resultados/doc/df_review_ppu_marcas.pdf', height=11,width=8.5)
+dfplot1
 dev.off() 
 
 # agrupar
@@ -236,7 +237,7 @@ ggplot(df_review, aes(fecha, ppu, colour = marca)) +
 # Saving on object in RData format
 save(df_review, file = "datos/prelim/de_inpc/df_review.RData")
 
-rm(list=ls())
+#rm(list=ls())
 
 # notar que se puede agrupar por ciudad
 # 
