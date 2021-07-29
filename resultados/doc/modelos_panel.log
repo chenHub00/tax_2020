@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  27 JUL 2021 19:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  29 JUL 2021 15:29
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -200,122 +200,23 @@ se.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-) [1
+)
+! I can't write on file `modelos_panel.pdf'.
+Please type another file name for output
+! Emergency stop.
+<argument> \pdfximage 
+                      \ifnum 0\ifx \Gin@decode \@empty \else 1\fi \ifGin@int...
+l.35 ...idth=\textwidth]{df_review_ppu_marcas.pdf}
+                                                  
+*** (job aborted, file error in nonstop mode)
 
-{C:/Users/chen/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
-(est_areg_total_mod.tex [2]) (est_areg_tipo_mod.tex
-Overfull \hbox (73.7399pt too wide) in alignment at lines 1--24
- [] [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (73.7399pt too wide) in alignment at lines 24--44
- [] [] [] [] [] [] [] 
- []
-
-[3]
-Overfull \hbox (73.7399pt too wide) in alignment at lines 44--54
- [] [] [] [] [] [] [] 
- []
-
-) [4] [5] (testparam_areg_total.tex) [6
-
-] (est_xtsur_premium.tex)
-(est_xtsur_bajo.tex) [7
-
-] (est_xtsur_medio.tex) [8] (est_xtreg_total_mod.tex
-Overfull \hbox (54.28424pt too wide) in alignment at lines 2--25
- [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (54.28424pt too wide) in alignment at lines 25--45
- [] [] [] [] [] [] 
- []
-
-[9]
-Overfull \hbox (54.28424pt too wide) in alignment at lines 45--65
- [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (54.28424pt too wide) in alignment at lines 65--86
- [] [] [] [] [] [] 
- []
-
-[10]
-Overfull \hbox (54.28424pt too wide) in alignment at lines 86--86
- [] [] [] [] [] [] 
- []
-
-) (est_xtreg_tipo_mod.tex
-Overfull \hbox (107.39548pt too wide) in alignment at lines 1--24
- [] [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (107.39548pt too wide) in alignment at lines 24--44
- [] [] [] [] [] [] [] 
- []
-
-[11]
-Overfull \hbox (107.39548pt too wide) in alignment at lines 44--49
- [] [] [] [] [] [] [] 
- []
-
-) [12] [13] (testparam_xtreg.tex) [14
-
-] [15
-
-] (est_xt_marcas.tex) [16
-
-]
-(est_xtreg_dif_mod.tex)
-Overfull \hbox (107.39548pt too wide) in paragraph at lines 1--262
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 110.19998pt on input line 262.
-
-(est_xtreg_dif_tipo_mod.tex)
-Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--278
- [][] 
- []
-
-[17
-
-] [18] [19] [20] (testparam_xtreg_dyn.tex) [21
-
-] (est_xt_dm.tex) [22
-
-]
-(modelos_panel.aux) ) 
+ 
 Here is how much of TeX's memory you used:
- 3308 strings out of 479334
- 54847 string characters out of 2857559
- 374668 words of memory out of 3000000
- 20721 multiletter control sequences out of 15000+200000
- 409112 words of font info for 47 fonts, out of 3000000 for 9000
+ 3242 strings out of 479334
+ 52504 string characters out of 2857559
+ 334668 words of memory out of 3000000
+ 20700 multiletter control sequences out of 15000+200000
+ 408351 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,9n,74p,591b,349s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/chen
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Use
-rs/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9
-.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
-sfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (22 pages, 172695 bytes).
-PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 68i,7n,74p,454b,214s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!
