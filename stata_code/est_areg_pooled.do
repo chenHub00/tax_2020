@@ -38,7 +38,7 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 /* Resultados de la prueba de Hausman */
-putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_pooled, replace) modify
 putexcel (C1) = "No interactions"
 putexcel (B2) = "Name"
 putexcel (C2) = "Eq 1"
@@ -50,7 +50,7 @@ predict error_ppu_ym_re, e
 putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool, replace) modify
 *xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4) trend
-putexcel (C1) = "No interactions"
+putexcel (E1) = "No interactions"
 putexcel (C3) = "Inverse chi-squared (df)"
 putexcel (C4) = "Inverse normal"
 putexcel (C5) = "Inverse logit t(df)"
@@ -120,7 +120,7 @@ hausman fixed random , sigmamore
                 Prob>chi2 =      0.0000
                 (V_b-V_B is not positive definite)*/
 // 
-putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_pooled) modify
 putexcel (D1) = "Interacciones"
 putexcel (D2) = "Eq 2"
 putexcel (D3) = rscalars
@@ -228,7 +228,7 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // rechazo de efectos aleatorios!
-putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_pooled) modify
 putexcel (E1) = "Alto"
 putexcel (E2) = "Eq 2"
 putexcel (E3) = rscalars
@@ -240,6 +240,9 @@ predict error_ppu_ym_fe_t1, e
 putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
 putexcel (H1) = "Alto"
 xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4) trend
+putexcel (H2) = "Statistic"
+putexcel (I2) = "df"
+putexcel (J2) = "p-value"
 putexcel (H3) = `r(P)'
 putexcel (H4) = `r(Z)'
 putexcel (H5) = `r(L)'
@@ -328,7 +331,7 @@ estimates store random
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // No se rechaza de efectos aleatorios
-putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_pooled) modify
 putexcel (F1) = "Medio"
 putexcel (F2) = "Eq 2"
 putexcel (F3) = rscalars
@@ -340,6 +343,9 @@ predict error_ppu_ym_re_t2, e
 putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
 putexcel (K1) = "Medio"
 xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) trend
+putexcel (K2) = "Statistic"
+putexcel (L2) = "df"
+putexcel (M2) = "p-value"
 putexcel (K3) = `r(P)'
 putexcel (K4) = `r(Z)'
 putexcel (K5) = `r(L)'
@@ -411,7 +417,7 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // Rechaza efectos aleatorios
-putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_pooled) modify
 putexcel (G1) = "Lower"
 putexcel (G2) = "Eq 2"
 putexcel (G3) = rscalars
@@ -423,6 +429,9 @@ predict error_ppu_ym_fe_t3, e
 putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
 putexcel (N1) = "Bajo"
 xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) trend
+putexcel (N2) = "Statistic"
+putexcel (O2) = "df"
+putexcel (P2) = "p-value"
 putexcel (N3) = `r(P)'
 putexcel (N4) = `r(Z)'
 putexcel (N5) = `r(L)'
