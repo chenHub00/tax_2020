@@ -1,0 +1,2882 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg_pool
+> ed.log
+  log type:  text
+ opened on:  13 Aug 2021, 15:41:48
+
+. 
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
+
+. putexcel (C1) = "gl Denominator"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E1) = "gl Numerator/gl_chi"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D1) = "F/chi2"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (F1) = "prob > F/ Prob > chi2"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. // unitroot test, on levels
+. /*xtunitroot fisher ppu, dfuller lags(4)
+> xtunitroot fisher ppu, dfuller lags(4) trend
+> xtunitroot fisher ppu, dfuller lags(4) drift*/
+. 
+. // i.marca no se puede estimar en fe, es co-linear
+. xtreg ppu $varsRegStatic , fe 
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8653                                         min =          1
+     between = 0.3912                                         avg =       91.0
+     overall = 0.6102                                         max =        124
+
+                                                F(4,23659)        =   37986.77
+corr(u_i, Xb)  = 0.0168                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2016609   .0100701    20.03   0.000     .1819228    .2213989
+       jan21 |    .231927   .0101027    22.96   0.000      .212125     .251729
+         jan |  -.0227308   .0031237    -7.28   0.000    -.0288535   -.0166081
+          ym |   .0094764   .0000252   375.86   0.000      .009427    .0095258
+       _cons |  -4.138067   .0169615  -243.97   0.000    -4.171313   -4.104821
+-------------+----------------------------------------------------------------
+     sigma_u |  .26149618
+     sigma_e |  .12569969
+         rho |  .81230355   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23659) = 347.90                Prob > F = 0.0000
+
+. estimates store fixed
+
+. // xttest2: Error: too few common observations across panel.
+. // F : fixed effects are significant
+. // di  e(F_f)
+. // 385.7471
+. xtreg ppu $varsRegStatic, re
+
+Random-effects GLS regression                   Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8653                                         min =          1
+     between = 0.3912                                         avg =       91.0
+     overall = 0.6102                                         max =        124
+
+                                                Wald chi2(4)      =  152134.37
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2016769   .0100693    20.03   0.000     .1819415    .2214123
+       jan21 |   .2318919   .0101013    22.96   0.000     .2120937    .2516901
+         jan |  -.0227383   .0031234    -7.28   0.000    -.0288601   -.0166165
+          ym |   .0094768   .0000252   376.08   0.000     .0094274    .0095262
+       _cons |  -4.172838   .0234625  -177.85   0.000    -4.218824   -4.126853
+-------------+----------------------------------------------------------------
+     sigma_u |  .26233306
+     sigma_e |  .12569969
+         rho |  .81327594   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1945086       .4410313
+                       e |   .0158004       .1256997
+                       u |   .0688186       .2623331
+
+        Test:   Var(u) = 0
+                             chibar2(01) =  7.5e+05
+                          Prob > chibar2 =   0.0000
+
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       jan20 |    .2016609     .2016769        -.000016        .0000338
+       jan21 |     .231927     .2318919        .0000352        .0001126
+         jan |   -.0227308    -.0227383        7.57e-06        .0000204
+          ym |    .0094764     .0094768       -3.86e-07        7.64e-07
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(4) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =        0.60
+                Prob>chi2 =      0.9628
+
+. /* Resultados de la prueba de Hausman */
+. putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) m
+> odify
+
+. putexcel (C1) = "No interactions"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (B2) = "Name"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (C2) = "Eq 1"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (B3) = rscalarnames
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (C3) = rscalars
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. // RANDOM
+. predict error_ppu_ym_re, e
+
+. 
+. putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool, replace) m
+> odify
+
+. *xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+. xtunitroot fisher error_ppu_ym_re, dfuller lags(4) trend
+could not compute test for panel 66
+could not compute test for panel 68
+could not compute test for panel 105
+could not compute test for panel 129
+could not compute test for panel 203
+could not compute test for panel 204
+could not compute test for panel 228
+could not compute test for panel 254
+could not compute test for panel 262
+
+Fisher-type unit-root test for error_ppu_ym_re
+Based on augmented Dickey-Fuller tests
+----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    263
+Ha: At least one panel is stationary        Avg. number of periods =  90.97
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(508)  P       289.4565       1.0000
+ Inverse normal            Z        11.9055       1.0000
+ Inverse logit t(1234)     L*       11.8928       1.0000
+ Modified inv. chi-squared Pm       -6.8563       1.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (C1) = "No interactions"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (C3) = "Inverse chi-squared (df)"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (C4) = "Inverse normal"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (C5) = "Inverse logit t(df)"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (C6) = "Modified inv. chi-squared"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (D2) = "Name"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E2) = "Statistic"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (F2) = "df"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G2) = "p-value"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (D3) = "P"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (D4) = "Z"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (D5) = "L*"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (D6) = "Pm"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E3) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E4) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E5) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E6) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (F3) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (F5) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G3) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G4) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G5) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G6) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. /*
+> P       r(P) =  r(df_P) =       r(p_P) = 
+> Z       r(Z) =  r(p_Z) =        
+> L*       r(L) =         r(df_L) =       r(p_L) = 
+> Pm      r(Pm) =         r(p_Pm) =       
+> */
+. xtunitroot fisher error_ppu_ym_re, dfuller lags(4) drift
+could not compute test for panel 66
+could not compute test for panel 68
+could not compute test for panel 105
+could not compute test for panel 129
+could not compute test for panel 203
+could not compute test for panel 204
+could not compute test for panel 228
+could not compute test for panel 254
+could not compute test for panel 262
+
+Fisher-type unit-root test for error_ppu_ym_re
+Based on augmented Dickey-Fuller tests
+----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    263
+Ha: At least one panel is stationary        Avg. number of periods =  90.97
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Included                      ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(500)  P      1112.8056       0.0000
+ Inverse normal            Z       -16.8836       0.0000
+ Inverse logit t(1254)     L*      -17.0343       0.0000
+ Modified inv. chi-squared Pm       19.3786       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (E7) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E8) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E9) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (E10) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (F7) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (F9) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G7) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G8) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G9) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (G10) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg) modify
+
+. 
+. // hausman favorece efectos individuales aleatorios
+. xtreg ppu i.marca $varsRegStatic, re
+
+Random-effects GLS regression                   Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8653                                         min =          1
+     between = 0.8924                                         avg =       91.0
+     overall = 0.8861                                         max =        124
+
+                                                Wald chi2(10)     =  154165.70
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+-------------------------------------------------------------------------------
+          ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        marca |
+       CAMEL  |  -.0131923   .0240265    -0.55   0.583    -.0602833    .0338988
+CHESTERFIELD  |  -.6053375   .0242138   -25.00   0.000    -.6527956   -.5578794
+LUCKY STRIKE  |  -.2736954     .02363   -11.58   0.000    -.3200094   -.2273814
+    MARLBORO  |   .0043991   .0223846     0.20   0.844    -.0394739    .0482722
+     MONTANA  |  -.5015758   .0281963   -17.79   0.000    -.5568395   -.4463121
+   PALL MALL  |  -.4264678   .0230953   -18.47   0.000    -.4717338   -.3812019
+              |
+        jan20 |   .2018456   .0100699    20.04   0.000     .1821089    .2215822
+        jan21 |   .2321487   .0100997    22.99   0.000     .2123535    .2519438
+          jan |   -.022676   .0031235    -7.26   0.000    -.0287979   -.0165541
+           ym |   .0094728   .0000252   376.55   0.000     .0094235    .0095221
+        _cons |  -3.940236   .0233329  -168.87   0.000    -3.985968   -3.894504
+--------------+----------------------------------------------------------------
+      sigma_u |  .10543259
+      sigma_e |  .12569969
+          rho |  .41298289   (fraction of variance due to u_i)
+-------------------------------------------------------------------------------
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+           chi2(  6) = 1287.39
+         Prob > chi2 =    0.0000
+
+. putexcel (A2) = "marca"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (C2) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. outreg2 using resultados/doc/est_xtreg_total ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_total.tex
+dir : seeout
+
+. 
+. /*****************************************/
+. xtreg ppu i.marca $varsRegStatic i.marca#jan20 i.marca#jan21, fe
+note: 2.marca omitted because of collinearity
+note: 3.marca omitted because of collinearity
+note: 4.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+note: 6.marca omitted because of collinearity
+note: 7.marca omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8659                                         min =          1
+     between = 0.3945                                         avg =       91.0
+     overall = 0.6124                                         max =        124
+
+                                                F(16,23647)       =    9546.61
+corr(u_i, Xb)  = 0.0192                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             marca |
+            CAMEL  |          0  (omitted)
+     CHESTERFIELD  |          0  (omitted)
+     LUCKY STRIKE  |          0  (omitted)
+         MARLBORO  |          0  (omitted)
+          MONTANA  |          0  (omitted)
+        PALL MALL  |          0  (omitted)
+                   |
+             jan20 |   .1768683   .0215873     8.19   0.000     .1345557    .2191809
+             jan21 |   .2246672   .0214232    10.49   0.000     .1826764     .266658
+               jan |  -.0227221   .0031168    -7.29   0.000    -.0288312   -.0166131
+                ym |   .0094751   .0000252   376.58   0.000     .0094258    .0095244
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |   .0530029   .0297661     1.78   0.075    -.0053405    .1113464
+          CAMEL#1  |   .0415413   .0373033     1.11   0.265    -.0315755    .1146581
+   CHESTERFIELD#1  |  -.0548388   .0389681    -1.41   0.159    -.1312188    .0215412
+   LUCKY STRIKE#1  |  -.0714582    .034842    -2.05   0.040    -.1397507   -.0031657
+       MARLBORO#1  |   .1092971   .0285822     3.82   0.000     .0532742    .1653201
+        MONTANA#1  |  -.1376092   .0558005    -2.47   0.014    -.2469818   -.0282366
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .0507938    .029838     1.70   0.089    -.0076906    .1092781
+          CAMEL#1  |   .0000116   .0359587     0.00   1.000    -.0704697    .0704929
+   CHESTERFIELD#1  |  -.0502933   .0408963    -1.23   0.219    -.1304525     .029866
+   LUCKY STRIKE#1  |  -.0667772   .0342807    -1.95   0.051    -.1339695    .0004151
+       MARLBORO#1  |   .0781035    .028448     2.75   0.006     .0223437    .1338634
+        MONTANA#1  |  -.3133088   .0556412    -5.63   0.000    -.4223691   -.2042486
+      PALL MALL#1  |          0  (omitted)
+                   |
+             _cons |  -4.137209   .0169268  -244.42   0.000    -4.170387   -4.104031
+-------------------+----------------------------------------------------------------
+           sigma_u |  .26083783
+           sigma_e |  .12541906
+               rho |   .8122164   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
+
+. estimates store fixed
+
+. // xttest2
+. // Error: too few common observations across panel.
+. // no observations
+. // r(2000);
+. 
+. xtreg ppu i.marca $varsRegStatic i.marca#jan20 i.marca#jan21, re
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Random-effects GLS regression                   Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8659                                         min =          1
+     between = 0.8926                                         avg =       91.0
+     overall = 0.8866                                         max =        124
+
+                                                Wald chi2(22)     =  155100.99
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             marca |
+            CAMEL  |  -.0129096   .0218413    -0.59   0.554    -.0557178    .0298986
+     CHESTERFIELD  |  -.6042983   .0220172   -27.45   0.000    -.6474511   -.5611455
+     LUCKY STRIKE  |  -.2720127   .0214814   -12.66   0.000    -.3141155   -.2299099
+         MARLBORO  |   .0038195   .0203308     0.19   0.851    -.0360282    .0436671
+          MONTANA  |  -.4999661   .0256898   -19.46   0.000    -.5503173    -.449615
+        PALL MALL  |  -.4251242   .0210097   -20.23   0.000    -.4663025   -.3839459
+                   |
+             jan20 |   .1781834   .0216079     8.25   0.000     .1358327    .2205342
+             jan21 |   .2225293   .0214157    10.39   0.000     .1805553    .2645033
+               jan |  -.0226655   .0031197    -7.27   0.000      -.02878    -.016551
+                ym |   .0094711   .0000251   377.03   0.000     .0094218    .0095203
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |   .0521011   .0297951     1.75   0.080    -.0062961    .1104983
+          CAMEL#1  |   .0404573   .0373393     1.08   0.279    -.0327264     .113641
+   CHESTERFIELD#1  |  -.0564962   .0390034    -1.45   0.147    -.1329415    .0199492
+   LUCKY STRIKE#1  |  -.0732365   .0348757    -2.10   0.036    -.1415917   -.0048813
+       MARLBORO#1  |   .1081439   .0286104     3.78   0.000     .0520685    .1642192
+        MONTANA#1  |  -.1418547   .0558492    -2.54   0.011    -.2513171   -.0323923
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .0534159   .0298464     1.79   0.074    -.0050819    .1119137
+          CAMEL#1  |   .0063985   .0359549     0.18   0.859    -.0640719    .0768689
+   CHESTERFIELD#1  |  -.0480178   .0409194    -1.17   0.241    -.1282183    .0321828
+   LUCKY STRIKE#1  |  -.0636978   .0342868    -1.86   0.063    -.1308987     .003503
+       MARLBORO#1  |   .0804522   .0284544     2.83   0.005     .0246827    .1362217
+        MONTANA#1  |  -.3110648   .0556848    -5.59   0.000     -.420205   -.2019245
+      PALL MALL#1  |          0  (omitted)
+                   |
+             _cons |  -3.939694   .0223319  -176.42   0.000    -3.983464   -3.895925
+-------------------+----------------------------------------------------------------
+           sigma_u |  .09550958
+           sigma_e |  .12541906
+               rho |  .36705586   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1945086       .4410313
+                       e |   .0157299       .1254191
+                       u |   .0091221       .0955096
+
+        Test:   Var(u) = 0
+                             chibar2(01) = 78976.02
+                          Prob > chibar2 =   0.0000
+
+. // no OLS
+. hausman fixed random , sigmamore
+
+Note: the rank of the differenced variance matrix (15) does not equal the number of
+        coefficients being tested (16); be sure this is what you expect, or there may be
+        problems computing the test.  Examine the output of your estimators for anything
+        unexpected and possibly consider scaling your variables so that the coefficients are
+        on a similar scale.
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       jan20 |    .1768683     .1781834       -.0013151        .0003015
+       jan21 |    .2246672     .2225293        .0021379         .001134
+         jan |   -.0227221    -.0226655       -.0000566        .0000442
+          ym |    .0094751     .0094711        4.08e-06        1.84e-06
+ marca#jan20 |
+        1 1  |    .0530029     .0521011        .0009018        .0003724
+        2 1  |    .0415413     .0404573         .001084        .0004857
+        3 1  |   -.0548388    -.0564962        .0016573        .0006633
+        4 1  |   -.0714582    -.0732365        .0017783        .0004468
+        5 1  |    .1092971     .1081439        .0011533        .0003249
+        6 1  |   -.1376092    -.1418547        .0042455        .0010547
+ marca#jan21 |
+        1 1  |    .0507938     .0534159       -.0026221        .0011708
+        2 1  |    .0000116     .0063985       -.0063869        .0017283
+        3 1  |   -.0502933    -.0480178       -.0022755        .0012744
+        4 1  |   -.0667772    -.0636978       -.0030794        .0014323
+        5 1  |    .0781035     .0804522       -.0023487        .0011566
+        6 1  |   -.3133088    -.3110648       -.0022441        .0012854
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                 chi2(15) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =       83.08
+                Prob>chi2 =      0.0000
+                (V_b-V_B is not positive definite)
+
+. /*  chi2(15) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+>                           =       83.08
+>                 Prob>chi2 =      0.0000
+>                 (V_b-V_B is not positive definite)*/
+. // 
+. putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+
+. putexcel (D1) = "Interacciones"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (D2) = "Eq 2"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (D3) = rscalars
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg) modify
+
+. 
+. //xtoverid
+. /*1b:  operator invalid
+> r(198); 
+> //xtoverid,  cluster(gr_)
+> */
+. xtreg ppu i.marca $varsRegStatic i.marca##jan20 i.marca##jan21, re
+note: 1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+
+Random-effects GLS regression                   Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8659                                         min =          1
+     between = 0.8926                                         avg =       91.0
+     overall = 0.8866                                         max =        124
+
+                                                Wald chi2(22)     =  155100.99
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          marca |
+         CAMEL  |  -.0129096   .0218413    -0.59   0.554    -.0557178    .0298986
+  CHESTERFIELD  |  -.6042983   .0220172   -27.45   0.000    -.6474511   -.5611455
+  LUCKY STRIKE  |  -.2720127   .0214814   -12.66   0.000    -.3141155   -.2299099
+      MARLBORO  |   .0038195   .0203308     0.19   0.851    -.0360282    .0436671
+       MONTANA  |  -.4999661   .0256898   -19.46   0.000    -.5503173    -.449615
+     PALL MALL  |  -.4251242   .0210097   -20.23   0.000    -.4663025   -.3839459
+                |
+          jan20 |   .2302845   .0209914    10.97   0.000     .1891422    .2714268
+          jan21 |   .2759452   .0212953    12.96   0.000     .2342072    .3176832
+            jan |  -.0226655   .0031197    -7.27   0.000      -.02878    -.016551
+             ym |   .0094711   .0000251   377.03   0.000     .0094218    .0095203
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+       CAMEL#1  |  -.0116438   .0369801    -0.31   0.753    -.0841235    .0608359
+CHESTERFIELD#1  |  -.1085973   .0386596    -2.81   0.005    -.1843687   -.0328258
+LUCKY STRIKE#1  |  -.1253376   .0344915    -3.63   0.000    -.1929397   -.0577355
+    MARLBORO#1  |   .0560428   .0281392     1.99   0.046     .0008909    .1111946
+     MONTANA#1  |  -.1939558   .0556094    -3.49   0.000    -.3029483   -.0849633
+   PALL MALL#1  |  -.0521011   .0297951    -1.75   0.080    -.1104983    .0062961
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+       CAMEL#1  |  -.0470174   .0358746    -1.31   0.190    -.1173303    .0232955
+CHESTERFIELD#1  |  -.1014337   .0408482    -2.48   0.013    -.1814947   -.0213726
+LUCKY STRIKE#1  |  -.1171137   .0342027    -3.42   0.001    -.1841497   -.0500777
+    MARLBORO#1  |   .0270363   .0283513     0.95   0.340    -.0285312    .0826038
+     MONTANA#1  |  -.3644806   .0556316    -6.55   0.000    -.4735167   -.2554446
+   PALL MALL#1  |  -.0534159   .0298464    -1.79   0.074    -.1119137    .0050819
+                |
+          _cons |  -3.939694   .0223319  -176.42   0.000    -3.983464   -3.895925
+----------------+----------------------------------------------------------------
+        sigma_u |  .09550958
+        sigma_e |  .12541906
+            rho |  .36705586   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+           chi2(  6) = 1547.03
+         Prob > chi2 =    0.0000
+
+. // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
+. putexcel (A3) = "impuesto y marca"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (C3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. 
+. testparm jan20#i.marca
+
+ ( 1)  2.marca#1.jan20 = 0
+ ( 2)  3.marca#1.jan20 = 0
+ ( 3)  4.marca#1.jan20 = 0
+ ( 4)  5.marca#1.jan20 = 0
+ ( 5)  6.marca#1.jan20 = 0
+ ( 6)  7.marca#1.jan20 = 0
+
+           chi2(  6) =   51.86
+         Prob > chi2 =    0.0000
+
+. putexcel (H1) = "marca con impuesto 2020"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (I3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  2.marca#1.jan21 = 0
+ ( 2)  3.marca#1.jan21 = 0
+ ( 3)  4.marca#1.jan21 = 0
+ ( 4)  5.marca#1.jan21 = 0
+ ( 5)  6.marca#1.jan21 = 0
+ ( 6)  7.marca#1.jan21 = 0
+
+           chi2(  6) =   67.31
+         Prob > chi2 =    0.0000
+
+. putexcel (N1) = "marca con impuesto 2021"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (O3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. outreg2 using resultados\doc/est_xtreg_total ///
+>                         , keep($varsRegStatic i.marca i.marca#jan20 i.marca#jan21) bdec(3) t
+> ex(fragment) append
+resultados\doc/est_xtreg_total.tex
+dir : seeout
+
+. 
+. // doing the estimation for each brand most are fixed effects
+. 
+. xtreg ppu i.marca $varsRegStatic i.marca##jan20 i.marca##jan21, fe
+note: 2.marca omitted because of collinearity
+note: 3.marca omitted because of collinearity
+note: 4.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+note: 6.marca omitted because of collinearity
+note: 7.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8659                                         min =          1
+     between = 0.3945                                         avg =       91.0
+     overall = 0.6124                                         max =        124
+
+                                                F(16,23647)       =    9546.61
+corr(u_i, Xb)  = 0.0192                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          marca |
+         CAMEL  |          0  (omitted)
+  CHESTERFIELD  |          0  (omitted)
+  LUCKY STRIKE  |          0  (omitted)
+      MARLBORO  |          0  (omitted)
+       MONTANA  |          0  (omitted)
+     PALL MALL  |          0  (omitted)
+                |
+          jan20 |   .2298712   .0209702    10.96   0.000     .1887683    .2709741
+          jan21 |    .275461   .0212739    12.95   0.000     .2337628    .3171591
+            jan |  -.0227221   .0031168    -7.29   0.000    -.0288312   -.0166131
+             ym |   .0094751   .0000252   376.58   0.000     .0094258    .0095244
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+       CAMEL#1  |  -.0114617   .0369437    -0.31   0.756    -.0838736    .0609503
+CHESTERFIELD#1  |  -.1078418    .038624    -2.79   0.005    -.1835473   -.0321363
+LUCKY STRIKE#1  |  -.1244611   .0344573    -3.61   0.000    -.1919997   -.0569225
+    MARLBORO#1  |   .0562942   .0281105     2.00   0.045     .0011959    .1113925
+     MONTANA#1  |  -.1906121   .0555605    -3.43   0.001    -.2995144   -.0817099
+   PALL MALL#1  |  -.0530029   .0297661    -1.78   0.075    -.1113464    .0053405
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+       CAMEL#1  |  -.0507821   .0358608    -1.42   0.157    -.1210716    .0195074
+CHESTERFIELD#1  |   -.101087   .0408095    -2.48   0.013    -.1810763   -.0210978
+LUCKY STRIKE#1  |   -.117571   .0341781    -3.44   0.001    -.1845623   -.0505797
+    MARLBORO#1  |   .0273098   .0283224     0.96   0.335    -.0282038    .0828234
+     MONTANA#1  |  -.3641026   .0555765    -6.55   0.000    -.4730361   -.2551691
+   PALL MALL#1  |  -.0507938    .029838    -1.70   0.089    -.1092781    .0076906
+                |
+          _cons |  -4.137209   .0169268  -244.42   0.000    -4.170387   -4.104031
+----------------+----------------------------------------------------------------
+        sigma_u |  .26083783
+        sigma_e |  .12541906
+            rho |   .8122164   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
+
+. // testparm i.marca
+. // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
+. putexcel (A10) = "impuesto y marca> fe"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // putexcel (C3) = rscalars, colwise overwritefmt
+. // H0: igualdad de parametros 
+. putexcel (C10) =  `e(df_r)' // =  13266
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D10) =  `e(F_f)' // =  22.31938299622964
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E10) = `e(df_a)' // =  125
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F10) = F_ui
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  2.marca#1.jan20 = 0
+ ( 2)  3.marca#1.jan20 = 0
+ ( 3)  4.marca#1.jan20 = 0
+ ( 4)  5.marca#1.jan20 = 0
+ ( 5)  6.marca#1.jan20 = 0
+ ( 6)  7.marca#1.jan20 = 0
+
+       F(  6, 23647) =    8.57
+            Prob > F =    0.0000
+
+. putexcel (H10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  2.marca#1.jan21 = 0
+ ( 2)  3.marca#1.jan21 = 0
+ ( 3)  4.marca#1.jan21 = 0
+ ( 4)  5.marca#1.jan21 = 0
+ ( 5)  6.marca#1.jan21 = 0
+ ( 6)  7.marca#1.jan21 = 0
+
+       F(  6, 23647) =   11.24
+            Prob > F =    0.0000
+
+. putexcel (N1) = "marca con impuesto 2021"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (N10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. outreg2 using resultados\doc/est_xtreg_total ///
+>                         , keep($varsRegStatic i.marca i.marca#jan20 i.marca#jan21) bdec(3) t
+> ex(fragment) append
+resultados\doc/est_xtreg_total.tex
+dir : seeout
+
+.                         
+. /* modelo estimado con los m'etodos previos
+> regress ppu $varsRegStatic i.gr_marca_ciudad 
+> testparm i.gr_marca_ciudad 
+> 
+> areg ppu $varsRegStatic i.marca, absorb(cve_ciudad)
+> testparm i.marca 
+> areg ppu $varsRegStatic i.cve_ciudad, absorb(marca)
+> testparm i.cve_ciudad 
+> */
+. //
+. xtreg ppu jan20 jan21 jan i.marca i.month i.year, re
+note: 12.month omitted because of collinearity
+
+Random-effects GLS regression                   Numb
+> er of obs     =     23,926
+Group variable: gr_marca_c~d                    Numb
+> er of groups  =        263
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9332                               
+>           min =          1
+     between = 0.9065                               
+>           avg =       91.0
+     overall = 0.9302                               
+>           max =        124
+
+                                                Wald
+>  chi2(29)     =  332370.39
+corr(u_i, X)   = 0 (assumed)                    Prob
+>  > chi2       =     0.0000
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       jan20 |  -.0148563   .0073537    -2.02   0.04
+> 3                                                 
+>      -.0292693                                    
+>                  -.0004433
+       jan21 |  -.0122063   .0081405    -1.50   0.13
+> 4                                                 
+>      -.0281615                                    
+>                   .0037488
+         jan |  -.0697735   .0029356   -23.77   0.00
+> 0                                                 
+>      -.0755271                                    
+>                  -.0640198
+             |
+       marca |
+      CAMEL  |  -.0085079   .0176221    -0.48   0.62
+> 9                                                 
+>      -.0430466                                    
+>                   .0260308
+CHESTERFI~D  |  -.6034806   .0177575   -33.98   0.00
+> 0                                                 
+>      -.6382848                                    
+>                  -.5686765
+LUCKY STR..  |  -.2693722   .0173313   -15.54   0.00
+> 0                                                 
+>      -.3033409                                    
+>                  -.2354034
+   MARLBORO  |   .0070965   .0164229     0.43   0.66
+> 6                                                 
+>      -.0250917                                    
+>                   .0392847
+    MONTANA  |  -.5053226   .0206647   -24.45   0.00
+> 0                                                 
+>      -.5458247                                    
+>                  -.4648205
+  PALL MALL  |  -.4428091   .0169364   -26.15   0.00
+> 0                                                 
+>      -.4760038                                    
+>                  -.4096143
+             |
+       month |
+          2  |  -.0357431   .0028204   -12.67   0.00
+> 0                                                 
+>      -.0412709                                    
+>                  -.0302152
+          3  |  -.0289684   .0028206   -10.27   0.00
+> 0                                                 
+>      -.0344967                                    
+>                  -.0234401
+          4  |  -.0276718   .0028204    -9.81   0.00
+> 0                                                 
+>      -.0331997                                    
+>                  -.0221438
+          5  |  -.0268771    .002858    -9.40   0.00
+> 0                                                 
+>      -.0324787                                    
+>                  -.0212754
+          6  |  -.0247806    .002858    -8.67   0.00
+> 0                                                 
+>      -.0303823                                    
+>                   -.019179
+          7  |   -.017099    .002858    -5.98   0.00
+> 0                                                 
+>      -.0227006                                    
+>                  -.0114974
+          8  |  -.0085541   .0028666    -2.98   0.00
+> 3                                                 
+>      -.0141725                                    
+>                  -.0029357
+          9  |  -.0040572   .0028652    -1.42   0.15
+> 7                                                 
+>      -.0096729                                    
+>                   .0015585
+         10  |  -.0027881    .002865    -0.97   0.33
+> 0                                                 
+>      -.0084034                                    
+>                   .0028272
+         11  |  -.0010854   .0028644    -0.38   0.70
+> 5                                                 
+>      -.0066996                                    
+>                   .0045288
+         12  |          0  (omitted)
+             |
+        year |
+       2012  |   .0818264   .0025766    31.76   0.00
+> 0                                                 
+>       .0767763                                    
+>                   .0868765
+       2013  |    .162739   .0025807    63.06   0.00
+> 0                                                 
+>       .1576809                                    
+>                   .1677971
+       2014  |    .287085   .0025815   111.21   0.00
+> 0                                                 
+>       .2820254                                    
+>                   .2921447
+       2015  |   .3750907   .0025964   144.47   0.00
+> 0                                                 
+>       .3700019                                    
+>                   .3801795
+       2016  |   .4055485   .0026094   155.42   0.00
+> 0                                                 
+>       .4004341                                    
+>                   .4106628
+       2017  |   .5086874   .0026251   193.78   0.00
+> 0                                                 
+>       .5035424                                    
+>                   .5138325
+       2018  |    .649165   .0026707   243.06   0.00
+> 0                                                 
+>       .6439304                                    
+>                   .6543995
+       2019  |   .8110112   .0027354   296.49   0.00
+> 0                                                 
+>       .8056499                                    
+>                   .8163725
+       2020  |   1.158191   .0028049   412.92   0.00
+> 0                                                 
+>       1.152694                                    
+>                   1.163689
+       2021  |   1.303171   .0045296   287.70   0.00
+> 0                                                 
+>       1.294293                                    
+>                   1.312048
+             |
+       _cons |   1.989433   .0120391   165.25   0.00
+> 0                                                 
+>       1.965837                                    
+>                   2.013029
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .07713169
+     sigma_e |  .08853004
+         rho |  .43151925   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+
+. *areg ppu jan20 jan21 jan i.marca i.month i.year, 
+> absorb(cve_ciudad)
+. 
+. outreg2 using resultados\doc/est_xtreg_total ///
+>                         , keep(jan20 jan21 jan i.m
+> arca) bdec(3) tex(fragment) append
+resultados\doc/est_xtreg_total.tex
+dir : seeout
+
+.                         
+. * dummies para mes y anio, con interacciones
+. xtreg ppu i.marca jan20 jan21 jan20##i.marca jan21
+> ##i.marca jan i.month i.year, re
+note: 1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 12.month omitted because of collinearity
+
+Random-effects GLS regression                   Numb
+> er of obs     =     23,926
+Group variable: gr_marca_c~d                    Numb
+> er of groups  =        263
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9339                               
+>           min =          1
+     between = 0.9067                               
+>           avg =       91.0
+     overall = 0.9307                               
+>           max =        124
+
+                                                Wald
+>  chi2(41)     =  335515.71
+corr(u_i, X)   = 0 (assumed)                    Prob
+>  > chi2       =     0.0000
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       marca |
+      CAMEL  |  -.0080758   .0172453    -0.47   0.64
+> 0                                                 
+>      -.0418759                                    
+>                   .0257243
+CHESTERFI~D  |  -.6022799   .0173778   -34.66   0.00
+> 0                                                 
+>      -.6363398                                    
+>                  -.5682201
+LUCKY STR..  |  -.2675516   .0169605   -15.77   0.00
+> 0                                                 
+>      -.3007936                                    
+>                  -.2343096
+   MARLBORO  |   .0065473   .0160687     0.41   0.68
+> 4                                                 
+>      -.0249468                                    
+>                   .0380414
+    MONTANA  |  -.5033397    .020229   -24.88   0.00
+> 0                                                 
+>      -.5429879                                    
+>                  -.4636915
+  PALL MALL  |  -.4420733   .0165781   -26.67   0.00
+> 0                                                 
+>      -.4745658                                    
+>                  -.4095808
+             |
+       jan20 |   .0120983   .0149057     0.81   0.41
+> 7                                                 
+>      -.0171164                                    
+>                   .0413129
+       jan21 |   .0269774   .0155123     1.74   0.08
+> 2                                                 
+>      -.0034262                                    
+>                    .057381
+     1.jan20 |          0  (omitted)
+             |
+ jan20#marca |
+    1#CAMEL  |  -.0109951   .0260556    -0.42   0.67
+> 3                                                 
+>      -.0620631                                    
+>                   .0400729
+          1 #|
+CHESTERFI~D  |  -.1025169   .0272394    -3.76   0.00
+> 0                                                 
+>      -.1559051                                    
+>                  -.0491288
+          1 #|
+LUCKY STR..  |  -.1289298   .0243022    -5.31   0.00
+> 0                                                 
+>      -.1765612                                    
+>                  -.0812984
+ 1#MARLBORO  |   .0519925   .0198263     2.62   0.00
+> 9                                                 
+>       .0131337                                    
+>                   .0908514
+  1#MONTANA  |  -.1949022   .0391825    -4.97   0.00
+> 0                                                 
+>      -.2716984                                    
+>                   -.118106
+1#PALL MALL  |  -.0402224   .0209935    -1.92   0.05
+> 5                                                 
+>      -.0813689                                    
+>                    .000924
+             |
+     1.jan21 |          0  (omitted)
+             |
+ jan21#marca |
+    1#CAMEL  |  -.0386028   .0252794    -1.53   0.12
+> 7                                                 
+>      -.0881496                                    
+>                    .010944
+          1 #|
+CHESTERFI~D  |  -.1002112   .0287812    -3.48   0.00
+> 0                                                 
+>      -.1566213                                    
+>                  -.0438011
+          1 #|
+LUCKY STR..  |  -.1130855   .0240999    -4.69   0.00
+> 0                                                 
+>      -.1603204                                    
+>                  -.0658506
+ 1#MARLBORO  |   .0224881   .0199757     1.13   0.26
+> 0                                                 
+>      -.0166636                                    
+>                   .0616399
+  1#MONTANA  |  -.3596265   .0391971    -9.17   0.00
+> 0                                                 
+>      -.4364514                                    
+>                  -.2828015
+1#PALL MALL  |  -.0334218   .0210323    -1.59   0.11
+> 2                                                 
+>      -.0746443                                    
+>                   .0078007
+             |
+         jan |  -.0697593   .0029234   -23.86   0.00
+> 0                                                 
+>      -.0754891                                    
+>                  -.0640295
+             |
+       month |
+          2  |  -.0357316   .0028087   -12.72   0.00
+> 0                                                 
+>      -.0412365                                    
+>                  -.0302267
+          3  |  -.0289595   .0028089   -10.31   0.00
+> 0                                                 
+>      -.0344649                                    
+>                  -.0234541
+          4  |   -.027664   .0028087    -9.85   0.00
+> 0                                                 
+>       -.033169                                    
+>                  -.0221589
+          5  |  -.0268666   .0028462    -9.44   0.00
+> 0                                                 
+>       -.032445                                    
+>                  -.0212881
+          6  |  -.0247693   .0028462    -8.70   0.00
+> 0                                                 
+>      -.0303478                                    
+>                  -.0191909
+          7  |  -.0170882   .0028462    -6.00   0.00
+> 0                                                 
+>      -.0226666                                    
+>                  -.0115099
+          8  |  -.0085525   .0028547    -3.00   0.00
+> 3                                                 
+>      -.0141476                                    
+>                  -.0029574
+          9  |  -.0040598   .0028533    -1.42   0.15
+> 5                                                 
+>      -.0096522                                    
+>                   .0015326
+         10  |  -.0027917   .0028531    -0.98   0.32
+> 8                                                 
+>      -.0083838                                    
+>                   .0028003
+         11  |  -.0010872   .0028526    -0.38   0.70
+> 3                                                 
+>      -.0066781                                    
+>                   .0045037
+         12  |          0  (omitted)
+             |
+        year |
+       2012  |   .0818149   .0025659    31.89   0.00
+> 0                                                 
+>       .0767858                                    
+>                    .086844
+       2013  |   .1627336     .00257    63.32   0.00
+> 0                                                 
+>       .1576965                                    
+>                   .1677707
+       2014  |   .2870698   .0025707   111.67   0.00
+> 0                                                 
+>       .2820313                                    
+>                   .2921083
+       2015  |   .3750846   .0025856   145.07   0.00
+> 0                                                 
+>        .370017                                    
+>                   .3801522
+       2016  |   .4055556   .0025985   156.07   0.00
+> 0                                                 
+>       .4004626                                    
+>                   .4106487
+       2017  |   .5086887   .0026141   194.59   0.00
+> 0                                                 
+>       .5035651                                    
+>                   .5138124
+       2018  |   .6491229   .0026596   244.06   0.00
+> 0                                                 
+>       .6439102                                    
+>                   .6543357
+       2019  |   .8108954   .0027242   297.67   0.00
+> 0                                                 
+>       .8055561                                    
+>                   .8162346
+       2020  |   1.158092   .0027933   414.59   0.00
+> 0                                                 
+>       1.152617                                    
+>                   1.163567
+       2021  |   1.303024    .004511   288.86   0.00
+> 0                                                 
+>       1.294183                                    
+>                   1.311866
+             |
+       _cons |    1.98889   .0117897   168.70   0.00
+> 0                                                 
+>       1.965783                                    
+>                   2.011997
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .07541722
+     sigma_e |  .08813287
+         rho |  .42271942   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+
+. *areg ppu i.marca jan20 jan21 jan20##i.marca jan21
+> ##i.marca jan i.month i.year, absorb(cve_ciudad)
+. 
+. outreg2 using resultados\doc/est_xtreg_total ///
+>                         , keep(i.marca jan20 jan21
+>  jan20##i.marca jan21##i.marca jan) bdec(3) tex(fr
+> agment) append
+resultados\doc/est_xtreg_total.tex
+dir : seeout
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1.jan20#2.marca = 0
+ ( 2)  1.jan20#3.marca = 0
+ ( 3)  1.jan20#4.marca = 0
+ ( 4)  1.jan20#5.marca = 0
+ ( 5)  1.jan20#6.marca = 0
+ ( 6)  1.jan20#7.marca = 0
+
+           chi2(  6) =   99.22
+         Prob > chi2 =    0.0000
+
+. testparm jan21#i.marca
+
+ ( 1)  1.jan21#2.marca = 0
+ ( 2)  1.jan21#3.marca = 0
+ ( 3)  1.jan21#4.marca = 0
+ ( 4)  1.jan21#5.marca = 0
+ ( 5)  1.jan21#6.marca = 0
+ ( 6)  1.jan21#7.marca = 0
+
+           chi2(  6) =  127.57
+         Prob > chi2 =    0.0000
+
+. 
+. 
+. // ***********************************************
+> ********
+. // por tipo o segmento
+. // ***********************************************
+> ********
+. xtreg ppu i.marca $varsRegStatic if tipo == 1, fe
+note: 2.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Numb
+> er of obs                                         
+>               =                                   
+>                     13,396
+Group variable: gr_marca_c~d                    Numb
+> er of groups                                      
+>               =                                   
+>                        126
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9161                               
+>           min                                     
+>               =                                   
+>                          1
+     between = 0.8992                               
+>           avg                                     
+>               =                                   
+>                      106.3
+     overall = 0.9073                               
+>           max                                     
+>               =                                   
+>                        124
+
+                                                F(4,
+> 13266)                                            
+>               =                                   
+>                   36196.39
+corr(u_i, Xb)  = 0.0192                         Prob
+>  > F                                              
+>               =                                   
+>                     0.0000
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       marca |
+      CAMEL  |          0  (omitted)
+   MARLBORO  |          0  (omitted)
+             |
+       jan20 |   .2177773    .011386    19.13   0.00
+> 0                                                 
+>       .1954592                                    
+>                   .2400954
+       jan21 |   .2346673   .0113903    20.60   0.00
+> 0                                                 
+>       .2123407                                    
+>                    .256994
+         jan |  -.0179776   .0035349    -5.09   0.00
+> 0                                                 
+>      -.0249066                                    
+>                  -.0110486
+          ym |   .0101754   .0000277   366.69   0.00
+> 0                                                 
+>        .010121                                    
+>                   .0102298
+       _cons |  -4.416942    .018676  -236.50   0.00
+> 0                                                 
+>      -4.453549                                    
+>                  -4.380334
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .05491289
+     sigma_e |  .10639304
+         rho |  .21035549   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+F test that all u_i=0: F(125, 13266) = 22.32        
+>          Prob > F = 0.0000
+
+. estimates store fixed
+
+. // xttest2: Error: too few common observations acr
+> oss panel.
+. // cannot decide over 
+. // F : fixed effects are significant
+. // di  e(F_f)
+. // 22.319383
+. xtreg ppu i.marca $varsRegStatic if tipo == 1, re
+
+Random-effects GLS regression                   Numb
+> er of obs     =     13,396
+Group variable: gr_marca_c~d                    Numb
+> er of groups  =        126
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9161                               
+>           min =          1
+     between = 0.8997                               
+>           avg =      106.3
+     overall = 0.9077                               
+>           max =        124
+
+                                                Wald
+>  chi2(6)                                          
+>               =                                   
+>                          .
+corr(u_i, X)   = 0 (assumed)                    Prob
+>  > chi2       =          .
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       marca |
+      CAMEL  |  -.0122072   .0102922    -1.19   0.23
+> 6                                                 
+>      -.0323795                                    
+>                   .0079652
+CHESTERFI~D  |          0  (empty)
+LUCKY STR..  |          0  (empty)
+   MARLBORO  |    .005467   .0095128     0.57   0.56
+> 5                                                 
+>      -.0131778                                    
+>                   .0241119
+    MONTANA  |          0  (empty)
+  PALL MALL  |          0  (empty)
+             |
+       jan20 |   .2178476   .0114039    19.10   0.00
+> 0                                                 
+>       .1954963                                    
+>                   .2401989
+       jan21 |   .2362115   .0114053    20.71   0.00
+> 0                                                 
+>       .2138575                                    
+>                   .2585655
+         jan |  -.0180366   .0035406    -5.09   0.00
+> 0                                                 
+>       -.024976                                    
+>                  -.0110972
+          ym |    .010179   .0000277   367.53   0.00
+> 0                                                 
+>       .0101247                                    
+>                   .0102333
+       _cons |  -4.417388    .019882  -222.18   0.00
+> 0                                                 
+>      -4.456356                                    
+>                   -4.37842
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .04382105
+     sigma_e |  .10639304
+         rho |  .14503917   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for ran
+> dom effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciu
+> dad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(V
+> ar)
+                ---------+--------------------------
+> ---
+                     ppu |   .1463065       .3825003
+                       e |   .0113195        .106393
+                       u |   .0019203        .043821
+
+        Test:   Var(u) = 0
+                             chibar2(01) = 17254.35
+                          Prob > chibar2 =   0.0000
+
+. // rules out OLS
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B
+> )                                                 
+>       sqrt(diag(V_b-V_B))
+             |     fixed        random       Differe
+> nce                                               
+>              S.E.
+-------------+--------------------------------------
+> --------------------------
+       jan20 |    .2177773     .2178476       -.0000
+> 704                                               
+>            .0000877
+       jan21 |    .2346673     .2362115       -.0015
+> 442                                               
+>            .0002757
+         jan |   -.0179776    -.0180366         .000
+> 059                                               
+>            .0000128
+          ym |    .0101754      .010179       -3.62e
+> -06                                               
+>            2.34e-06
+----------------------------------------------------
+> --------------------------
+                           b = consistent under Ho a
+> nd Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient und
+> er Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not syste
+> matic
+
+                  chi2(4) = (b-B)'[(V_b-V_B)^(-1)](b
+> -B)
+                          =       41.63
+                Prob>chi2 =      0.0000
+
+. // rechazo de efectos aleatorios!
+. putexcel set "resultados\doc\hausman_xtreg_pooled.
+> xlsx", sheet(hausman_xtreg_dyn) modify
+
+. putexcel (E1) = "Alto"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (E2) = "Eq 2"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (E3) = rscalars
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. 
+. xtreg ppu i.marca $varsRegStatic if tipo == 1, fe
+note: 2.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Numb
+> er of obs                                         
+>               =                                   
+>                     13,396
+Group variable: gr_marca_c~d                    Numb
+> er of groups                                      
+>               =                                   
+>                        126
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9161                               
+>           min                                     
+>               =                                   
+>                          1
+     between = 0.8992                               
+>           avg                                     
+>               =                                   
+>                      106.3
+     overall = 0.9073                               
+>           max                                     
+>               =                                   
+>                        124
+
+                                                F(4,
+> 13266)                                            
+>               =                                   
+>                   36196.39
+corr(u_i, Xb)  = 0.0192                         Prob
+>  > F                                              
+>               =                                   
+>                     0.0000
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       marca |
+      CAMEL  |          0  (omitted)
+   MARLBORO  |          0  (omitted)
+             |
+       jan20 |   .2177773    .011386    19.13   0.00
+> 0                                                 
+>       .1954592                                    
+>                   .2400954
+       jan21 |   .2346673   .0113903    20.60   0.00
+> 0                                                 
+>       .2123407                                    
+>                    .256994
+         jan |  -.0179776   .0035349    -5.09   0.00
+> 0                                                 
+>      -.0249066                                    
+>                  -.0110486
+          ym |   .0101754   .0000277   366.69   0.00
+> 0                                                 
+>        .010121                                    
+>                   .0102298
+       _cons |  -4.416942    .018676  -236.50   0.00
+> 0                                                 
+>      -4.453549                                    
+>                  -4.380334
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .05491289
+     sigma_e |  .10639304
+         rho |  .21035549   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+F test that all u_i=0: F(125, 13266) = 22.32        
+>          Prob > F = 0.0000
+
+. predict error_ppu_ym_fe_t1, e
+(10,530 missing values generated)
+
+. 
+. *xtunitroot fisher error_ppu_ym_fe_t1, dfuller lag
+> s(4)
+. putexcel set "resultados\doc\uroot_xtreg_pooled.xl
+> sx", sheet(unitroot_xtreg_pool) modify
+
+. putexcel (H1) = "Alto"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags
+> (4) trend
+(10,530 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 68
+
+Fisher-type unit-root test for error_ppu_ym_fe_t1
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number o
+> f panels                                          
+>                =                                  
+>                     126
+Ha: At least one panel is stationary        Avg. num
+> ber of periods                                    
+>                =                                  
+>                  106.32
+
+AR parameter: Panel-specific                Asymptot
+> ics: T -> Infinity
+Panel means:  Included
+Time trend:   Included
+Drift term:   Not included                  ADF regr
+> essions: 4 lags
+----------------------------------------------------
+> --------------------------
+                                  Statistic      p-v
+> alue
+----------------------------------------------------
+> --------------------------
+ Inverse chi-squared(248)  P       119.8602       1.
+> 0000
+ Inverse normal            Z         9.8798       1.
+> 0000
+ Inverse logit t(624)      L*       10.0132       1.
+> 0000
+ Modified inv. chi-squared Pm       -5.7536       1.
+> 0000
+----------------------------------------------------
+> --------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinit
+> e number of panels.
+----------------------------------------------------
+> --------------------------
+
+. putexcel (H3) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H4) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H5) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H6) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (I3) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (I5) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J3) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J4) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J5) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J6) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags
+> (4) drift
+(10,530 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 68
+
+Fisher-type unit-root test for error_ppu_ym_fe_t1
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number o
+> f panels                                          
+>                =                                  
+>                     126
+Ha: At least one panel is stationary        Avg. num
+> ber of periods                                    
+>                =                                  
+>                  106.32
+
+AR parameter: Panel-specific                Asymptot
+> ics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Included                      ADF regr
+> essions: 4 lags
+----------------------------------------------------
+> --------------------------
+                                  Statistic      p-v
+> alue
+----------------------------------------------------
+> --------------------------
+ Inverse chi-squared(248)  P       576.0204       0.
+> 0000
+ Inverse normal            Z       -13.3028       0.
+> 0000
+ Inverse logit t(624)      L*      -13.1596       0.
+> 0000
+ Modified inv. chi-squared Pm       14.7286       0.
+> 0000
+----------------------------------------------------
+> --------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinit
+> e number of panels.
+----------------------------------------------------
+> --------------------------
+
+. putexcel (H7) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H8) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H9) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (H10) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (I7) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (I9) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J7) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J8) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J9) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (J10) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.
+> xlsx", sheet(xtreg) modify
+
+. 
+. // no se puede rechazar raiz unitaria en todos los
+>  paneles 
+. // (i es combinación de ciudad y marca)
+. // excepto drift: cambio en nivel
+. 
+. // hausman favorece efectos individuales fijos
+. xtreg ppu i.marca $varsRegStatic if tipo == 1, fe
+note: 2.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Numb
+> er of obs                                         
+>               =                                   
+>                     13,396
+Group variable: gr_marca_c~d                    Numb
+> er of groups                                      
+>               =                                   
+>                        126
+
+R-sq:                                           Obs 
+> per group:
+     within  = 0.9161                               
+>           min                                     
+>               =                                   
+>                          1
+     between = 0.8992                               
+>           avg                                     
+>               =                                   
+>                      106.3
+     overall = 0.9073                               
+>           max                                     
+>               =                                   
+>                        124
+
+                                                F(4,
+> 13266)                                            
+>               =                                   
+>                   36196.39
+corr(u_i, Xb)  = 0.0192                         Prob
+>  > F                                              
+>               =                                   
+>                     0.0000
+
+----------------------------------------------------
+> --------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t
+> |                                                 
+>       [95% Con                                    
+>               f. Interval]
+-------------+--------------------------------------
+> --------------------------
+       marca |
+      CAMEL  |          0  (omitted)
+   MARLBORO  |          0  (omitted)
+             |
+       jan20 |   .2177773    .011386    19.13   0.00
+> 0                                                 
+>       .1954592                                    
+>                   .2400954
+       jan21 |   .2346673   .0113903    20.60   0.00
+> 0                                                 
+>       .2123407                                    
+>                    .256994
+         jan |  -.0179776   .0035349    -5.09   0.00
+> 0                                                 
+>      -.0249066                                    
+>                  -.0110486
+          ym |   .0101754   .0000277   366.69   0.00
+> 0                                                 
+>        .010121                                    
+>                   .0102298
+       _cons |  -4.416942    .018676  -236.50   0.00
+> 0                                                 
+>      -4.453549                                    
+>                  -4.380334
+-------------+--------------------------------------
+> --------------------------
+     sigma_u |  .05491289
+     sigma_e |  .10639304
+         rho |  .21035549   (fraction of variance du
+> e to u_i)
+----------------------------------------------------
+> --------------------------
+F test that all u_i=0: F(125, 13266) = 22.32        
+>          Prob > F = 0.0000
+
+. // F test that all u_i=0: F(125, 13266) = 22.32   
+>               Prob > F = 0.0000
+. // testparm i.marca
+. putexcel (A4) = "Alto"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // putexcel (B4) = rscalars, colwise overwritefmt 
+. // para efectos fijos anoto el resultado
+. putexcel (C4) =  `e(df_r)' // =  13266
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D4) =  `e(F_f)' // =  22.31938299622964
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E4) = `e(df_a)' // =  125
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F4) = F_ui
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // Ftail(`e(df_a)',`e(df_r)',`e(F_f)') // =  0
+. 
+. // H0: igualdad de parametros 
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+. // interacciones marca e impuestos
+. xtreg ppu i.marca jan20##i.marca jan21##i.marca jan ym if tipo == 1, fe
+note: 2.marca omitted because of collinearity
+note: 5.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     13,396
+Group variable: gr_marca_c~d                    Number of groups  =        126
+
+R-sq:                                           Obs per group:
+     within  = 0.9161                                         min =          1
+     between = 0.8984                                         avg =      106.3
+     overall = 0.9073                                         max =        124
+
+                                                F(8,13262)        =   18112.20
+corr(u_i, Xb)  = 0.0199                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+      CAMEL  |          0  (omitted)
+   MARLBORO  |          0  (omitted)
+             |
+     1.jan20 |   .1958882   .0179404    10.92   0.000     .1607224    .2310541
+             |
+ jan20#marca |
+    1#CAMEL  |  -.0116438   .0313286    -0.37   0.710    -.0730524    .0497648
+ 1#MARLBORO  |   .0532297   .0238381     2.23   0.026     .0065037    .0999558
+             |
+     1.jan21 |   .2332609   .0182079    12.81   0.000     .1975709    .2689509
+             |
+ jan21#marca |
+    1#CAMEL  |  -.0489066   .0304104    -1.61   0.108    -.1085152    .0107021
+ 1#MARLBORO  |   .0240698   .0240178     1.00   0.316    -.0230085    .0711481
+             |
+         jan |  -.0179718   .0035337    -5.09   0.000    -.0248984   -.0110452
+          ym |   .0101745   .0000277   366.77   0.000     .0101201    .0102289
+       _cons |  -4.416358   .0186704  -236.54   0.000    -4.452955   -4.379761
+-------------+----------------------------------------------------------------
+     sigma_u |  .05521468
+     sigma_e |   .1063567
+         rho |  .21229626   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(125, 13262) = 22.32                 Prob > F = 0.0000
+
+. //testparm i.marca
+. putexcel (A5) = "Alto: con interacción marca e impuestos"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. //putexcel (B5) = rscalars, colwise overwritefmt
+. // para efectos fijos anoto el resultado
+. putexcel (C5) =  `e(df_r)' // =  13266
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D5) =  `e(F_f)' // =  22.31938299622964
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E5) = `e(df_a)' // =  125
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F5) = F_ui
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1.jan20#2.marca = 0
+ ( 2)  1.jan20#5.marca = 0
+
+       F(  2, 13262) =    3.51
+            Prob > F =    0.0301
+
+. putexcel (H5) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  1.jan21#2.marca = 0
+ ( 2)  1.jan21#5.marca = 0
+
+       F(  2, 13262) =    3.08
+            Prob > F =    0.0461
+
+. putexcel (N5) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep(i.marca jan20##i.marca jan21##i.marca jan ym) bdec(3) tex(fra
+> gment) append
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+.                         
+. // ************ Medio
+. xtreg ppu i.marca $varsRegStatic if tipo == 2, fe
+note: 7.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      6,620
+Group variable: gr_marca_c~d                    Number of groups  =         80
+
+R-sq:                                           Obs per group:
+     within  = 0.8338                                         min =          2
+     between = 0.6491                                         avg =       82.8
+     overall = 0.7497                                         max =        124
+
+                                                F(4,6536)         =    8196.71
+corr(u_i, Xb)  = -0.0533                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+  PALL MALL  |          0  (omitted)
+       jan20 |   .1761836   .0192857     9.14   0.000     .1383772      .21399
+       jan21 |   .2285586   .0191451    11.94   0.000      .191028    .2660892
+         jan |  -.0393916   .0064976    -6.06   0.000     -.052129   -.0266542
+          ym |   .0091749   .0000525   174.61   0.000     .0090718    .0092779
+       _cons |  -4.094174   .0355345  -115.22   0.000    -4.163833   -4.024515
+-------------+----------------------------------------------------------------
+     sigma_u |  .15590468
+     sigma_e |  .13487695
+         rho |  .57193831   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(79, 6536) = 81.42                   Prob > F = 0.0000
+
+. estimates store fixed
+
+. // xttest2: Error: too few common observations across panel.
+. // cannot decide over 
+. // F : fixed effects are significant
+. // di  e(F_f)
+. // 22.319383
+. xtreg ppu i.marca $varsRegStatic if tipo == 2, re
+
+Random-effects GLS regression                   Number of obs     =      6,620
+Group variable: gr_marca_c~d                    Number of groups  =         80
+
+R-sq:                                           Obs per group:
+     within  = 0.8338                                         min =          2
+     between = 0.7295                                         avg =       82.8
+     overall = 0.7953                                         max =        124
+
+                                                Wald chi2(6)      =          .
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =          .
+
+----------------------------------------------------------------------------------
+             ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+           marca |
+BENSON & HEDGES  |          0  (empty)
+          CAMEL  |          0  (empty)
+   CHESTERFIELD  |          0  (empty)
+   LUCKY STRIKE  |  -4.012841   .0413691   -97.00   0.000    -4.093923   -3.931759
+       MARLBORO  |          0  (empty)
+        MONTANA  |          0  (empty)
+      PALL MALL  |   -4.16184   .0414494  -100.41   0.000    -4.243079   -4.080601
+                 |
+           jan20 |   .1764351   .0192826     9.15   0.000     .1386419    .2142282
+           jan21 |   .2277007   .0191322    11.90   0.000     .1902023     .265199
+             jan |  -.0393109   .0064959    -6.05   0.000    -.0520426   -.0265792
+              ym |    .009177   .0000524   175.15   0.000     .0090743    .0092797
+           _cons |          0  (omitted)
+-----------------+----------------------------------------------------------------
+         sigma_u |  .13158876
+         sigma_e |  .13487695
+             rho |  .48766187   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------
+
+. estimates store random
+
+. // xttest0 
+. // invalid syntax
+. // r(111);
+. 
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       jan20 |    .1761836     .1764351       -.0002514        .0001608
+       jan21 |    .2285586     .2277007        .0008579        .0006309
+         jan |   -.0393916    -.0393109       -.0000807        .0001058
+          ym |    .0091749      .009177       -2.14e-06        3.87e-06
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(4) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =        6.55
+                Prob>chi2 =      0.1615
+
+. // No se rechaza de efectos aleatorios
+. putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+
+. putexcel (F1) = "Medio"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (F2) = "Eq 2"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (F3) = rscalars
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. 
+. 
+. predict error_ppu_ym_re_t2, e
+(17,306 missing values generated)
+
+. 
+. *xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4)
+. putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
+
+. putexcel (K1) = "Medio"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) trend
+(17,306 missing values generated)
+could not compute test for panel 14
+could not compute test for panel 45
+could not compute test for panel 71
+could not compute test for panel 79
+
+Fisher-type unit-root test for error_ppu_ym_re_t2
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =     80
+Ha: At least one panel is stationary        Avg. number of periods =  82.75
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(152)  P        81.8618       1.0000
+ Inverse normal            Z         7.0021       1.0000
+ Inverse logit t(369)      L*        6.9353       1.0000
+ Modified inv. chi-squared Pm       -4.0227       1.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (K3) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K4) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K5) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K6) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (L3) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (L5) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M3) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M4) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M5) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M6) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) drift
+(17,306 missing values generated)
+could not compute test for panel 14
+could not compute test for panel 45
+could not compute test for panel 71
+could not compute test for panel 79
+
+Fisher-type unit-root test for error_ppu_ym_re_t2
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =     80
+Ha: At least one panel is stationary        Avg. number of periods =  82.75
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Included                      ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(148)  P       317.1810       0.0000
+ Inverse normal            Z        -8.6232       0.0000
+ Inverse logit t(374)      L*       -8.6813       0.0000
+ Modified inv. chi-squared Pm        9.8334       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (K7) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K8) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K9) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (K10) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (L7) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (L9) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M7) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M8) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M9) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (M10) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg) modify
+
+. // no se puede rechazar raiz unitaria en todos los paneles 
+. // (i es combinación de ciudad y marca)
+. // excepto drift: cambio en nivel
+. 
+. // hausman favorece efectos individuales aleatorios
+. xtreg ppu i.marca $varsRegStatic if tipo == 2, re
+
+Random-effects GLS regression                   Number of obs     =      6,620
+Group variable: gr_marca_c~d                    Number of groups  =         80
+
+R-sq:                                           Obs per group:
+     within  = 0.8338                                         min =          2
+     between = 0.7295                                         avg =       82.8
+     overall = 0.7953                                         max =        124
+
+                                                Wald chi2(6)      =          .
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =          .
+
+----------------------------------------------------------------------------------
+             ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+           marca |
+BENSON & HEDGES  |          0  (empty)
+          CAMEL  |          0  (empty)
+   CHESTERFIELD  |          0  (empty)
+   LUCKY STRIKE  |  -4.012841   .0413691   -97.00   0.000    -4.093923   -3.931759
+       MARLBORO  |          0  (empty)
+        MONTANA  |          0  (empty)
+      PALL MALL  |   -4.16184   .0414494  -100.41   0.000    -4.243079   -4.080601
+                 |
+           jan20 |   .1764351   .0192826     9.15   0.000     .1386419    .2142282
+           jan21 |   .2277007   .0191322    11.90   0.000     .1902023     .265199
+             jan |  -.0393109   .0064959    -6.05   0.000    -.0520426   -.0265792
+              ym |    .009177   .0000524   175.15   0.000     .0090743    .0092797
+           _cons |          0  (omitted)
+-----------------+----------------------------------------------------------------
+         sigma_u |  .13158876
+         sigma_e |  .13487695
+             rho |  .48766187   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------
+
+. testparm i.marca
+
+ ( 1)  4.marca = 0
+ ( 2)  7.marca = 0
+
+           chi2(  2) =11224.48
+         Prob > chi2 =    0.0000
+
+. putexcel (A6) = "Medio"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (C6) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo de igualdad de parametros
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+. // interacciones marca e impuestos
+. xtreg ppu i.marca jan20##i.marca jan21##i.marca jan ym if tipo == 2, re
+
+Random-effects GLS regression                   Number of obs     =      6,620
+Group variable: gr_marca_c~d                    Number of groups  =         80
+
+R-sq:                                           Obs per group:
+     within  = 0.8340                                         min =          2
+     between = 0.7290                                         avg =       82.8
+     overall = 0.7955                                         max =        124
+
+                                                Wald chi2(7)      =          .
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =          .
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             marca |
+  BENSON & HEDGES  |          0  (empty)
+            CAMEL  |          0  (empty)
+     CHESTERFIELD  |          0  (empty)
+     LUCKY STRIKE  |   .1502339   .0280792     5.35   0.000     .0951995    .2052682
+         MARLBORO  |          0  (empty)
+          MONTANA  |          0  (empty)
+        PALL MALL  |          0  (omitted)
+                   |
+           1.jan20 |     .13196   .0303278     4.35   0.000     .0725187    .1914013
+                   |
+       jan20#marca |
+0#BENSON & HEDGES  |          0  (empty)
+          0#CAMEL  |          0  (empty)
+   0#CHESTERFIELD  |          0  (empty)
+       0#MARLBORO  |          0  (empty)
+        0#MONTANA  |          0  (empty)
+1#BENSON & HEDGES  |          0  (empty)
+          1#CAMEL  |          0  (empty)
+   1#CHESTERFIELD  |          0  (empty)
+   1#LUCKY STRIKE  |          0  (omitted)
+       1#MARLBORO  |          0  (empty)
+        1#MONTANA  |          0  (empty)
+      1#PALL MALL  |   .0713481   .0374776     1.90   0.057    -.0021067    .1448029
+                   |
+           1.jan21 |   .1891372   .0297848     6.35   0.000     .1307601    .2475143
+                   |
+       jan21#marca |
+0#BENSON & HEDGES  |          0  (empty)
+          0#CAMEL  |          0  (empty)
+   0#CHESTERFIELD  |          0  (empty)
+       0#MARLBORO  |          0  (empty)
+        0#MONTANA  |          0  (empty)
+1#BENSON & HEDGES  |          0  (empty)
+          1#CAMEL  |          0  (empty)
+   1#CHESTERFIELD  |          0  (empty)
+   1#LUCKY STRIKE  |          0  (omitted)
+       1#MARLBORO  |          0  (empty)
+        1#MONTANA  |          0  (empty)
+      1#PALL MALL  |   .0622335   .0368529     1.69   0.091    -.0099969    .1344639
+                   |
+               jan |  -.0393084   .0064984    -6.05   0.000    -.0520449   -.0265718
+                ym |   .0091789   .0000524   175.16   0.000     .0090762    .0092816
+             _cons |  -4.163899    .040848  -101.94   0.000    -4.243959   -4.083838
+-------------------+----------------------------------------------------------------
+           sigma_u |  .12325385
+           sigma_e |  .13483062
+               rho |  .45523353   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+
+. testparm i.marca
+
+ ( 1)  4.marca = 0
+
+           chi2(  1) =   28.63
+         Prob > chi2 =    0.0000
+
+. 
+. putexcel (A7) = "Medio: con interacción marca e impuestos"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (C7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1.jan20#7.marca = 0
+
+           chi2(  1) =    3.62
+         Prob > chi2 =    0.0569
+
+. putexcel (I7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  1.jan21#7.marca = 0
+
+           chi2(  1) =    2.85
+         Prob > chi2 =    0.0913
+
+. putexcel (O7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep(i.marca jan20##i.marca jan21##i.marca jan ym) bdec(3) tex(fra
+> gment) append
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+. 
+. // ************ Bajo
+. xtreg ppu i.marca $varsRegStatic if tipo == 3, fe
+note: 6.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,910
+Group variable: gr_marca_c~d                    Number of groups  =         57
+
+R-sq:                                           Obs per group:
+     within  = 0.7196                                         min =          2
+     between = 0.4783                                         avg =       68.6
+     overall = 0.6561                                         max =        124
+
+                                                F(4,3849)         =    2469.72
+corr(u_i, Xb)  = -0.0405                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+    MONTANA  |          0  (omitted)
+       jan20 |    .189705   .0320012     5.93   0.000      .126964     .252446
+       jan21 |    .217332   .0336341     6.46   0.000     .1513896    .2832745
+         jan |  -.0120199   .0083474    -1.44   0.150    -.0283857     .004346
+          ym |   .0071299   .0000744    95.87   0.000     .0069841    .0072757
+       _cons |  -2.961102   .0495177   -59.80   0.000    -3.058185   -2.864018
+-------------+----------------------------------------------------------------
+     sigma_u |  .13658225
+     sigma_e |  .14030358
+         rho |  .48656249   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(56, 3849) = 41.93                   Prob > F = 0.0000
+
+. estimates store fixed
+
+. // xttest2  : Error: too few common observations across panel.
+. // cannot decide over 
+. // F : fixed effects are significant
+. // F test that all u_i=0: F(56, 3849) = 41.93                   Prob > F = 0.0000
+. xtreg ppu i.marca $varsRegStatic if tipo == 3, re
+
+Random-effects GLS regression                   Number of obs     =      3,910
+Group variable: gr_marca_c~d                    Number of groups  =         57
+
+R-sq:                                           Obs per group:
+     within  = 0.7196                                         min =          2
+     between = 0.5219                                         avg =       68.6
+     overall = 0.6638                                         max =        124
+
+                                                Wald chi2(5)      =          .
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =          .
+
+----------------------------------------------------------------------------------
+             ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+           marca |
+BENSON & HEDGES  |          0  (empty)
+          CAMEL  |          0  (empty)
+   CHESTERFIELD  |  -.0874437   .0323637    -2.70   0.007    -.1508754    -.024012
+   LUCKY STRIKE  |          0  (empty)
+       MARLBORO  |          0  (empty)
+        MONTANA  |          0  (omitted)
+      PALL MALL  |          0  (empty)
+                 |
+           jan20 |   .1903522   .0320394     5.94   0.000     .1275562    .2531482
+           jan21 |   .2187704   .0336742     6.50   0.000     .1527702    .2847707
+             jan |  -.0119391    .008356    -1.43   0.153    -.0283165    .0044382
+              ym |   .0071152   .0000741    96.03   0.000     .0069699    .0072604
+           _cons |   -2.89445   .0549675   -52.66   0.000    -3.002185   -2.786716
+-----------------+----------------------------------------------------------------
+         sigma_u |  .11555101
+         sigma_e |  .14030358
+             rho |  .40415242   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .0907878       .3013101
+                       e |   .0196851       .1403036
+                       u |    .013352        .115551
+
+        Test:   Var(u) = 0
+                             chibar2(01) = 16240.48
+                          Prob > chibar2 =   0.0000
+
+. // Rechazo OLS
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       jan20 |     .189705     .1903522       -.0006472        .0004295
+       jan21 |     .217332     .2187704       -.0014384         .000453
+         jan |   -.0120199    -.0119391       -.0000807        .0001911
+          ym |    .0071299     .0071152        .0000148        7.45e-06
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(4) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =       13.75
+                Prob>chi2 =      0.0082
+
+. // Rechaza efectos aleatorios
+. putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn) modify
+
+. putexcel (G1) = "Lower"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (G2) = "Eq 2"
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. putexcel (G3) = rscalars
+file resultados\doc\hausman_xtreg_pooled.xlsx saved
+
+. 
+. 
+. predict error_ppu_ym_fe_t3, e
+(20,016 missing values generated)
+
+. 
+. *xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4)
+. putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
+
+. putexcel (N1) = "Bajo"
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) trend
+(20,016 missing values generated)
+could not compute test for panel 25
+could not compute test for panel 39
+could not compute test for panel 40
+
+Fisher-type unit-root test for error_ppu_ym_fe_t3
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =     57
+Ha: At least one panel is stationary        Avg. number of periods =  68.60
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(108)  P       136.4923       0.0333
+ Inverse normal            Z         2.1726       0.9851
+ Inverse logit t(244)      L*        0.5250       0.7000
+ Modified inv. chi-squared Pm        1.9387       0.0263
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (N3) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N4) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N5) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N6) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (O3) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (O5) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P3) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P4) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P5) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P6) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) drift
+(20,016 missing values generated)
+could not compute test for panel 25
+could not compute test for panel 39
+could not compute test for panel 40
+
+Fisher-type unit-root test for error_ppu_ym_fe_t3
+Based on augmented Dickey-Fuller tests
+-------------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =     57
+Ha: At least one panel is stationary        Avg. number of periods =  68.60
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Included                      ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(104)  P       288.8398       0.0000
+ Inverse normal            Z        -9.4172       0.0000
+ Inverse logit t(264)      L*      -10.0658       0.0000
+ Modified inv. chi-squared Pm       12.8163       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. putexcel (N7) = `r(P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N8) = `r(Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N9) = `r(L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (N10) = `r(Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (O7) = `r(df_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (O9) = `r(df_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P7) = `r(p_P)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P8) = `r(p_Z)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P9) = `r(p_L)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. putexcel (P10) = `r(p_Pm)'
+file resultados\doc\uroot_xtreg_pooled.xlsx saved
+
+. 
+. putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg) modify
+
+. // no se puede rechazar raiz unitaria en todos los paneles 
+. // (i es combinación de ciudad y marca)
+. // excepto drift: cambio en nivel
+. 
+. // hausman favorece efectos individuales aleatorios
+. xtreg ppu i.marca $varsRegStatic if tipo == 3, fe
+note: 6.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,910
+Group variable: gr_marca_c~d                    Number of groups  =         57
+
+R-sq:                                           Obs per group:
+     within  = 0.7196                                         min =          2
+     between = 0.4783                                         avg =       68.6
+     overall = 0.6561                                         max =        124
+
+                                                F(4,3849)         =    2469.72
+corr(u_i, Xb)  = -0.0405                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+    MONTANA  |          0  (omitted)
+       jan20 |    .189705   .0320012     5.93   0.000      .126964     .252446
+       jan21 |    .217332   .0336341     6.46   0.000     .1513896    .2832745
+         jan |  -.0120199   .0083474    -1.44   0.150    -.0283857     .004346
+          ym |   .0071299   .0000744    95.87   0.000     .0069841    .0072757
+       _cons |  -2.961102   .0495177   -59.80   0.000    -3.058185   -2.864018
+-------------+----------------------------------------------------------------
+     sigma_u |  .13658225
+     sigma_e |  .14030358
+         rho |  .48656249   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(56, 3849) = 41.93                   Prob > F = 0.0000
+
+. //testparm i.marca
+. putexcel (A8) = "Bajo"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. //putexcel (B8) = rscalars, colwise overwritefmt
+. // para efectos fijos anoto el resultado
+. putexcel (C8) =  `e(df_r)' // =  13266
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D8) =  `e(F_f)' // =  22.31938299622964
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E8) = `e(df_a)' // =  125
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F8) = F_ui
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+. // interacciones marca e impuestos
+. xtreg ppu i.marca jan20##i.marca jan21##i.marca jan ym if tipo == 3, fe
+note: 6.marca omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,910
+Group variable: gr_marca_c~d                    Number of groups  =         57
+
+R-sq:                                           Obs per group:
+     within  = 0.7206                                         min =          2
+     between = 0.4783                                         avg =       68.6
+     overall = 0.6565                                         max =        124
+
+                                                F(6,3847)         =    1653.76
+corr(u_i, Xb)  = -0.0419                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+    MONTANA  |          0  (omitted)
+     1.jan20 |   .2121088   .0374077     5.67   0.000     .1387679    .2854497
+             |
+ jan20#marca |
+  1#MONTANA  |  -.0783444   .0681221    -1.15   0.250    -.2119032    .0552144
+             |
+     1.jan21 |    .294688   .0401135     7.35   0.000     .2160421    .3733338
+             |
+ jan21#marca |
+  1#MONTANA  |  -.2450053   .0694969    -3.53   0.000    -.3812596    -.108751
+             |
+         jan |  -.0120289   .0083348    -1.44   0.149      -.02837    .0043121
+          ym |   .0071322   .0000743    96.04   0.000     .0069866    .0072778
+       _cons |  -2.962621   .0494444   -59.92   0.000    -3.059561   -2.865682
+-------------+----------------------------------------------------------------
+     sigma_u |  .13664871
+     sigma_e |  .14009106
+         rho |  .48756296   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(56, 3847) = 42.17                   Prob > F = 0.0000
+
+. //testparm i.marca
+. 
+. putexcel (A9) = "Bajo: con interacción marca e impuestos"
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. //putexcel (B9) = rscalars, colwise overwritefmt
+. putexcel (C9) =  `e(df_r)' // =  13266
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (D9) =  `e(F_f)' // =  22.31938299622964
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. putexcel (E9) = `e(df_a)' // =  125
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F9) = F_ui
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1.jan20#6.marca = 0
+
+       F(  1,  3847) =    1.32
+            Prob > F =    0.2502
+
+. putexcel (H9) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  1.jan21#6.marca = 0
+
+       F(  1,  3847) =   12.43
+            Prob > F =    0.0004
+
+. putexcel (N9) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_pooled.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_xtreg_tipo ///
+>                         , keep(i.marca jan20##i.marca jan21##i.marca jan ym) bdec(3) tex(fra
+> gment) append
+resultados\doc/est_xtreg_tipo.tex
+dir : seeout
+
+. 
+. 
+. capture log close

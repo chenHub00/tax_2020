@@ -9,7 +9,6 @@
 /resultados/doc/*.aux
 *.xlsx
 /datos/*
-/resultados/*.log
 /resultados/*.xlsx
 /resultados/doc/*.log
 /resultados/doc/*.gz
