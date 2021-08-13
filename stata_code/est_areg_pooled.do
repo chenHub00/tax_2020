@@ -8,7 +8,8 @@ set more off
 capture log close
 log using resultados/est_areg_pooled.log, replace
 
-global varsRegStatic "m1_20 m1_21 m1 ym"
+global varsRegStatic "jan20 jan21 jan ym"
+
 putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
 putexcel (C1) = "gl Denominator"
 putexcel (E1) = "gl Numerator/gl_chi"
@@ -36,12 +37,61 @@ xttest0
 * Hausmann Test
 // hausman consistent efficient
 hausman fixed random , sigmamore
-// 
+/* Resultados de la prueba de Hausman */
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (C1) = "No interactions"
+putexcel (B2) = "Name"
+putexcel (C2) = "Eq 1"
+putexcel (B3) = rscalarnames
+putexcel (C3) = rscalars
+// RANDOM
 predict error_ppu_ym_re, e
 
-xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
+putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool, replace) modify
+*xtunitroot fisher error_ppu_ym_re, dfuller lags(4)
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4) trend
+putexcel (C1) = "No interactions"
+putexcel (C3) = "Inverse chi-squared (df)"
+putexcel (C4) = "Inverse normal"
+putexcel (C5) = "Inverse logit t(df)"
+putexcel (C6) = "Modified inv. chi-squared"
+putexcel (D2) = "Name"
+putexcel (E2) = "Statistic"
+putexcel (F2) = "df"
+putexcel (G2) = "p-value"
+putexcel (D3) = "P"
+putexcel (D4) = "Z"
+putexcel (D5) = "L*"
+putexcel (D6) = "Pm"
+putexcel (E3) = `r(P)'
+putexcel (E4) = `r(Z)'
+putexcel (E5) = `r(L)'
+putexcel (E6) = `r(Pm)'
+putexcel (F3) = `r(df_P)'
+putexcel (F5) = `r(df_L)'
+putexcel (G3) = `r(p_P)'
+putexcel (G4) = `r(p_Z)'
+putexcel (G5) = `r(p_L)'
+putexcel (G6) = `r(p_Pm)'
+/*
+P	r(P) = 	r(df_P) = 	r(p_P) = 
+Z	r(Z) = 	r(p_Z) =	
+L*	 r(L) = 	r(df_L) =	r(p_L) = 
+Pm	r(Pm) = 	r(p_Pm) =  	
+*/
 xtunitroot fisher error_ppu_ym_re, dfuller lags(4) drift
+putexcel (E7) = `r(P)'
+putexcel (E8) = `r(Z)'
+putexcel (E9) = `r(L)'
+putexcel (E10) = `r(Pm)'
+putexcel (F7) = `r(df_P)'
+putexcel (F9) = `r(df_L)'
+putexcel (G7) = `r(p_P)'
+putexcel (G8) = `r(p_Z)'
+putexcel (G9) = `r(p_L)'
+putexcel (G10) = `r(p_Pm)'
+
+putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
 
 // hausman favorece efectos individuales aleatorios
 xtreg ppu i.marca $varsRegStatic, re
@@ -70,6 +120,13 @@ hausman fixed random , sigmamore
                 Prob>chi2 =      0.0000
                 (V_b-V_B is not positive definite)*/
 // 
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (D1) = "Interacciones"
+putexcel (D2) = "Eq 2"
+putexcel (D3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
+
 //xtoverid
 /*1b:  operator invalid
 r(198); 
@@ -171,11 +228,42 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // rechazo de efectos aleatorios!
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (E1) = "Alto"
+putexcel (E2) = "Eq 2"
+putexcel (E3) = rscalars
+
+xtreg ppu i.marca $varsRegStatic if tipo == 1, fe
 predict error_ppu_ym_fe_t1, e
 
-xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4)
+*xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4)
+putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
+putexcel (H1) = "Alto"
 xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4) trend
+putexcel (H3) = `r(P)'
+putexcel (H4) = `r(Z)'
+putexcel (H5) = `r(L)'
+putexcel (H6) = `r(Pm)'
+putexcel (I3) = `r(df_P)'
+putexcel (I5) = `r(df_L)'
+putexcel (J3) = `r(p_P)'
+putexcel (J4) = `r(p_Z)'
+putexcel (J5) = `r(p_L)'
+putexcel (J6) = `r(p_Pm)'
 xtunitroot fisher error_ppu_ym_fe_t1, dfuller lags(4) drift
+putexcel (H7) = `r(P)'
+putexcel (H8) = `r(Z)'
+putexcel (H9) = `r(L)'
+putexcel (H10) = `r(Pm)'
+putexcel (I7) = `r(df_P)'
+putexcel (I9) = `r(df_L)'
+putexcel (J7) = `r(p_P)'
+putexcel (J8) = `r(p_Z)'
+putexcel (J9) = `r(p_L)'
+putexcel (J10) = `r(p_Pm)'
+
+putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
+
 // no se puede rechazar raiz unitaria en todos los paneles 
 // (i es combinación de ciudad y marca)
 // excepto drift: cambio en nivel
@@ -240,11 +328,41 @@ estimates store random
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // No se rechaza de efectos aleatorios
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (F1) = "Medio"
+putexcel (F2) = "Eq 2"
+putexcel (F3) = rscalars
+
+
 predict error_ppu_ym_re_t2, e
 
-xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4)
+*xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4)
+putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
+putexcel (K1) = "Medio"
 xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) trend
+putexcel (K3) = `r(P)'
+putexcel (K4) = `r(Z)'
+putexcel (K5) = `r(L)'
+putexcel (K6) = `r(Pm)'
+putexcel (L3) = `r(df_P)'
+putexcel (L5) = `r(df_L)'
+putexcel (M3) = `r(p_P)'
+putexcel (M4) = `r(p_Z)'
+putexcel (M5) = `r(p_L)'
+putexcel (M6) = `r(p_Pm)'
 xtunitroot fisher error_ppu_ym_re_t2, dfuller lags(4) drift
+putexcel (K7) = `r(P)'
+putexcel (K8) = `r(Z)'
+putexcel (K9) = `r(L)'
+putexcel (K10) = `r(Pm)'
+putexcel (L7) = `r(df_P)'
+putexcel (L9) = `r(df_L)'
+putexcel (M7) = `r(p_P)'
+putexcel (M8) = `r(p_Z)'
+putexcel (M9) = `r(p_L)'
+putexcel (M10) = `r(p_Pm)'
+
+putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
 // no se puede rechazar raiz unitaria en todos los paneles 
 // (i es combinación de ciudad y marca)
 // excepto drift: cambio en nivel
@@ -293,11 +411,41 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // Rechaza efectos aleatorios
+putexcel set "resultados\doc\hausman_xtreg_pooled.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (G1) = "Lower"
+putexcel (G2) = "Eq 2"
+putexcel (G3) = rscalars
+
+
 predict error_ppu_ym_fe_t3, e
 
-xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4)
+*xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4)
+putexcel set "resultados\doc\uroot_xtreg_pooled.xlsx", sheet(unitroot_xtreg_pool) modify
+putexcel (N1) = "Bajo"
 xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) trend
+putexcel (N3) = `r(P)'
+putexcel (N4) = `r(Z)'
+putexcel (N5) = `r(L)'
+putexcel (N6) = `r(Pm)'
+putexcel (O3) = `r(df_P)'
+putexcel (O5) = `r(df_L)'
+putexcel (P3) = `r(p_P)'
+putexcel (P4) = `r(p_Z)'
+putexcel (P5) = `r(p_L)'
+putexcel (P6) = `r(p_Pm)'
 xtunitroot fisher error_ppu_ym_fe_t3, dfuller lags(4) drift
+putexcel (N7) = `r(P)'
+putexcel (N8) = `r(Z)'
+putexcel (N9) = `r(L)'
+putexcel (N10) = `r(Pm)'
+putexcel (O7) = `r(df_P)'
+putexcel (O9) = `r(df_L)'
+putexcel (P7) = `r(p_P)'
+putexcel (P8) = `r(p_Z)'
+putexcel (P9) = `r(p_L)'
+putexcel (P10) = `r(p_Pm)'
+
+putexcel set "resultados\doc\f_tests_xtreg_pooled.xlsx", sheet(xtreg, replace) modify
 // no se puede rechazar raiz unitaria en todos los paneles 
 // (i es combinación de ciudad y marca)
 // excepto drift: cambio en nivel
