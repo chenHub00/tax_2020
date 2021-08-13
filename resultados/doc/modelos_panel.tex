@@ -216,7 +216,9 @@ Similar to the previous section, estimations include interactions, to consider t
 \end{equation*}
 $i  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
 
-Table \ref{tab:dynXtreg} shows the results prefered by the Hausman test, in this case fixed effects. It  also shows the estimates by type. The first two columns correspond to the model estimation without interactions. Third and fourth columns include interactions by brand. Fifth and sixth columns consider interactions by brand type.
+
+
+Table \ref{tab:dynXtreg} shows the results prefered by the Hausman test (see: Table \ref{tab:AppendixHausman}), in this case fixed effects. It  also shows the estimates by type. The first two columns correspond to the model estimation without interactions. Third and fourth columns include interactions by brand. Fifth and sixth columns consider interactions by brand type.
 Columns 2, 4 and 6 present, for reference, an estimation without lagged dependent variable. 
 
 	\begin{table}[ht]
@@ -308,5 +310,22 @@ Results for lower segment brands
 Results for mid-range segment brands
 
 \input{est_xtsur_medio.tex}
+
+
+\appendix
+\section{\\Appendix A: Tests tables}
+% the \\ insures the section title is centered below the phrase: AppendixA
+
+Results for dynamic models Hausman tests
+
+\begin{table}[ht]
+	\centering
+
+\caption{Hausman tests dynamic models \label{tab:AppendixHausman}} 
+\input{hausman_tests_dyn.tex}
+
+\end{table}
+
+
 
 \end{document}

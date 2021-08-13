@@ -9,18 +9,20 @@ use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 
 global vardep "ppu100"
 *global vardep "ppu"
-global varsRegStatic "m1_20 m1_21 m1 ym"
-global varsReg_notrend "m1_20 m1_21 m1"
-global varsRegDiff "m1_20 m1_21 m1 ym L.ppu"
+global varsRegStatic "jan20 jan21 jan ym"
+global varsReg_notrend "jan20 jan21 jan"
+global varsRegLag "jan20 jan21 jan ym L.ppu"
 
+/* Resultados de las estimaciones*/
 putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn, replace) modify
 putexcel (C1) = "gl Denominator"
 putexcel (E1) = "gl Numerator/gl_chi"
 putexcel (D1) = "F/chi2"
 putexcel (F1) = "prob > F/ Prob > chi2"
 
+
 // xtreg ppu $varsRegStatic L.ppu, fe 
-xtreg $vardep $varsRegDiff, fe 
+xtreg $vardep $varsRegLag, fe 
 
 // F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
 estimates store fixed
@@ -45,9 +47,19 @@ xttest0
 // hausman consistent efficient
 hausman fixed random , sigmamore
 // rechaza efectos fijos
+/* Resultados de la prueba de Hausman */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn, replace) modify
+putexcel (C1) = "No interactions"
+putexcel (B2) = "Name"
+putexcel (C2) = "Eq 1"
+putexcel (B3) = rscalarnames
+putexcel (C3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
 
 xtreg $vardep $varsRegStatic L.ppu, fe
 // testparm i.marca
+
 putexcel (A2) = "marca"
 putexcel (C2) =  `e(df_r)' // =  13266
 putexcel (D2) =  `e(F_f)' // =  22.31938299622964
@@ -77,8 +89,8 @@ test ppu_marcas_ym_sq
 // di  e(F_f)
 // 385.7471
 
-*xtreg ppu m1 m1_20 d.ppu, fe
-xtreg ppu m1_20 m1_21 m1 d.ppu, fe
+*xtreg ppu jan jan20 d.ppu, fe
+xtreg ppu jan20 jan21 jan d.ppu, fe
 // sobre estima: 
 *predict resid_d_marcas, resid
 
@@ -91,14 +103,14 @@ test ppu_marcas_sq
 */
 *xtreg ppu $varsRegStatic L.ppu, fe
 
-xtreg $vardep $varsRegStatic i.marca#m1_20 i.marca#m1_21  L.ppu, fe
+xtreg $vardep $varsRegStatic i.marca#jan20 i.marca#jan21  L.ppu, fe
 estimates store fixed
 // xttest2
 // Error: too few common observations across panel.
 // no observations
 // r(2000);
 
-xtreg $vardep $varsRegStatic i.marca#m1_20 i.marca#m1_21 L.ppu, re
+xtreg $vardep $varsRegStatic i.marca#jan20 i.marca#jan21 L.ppu, re
 estimates store random
 xttest0 
 // no OLS
@@ -112,7 +124,16 @@ hausman fixed random , sigmamore
 r(198); 
 //xtoverid,  cluster(gr_)
 */
-xtreg $vardep $varsRegStatic i.marca##m1_20 i.marca##m1_21 L.ppu, fe
+/* Resultados de la prueba de Hausman */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel (D1) = "Interactions"
+putexcel (D2) = "Eq 2"
+putexcel (D3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+
+xtreg $vardep $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu, fe
 // testparm i.marca
 // F test that all u_i=0: F(262, 23647) = 343.10                Prob > F = 0.0000
 putexcel (A3) = "impuesto y marca"
@@ -124,28 +145,28 @@ putexcel (E3) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F3) = F_ui
 
-testparm m1_20#i.marca
+testparm jan20#i.marca
 putexcel (H1) = "marca con impuesto 2020"
 putexcel (H3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-testparm m1_21#i.marca
+testparm jan21#i.marca
 putexcel (N1) = "marca con impuesto 2021"
 putexcel (N3) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
 outreg2 using resultados\doc/est_xtreg_dif ///
-			, keep($varsRegStatic L.ppu i.marca##m1_20 i.marca##m1_21) bdec(3) tex(fragment) append
+			, keep($varsRegStatic L.ppu i.marca##jan20 i.marca##jan21) bdec(3) tex(fragment) append
 
-xtreg $vardep $varsRegStatic i.marca##m1_20 i.marca##m1_21, fe
+xtreg $vardep $varsRegStatic i.marca##jan20 i.marca##jan21, fe
 
 outreg2 using resultados\doc/est_xtreg_dif ///
-			, keep($varsRegStatic L.ppu  i.marca#m1_20 i.marca#m1_21) bdec(3) tex(fragment) append
+			, keep($varsRegStatic L.ppu  i.marca#jan20 i.marca#jan21) bdec(3) tex(fragment) append
 			
 *------- interacciones:
-xtreg $vardep $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
+xtreg $vardep $varsRegStatic i.tipo##i.jan20 i.tipo##i.jan21 L.ppu, fe
 // F test that all u_i=0: F(261, 23345) = 1.61                  Prob > F = 0.0000
 estimates store fixed
 // xttest2
@@ -153,14 +174,21 @@ estimates store fixed
 // no observations
 // r(2000);
 
-xtreg $vardep $varsRegStatic i.tipo##m1_20 i.tipo##m1_21 L.ppu, re
+xtreg $vardep $varsRegStatic i.tipo##jan20 i.tipo##jan21 L.ppu, re
 estimates store random
 xttest0 
 // Pooled no se rechaza
 hausman fixed random , sigmamore
 // rechaza random effects
+/* Resultados de la prueba de Hausman */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel (E1) = "Segment"
+putexcel (E2) = "Eq 2"
+putexcel (E3) = rscalars
 
-xtreg $vardep $varsRegStatic  i.tipo##i.m1_20 i.tipo##i.m1_21 L.ppu, fe
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+xtreg $vardep $varsRegStatic  i.tipo##i.jan20 i.tipo##i.jan21 L.ppu, fe
 // testparm i.tipo
 putexcel (A10) = "Diferencias entre tipos: con interacción marca e impuestos"
 putexcel (C10) =  `e(df_r)' // =  13266
@@ -169,23 +197,23 @@ putexcel (E10) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F10) = F_ui
 
-testparm m1_20#i.tipo
+testparm jan20#i.tipo
 putexcel (H10) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-testparm m1_21#i.tipo
+testparm jan21#i.tipo
 putexcel (N10) = rscalars, colwise overwritefmt
 
 *coefplot, xline(0)
-xtreg $vardep $varsRegStatic L.ppu i.tipo##i.m1_20 i.tipo##i.m1_21 , fe
+xtreg $vardep $varsRegStatic L.ppu i.tipo##i.jan20 i.tipo##i.jan21 , fe
 
 outreg2 using resultados/doc/est_xtreg_dif ///
-			, keep(i.tipo##i.m1_20 i.tipo##i.m1_21 m1 ym L.ppu) bdec(3)  tex(fragment) append
+			, keep(i.tipo##i.jan20 i.tipo##i.jan21 jan ym L.ppu) bdec(3)  tex(fragment) append
 			
 *----------------- mismo efecto por tipo:
 * Reference:
-xtreg $vardep $varsRegStatic i.tipo##i.m1_20 i.tipo##i.m1_21, fe
+xtreg $vardep $varsRegStatic i.tipo##i.jan20 i.tipo##i.jan21, fe
 outreg2 using resultados/doc/est_xtreg_dif ///
 			, keep($varsRegStatic ) bdec(3)  tex(fragment) append
 			
@@ -212,6 +240,13 @@ xttest0
 hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
+/* Resultados de la prueba de Hausman */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel (F1) = "Premium"
+putexcel (F2) = "Eq 2"
+putexcel (F3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
 
 xtreg $vardep $varsRegStatic L.ppu if tipo == 1, fe
 * testparm i.marca
@@ -229,8 +264,9 @@ putexcel (F4) = F_ui
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) replace
 // interacciones marca e impuestos
-xtreg $vardep m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu if tipo == 1, fe
+xtreg $vardep jan20##i.marca jan21##i.marca $varsRegStatic L.ppu if tipo == 1, fe
 // F test that all u_i=0: F(124, 13121) = 0.60                  Prob > F = 0.9999
+
 
 putexcel (A5) = "Alto: con interacción marca e impuestos"
 // putexcel (B5) = rscalars, colwise overwritefmt
@@ -240,16 +276,16 @@ putexcel (E5) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F5) = F_ui
 
-testparm m1_20#i.marca
+testparm jan20#i.marca
 putexcel (H5) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-testparm m1_21#i.marca
+testparm jan21#i.marca
 putexcel (N5) = rscalars, colwise overwritefmt
 
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
-			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic  L.ppu) bdec(3) tex(fragment) append
+			, keep(jan20##i.marca jan21##i.marca $varsRegStatic  L.ppu) bdec(3) tex(fragment) append
 			
 *-------------------------------------------------------
 // MEDIO
@@ -272,9 +308,17 @@ xttest0
 hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel (G1) = "Medium"
+putexcel (G2) = "Eq 2"
+putexcel (G3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
 
 xtreg $vardep $varsRegStatic L.ppu if tipo == 2, fe
 // testparm i.marca
+
 putexcel (A6) = "Medio"
 // putexcel (B6) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
@@ -287,7 +331,7 @@ putexcel (F6) = F_ui
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
-xtreg $vardep $varsRegStatic m1_20##i.marca m1_21##i.marca  L.ppu if tipo == 2, fe
+xtreg $vardep $varsRegStatic jan20##i.marca jan21##i.marca  L.ppu if tipo == 2, fe
 // testparm i.marca
 putexcel (A7) = "Medio: con interacción marca e impuestos"
 //putexcel (B7) = rscalars, colwise overwritefmt
@@ -297,18 +341,18 @@ putexcel (E7) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F7) = F_ui
 
-testparm m1_20#i.marca
+testparm jan20#i.marca
 putexcel (H7) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-testparm m1_21#i.marca
+testparm jan21#i.marca
 putexcel (N7) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 						
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
-			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+			, keep(jan20##i.marca jan21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
 			
 *-------------------------------------------------------
 // BAJO
@@ -331,6 +375,13 @@ xttest0
 hausman fixed random , sigmamore
 // rechaza random effects
 /* :FE-RE */
+putexcel set "resultados\doc\hausman_xtreg_dyn.xlsx", sheet(hausman_xtreg_dyn) modify
+putexcel (H1) = "Lower"
+putexcel (H2) = "Eq 2"
+putexcel (H3) = rscalars
+
+putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
 
 xtreg $vardep $varsRegStatic L.ppu if tipo == 3, fe
 //testparm i.marca
@@ -345,7 +396,7 @@ putexcel (F8) = F_ui
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///
 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 			
-xtreg $vardep $varsRegStatic m1_20##i.marca m1_21##i.marca L.ppu if tipo == 3, fe
+xtreg $vardep $varsRegStatic jan20##i.marca jan21##i.marca L.ppu if tipo == 3, fe
 // F test that all u_i=0: F(56, 3773) = 0.95                    Prob > F = 0.5758
 //testparm i.marca
 putexcel (A9) = "Bajo: con interacción marca e impuestos"
@@ -356,19 +407,19 @@ putexcel (E9) = `e(df_a)' // =  125
 scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
 putexcel (F9) = F_ui
 
-testparm m1_20#i.marca
+testparm jan20#i.marca
 putexcel (H9) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales
 
-testparm m1_21#i.marca
+testparm jan21#i.marca
 putexcel (N9) = rscalars, colwise overwritefmt
 // H0: igualdad de parametros 
 // rechazo h0, son iguales al 5 %
 // no son iguales al 10 % []
 
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///			
-			, keep(m1_20##i.marca m1_21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+			, keep(jan20##i.marca jan21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
 
 log close

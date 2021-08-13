@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  30 JUL 2021 00:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.4.27)  13 AUG 2021 13:47
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -272,15 +272,15 @@ Overfull \hbox (107.39548pt too wide) in alignment at lines 45--45
 
 ]
 (est_xtreg_dif_mod.tex)
-Overfull \hbox (107.39548pt too wide) in paragraph at lines 1--228
+Overfull \hbox (107.39548pt too wide) in paragraph at lines 1--230
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 110.19998pt on input line 228.
+LaTeX Warning: Float too large for page by 110.19998pt on input line 230.
 
 (est_xtreg_dif_tipo_mod.tex)
-Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--244
+Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--246
  [][] 
  []
 
@@ -292,30 +292,30 @@ Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--244
 
 ]
 (est_xtsur_premium.tex) (est_xtsur_bajo.tex) (est_xtsur_medio.tex) [22]
-[23] (modelos_panel.aux) ) 
+(hausman_tests_dyn.tex) [23] (modelos_panel.aux) ) 
 Here is how much of TeX's memory you used:
- 3322 strings out of 479334
- 55254 string characters out of 2857559
+ 3327 strings out of 479334
+ 55427 string characters out of 2857559
  373668 words of memory out of 3000000
- 20733 multiletter control sequences out of 15000+200000
+ 20735 multiletter control sequences out of 15000+200000
  409112 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,9n,74p,785b,347s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chen/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/chen/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chen/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users
-/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C
-:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
-pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmr9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmsy7.pfb>
-Output written on modelos_panel.pdf (23 pages, 710384 bytes).
+<C:/Users/chen/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/chen/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/chen
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Us
+ers/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb
+><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r10.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmr12.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmr17.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmr7.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmr9.pfb><C:/Users/chen/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/chen/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/chen/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (23 pages, 712013 bytes).
 PDF statistics:
  136 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
