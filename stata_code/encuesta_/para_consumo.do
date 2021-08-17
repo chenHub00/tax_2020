@@ -97,6 +97,7 @@ label variable cambios_q009_3 "dejaron de fumar o volvieron a fumar"
 preserve 
 keep if q009 <= 2
 save "$datos/wave4_5unbalanced.dta", replace
+
 restore
 
 // panel balanceado
@@ -107,6 +108,8 @@ keep if cambios_q009_3 != 3
 // reportó consumo
 keep if q009 <= 2
 save "$datos/wave4_5balanc.dta", replace
+
+
 
  /***************************************************************************/
  // UNBALANCED
@@ -130,22 +133,5 @@ tab1 gr_edad if has_fumado_1mes, sum(consumo_semanal )
 // ingresos
 ta ingreso_hogar if has_fumado_1mes, sum(consumo_semanal ) 
 
-
-/***************************************************************************/
-// MODELOS
-global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar patron singles"
-
-// modelo
-regress consumo_semanal tax2020 $vars_reg if has_fumado_1mes
-regress consumo_semanal $vars_reg if has_fumado_1mes
-
-// estimación panel
-xtreg consumo_semanal tax2020 $vars_reg if has_fumado_1mes, fe
-xtreg consumo_semanal $vars_reg if has_fumado_1mes, fe
-
-xtreg consumo_semanal tax2020 $vars_reg if has_fumado_1mes, re
-
 log close
-
-
 

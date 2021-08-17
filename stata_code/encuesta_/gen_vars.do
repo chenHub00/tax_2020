@@ -49,21 +49,21 @@ label define educ_gr2  1 "Hasta primaria completa" 2 "Secundaria completa" ///
 label values educ_gr2  educ_gr2 
 
 // grupos de ingreso
-gen gr_ingreso = 1 if (ingreso >= 1 & ingreso <= 2)
-replace gr_ingreso = 2 if (ingreso == 3)
-replace gr_ingreso = 3 if (ingreso == 4)
-replace gr_ingreso = 4 if (ingreso == 5)
-replace gr_ingreso = 5 if (ingreso == 6)
-replace gr_ingreso = 6 if (ingreso == 7)
-replace gr_ingreso = 7 if (ingreso == 8)
-replace gr_ingreso = 8 if (ingreso == 9)
-replace gr_ingreso = 99 if (ingreso == 99)
+gen gr_ingr = 1 if (ingreso >= 1 & ingreso <= 2)
+replace gr_ingr = 2 if (ingreso == 3)
+replace gr_ingr = 3 if (ingreso == 4)
+replace gr_ingr = 4 if (ingreso == 5)
+replace gr_ingr = 5 if (ingreso == 6)
+replace gr_ingr = 6 if (ingreso == 7)
+replace gr_ingr = 7 if (ingreso == 8)
+replace gr_ingr = 8 if (ingreso == 9)
+replace gr_ingr = 99 if (ingreso == 99)
 
-label variable gr_ingreso "grupos de ingreso (pesos)"
-label define gr_ingreso 1 "<3 mil pesos" 2 "3,001 a 5 mil" 3 "5,001 a 8 mil" ///
+label variable gr_ingr "grupos de ingreso (pesos)"
+label define gr_ingr 1 "<3 mil pesos" 2 "3,001 a 5 mil" 3 "5,001 a 8 mil" ///
 	4 "8,001 a 10 mil" 5 "10,001 a 15 mil" 6 "15,001 a 20 mil" /// 
 	7 "20,001 a 49,999" 8 "50 mil+" 99 "No sé", modify
-label values gr_ingreso gr_ingreso
+label values gr_ingr gr_ingr
 
 // tipo de consumidor
 // diario-esporádico (patron, 1 =: daily) y cajetilla/suelto (q028, 1 =: cajetilla)
