@@ -78,7 +78,7 @@ outreg2 using resultados/encuesta/modelos1_1, word excel append
 capture log close
 /*-----------------------------------------------------*/
 log using "$resultados/modelos_consumo2.log", replace
-
+use "$datos/wave4_5unbalanced.dta", clear
 /***************************************************************************/
 // 1.2 MODELOS ajustes variables agrupadas
 global vreg "sexo i.edad_gr2 i.educ_gr2 i.gr_ingr i.tipo"

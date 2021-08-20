@@ -82,13 +82,13 @@ xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, fe
 outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
 */
 use "$datos/wave4_5balanc.dta", clear
-tnbreg $depvar $vars_reg if has_fumado_1mes
+tnbreg $depvar tax2020 $vars_reg if has_fumado_1mes
 outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
 
 capture log close
 /*-----------------------------------------------------*/
 log using "$resultados/modelos_cons2$mod.log", replace
-
+use "$datos/wave4_5unbalanced.dta", clear
 /***************************************************************************/
 // 1.2 MODELOS ajustes variables agrupadas
 global vreg "sexo i.edad_gr2 i.educ_gr2 i.gr_ingr i.tipo"
@@ -143,7 +143,7 @@ global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.
 global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
 
 // modelo
-tnbreg $depvar  $v_tipo_int $v_tipo if has_fumado_1mes, noconst
+tnbreg $depvar  $v_tipo_int $v_tipo if has_fumado_1mes
 outreg2 using resultados/encuesta/modelos1_3$mod, word excel replace
 
 // pruebas
@@ -204,7 +204,7 @@ testparm tax2020#i.tipo // no se rechaza igualdad
 testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
 */
 use "$datos/wave4_5balanc.dta", clear
-tnbreg $depvar  $v_tipo_int $v_tipo if has_fumado_1mes, noconst
+tnbreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes
 outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
 
 testparm i.tipo // NO se rechaza igualdad
