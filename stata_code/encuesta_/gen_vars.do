@@ -82,3 +82,8 @@ gen tax2020_sexo = tax2020*sexo
 gen tax2020_edad_gr2 = tax2020*edad_gr2
 
 gen tax2020_gr_educ = tax2020*gr_educ
+
+
+// transformación de la variable dependiente para logaritmos
+gen log_cons_sem = log(consumo_semanal)
+label variable log_cons_sem "logaritmo consumo semanal"
