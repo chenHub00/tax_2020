@@ -128,7 +128,7 @@ global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.
 global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
 
 // modelo
-regress consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, noconst
+regress consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes
 outreg2 using resultados/encuesta/modelos1_3, word excel replace
 
 // pruebas
@@ -137,7 +137,7 @@ testparm tax2020#i.tipo // no se rechaza igualdad
 testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
 
 // estimación panel
-xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, fe noconst
+xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, fe
 outreg2 using resultados/encuesta/modelos1_3, word excel append
 
 estimates store fixed
@@ -153,7 +153,7 @@ testparm i.tipo // se rechaza igualdad
 testparm tax2020#i.tipo // no se rechaza igualdad
 testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
 
-xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, re noconst
+xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, re
 outreg2 using resultados/encuesta/modelos1_3, word excel append
 
 estimates store random
@@ -171,7 +171,7 @@ testparm tax2020#i.tipo // no se rechaza igualdad
 testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
 
 use "$datos/wave4_5balanc.dta", clear
-xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, fe noconst
+xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, fe
 outreg2 using resultados/encuesta/modelos1_3, word excel append
 
 estimates store fixed
