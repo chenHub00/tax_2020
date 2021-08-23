@@ -51,6 +51,16 @@ label values tipo tipo
 // Raleigh : Lucky
 // ajustar manual q019r30oe.xls
 // 
+// wave 8
+replace marca = 1 if q019r30oe =="Benson cristal"
+replace marca = 7 if q019r30oe =="Pall mart"
+replace marca = 7 if q019r30oe =="Pallman"
+replace marca = 5 if q019r30oe =="Marlboro"
+replace marca = 6 if q019r30oe =="Shot"
+replace marca = 5 if q019r30oe =="marlboro"
+replace marca = 7 if q019r30oe =="Poll moll"
+
+
 replace marca = 5 if q019r30oe =="Malboro rubi"
 replace marca = 5 if q019r30oe =="marlboro ice"
 replace marca = 5 if q019r30oe =="Marlboro Sandía"

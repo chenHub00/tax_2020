@@ -1,15 +1,22 @@
 // NO consideramos otras marcas
-
-cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
-//  
+//
+set more off  
 capture log close
 log using "para_precio4_5.log", replace
 
-use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+global datos = "datos/encuesta/"
+global codigo = "stata_code\encuesta_\"
+*global resultados = "resultados\encuesta\"
+
+*cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
+
+*use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+
 
 keep if wave == 8
 
-do "etiquetas_marcas.do"
+do "$codigo/etiquetas_marcas.do"
 
 drop if q029a > 3
 
@@ -90,11 +97,11 @@ y1  .11111111  .83333333  .05555556
 
 */
 
-use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
 keep if wave == 5
 
-do "etiquetas_marcas.do"
+do "$codigo/etiquetas_marcas.do"
 
 
 // Benson
@@ -230,23 +237,24 @@ replace cantidad_cigarros = 24 if q019 == 19 & q029 >49.1343
 
 ta cantidad_
 
-save "cantidades_cigarros_w5.dta", clear
+save "$datos/cantidades_cigarros_w5.dta", replace
 
 //
-use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
 keep if wave == 4
 
-do "etiquetas_marcas.do"
+do "$codigo/etiquetas_marcas.do"
 
 // Benson
 sum q029 if marca == 1, d
 *hist q029 if marca == 1
 // los percentiles se toman del cálculo de la proporción en la w8
-_pctile q029 if marca == 1, percentiles p(12 93)
+
+_pctile q029 if marca == 1, percentiles(12 93)
 
 
-pctile pc_q029_1 = q029 if marca == 1, genp(pc_precio_1) nq
+// pctile pc_q029_1 = q029 if marca == 1, genp(pc_precio_1) nq
 
 return list
 /*
@@ -264,4 +272,6 @@ replace cantidad_cigarros = 25 if marca == 1 & q029 >90
 keep id wave cantidad_cigarros marca q019 
 
 
-save "cantidades_cigarros_w4.dta", clear
+save "$datos/cantidades_cigarros_w4.dta", replace
+
+log close
