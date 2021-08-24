@@ -14,6 +14,16 @@ log using "$resultados/para_consumo.log", replace
 
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
+// para generar variables de 
+// grupos de edad y educación
+// recodificar 
+
+// impuesto2020
+gen tax2020 = wave >= 5
+
+do $codigo/recodificar_.do
+do $codigo/gen_vars.do
+
 // solo los periodos más cercanos al cambio de impuestos
 keep if wave == 4 | wave == 5
 
@@ -21,14 +31,11 @@ keep if wave == 4 | wave == 5
 // salen de la muestra
 ta has_fumado_1mes wave
 
-// impuesto2020
-gen tax2020 = wave == 5
-
 // para generar variables de 
 // grupos de edad y educación
 // recodificar 
-do $codigo/recodificar_.do
-do $codigo/gen_vars.do
+//do $codigo/recodificar_.do
+//do $codigo/gen_vars.do
 
 // muestra:
 ta has_fumado_1mes wave, m
@@ -108,30 +115,6 @@ keep if cambios_q009_3 != 3
 // reportó consumo
 keep if q009 <= 2
 save "$datos/wave4_5balanc.dta", replace
-
-
-
- /***************************************************************************/
- // UNBALANCED
-use "$datos/wave4_5unbalanced.dta", clear
-// sexo
-ta sexo if has_fumado_1mes, sum(consumo_semanal ) 
-// genero
-//ta identidad_genero if has_fumado_1mes, sum(consumo_semanal ) 
-
-// edad 
-// ta q001 if has_fumado_1mes, sum(consumo_semanal ) 
-// definir grupos de edad, 
-// acorde a la encuesta nacional
-// tab1 edad* if has_fumado_1mes, sum(q012) 
-tab1 gr_edad if has_fumado_1mes, sum(consumo_semanal ) 
-
-// escolaridad
-//tab1 escolaridad educ_3catr educ_9cat if has_fumado_1mes, sum(consumo_semanal ) 
-tab1 gr_edad if has_fumado_1mes, sum(consumo_semanal ) 
-
-// ingresos
-ta ingreso_hogar if has_fumado_1mes, sum(consumo_semanal ) 
 
 log close
 
