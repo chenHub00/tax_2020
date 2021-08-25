@@ -45,7 +45,7 @@ save datos/prelim/de_inpc/table11_principales7.dta, replace
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear
 
-collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu ///
+collapse (mean) pzas pp ppu jan* (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu ///
 		(count) n_pzas = pzas n_pp=pp n_ppu=ppu , by(year month marca)
 
 // establecer el panel
@@ -62,7 +62,7 @@ save datos/prelim/de_inpc/df_x.dta, replace
 
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear
-collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu ///
+collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu  ///
 		(count) n_pzas = pzas n_pp=pp n_ppu=ppu , by(year month cve_ciudad)
 
 merge m:1 year month using datos/prelim/de_inpc/precios_indices.dta, gen(m_df_p)
