@@ -15,6 +15,7 @@ global v_tab "sexo edad_gr2 educ_gr2 gr_ingr patron single tipo"
 
 // cambiar para wave 1 a 8
 foreach w of numlist 4 5 {
+di "Levantamiento" `w'
  /***************************************************************************/
 	 // UNBALANCED
 	 // cambiar para wave 1 a 8
