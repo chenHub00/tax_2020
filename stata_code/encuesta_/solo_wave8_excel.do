@@ -97,60 +97,61 @@ hist ppc
 
 // Cross-tabs> consumo
 // sexo
-ta sexo, sum(q012) 
+ta sexo if has_fumado_1mes, sum(q012) 
+// genero
+ta identidad_genero if has_fumado_1mes, sum(q012) 
 
 // edad 
-ta q001, sum(q012) 
+ta q001 if has_fumado_1mes, sum(q012) 
 // definir grupos de edad, 
 // acorde a la encuesta nacional
-tab1 edad*, sum(q012) 
+tab1 edad* if has_fumado_1mes, sum(q012) 
 
 // escolaridad
-tab1 escolaridad educ_3catr educ_9cat, sum(q012) 
+tab1 escolaridad educ_3catr educ_9cat if has_fumado_1mes, sum(q012) 
 
 // ingresos
-ta ingreso_hogar, sum(q012) 
+ta ingreso_hogar if has_fumado_1mes, sum(q012) 
 
 // lugar
-ta estados, sum(q012) 
+ta estados if has_fumado_1mes, sum(q012) 
 // definir grupos de entidades 
 // comparable a ? encuesta nacional?
 
 // cada cuándo compra?
-ta patron, sum(q012)
+ta patron if has_fumado_1mes, sum(q012)
 
 ////////////////////////////////////
 // Cross-tabs> precio por cigarro
 // sexo
-ta sexo, sum(q030) 
-ta sexo, sum(ppc) 
+ta sexo if has_fumado_1mes, sum(q030) 
+ta sexoif has_fumado_1mes, sum(ppc) 
 
 // edad 
-ta q001, sum(q030) 
-ta q001, sum(ppc) 
+ta q001 if has_fumado_1mes, sum(q030) 
+ta q001 if has_fumado_1mes, sum(ppc) 
 // definir grupos de edad, 
 // acorde a la encuesta nacional
-tab1 edad*, sum(q030) 
-tab1 edad*, sum(ppc) 
+tab1 edad* if has_fumado_1mes, sum(q030) 
+tab1 edad* if has_fumado_1mes, sum(ppc) 
 
 // escolaridad
-tab1 escolaridad educ_3catr educ_9cat, sum(q030) 
-tab1 escolaridad educ_3catr educ_9cat, sum(ppc) 
+tab1 escolaridad educ_3catr educ_9cat if has_fumado_1mes, sum(q030) 
+tab1 escolaridad educ_3catr educ_9cat if has_fumado_1mes, sum(ppc) 
 
 // ingresos
-ta ingreso_hogar, sum(q030) 
-ta ingreso_hogar, sum(ppc) 
+ta ingreso_hogar if has_fumado_1mes, sum(q030) 
+ta ingreso_hogar if has_fumado_1mes, sum(ppc) 
 
 // lugar
-ta estados, sum(q030) 
-ta estados, sum(ppc) 
+ta estados if has_fumado_1mes, sum(q030) 
+ta estados if has_fumado_1mes, sum(ppc) 
 
 // cada cuándo compra?
-ta patron, sum(q030)
-ta patron, sum(ppc)
+ta patron if has_fumado_1mes, sum(q030)
+ta patron if has_fumado_1mes, sum(ppc)
 
+save "$datos/w08_generadas.dta", replace
+export excel using "$datos/wave8_generadas.xlsx", replace
 
 log close
-
-
-

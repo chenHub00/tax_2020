@@ -9,7 +9,7 @@ set more off
 *cd "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
 //  
 capture log close
-log using "$resultados/descr_w04_w05.log", replace
+log using "$resultados/descr_w04_w05balanc.log", replace
 
 global v_tab "sexo edad_gr2 educ_gr2 gr_ingr patron single tipo"
 
@@ -19,7 +19,7 @@ di "Levantamiento " `w'
  /***************************************************************************/
 	 // UNBALANCED
 	 // cambiar para wave 1 a 8
-	use "$datos/wave4_5unbalanced.dta", clear
+	use "$datos/wave4_5balanc.dta", clear
 
 	keep if wave == `w'
 * prueba:

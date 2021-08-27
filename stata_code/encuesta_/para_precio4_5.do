@@ -13,7 +13,6 @@ global codigo = "stata_code\encuesta_\"
 *use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
-
 keep if wave == 8
 
 do "$codigo/etiquetas_marcas.do"
@@ -31,6 +30,7 @@ e(b)[1,3]
 y1  .11875   .8125  .06875
 
 */
+matrix prop1 = e(b)
 
 //Camel
 ta q029a if marca == 2
@@ -42,6 +42,7 @@ e(b)[1,3]
         q029a      q029a      q029a
 y1  .11594203  .85507246  .02898551
 */
+matrix prop2 = e(b)
 
 //Chesterfield
 ta q029a if marca == 3
@@ -53,6 +54,7 @@ e(b)[1,3]
         q029a      q029a      q029a
 y1  .22580645  .41935484  .35483871
 */
+matrix prop3 = e(b)
 
 //Lucky Strike
 ta q029a if marca == 4
@@ -64,6 +66,7 @@ e(b)[1,3]
         q029a      q029a      q029a
 y1  .23529412  .67647059  .08823529
 */
+matrix prop4 = e(b)
 
 //Marlboro
 ta q029a if marca == 5
@@ -74,6 +77,7 @@ e(b)[1,3]
         q029a      q029a      q029a
 y1  .13453815  .80923695   .0562249
 */
+matrix prop5 = e(b)
 
 //Montana
 ta q029a if marca == 6
@@ -85,6 +89,8 @@ e(b)[1,3]
 y1  .32758621  .17241379         .5
 
 */
+matrix prop6 = e(b)
+// proporción de montana es alto para 25 cigarros en la cajetilla.
 
 //Pall Mall
 ta q029a if marca == 7
@@ -96,20 +102,30 @@ e(b)[1,3]
 y1  .11111111  .83333333  .05555556
 
 */
+matrix prop7 = e(b)
 
+//
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
 keep if wave == 5
 
 do "$codigo/etiquetas_marcas.do"
 
-
 // Benson
 *hist q029 if marca == 1
 // los percentiles se toman del cálculo de la proporción en la w8
 _pctile q029 if marca == 1, percentiles(12 93)
+pctile pc_q029_1 = q029 if marca == 1, nq(100) genp(perc_q029_1)
+
+/*
+tempname p1_1 p1_2
+scalar `p1_1' = round(prop1[1,1]*100)
+scalar `p1_2' = `p1_1' + round(prop1[1,2]*100)
+scalar list
+_pctile q029 if marca == 1, percentiles(`p1_1'  `p1_2')
 
 return list
+r(r1)*/
 /*
 scalars:
 
@@ -118,8 +134,14 @@ scalars:
 */
 
 gen cantidad_cigarros = .
-replace cantidad_cigarros = 14 if q019 == 2 & q029 <=54.886
-replace cantidad_cigarros = 20 if q019 == 2 & q029 >54.886
+replace cantidad_cigarros = 14 if marca == 1 & q029 <=pc_q029_1[12]
+replace cantidad_cigarros = 20 if marca == 1 & q029 >pc_q029_1[12] & q029 <= pc_q029_1[93]
+replace cantidad_cigarros = 25 if marca == 1 & q029 >pc_q029_1[12] & q029 <= pc_q029_1[93]
+/* Benson no ten'ia presentaci'on de 25 en INEGI
+replace cantidad_cigarros = 20 if q019 == 1
+replace cantidad_cigarros = 14 if q019 == 2 & q029 <=56.7375471698113
+replace cantidad_cigarros = 20 if q019 == 2 & q029 >56.7375471698113
+*/
 
 ta cantidad_
 
