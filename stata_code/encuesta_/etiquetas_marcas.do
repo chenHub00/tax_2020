@@ -17,9 +17,9 @@ gen marca = .
 replace marca = 1 if q019 == 2
 replace marca = 2 if q019 == 4
 replace marca = 3 if q019 == 5
-replace marca = 3 if q019 == 7
+replace marca = 3 if q019 == 7 // Delicados por Chesterfield
 replace marca = 4 if q019 == 15
-replace marca = 4 if q019 == 22
+replace marca = 4 if q019 == 22 // Raleigh a Lucky
 replace marca = 5 if q019 == 16
 replace marca = 6 if q019 == 17
 replace marca = 7 if q019 == 19
@@ -117,6 +117,8 @@ replace marca = 6 if q019r30oe =="Shot"
 replace marca = 5 if q019r30oe =="marlboro"
 replace marca = 7 if q019r30oe =="Poll moll"
 
+// 
+replace marca = 7 if q019r30oe =="Poll moll"
 
 /*
 [IF 018=1] ¿Qué marca es?
