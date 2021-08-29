@@ -27,7 +27,7 @@ drop merge_cons_precio
 gen ppu = q029/cantidad_
 replace ppu = precioSingles if ppu == .
 
-save "$datos/c_pw4_w5_unbal.dta", replace
+save "$datos/c_pw4_w5_unbalanc.dta", replace
 
 /// balanceado
 use "$datos/wave4_5balanc.dta", replace
@@ -45,7 +45,7 @@ drop merge_cons_precio
 gen ppu = q029/cantidad_
 replace ppu = precioSingles if ppu == .
 
-save "$datos/wave4_5balanc.dta", replace
+save "$datos/c_pw4_w5_balanc.dta", replace
 
 log close
 

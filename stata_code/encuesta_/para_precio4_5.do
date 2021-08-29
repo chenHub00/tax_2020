@@ -1,12 +1,14 @@
 // NO consideramos otras marcas
 //
+global resultados = "resultados\encuesta\"
+
 set more off  
 capture log close
-log using "para_precio4_5.log", replace
+log using "$resultados/para_precio4_5.log", replace
 
 global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
-*global resultados = "resultados\encuesta\"
+
 
 *cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
 /* 	CON EL ANÁLISIS A PARTIR DE LOS DATOS DE INEGI SE PUEDE OMITIR EL ANALISIS DE LOS DATOS DEL 
