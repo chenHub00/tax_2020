@@ -29,7 +29,7 @@ global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.
 global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
 
 
-use "$datos/c_pw4_w5_balanc.dta", clear
+use "$datos/c_pw4_w5_unbalanc.dta", clear
 // use "$datos/wave4_5unbalanced.dta", clear
 /***************************************************************************/
 // 1.0 MODELOS
@@ -92,7 +92,7 @@ outreg2 using resultados/encuesta/mod_p1_1, word excel append
 
 /*-----------------------------------------------------*/
 // use "$datos/wave4_5unbalanced.dta", clear
-use "$datos/c_pw4_w5_balanc.dta", clear
+use "$datos/c_pw4_w5_unbalanc.dta", clear
 /***************************************************************************/
 // 1.2 MODELOS ajustes variables agrupadas
 
@@ -132,7 +132,7 @@ outreg2 using resultados/encuesta/mod_p1_2, word excel append
 
 /*-----------------------------------------------------*/
 // use "$datos/wave4_5unbalanced.dta", clear
-use "$datos/c_pw4_w5_balanc.dta", clear
+use "$datos/c_pw4_w5_unbalanc.dta", clear
 /***************************************************************************/
 // 1.3 MODELOS tipo
 
