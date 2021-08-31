@@ -51,7 +51,7 @@ save "datos\finales\pred_xtreg_dyn.dta", replace
 use "datos\finales\pred_xtreg_dyn.dta", clear
 
 // promedios para gráficar
-collapse (mean) xb_ppu_nodyn  xb_ppu_dyn xb_ppu_2019 ppu , by(marca ym )
+collapse (mean) xb_ppu_nodyn  xb_ppu_dyn xb_ppu_2019 ppu tipo, by(marca ym )
 
 // etiquetas para gr'aficas
 * label variable xb_ppu_2019 "Estático sin efecto impuestos"
@@ -104,6 +104,33 @@ graph save Graph "graficos\pred_dyn_2marcas.gph",  replace
 
 graph export "graficos\pred_dyn_2marcas.pdf", as(pdf) replace
 graph export "graficos\pred_dyn_2marcas.png", as(png) replace
+
+// tipo 1
+xtline xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1) & tipo == 1
+//	, xline(2019m1)
+
+graph save Graph "graficos\pred_dyn_tipo1.gph",  replace
+
+graph export "graficos\pred_dyn_tipo1.pdf", as(pdf) replace
+graph export "graficos\pred_dyn_tipo1.png", as(png) replace
+
+// tipo 2
+xtline xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1) & tipo == 2
+//	, xline(2019m1)
+
+graph save Graph "graficos\pred_dyn_tipo2.gph",  replace
+
+graph export "graficos\pred_dyn_tipo2.pdf", as(pdf) replace
+graph export "graficos\pred_dyn_tipo2.png", as(png) replace
+
+// tipo 3
+xtline xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1) & tipo == 3
+//	, xline(2019m1)
+
+graph save Graph "graficos\pred_dyn_tipo3.gph",  replace
+
+graph export "graficos\pred_dyn_tipo3.pdf", as(pdf) replace
+graph export "graficos\pred_dyn_tipo3.png", as(png) replace
 
 log close
 
