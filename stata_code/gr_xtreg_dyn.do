@@ -6,14 +6,14 @@ set more off
 capture log close
 log using resultados/logs/gr_xtreg_dyn.log, replace
 
-/*
+/* PARA FINAL DE> est_one_panel_dyn.do
 despu'es de 
 - est_one_panel_dyn.do
-*/
+	*/
 global varsRegStatic "jan20 jan21 jan ym"
 // omitidos por colinealidad
 // global v_taxTrend "jan20 jan21 ym"
-
+/*
 * model with interactions:
 *use datos/prelim/de_inpc/df_x.dta, clear
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
@@ -47,14 +47,18 @@ gen trend = ym[_n]
 
 export excel using "datos\finales\pred_xtreg_dyn.xlsx", firstrow(variables) replace
 save "datos\finales\pred_xtreg_dyn.dta", replace
+*/
+use "datos\finales\pred_xtreg_dyn.dta", clear
 
 // promedios para gráficar
 collapse (mean) xb_ppu_nodyn  xb_ppu_dyn xb_ppu_2019 ppu , by(marca ym )
 
 // etiquetas para gr'aficas
-label variable xb_ppu_2019 "Estático sin efecto impuestos"
-label variable xb_ppu_nodyn "Estático con interacciones"
-label variable xb_ppu_dyn "Dinámico con interacciones"
+* label variable xb_ppu_2019 "Estático sin efecto impuestos"
+* label variable xb_ppu_nodyn "Estático con interacciones"
+* label variable xb_ppu_dyn "Dinámico con interacciones"
+label variable xb_ppu_2019 "Tendencia previa al impuesto"
+label variable xb_ppu_dyn "Estimación con impuesto"
 
 label variable ppu "promedio entre ciudades del precio"	
 label variable ym "periodo"	
@@ -90,6 +94,16 @@ graph save Graph "graficos\pred_dyn_stat.gph",  replace
 
 graph export "graficos\pred_dyn_stat.pdf", as(pdf) replace
 graph export "graficos\pred_dyn_stat.png", as(png) replace
+
+// solo din'amico y tendencia
+// graficos 2 marcas: Marlboro y Montana
+xtline xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1) & (marca == 5 | marca == 6) 
+//	, xline(2019m1)
+
+graph save Graph "graficos\pred_dyn_2marcas.gph",  replace
+
+graph export "graficos\pred_dyn_2marcas.pdf", as(pdf) replace
+graph export "graficos\pred_dyn_2marcas.png", as(png) replace
 
 log close
 

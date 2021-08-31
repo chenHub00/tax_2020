@@ -1,5 +1,6 @@
 // a partir de las estimaciones en:
 // complete_panel_data.do 
+
 set more off
 
 capture log close
@@ -421,6 +422,8 @@ putexcel (N9) = rscalars, colwise overwritefmt
 outreg2 using resultados\doc/est_xtreg_dif_tipo ///			
 			, keep(jan20##i.marca jan21##i.marca $varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
-
 log close
+/*-----------------------------------------------------
+
+*/
 
