@@ -1,6 +1,6 @@
 
 //
-// previos: do_encuesta.do
+// previos: para_precio4_5.do
 global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 global resultados = "resultados\encuesta\"
