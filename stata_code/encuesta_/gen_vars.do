@@ -23,6 +23,13 @@ label define edad_gr2 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" ///
 	5 "40-44" 6 "45-54" 7 "55-64" 8 "65+", modify
 label values edad_gr2 edad_gr2 
 
+gen edad_gr3 = edad_gr2
+recode edad_gr3 (8 = 7)
+
+label define edad_gr3 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" /// 
+	5 "40-44" 6 "45-54" 7 "55+", modify
+label values edad_gr3 edad_gr3
+	
 // grupos de escolaridades
 gen gr_educ = 1 if (escolaridad >= 1 & escolaridad <= 2)
 replace gr_educ = 2 if (escolaridad == 3)
@@ -46,7 +53,15 @@ label variable educ_gr2 "grupos de escolaridad"
 label define educ_gr2  1 "Hasta primaria completa" 2 "Secundaria completa" ///
 	3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
 	6 "Licenciatura completa" 7 "Posgrado" 9 "Otro", modify
-label values educ_gr2  educ_gr2 
+label values educ_gr2  educ_gr2
+
+gen educ_gr3 = educ_gr2
+recode educ_gr3  (1 = 2) (7 = 9)
+label define educ_gr3  2 "Hasta Secundaria completa" ///
+	3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
+	6 "Licenciatura completa" 9 "Otro", modify
+label values educ_gr3  educ_gr3
+ 
 
 // grupos de ingreso
 gen gr_ingr = 1 if (ingreso >= 1 & ingreso <= 2)

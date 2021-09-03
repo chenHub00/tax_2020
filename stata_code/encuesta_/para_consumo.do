@@ -63,11 +63,11 @@ ta q009
 
 //  ¿Cuántos cigarros fumas al día?
 su q010
-hist q010
+// hist q010
 
 // ¿cuántos cigarros fumas cada semana?
 su q012
-hist q012
+// hist q012
 
 // dos definiciones de consumo semanal
 ta q009, su(consumo_semanal)
@@ -75,7 +75,7 @@ ta q009, su(cons_1)
 // cada cuándo compra?
 ta patron if has_fumado_1mes, sum(consumo_semanal )
 
-hist consumo_semanal
+// hist consumo_semanal
 
 ta q009 sum_nId
 gen s2_idN_q3_009 = q009 == 3 & sum_nId == 2
