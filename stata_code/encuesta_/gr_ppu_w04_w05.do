@@ -15,7 +15,7 @@ global resultados = "resultados\encuesta\"
 use "$datos/c_pw4_w5_w8_caj.dta", clear
 // a partir de qué precio por cajetilla
 // se observa una mayor proporción de cajetillas en cada grupo?
-
+ 
 keep if q028 == 1
 // 525 obs deleted
 
@@ -34,7 +34,14 @@ graph hbox ppu, over(wave) over(marca)
 graph save Graph "graficos\exploratorios\box_ppu_w4_w5_w8.gph", replace
 
 graph export "graficos\exploratorios\box_ppu_w4_w5_w8.pdf", as(pdf) replace
+graph export "graficos\exploratorios\box_ppu_w4_w5_w8.png", as(png) replace
 
+
+recode cantidad_cigarros . = 14 if wave == 8 & cantidad_cajetilla  == 1
+recode cantidad_cigarros . = 20 if wave == 8 & cantidad_cajetilla  == 2
+recode cantidad_cigarros . = 25 if wave == 8 & cantidad_cajetilla  == 3
+
+ta cantidad_cigarros wave, col
 
 log close
 

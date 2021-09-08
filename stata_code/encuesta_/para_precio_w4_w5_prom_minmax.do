@@ -143,6 +143,7 @@ do "$codigo/etiquetas_marcas.do"
 
 keep id wave marca q019 q029 
 
+//----------------
 gen cantidad_cigarros = .
 // Benson a Pall Mall
 recode cantidad_cigarros . = 14 if marca == 1 & q029 <=48.5
@@ -176,7 +177,7 @@ recode cantidad_cigarros . = 25 if marca == 6 & q029 >49
 
 recode cantidad_cigarros . = 14 if marca == 7 & q029 <=42
 recode cantidad_cigarros . = 20 if marca == 7 & q029 <=53
-recode cantidad_cigarros . = 24 if marca == 7 & q029 >53
+recode cantidad_cigarros . = 25 if marca == 7 & q029 >53
 
 ta cantidad_
 ta marca cantidad_, m

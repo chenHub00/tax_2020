@@ -41,7 +41,7 @@ ta precio cantidad if marca == 3, row col
 ta precio cantidad if marca == 6, row col
 
 // histogramas de cantidad por marca
-histogram q029 if marca == 99, normal kdensity
+* histogram q029 if marca == 99, normal kdensity
 graph save Graph "graficos\exploratorios\precio_caja_m99_w8.gph", replace
 
 // todas las proporciones
