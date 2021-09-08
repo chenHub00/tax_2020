@@ -1,0 +1,129 @@
+
+para_precio_w8.do
+- ppu para comparar con w4 y w5 generados
+(descriptivos)
+
+para_precio4_5.do
+- A partir de los datos de INEGI
+> cant_cigarros_w4_w5.dta
+
+//--------------------
+do_modelos_consumo.do
+- llama otro c'odigo para ejecutar generacion de variables
+do "$codigo/para_consumo.do"
+- llama otro código de los modelos
+*do "$codigo/modelos_consumo.do"
+do "$codigo/modelos_consumo_log.do"
+
+
+modelos_consumo_tnb.do
+* estimación tnb: tobit negative binomial
+
+modelos_consumo_log.do
+- modelos regresion lineal, fe, re y panel balanceado, 
+con variable transformada en logaritmos
+
+modelos_consumo.do
+- modelos regresion lineal, fe, re y panel balanceado
+? nocons no funciona
+
+to_project.do
+- llama otro c'odigo para hacer definiciones y salvar 
+
+gen_vars.do
+- variables para tabla descriptiva
+- genera variables para modelos
+
+pre_panel.do
+- definici'on del panel (completo, 8 waves)
+- identificar los individuos con varias respuestas en varios levantamientos
+
+descriptivos.do
+- comprobaci'on de variables por "wave" y etiquetas.
+* sin considerar el ajuste en los precios? 
+* sin asignar un precio por unidad, dado un precio por cajetilla
+* 
+- w01_w05_: wave 1 a 4
+- age, gender, education > (q001, q002, q003)
+- consumo (semanal)> q012
+- marca favorita > q019 (q018, tiene marca favorita)
+- 'ultima marca > q026
+- pagado por la cajetilla > q029 [q028 = 1, compro cajetilla]
+- pagado por cigarro suelto > q030 [q028 = 2, compro cigarro suelto]
+
+etiquetas_marcas.do
+- para identificar marcas 
+> con mayor preferencia
+> de 'ultima compra
+
+para_muestra_analitica.do
+* procedimiento y descriptivos para definir las observaciones a usar en el análisis 
+  de las encuestas 4 y 5.
+
+quit_smoking_analysis.do
+- apartir del ejemplo de an'alisis previo
+. islead? 2617 (antes 2588)
+. 
+
+recodificar_.do
+* definir variables para tener categorias con total de observaciones más representativo
+
+reshape_wide_consumo.do
+* transformar las tablas de datos para estimación de modelos de consumo en formato amplio (wide)
+para estimar modelos SUR
+
+
+solo_wave8_excel.do
+* descriptivos de wave 8 para comparar con encuesta nacional.
+- 
+
+=============================== ejemplos_previos ----------------------------------
+descriptivos_wave_precio_inpc.do
+- datos de inpc de inegi para identificar puntos de corte entre marcas
+
+descriptivos_recodificar.do
+* descriptivos de variables definidas y para recodificar
+log using resultados/encuesta/descriptivos_recod.log, replace
+use "$datos/otras_etiquetas.dta", clear
+
+
+descriptivos_recodificar_precio.do
+- pruebas de recodificación de precios
+
+do_encuesta.do
+- llama el resto del codigo
+
+
+exploracion_.do
+- para crear variables de 
+> consumo
+> precios
+
+otras_etiquetas.do
+- identificar las variables de la tabla 
+
+
+precios_por_consumo.do
+
+draft_diferencia_precios_enero21.do
+
+quit_smoking_analysis.do (referencia)
+
+to_project.do // sin seguimiento en git
+- crear un proyecto en Stata, que lleve el código.
+
+vars_wave8.do
+* variables para análisis desde wave 8 (cantidad en cajetilla)
+
+
+weights_.do
+- explora el uso de los pesos para el an'alisis
+> no se tiene una explicaci'on del origen del mismo 
+(se puede preguntar a quien'es levantaron el cuestionario)?
+
+
+= separar las secciones
+=  
+- etiquetas_marcas.do
+
+- 
