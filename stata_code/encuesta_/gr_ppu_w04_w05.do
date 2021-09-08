@@ -1,16 +1,16 @@
 // Objetivo: cómo es la distribución del ppu para w 4 y w 5?
 // 
 // previos: do_encuesta.do
-global datos = "datos/encuesta/"
-global codigo = "stata_code\encuesta_\"
-global resultados = "resultados\encuesta\"
-
 set more off
 
 *cd "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
 //  
 capture log close
-log using "$resultados/gr_ppu_w04_w05.log", replace
+log using "resultados/encuesta/gr_ppu_w04_w05.log", replace
+
+global datos = "datos/encuesta/"
+global codigo = "stata_code/encuesta_/"
+global resultados = "resultados\encuesta\"
 
 use "$datos/c_pw4_w5_w8_caj.dta", clear
 // a partir de qué precio por cajetilla

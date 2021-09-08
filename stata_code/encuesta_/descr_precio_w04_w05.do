@@ -11,8 +11,9 @@ set more off
 capture log close
 log using "$resultados/descr_precio_w04_w05.log", replace
 
-global v_tab "sexo gr_edad gr_educ gr_ingr patron single tipo"
+global v_tabA "sexo gr_edad gr_educ gr_ingr patron single tipo"
 global v_tabB "sexo edad_gr3 gr_educ gr_ingr patron single tipo"
+global v_tab "sexo gr_edad edad_gr3 gr_educ educ_gr3 gr_ingr patron single tipo"
 
 // cambiar para wave 1 a 8
 // "$datos/c_pw4_w5_balanc.dta",

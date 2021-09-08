@@ -1,13 +1,32 @@
 
+======================= c'odigos de precios --------------------
+descr_precio_w04_w05.do	
+* descriptivos de la definici'on de precios, w4 y w5
+// do $codigo/descr_precio_w04_w05.do
+
+gr_ppu_w04_w05.do
+* gr'afico para comparar w8 con w4 y w8
+
 para_precio_w8.do
-- ppu para comparar con w4 y w5 generados
+* ppu para comparar con w4 y w5 generados
 (descriptivos)
 
-para_precio4_5.do
+para_precio_consumo_w4_w5.do 
+* cantidades por cajetilla, ppu y consumo wave 4 y 5
+* une las tablas de consumo y precios para wave 4 y wave 5.
+use "$datos/wave4_5unbalanced.dta", replace
++ using "$datos/cant_cigarros_w4_w5.dta",
+use "$datos/wave4_5balanc.dta", replace
+use "$datos/wave4_5balanc.dta", replace
++ using "$datos/cant_cigarros_w4_w5.dta",
+> "$datos/c_pw4_w5_unbalanc.dta"
+> "$datos/c_pw4_w5_balanc.dta"
+
+para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
 - A partir de los datos de INEGI
 > cant_cigarros_w4_w5.dta
 
-//--------------------
+======================= c'odigos de consumo --------------------
 do_modelos_consumo.do
 - llama otro c'odigo para ejecutar generacion de variables
 do "$codigo/para_consumo.do"
