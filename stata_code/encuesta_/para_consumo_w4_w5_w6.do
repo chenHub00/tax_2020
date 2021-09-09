@@ -14,24 +14,34 @@ global resultados = "resultados\encuesta\"
 
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
+// solo los periodos más cercanos al cambio de impuestos
+keep if wave == 4 | wave == 5 | wave == 6
+
 // para generar variables de 
 // grupos de edad y educación
 // recodificar 
 
 // impuesto2020
 gen tax2020 = wave == 5
-
-do $codigo/recodificar_.do
-do $codigo/gen_vars.do
-
-// solo los periodos más cercanos al cambio de impuestos
-keep if wave == 4 | wave == 5 | wave == 6
-
-// AGREGADO PARA WAVE 6---------------------
 // pandemia
 gen covid19 = wave >= 6
 
-// fin: AGREGADO PARA WAVE 6---------------------
+do $codigo/recodificar_.do
+do $codigo/gen_vars.do
+do $codigo/gen_interacciones.do
+
+
+/*. list id wave q009 if id == "40309"
+
+      +---------------------+
+      |    id   wave   q009 |
+      |---------------------|
+2314. | 40309      6      2 |
+2315. | 40309      4      3 |
+2316. | 40309      5      3 |
+      +---------------------+
+*/
+
 
 // personas que no han fumado en el último mes
 // salen de la muestra
@@ -101,7 +111,9 @@ keep id s2_idN_q3_009 s3_idN_q3_009
 // 2 waves
 //keep if s2_idN_q3_009  == 1
 // sin fumar en 2 o 3 waves:
-keep if s3_idN_q3_009  == 1 | s2_idN_q3_009  == 1
+//keep if s3_idN_q3_009  == 1 | s2_idN_q3_009  == 1
+// sin fumar en 3 waves:
+keep if s3_idN_q3_009  == 1
 
 // identificar los 
 // que reportan no fumar en algún periodo
@@ -127,6 +139,9 @@ save "$datos/cons_w456_unbalanc.dta", replace
 
 restore
 
+// 
+use "$datos/cons_w456_unbalanc.dta", clear
+
 // panel balanceado
 // id en ambas encuestas: w4 y w5
 // keep if sum_nId == 2
@@ -137,6 +152,23 @@ keep if cambios_q009_3 != 3
 // 13 reportaron dejar de fumar en algun periodo
 // reportó consumo
 keep if q009 <= 2
+
+// hay una observación que cambio el q009
+// de dejo de fumar a fumar ocasionalmente
+// entre encuestas, 
+duplicates report id
+duplicates tag id, generate(dup_id2)
+/*
+. list id q009 if dup_id2 == 0
+
+      +--------------+
+      |    id   q009 |
+      |--------------|
+1183. | 40309      2 |
+
+*/ 
+drop if dup_id2 == 0
+
 save "$datos/cons_w456_balanc.dta", replace
 
 log close

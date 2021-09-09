@@ -98,14 +98,6 @@ label define tipo_cons 1 "diario-cajetilla" 2 "diario-suelto" ///
 	3 "esporádico-cajetilla" 4 "esporádico-suelto"
 label values tipo_cons tipo_cons
 
-// interacciones-impuesto
-gen tax2020_sexo = tax2020*sexo
-
-gen tax2020_edad_gr2 = tax2020*edad_gr2
-
-gen tax2020_gr_educ = tax2020*gr_educ
-
-
 // transformación de la variable dependiente para logaritmos
 gen log_cons_sem = log(consumo_semanal)
 label variable log_cons_sem "logaritmo consumo semanal"
