@@ -80,6 +80,13 @@ label define gr_ingr 1 "<3 mil pesos" 2 "3,001 a 5 mil" 3 "5,001 a 8 mil" ///
 	7 "20,001 a 49,999" 8 "50 mil+" 99 "No sé", modify
 label values gr_ingr gr_ingr
 
+gen ingr_gr = gr_ingr
+recode ingr_gr (1 = 3) (2 = 3) (4 = 5) (8 = 7)
+label define ingr_gr 3 "< 8 mil" ///
+	5 "8,001 a 15 mil" 6 "15,001 a 20 mil" /// 
+	7 "20 mil+" 99 "No sé", modify
+label values ingr_gr ingr_gr
+
 // tipo de consumidor
 // diario-esporádico (patron, 1 =: daily) y cajetilla/suelto (q028, 1 =: cajetilla)
 gen tipo_cons = 1 if patron == 1 & q028 == 1
