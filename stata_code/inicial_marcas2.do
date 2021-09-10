@@ -6,7 +6,7 @@
 // por lo que ser'ia necesario hacer un criterio para separar las clasificaciones
 // 
 capture log close
-log using resultados/inicial_marcas2.do, replace
+log using resultados/inicial_marcas2.log, replace
 
 use  datos/prelim/de_inpc/table11_principales7.dta, clear
 drop day fecha
