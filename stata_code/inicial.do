@@ -24,15 +24,20 @@ gen month= real(substr(Periodo,6,2))
 gen ym = ym(year,month)
 format ym %tm
 
- // variables para la regresion
-gen m1 = month == 1
-label variable m1 "eneros"
 // variables para la regresion
-gen m1_20 = m1 == 1 & year == 2020
-label variable m1 "enero 2020"
+gen jan = month == 1
+gen jan20 = jan == 1 & year == 2020
+gen jan21 = jan == 1 & year == 2021
 
-gen m1_21 = m1 == 1 & year == 2021
-label variable m1 "enero 2021"
+// etiquetas
+label variable jan "jan"
+label variable jan20 "jan20"
+label variable jan21 "jan21"
+
+// impuesto desde anuncio 2020
+gen nov19_jan20 = ((month == 11 | month == 12) & year == 2019) | jan20
+// impuesto desde anuncio 2021
+gen nov20_jan21 = ((month == 11 | month == 12) & year == 2019) | jan20
 
 save datos/prelim/de_inpc/precios_indices.dta, replace
 
@@ -42,6 +47,19 @@ precios de las marcas principales
 import delimited datos/prelim/de_inpc/table11_principales7.csv, clear 
 
 save datos/prelim/de_inpc/table11_principales7.dta, replace
+
+/* 
+promedios marca y ciudad
+> tpCiudad2.dta
+*/
+do stata_code/inicial_marcas2.do
+
+capture log close 
+log using resultados\inicial.log, append
+
+/* 
+promedios marca, 
+*/
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear
 
@@ -60,6 +78,9 @@ drop m_
  
 save datos/prelim/de_inpc/df_x.dta, replace
 
+/* 
+promedios ciudad 
+*/
 
 use datos/prelim/de_inpc/tpCiudad2.dta, clear
 collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu  ///
