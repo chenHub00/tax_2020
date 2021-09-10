@@ -1,0 +1,40 @@
+\documentclass[]{article}
+
+\usepackage{amsmath}
+%opening
+\title{Documentar análisis de encuesta}
+\author{Vicente López Díaz}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In these note a summary-guide to the analysis of data from the Survey on Tabacco .
+\end{abstract}
+
+The objective of these note is to give an overview of the possible models to analyze with .
+
+
+\section{Descriptives on possible measures of consumption}
+. 
+
+
+\subsection{Comparisons by segment}
+Results for brand type 2 is medium.
+
+The interpretation of the spline with negative signs?
+
+\input{est_xtsur_spline.tex}
+
+\section{Model}
+Each dummy is one for the period that ends in the first month of the year. 
+
+\begin{equation*} 
+y_{itm}  = \alpha_{i}^{*} + \lambda_{1}*t +  \lambda_{2}*t^{2} +\beta_{0}^{'}janDummy_{m} + \beta_{1}^{'}taxDummy_{m} + u_{itm}
+;  
+\end{equation*}
+$i  = 1,\ldots,N;  t=1,\ldots,T. $
+
+
+\end{document}

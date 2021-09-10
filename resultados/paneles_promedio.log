@@ -1,0 +1,321 @@
+----------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/p
+> aneles_promedio.log
+  log type:  text
+ opened on:  10 Sep 2021, 11:07:08
+
+. 
+. global varskeep jan jan20 jan21 INPPsec_nopetro INPCgen m_df_p ppu pp ///
+>         pp_lt_cerveza tipo month year nov19_jan20 nov20_jan21
+
+. 
+.         
+. use datos/prelim/de_inpc/tpCiudad2.dta, clear 
+
+. * dos variables para marca2 y marca
+. 
+. *gen ciudades_18 = cve_ciudad > 46
+. drop if cve_ciudad > 46
+(1,074 observations deleted)
+
+. 
+. *gen marca_3 = marca == 3
+. *drop if marca == 3
+. 
+. collapse (mean) $varskeep ///
+>         , by(ym marca2)
+
+. xtset marca2 ym 
+       panel variable:  marca2 (unbalanced)
+        time variable:  ym, 2011m1 to 2021m4, but with gaps
+                delta:  1 month
+
+. 
+. *collapse (mean jan jan20 jan21 INPPsec_nopetro INPCgen m_df_p ppu pp /// 
+> *       pp_lt_cerveza m_otro_, by(ym marca2)
+. *xtset marca ym 
+. decode marca2, gen(marca2_str)
+
+. do stata_code/marca_marca2.do
+
+. // crear una variable de marca a partir de otra variable de 
+. // marca (marca2), m'as detallada
+. // 
+. 
+. gen marca = marca2_str
+
+. 
+. replace marca = "PALL MALL" if marca2_ == "xBOOTS" 
+(54 real changes made)
+
+. replace marca = "CHESTERFIELD" if marca2_ == "yDELICADOS" 
+(20 real changes made)
+
+. replace marca = "LUCKY STRIKE" if marca2_ == "wRALEIGH" 
+(94 real changes made)
+
+. replace marca = "MONTANA" if marca2_ == "zSHOTS" 
+(56 real changes made)
+
+. 
+. rename marca marca_str
+
+. encode marca_str, gen(marca)
+
+. 
+end of do-file
+
+. 
+. save datos/prelim/de_inpc/xt_marca.dta, replace
+file datos/prelim/de_inpc/xt_marca.dta saved
+
+. 
+. * xtline ppu // promedios por ciudad
+. //? Graph_promedios_ciudad_01.gph
+. 
+. use datos/prelim/de_inpc/tpCiudad2.dta, clear
+
+. 
+. *gen ciudades_18 = cve_ciudad > 46
+. drop if cve_ciudad > 46
+(1,074 observations deleted)
+
+. 
+. *gen marca_3 = marca == 3
+. *drop if marca == 3
+. 
+. collapse (mean) $varskeep  ///
+>         , by(ym cve_ciudad)
+
+. 
+. xtset cve_ciudad ym 
+       panel variable:  cve_ciudad (unbalanced)
+        time variable:  ym, 2011m1 to 2021m4
+                delta:  1 month
+
+. 
+. /*relación de ciudades*/
+. 
+. save datos/prelim/de_inpc/xt_ciudad.dta, replace
+file datos/prelim/de_inpc/xt_ciudad.dta saved
+
+. 
+. //xtline ppu
+. // graph save Graph "graficos\Graph_promedios_ciudad.gph"
+. 
+. //Graph_promedios_ciudad.gph
+. 
+. use datos/prelim/de_inpc/tpCiudad2.dta, clear
+
+. 
+. drop if cve_ciudad > 46
+(1,074 observations deleted)
+
+. *drop if marca == 3
+. 
+. *gen l_ppu = log(ppu)
+. egen gr_marca2_ciudad = group(marca2 cve_ciudad)
+
+. xtset gr_marca2_ciudad ym 
+       panel variable:  gr_marca2_ciudad (unbalanced)
+        time variable:  ym, 2011m1 to 2021m4, but with gaps
+                delta:  1 month
+
+. 
+. gen dppu = d.ppu
+(349 missing values generated)
+
+. 
+. save datos/prelim/de_inpc/panel_marca2_ciudad.dta, replace
+file datos/prelim/de_inpc/panel_marca2_ciudad.dta saved
+
+. export excel using "datos/prelim/de_inpc/panel_marca2_ciudad.xlsx", replace
+file datos/prelim/de_inpc/panel_marca2_ciudad.xlsx saved
+
+. 
+. use datos/prelim/de_inpc/panel_marca2_ciudad.dta, clear
+
+. 
+. egen gr_marca_ciudad = group(marca cve_ciudad)
+
+. duplicates report gr_marca_ciudad ym
+
+Duplicates in terms of gr_marca_ciudad ym
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |        23842             0
+        2 |          168            84
+--------------------------------------
+
+. 
+. collapse (mean) $varskeep ///
+>         , by(ym marca cve_ciudad gr_marca_ciudad)
+
+. 
+. xtset gr_marca_ciudad ym 
+       panel variable:  gr_marca_ciudad (unbalanced)
+        time variable:  ym, 2011m1 to 2021m4, but with gaps
+                delta:  1 month
+
+. tab1 jan jan20 jan21
+
+-> tabulation of jan  
+
+ (mean) jan |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     21,807       91.14       91.14
+          1 |      2,119        8.86      100.00
+------------+-----------------------------------
+      Total |     23,926      100.00
+
+-> tabulation of jan20  
+
+     (mean) |
+      jan20 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     23,751       99.27       99.27
+          1 |        175        0.73      100.00
+------------+-----------------------------------
+      Total |     23,926      100.00
+
+-> tabulation of jan21  
+
+     (mean) |
+      jan21 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     23,750       99.26       99.26
+          1 |        176        0.74      100.00
+------------+-----------------------------------
+      Total |     23,926      100.00
+
+. 
+. // establecer el panel
+. decode marca, gen(marca_str)
+
+. 
+. do stata_code/marca.do
+
+.  // marca.do
+.  
+. 
+. ta marca, sum(ppu)
+
+            |        Summary of (mean) ppu
+      marca |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  BENSON &  |   2.4335363   .38017198       4,650
+      CAMEL |    2.370115   .35338919       3,207
+  CHESTERFI |   1.7699149   .31918402       2,700
+  LUCKY STR |   2.1431198    .3234076       3,213
+   MARLBORO |   2.4442569   .39760172       5,539
+    MONTANA |   1.8042117    .2555207       1,210
+  PALL MALL |   2.0630923     .418334       3,407
+------------+------------------------------------
+      Total |   2.2290524   .44103133      23,926
+
+. // tipo_marca
+. // chesterfield + delicados?
+. // grupo 1
+. gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
+(10,530 missing values generated)
+
+. replace tipo = 2 if marca == 4 | marca == 7
+(6,620 real changes made)
+
+. replace tipo = 3 if marca == 3 | marca == 6
+(3,910 real changes made)
+
+. 
+. label define tipo 1 "premium" 2 "medio" 3 "bajo"
+
+. label values tipo tipo
+
+. 
+end of do-file
+
+. 
+. // reescalar los resultados
+. gen ppu100 = ppu*100
+
+. 
+. save datos/prelim/de_inpc/panel_marca_ciudad.dta, replace
+file datos/prelim/de_inpc/panel_marca_ciudad.dta saved
+
+. export excel using "datos/prelim/de_inpc/panel_marca_ciudad.xlsx", replace
+file datos/prelim/de_inpc/panel_marca_ciudad.xlsx saved
+
+. 
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. * promedio  elimina year, month, Periodo, tipo, marca_str, marca2_str, dppu
+. drop  INP* pp_lt_cerveza m_df_p tipo
+
+. drop marca_str tipo2
+
+. // m_otro_precio 
+.  
+. 
+. * solo ciudades con 118 observaciones (panel completo)
+. *egen s_gr_m_ciudad= total(1), by(gr_)
+. *keep if s_ == 118
+. 
+. gen d_ppu = d.ppu
+(310 missing values generated)
+
+. gen lag_ppu = L.ppu
+(310 missing values generated)
+
+. gen lagd_ppu = L.d.ppu
+(618 missing values generated)
+
+. 
+. drop gr_
+
+. 
+. * promedio elimina: l_*, pzas, sd_*
+. reshape wide d_ lag_ lagd_  pp ppu ppu100 , i(ym cve_ciudad) j(marca) 
+(note: j = 1 2 3 4 5 6 7)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                    23926   ->    5701
+Number of variables                  16   ->      51
+j variable (7 values)             marca   ->   (dropped)
+xij variables:
+                                  d_ppu   ->   d_ppu1 d_ppu2 ... d_ppu7
+                                lag_ppu   ->   lag_ppu1 lag_ppu2 ... lag_ppu7
+                               lagd_ppu   ->   lagd_ppu1 lagd_ppu2 ... lagd_ppu7
+                                     pp   ->   pp1 pp2 ... pp7
+                                    ppu   ->   ppu1 ppu2 ... ppu7
+                                 ppu100   ->   ppu1001 ppu1002 ... ppu1007
+-----------------------------------------------------------------------------
+
+. * cómo se podría elegir solo las ciudades con mayor número de marcas?
+. * egen s_gr_m_ciudad= total(1), by(gr_)
+. * reshape wide l_ pp ppu pzas sd_* cve_ciudad marca, i(ym) j(gr_)
+. 
+. xtset cve_ciudad ym
+       panel variable:  cve_ciudad (unbalanced)
+        time variable:  ym, 2011m1 to 2021m4
+                delta:  1 month
+
+. 
+. /* claves de ciudad */
+. 
+. save datos/prelim/de_inpc/wide_complete_panel.dta, replace
+file datos/prelim/de_inpc/wide_complete_panel.dta saved
+
+. * inicial: febrero 2021 tiene 5 marcas 1,2,5,6,7
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/p
+> aneles_promedio.log
+  log type:  text
+ closed on:  10 Sep 2021, 11:07:49
+----------------------------------------------------------------------------------

@@ -1,0 +1,233 @@
+------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/
+> encuesta/descriptivos_recod.log
+  log type:  text
+ opened on:  17 Jun 2021, 19:56:18
+
+. 
+. use "$datos/otras_etiquetas.dta", clear
+
+. 
+. // sexo
+. recode sexo (1 = 0) (2=1)
+(6140 changes made to sexo)
+
+. label define sexo 1 "Femenino" 0 "Masculino", modify
+
+. 
+. // cantidades
+. su consumo_semanal
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+consumo_se~l |     11,382    31.87893    39.03019          1        560
+
+. 
+. // precios 
+. //su precioCigarroCajetilla
+. //hist precioCigarroCajetilla
+. 
+. 
+. // family_income family_income_2 
+. ta ingreso_hogar 
+
+      RECODE of q192 |      Freq.     Percent        Cum.
+---------------------+-----------------------------------
+      De 0 a $1,500  |        232        1.93        1.93
+  De $1,501 a $3,000 |        431        3.59        5.52
+ De $3,001 a $5,000  |        762        6.35       11.87
+ De $5,001 a $8,000  |      1,344       11.19       23.06
+De $8,001 a $10,000  |      1,472       12.26       35.32
+De $10,001 a $15,000 |      2,067       17.21       52.53
+De $15,001 a $20,000 |      2,053       17.10       69.63
+De $20,001 a $49,999 |      2,467       20.54       90.17
+       $50,000 o más |        574        4.78       94.95
+               No se |        606        5.05      100.00
+---------------------+-----------------------------------
+               Total |     12,008      100.00
+
+. 
+. ta no_pagar_cuentas 
+
+  RECODE of |
+       q193 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         No |      9,470       78.86       78.86
+         Si |      2,538       21.14      100.00
+------------+-----------------------------------
+      Total |     12,008      100.00
+
+. ta estados_vive_act
+
+  estado_donde_vive |      Freq.     Percent        Cum.
+--------------------+-----------------------------------
+     Aguascalientes |        151        1.26        1.26
+    Baja California |        223        1.86        3.12
+Baja California Sur |         50        0.42        3.53
+           Campeche |         82        0.68        4.22
+            Chiapas |        159        1.33        5.54
+          Chihuahua |        202        1.68        7.23
+           Coahuila |        130        1.08        8.31
+             Colima |         82        0.68        8.99
+   Ciudad de México |      3,397       28.31       37.31
+            Durango |         86        0.72       38.02
+         Guanajuato |        320        2.67       40.69
+           Guerrero |        139        1.16       41.85
+            Hidalgo |        189        1.58       43.42
+            Jalisco |      1,084        9.03       52.46
+          Michoacán |        182        1.52       53.98
+            Morelos |        234        1.95       55.93
+             México |      1,867       15.56       71.49
+            Nayarit |         59        0.49       71.98
+         Nuevo León |        764        6.37       78.35
+             Oaxaca |        116        0.97       79.31
+             Puebla |        569        4.74       84.06
+          Querétaro |        227        1.89       85.95
+       Quintana Roo |        132        1.10       87.05
+    San Luis Potosí |        146        1.22       88.26
+            Sinaloa |        178        1.48       89.75
+             Sonora |        188        1.57       91.32
+            Tabasco |        123        1.03       92.34
+         Tamaulipas |        144        1.20       93.54
+           Tlaxcala |         64        0.53       94.07
+           Veracruz |        423        3.53       97.60
+            Yucatán |        239        1.99       99.59
+          Zacatecas |         49        0.41      100.00
+--------------------+-----------------------------------
+              Total |     11,998      100.00
+
+. 
+. /**************************************************************************
+> // Analizar primero la variable de precio por cigarro que corresponde al 
+> // último levantamiento
+> */
+. keep if wave == 8
+(10,508 observations deleted)
+
+. *use "$datos/otras_etiquetas.dta" if wave == 8, clear
+. 
+. gen precioCigarro8 = q029/q029a if wave == 8 & q028 == 1
+(315 missing values generated)
+
+. gen precioCigarroSuelto = q030  if q028 == 2
+(1,259 missing values generated)
+
+. egen ppCig = rowtotal(precioCigarro8  precioCigarroSuelto)
+
+. hist ppCig 
+(bin=31, start=0, width=6.4516129)
+
+. 
+. // marcas
+. ta marca, su(ppCig)
+
+            |          Summary of ppCig
+      marca |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Benson y  |   31.475358   15.532003         186
+      Camel |   28.313953   14.802721          86
+  Chesterfi |   25.665509   12.678788          72
+  Lucky Str |   27.420455   15.814676          44
+   Marlboro |    29.61136   14.997828         603
+    Montana |    25.84359   14.667129          65
+  Pall Mall |   24.747529   13.623175         290
+      Otras |   14.270022   25.497643         154
+------------+------------------------------------
+      Total |   26.835789   16.784614       1,500
+
+. 
+. graph box ppCig, over(marca, sort(marca))
+
+. 
+. 
+. 
+. // edad
+. ta edad
+
+  grupos de |
+   edad (4) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+      18-29 |        394       26.27       26.27
+      30-39 |        417       27.80       54.07
+      40-49 |        291       19.40       73.47
+   50 y mas |        398       26.53      100.00
+------------+-----------------------------------
+      Total |      1,500      100.00
+
+. ta edad, su(ppCig)
+
+  grupos de |          Summary of ppCig
+   edad (4) |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+      18-29 |   26.237056   18.567058         394
+      30-39 |   26.119305   15.771875         417
+      40-49 |   28.994387   17.558918         291
+   50 y mas |   26.600921   15.239192         398
+------------+------------------------------------
+      Total |   26.835789   16.784614       1,500
+
+. 
+. // sexo
+. ta sexo
+
+       sexo |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  Masculino |      1,500      100.00      100.00
+------------+-----------------------------------
+      Total |      1,500      100.00
+
+. ta sexo, su(ppCig)
+
+            |          Summary of ppCig
+       sexo |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Masculino |   26.835789   16.784614       1,500
+------------+------------------------------------
+      Total |   26.835789   16.784614       1,500
+
+. hist ppCig 
+(bin=31, start=0, width=6.4516129)
+
+. 
+. // educacion
+. ta educacion
+variable educacion not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\USUARIO\AppData\Local\Temp\STD1104_000000.tmp"
+
+. ta educ_3catr
+
+         educ_3catr |      Freq.     Percent        Cum.
+--------------------+-----------------------------------
+High school or less |        725       48.33       48.33
+       Some college |        276       18.40       66.73
+ College and higher |        499       33.27      100.00
+--------------------+-----------------------------------
+              Total |      1,500      100.00
+
+. 
+end of do-file
+
+. do "C:\Users\USUARIO\AppData\Local\Temp\STD1104_000000.tmp"
+
+. ta educ_3catr, su(ppCig)
+
+            |          Summary of ppCig
+ educ_3catr |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  High scho |   24.149126   14.869253         725
+  Some coll |   25.499638    15.25107         276
+  College a |    31.47829   19.105824         499
+------------+------------------------------------
+      Total |   26.835789   16.784614       1,500
+
+. 
+end of do-file
+
+. exit, clear

@@ -1,0 +1,70 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/do_definicion_precios.log
+  log type:  text
+ opened on:   8 Sep 2021, 12:30:58
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code/encuesta_/"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+. // cantidades por cajetida en wave 4 y 5
+. * do $codigo/para_precio4_5.do
+. do $codigo/para_precio_w4_w5_prom_minmax.do
+
+. // NO consideramos otras marcas
+. //
+. 
+. set more off  
+
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/do_definicion_precios.log
+  log type:  text
+ opened on:   8 Sep 2021, 12:30:59
+
+. 
+. * cantidades por cajetilla, ppu y consumo wave 4 y 5
+. do $codigo/para_precio_consumo_w4_w5.do
+
+. 
+. //
+. // previos: para_precio4_5.do
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+. set more off
+
+. 
+. *cd "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
+. //  
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/do_definicion_precios.log
+  log type:  text
+ opened on:   8 Sep 2021, 12:30:59
+
+. 
+. // wave 8
+. // para comparar ppu
+. do $codigo/para_precio_w8.do
+
+. // Para otras marcas se dej'o el valor en 
+. // 
+. set more off  
+
+. 
+. global resultados = "resultados\encuesta\"
+
+. 
+. capture log close

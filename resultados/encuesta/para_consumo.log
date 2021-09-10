@@ -1,0 +1,620 @@
+--------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\r
+> esultados\encuesta\/para_consumo.log
+  log type:  text
+ opened on:   9 Sep 2021, 07:54:38
+
+. 
+. use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA S
+> END_weights.dta", clear
+
+. 
+. // para generar variables de 
+. // grupos de edad y educación
+. // recodificar 
+. 
+. // impuesto2020
+. gen tax2020 = wave >= 5
+
+. 
+. do $codigo/recodificar_.do
+
+. 
+. // largo de nombre en variables
+. // orden de las etiquetas
+. // 
+. 
+. recode sexo (2 = 1) (1 = 0)
+(12008 changes made to sexo)
+
+. label define sexo 1 "Femenino" 0 "Masculino", modify
+
+. 
+. // consumo
+. * Se colecta para que sean excluyentes
+. gen cons_dia7 = q010*7 if q009 == 1
+(6,561 missing values generated)
+
+. gen cons_sem = q012 if q009 == 2
+(6,073 missing values generated)
+
+. egen consumo_semanal = rowtotal(cons_dia7 cons_sem), missing
+(626 missing values generated)
+
+. egen cons_1 = rowtotal(q010 cons_sem), missing
+(626 missing values generated)
+
+. 
+. 
+. label variable cons_dia7 "consumo semanal, 7x, con reporte diario"
+
+. label variable cons_sem "consumo semanal, con reporte semanal"
+
+. label variable consumo_semanal "consumo semanal, suma 2 tipos de reporte
+> s"
+
+. 
+. 
+. // precio
+. label define singles 1 "sueltos " 0 "cajetilla"
+
+. gen singles = q028 == 2
+
+. label variable singles "sueltos"
+
+. label values singles singles
+
+. //label values singles singles_cajetilla 
+. gen precioSingles = q030 
+(9,883 missing values generated)
+
+. recode precioSingles . = 0 if singles == 1
+(0 changes made to precioSingles)
+
+. 
+. 
+. label define numcaj 1 "14 cigarros" 2 "20 cigarros" 3 "25 cigarros" ///
+>         4 "Otro" 5 "No sé"
+
+. label variable q029a numcaj
+
+. 
+. /*
+> NUMCAJ  [IF 028=1]
+> ¿Cuántos cigarros tenía la cajetilla?
+> 1.      14 cigarros
+> 2.      20 cigarros 
+> 3.      25 cigarros 
+> 4.      Otro [Especificar] ___________ 
+> 5.      No sé 
+> */
+. 
+. 
+end of do-file
+
+. do $codigo/gen_vars.do
+
+. // agrupar categorias
+. // interacciones con impuestos
+. 
+. // grupo de edad como en GATS 2015
+. gen gr_edad = 1 if (q001 >= 18 & q001 <= 24)
+(10,290 missing values generated)
+
+. replace gr_edad = 2 if (q001 >= 25 & q001 <= 44)
+(6,778 real changes made)
+
+. replace gr_edad = 3 if (q001 >= 45 & q001 <= 64)
+(3,402 real changes made)
+
+. replace gr_edad = 4 if (q001 >= 65)
+(110 real changes made)
+
+. label variable gr_edad "grupos de edad"
+
+. label define gr_edad 1 "18-24" 2 "25-44" 3 "45-64" 4 "65+"
+
+. label values gr_edad gr_edad 
+
+. 
+. gen edad_gr2 = 1 if (q001 >= 18 & q001 <= 25)
+(9,897 missing values generated)
+
+. replace edad_gr2 = 2 if (q001 >= 25 & q001 <= 29)
+(1,872 real changes made)
+
+. replace edad_gr2 = 3 if (q001 >= 30 & q001 <= 34)
+(1,827 real changes made)
+
+. replace edad_gr2 = 4 if (q001 >= 35 & q001 <= 39)
+(1,769 real changes made)
+
+. replace edad_gr2 = 5 if (q001 >= 40 & q001 <= 44)
+(1,310 real changes made)
+
+. replace edad_gr2 = 6 if (q001 >= 45 & q001 <= 54)
+(2,171 real changes made)
+
+. replace edad_gr2 = 7 if (q001 >= 55 & q001 <= 64)
+(1,231 real changes made)
+
+. replace edad_gr2 = 8 if (q001 >= 65)
+(110 real changes made)
+
+. label variable edad_gr2 "grupos de edad"
+
+. label define edad_gr2 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" /// 
+>         5 "40-44" 6 "45-54" 7 "55-64" 8 "65+", modify
+
+. label values edad_gr2 edad_gr2 
+
+. 
+. gen edad_gr3 = edad_gr2
+
+. recode edad_gr3 (8 = 7)
+(110 changes made to edad_gr3)
+
+. 
+. label define edad_gr3 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" /// 
+>         5 "40-44" 6 "45-54" 7 "55+", modify
+
+. label values edad_gr3 edad_gr3
+
+.         
+. // grupos de escolaridades
+. gen gr_educ = 1 if (escolaridad >= 1 & escolaridad <= 2)
+(11,927 missing values generated)
+
+. replace gr_educ = 2 if (escolaridad == 3)
+(1,004 real changes made)
+
+. replace gr_educ = 3 if (escolaridad >= 4 & escolaridad <= 5)
+(4,483 real changes made)
+
+. replace gr_educ = 4 if (escolaridad >= 6 & escolaridad <= 8)
+(6,371 real changes made)
+
+. replace gr_educ = 5 if (escolaridad == 9)
+(69 real changes made)
+
+. label variable gr_educ "grupos de escolaridad"
+
+. label define gr_educ 1 "Hasta Primaria completa" 2 "Secundaria completa"
+>  ///
+>         3 "Técnica o Preparatoria" 4 "Universidad o posterior" 5 "Otro"
+
+. label values gr_educ gr_educ
+
+. 
+. gen educ_gr2 = 1 if (escolaridad >= 1 & escolaridad <= 2)
+(11,927 missing values generated)
+
+. replace educ_gr2 = 2 if (escolaridad == 3)
+(1,004 real changes made)
+
+. replace educ_gr2 = 3 if (escolaridad == 4) 
+(1,407 real changes made)
+
+. replace educ_gr2 = 4 if (escolaridad == 5) 
+(3,076 real changes made)
+
+. replace educ_gr2 = 5 if (escolaridad == 6) 
+(2,269 real changes made)
+
+. replace educ_gr2 = 6 if (escolaridad == 7) 
+(3,647 real changes made)
+
+. replace educ_gr2 = 7 if (escolaridad == 8)
+(455 real changes made)
+
+. replace educ_gr2 = 9 if (escolaridad == 9)
+(69 real changes made)
+
+. label variable educ_gr2 "grupos de escolaridad"
+
+. label define educ_gr2  1 "Hasta primaria completa" 2 "Secundaria complet
+> a" ///
+>         3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
+>         6 "Licenciatura completa" 7 "Posgrado" 9 "Otro", modify
+
+. label values educ_gr2  educ_gr2
+
+. 
+. gen educ_gr3 = educ_gr2
+
+. recode educ_gr3  (1 = 2) (7 = 9)
+(536 changes made to educ_gr3)
+
+. label define educ_gr3  2 "Hasta Secundaria completa" ///
+>         3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
+>         6 "Licenciatura completa" 9 "Otro", modify
+
+. label values educ_gr3  educ_gr3
+
+.  
+. 
+. // grupos de ingreso
+. gen gr_ingr = 1 if (ingreso >= 1 & ingreso <= 2)
+(11,345 missing values generated)
+
+. replace gr_ingr = 2 if (ingreso == 3)
+(762 real changes made)
+
+. replace gr_ingr = 3 if (ingreso == 4)
+(1,344 real changes made)
+
+. replace gr_ingr = 4 if (ingreso == 5)
+(1,472 real changes made)
+
+. replace gr_ingr = 5 if (ingreso == 6)
+(2,067 real changes made)
+
+. replace gr_ingr = 6 if (ingreso == 7)
+(2,053 real changes made)
+
+. replace gr_ingr = 7 if (ingreso == 8)
+(2,467 real changes made)
+
+. replace gr_ingr = 8 if (ingreso == 9)
+(574 real changes made)
+
+. replace gr_ingr = 99 if (ingreso == 99)
+(606 real changes made)
+
+. 
+. label variable gr_ingr "grupos de ingreso (pesos)"
+
+. label define gr_ingr 1 "<3 mil pesos" 2 "3,001 a 5 mil" 3 "5,001 a 8 mil
+> " ///
+>         4 "8,001 a 10 mil" 5 "10,001 a 15 mil" 6 "15,001 a 20 mil" /// 
+>         7 "20,001 a 49,999" 8 "50 mil+" 99 "No sé", modify
+
+. label values gr_ingr gr_ingr
+
+. 
+. // tipo de consumidor
+. // diario-esporádico (patron, 1 =: daily) y cajetilla/suelto (q028, 1 =:
+>  cajetilla)
+. gen tipo_cons = 1 if patron == 1 & q028 == 1
+(6,961 missing values generated)
+
+. replace tipo_cons = 2 if patron == 1 & q028 == 2
+(400 real changes made)
+
+. replace tipo_cons = 3 if patron == 0 & q028 == 1
+(4,210 real changes made)
+
+. replace tipo_cons = 4 if patron == 0 & q028 == 2
+(1,725 real changes made)
+
+. label variable tipo_cons "tipo de consumo"
+
+. label define tipo_cons 1 "diario-cajetilla" 2 "diario-suelto" ///
+>         3 "esporádico-cajetilla" 4 "esporádico-suelto"
+
+. label values tipo_cons tipo_cons
+
+. 
+. // interacciones-impuesto
+. gen tax2020_sexo = tax2020*sexo
+
+. 
+. gen tax2020_edad_gr2 = tax2020*edad_gr2
+
+. 
+. gen tax2020_gr_educ = tax2020*gr_educ
+
+. 
+. 
+. // transformación de la variable dependiente para logaritmos
+. gen log_cons_sem = log(consumo_semanal)
+(626 missing values generated)
+
+. label variable log_cons_sem "logaritmo consumo semanal"
+
+. 
+end of do-file
+
+. 
+. // solo los periodos más cercanos al cambio de impuestos
+. keep if wave == 4 | wave == 5
+(9,005 observations deleted)
+
+. 
+. // personas que no han fumado en el último mes
+. // salen de la muestra
+. ta has_fumado_1mes wave
+
+has_fumado |         wave
+     _1mes |         4          5 |     Total
+-----------+----------------------+----------
+        No |        73        104 |       177 
+        Si |     1,431      1,395 |     2,826 
+-----------+----------------------+----------
+     Total |     1,504      1,499 |     3,003 
+
+. 
+. // para generar variables de 
+. // grupos de edad y educación
+. // recodificar 
+. //do $codigo/recodificar_.do
+. //do $codigo/gen_vars.do
+. 
+. // muestra:
+. ta has_fumado_1mes wave, m
+
+has_fumado |         wave
+     _1mes |         4          5 |     Total
+-----------+----------------------+----------
+        No |        73        104 |       177 
+        Si |     1,431      1,395 |     2,826 
+-----------+----------------------+----------
+     Total |     1,504      1,499 |     3,003 
+
+. ta has_fumado_1mes wave, sum(consumo_semanal)
+
+                Means, Standard Deviations and Frequencies
+               of consumo semanal, suma 2 tipos de reportes
+
+has_fumado |        wave
+     _1mes |         4          5 |     Total
+-----------+----------------------+----------
+        No | 14.391304  4.9090909 | 8.8035714
+           | 31.356802  5.9074298 | 20.874882
+           |        23         33 |        56
+-----------+----------------------+----------
+        Si | 35.082014  31.374537 | 33.254652
+           | 43.516476  38.035758 | 40.941539
+           |      1390       1351 |      2741
+-----------+----------------------+----------
+     Total | 34.745223  30.743497 | 32.765105
+           | 43.416785  37.806352 | 40.779207
+           |      1413       1384 |      2797
+
+. 
+. duplicates report id wave
+
+Duplicates in terms of id wave
+
+--------------------------------------
+   Copies | Observations       Surplus
+----------+---------------------------
+        1 |         3003             0
+--------------------------------------
+
+. 
+. destring id, gen(id_num)
+id: all characters numeric; id_num generated as long
+
+. xtset id_num wave
+
+Panel variable: id_num (unbalanced)
+ Time variable: wave, 4 to 5
+         Delta: 1 unit
+
+. 
+. keep if has_fumado_1mes == 1
+(177 observations deleted)
+
+. 
+. // patrones
+. xtdescribe 
+
+  id_num:  10011, 10020, ..., 50631                          n =       205
+> 3
+    wave:  4, 5, ..., 5                                      T =          
+> 2
+           Delta(wave) = 1 unit
+           Span(wave)  = 2 periods
+           (id_num*wave uniquely identifies each observation)
+
+Distribution of T_i:   min      5%     25%       50%       75%     95%    
+>  max
+                         1       1       1         1         2       2    
+>    2
+
+     Freq.  Percent    Cum. |  Pattern
+ ---------------------------+---------
+      773     37.65   37.65 |  11
+      658     32.05   69.70 |  1.
+      622     30.30  100.00 |  .1
+ ---------------------------+---------
+     2053    100.00         |  XX
+
+. 
+. //
+. egen sum_nId = total(1), by(id)
+
+. label variable sum_nId "mismo id en la tabla"
+
+. ta sum_nId
+
+mismo id en |
+   la tabla |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,280       45.29       45.29
+          2 |      1,546       54.71      100.00
+------------+-----------------------------------
+      Total |      2,826      100.00
+
+. 
+. /***********************************************************************
+> ****/
+. // DESCRIPTIVOS
+. // frecuencia de consumo: diario, ocasional, dejó de fumar, nunca ha fum
+> ado cigarros
+. ta q009 
+
+       q009 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,341       47.45       47.45
+          2 |      1,400       49.54       96.99
+          3 |         81        2.87       99.86
+          4 |          4        0.14      100.00
+------------+-----------------------------------
+      Total |      2,826      100.00
+
+. 
+. //  ¿Cuántos cigarros fumas al día?
+. su q010
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        q010 |      1,341    8.157345    6.686576          1         70
+
+. // hist q010
+. 
+. // ¿cuántos cigarros fumas cada semana?
+. su q012
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        q012 |      1,400    10.41286     10.8306          1        100
+
+. // hist q012
+. 
+. // dos definiciones de consumo semanal
+. ta q009, su(consumo_semanal)
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       q009 |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+          1 |   57.101417   46.806032       1,341
+          2 |   10.412857   10.830601       1,400
+------------+------------------------------------
+      Total |   33.254652   40.941539       2,741
+
+. ta q009, su(cons_1)
+
+            |          Summary of cons_1
+       q009 |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+          1 |   8.1573453    6.686576       1,341
+          2 |   10.412857   10.830601       1,400
+------------+------------------------------------
+      Total |   9.3093761   9.1120689       2,741
+
+. // cada cuándo compra?
+. ta patron if has_fumado_1mes, sum(consumo_semanal )
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+   nondaily |   10.412857   10.830601       1,400
+      daily |   57.101417   46.806032       1,341
+------------+------------------------------------
+      Total |   33.254652   40.941539       2,741
+
+. 
+. // hist consumo_semanal
+. 
+. ta q009 sum_nId
+
+           | mismo id en la tabla
+      q009 |         1          2 |     Total
+-----------+----------------------+----------
+         1 |       495        846 |     1,341 
+         2 |       731        669 |     1,400 
+         3 |        52         29 |        81 
+         4 |         2          2 |         4 
+-----------+----------------------+----------
+     Total |     1,280      1,546 |     2,826 
+
+. gen s2_idN_q3_009 = q009 == 3 & sum_nId == 2
+
+. 
+. /***********************************************************************
+> ****/
+. // busqueda de algún patrón entre los que dejaron de fumar
+. preserve 
+
+. 
+. keep id s2_idN_q3_009  
+
+. keep if s2_idN_q3_009  == 1
+(2,797 observations deleted)
+
+. 
+. duplicates report id
+
+Duplicates in terms of id
+
+--------------------------------------
+   Copies | Observations       Surplus
+----------+---------------------------
+        1 |           21             0
+        2 |            8             4
+--------------------------------------
+
+. duplicates tag id, generate(dup_id)
+
+Duplicates in terms of id
+
+. keep if dup_id == 0
+(8 observations deleted)
+
+. 
+. save "$datos/s2_idN_q3_009.dta", replace
+file datos/encuesta//s2_idN_q3_009.dta saved
+
+. 
+. restore 
+
+. 
+. merge n:1 id using "$datos/s2_idN_q3_009.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,784
+        from master                     2,784  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                                42  (_merge==3)
+    -----------------------------------------
+
+.  
+. rename _merge cambios_q009_3 
+
+. label variable cambios_q009_3 "dejaron de fumar o volvieron a fumar"
+
+. 
+. // panel No balanceado
+. preserve 
+
+. keep if q009 <= 2
+(85 observations deleted)
+
+. save "$datos/wave4_5unbalanced.dta", replace
+file datos/encuesta//wave4_5unbalanced.dta saved
+
+. 
+. restore
+
+. 
+. // panel balanceado
+. // id en ambas encuestas
+. keep if sum_nId == 2
+(1,280 observations deleted)
+
+. // no dejo de fumar en una ocasion
+. keep if cambios_q009_3 != 3
+(42 observations deleted)
+
+. // reportó consumo
+. keep if q009 <= 2
+(10 observations deleted)
+
+. save "$datos/wave4_5balanc.dta", replace
+file datos/encuesta//wave4_5balanc.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\r
+> esultados\encuesta\/para_consumo.log
+  log type:  text
+ closed on:   9 Sep 2021, 07:54:38
+--------------------------------------------------------------------------

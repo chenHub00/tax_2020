@@ -1,0 +1,30 @@
+--------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtsur_det2.lo
+> g
+  log type:  text
+ opened on:   4 May 2021, 16:02:21
+
+. 
+. use datos/wide_complete_panel.dta, clear
+
+. 
+. gen ym2 = ym^2
+
+. 
+. xtsur (ppu4 m1 m1_20 ym ym2) (ppu7 m1 m1_20 ym ym2) 
+(running multi-step estimates...)
+
+Calculating multi-step estimates...
+--Break--
+r(1);
+
+end of do-file
+
+--Break--
+r(1);
+
+. do "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\stata_code\est_xtsur_medium.do"
+
+. 
+. capture log close

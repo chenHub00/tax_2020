@@ -1,0 +1,993 @@
+---------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg.log
+  log type:  text
+ opened on:  22 Jul 2021, 12:19:51
+
+. 
+. global varsRegStatic "m1_20 m1_21 m1 ym"
+
+. putexcel set "resultados\doc\f_tests_areg.xlsx", sheet(areg, replace) modify
+
+. putexcel (C1) = "gl Denominator"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (E1) = "gl Numerator"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (D1) = "F"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (F1) = "prob > F"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. * use datos\tpCiudad.dta, clear
+. use datos/prelim/de_inpc/tpCiudad2.dta if cve_ciudad <= 46, clear
+
+. 
+. * sin interacciones > tendencia 
+. *regress ppu m1 m1_20 ym i.marca i.cve_ciudad 
+. *areg ppu m1 m1_20 ym i.marca, absorb(cve_ciudad)
+. areg ppu $varsRegStatic i.marca, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  10,  23954)   =   19943.73
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8969
+                                                Adj R-squared     =     0.8967
+                                                Root MSE          =     0.1417
+
+-------------------------------------------------------------------------------
+          ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        m1_20 |   .2091468   .0113456    18.43   0.000     .1869088    .2313849
+        m1_21 |   .2415632   .0113669    21.25   0.000     .2192835     .263843
+           m1 |  -.0236906   .0035123    -6.74   0.000    -.0305749   -.0168062
+           ym |   .0094429    .000027   350.34   0.000       .00939    .0094957
+              |
+        marca |
+       CAMEL  |  -.0117116     .00336    -3.49   0.000    -.0182973   -.0051259
+CHESTERFIELD  |  -.5946784   .0035305  -168.44   0.000    -.6015985   -.5877584
+LUCKY STRIKE  |  -.2699181   .0033217   -81.26   0.000    -.2764288   -.2634074
+    MARLBORO  |   .0107034   .0028453     3.76   0.000     .0051265    .0162803
+     MONTANA  |  -.5236522   .0048189  -108.67   0.000    -.5330976   -.5142067
+   PALL MALL  |  -.4352867   .0032509  -133.90   0.000    -.4416588   -.4289147
+              |
+        _cons |  -3.924608   .0182704  -214.81   0.000     -3.96042   -3.888797
+--------------+----------------------------------------------------------------
+   cve_ciudad |      F(45, 23954) =     54.874   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+       F(  6, 23954) =10163.44
+            Prob > F =    0.0000
+
+. // H0: igualdad de parametros 
+. // (promedio del precio por marca)
+. putexcel (A2) = "marca"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B2) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. /*outreg2 using resultados/doc/est_areg_total ///
+>                         , keep($varsRegStatic i.marca) bdec(3)  tex(fragment) replace
+> */
+. outreg2 using resultados/doc/est_areg_total ///
+>                         , bdec(3) tex(fragment) replace
+resultados/doc/est_areg_total.tex
+dir : seeout
+
+. 
+. // absorb marca
+. areg ppu $varsRegStatic i.cve_ciudad, absorb(marca)
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  49,  23954)   =    2803.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8969
+                                                Adj R-squared     =     0.8967
+                                                Root MSE          =     0.1417
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2091468   .0113456    18.43   0.000     .1869088    .2313849
+       m1_21 |   .2415632   .0113669    21.25   0.000     .2192835     .263843
+          m1 |  -.0236906   .0035123    -6.74   0.000    -.0305749   -.0168062
+          ym |   .0094429    .000027   350.34   0.000       .00939    .0094957
+             |
+  cve_ciudad |
+          2  |   .0083872   .0075998     1.10   0.270    -.0065089    .0232833
+          3  |   .0170281    .007437     2.29   0.022     .0024512     .031605
+          4  |   .0290791   .0072361     4.02   0.000     .0148958    .0432623
+          5  |   .0088198   .0071884     1.23   0.220      -.00527    .0229096
+          6  |   .0752271   .0081623     9.22   0.000     .0592284    .0912258
+          7  |   .0304688   .0073115     4.17   0.000     .0161377    .0447998
+          8  |   .0192462   .0082626     2.33   0.020     .0030509    .0354414
+          9  |  -.0148501    .007752    -1.92   0.055    -.0300446    .0003444
+         10  |  -.0122818   .0075841    -1.62   0.105    -.0271471    .0025835
+         11  |  -.0367009   .0072763    -5.04   0.000    -.0509628   -.0224389
+         12  |   .0142592   .0074321     1.92   0.055    -.0003083    .0288266
+         13  |  -.0521911   .0081748    -6.38   0.000    -.0682143    -.036168
+         14  |  -.0009937   .0073127    -0.14   0.892    -.0153271    .0133397
+         15  |  -.0176126   .0082798    -2.13   0.033    -.0338415   -.0013837
+         16  |   .0079917   .0075686     1.06   0.291    -.0068432    .0228266
+         17  |  -.0180666   .0076404    -2.36   0.018    -.0330422    -.003091
+         18  |  -.0787394   .0076406   -10.31   0.000    -.0937156   -.0637633
+         19  |  -.0238437   .0089471    -2.66   0.008    -.0413807   -.0063068
+         20  |   .0200231   .0082322     2.43   0.015     .0038874    .0361588
+         21  |    .011864   .0078542     1.51   0.131    -.0035307    .0272588
+         22  |   -.024148   .0076087    -3.17   0.002    -.0390615   -.0092344
+         23  |  -.0040084   .0075099    -0.53   0.594    -.0187283    .0107115
+         24  |   .0531812   .0075974     7.00   0.000     .0382898    .0680726
+         25  |    .009398   .0076401     1.23   0.219    -.0055771     .024373
+         26  |   .0194999   .0076328     2.55   0.011     .0045391    .0344607
+         27  |   .2103269   .0076054    27.66   0.000     .1954199    .2252339
+         28  |   .0629724   .0086056     7.32   0.000     .0461049    .0798399
+         29  |  -.0219007   .0084413    -2.59   0.009    -.0384462   -.0053552
+         30  |  -.0481257   .0092483    -5.20   0.000     -.066253   -.0299984
+         31  |    .019013    .008831     2.15   0.031     .0017037    .0363222
+         32  |   .0098698   .0089702     1.10   0.271    -.0077124    .0274519
+         33  |   .0296099   .0088823     3.33   0.001        .0122    .0470199
+         34  |   .0004473   .0098289     0.05   0.964    -.0188179    .0197125
+         35  |   .0147328   .0092018     1.60   0.109    -.0033033    .0327688
+         36  |  -.0183005   .0082693    -2.21   0.027    -.0345089   -.0020921
+         37  |   .0336774   .0078342     4.30   0.000     .0183219    .0490328
+         38  |   .0102613   .0077078     1.33   0.183    -.0048464     .025369
+         39  |  -.0179271   .0077453    -2.31   0.021    -.0331085   -.0027458
+         40  |  -.0783614    .007679   -10.20   0.000    -.0934127     -.06331
+         41  |   .0103547   .0083715     1.24   0.216     -.006054    .0267633
+         42  |  -.0295047   .0086425    -3.41   0.001    -.0464445   -.0125649
+         43  |   .0115103   .0076568     1.50   0.133    -.0034975     .026518
+         44  |  -.0353404   .0086029    -4.11   0.000    -.0522026   -.0184782
+         45  |   .0429141   .0086415     4.97   0.000     .0259763     .059852
+         46  |  -.0564091   .0086387    -6.53   0.000    -.0733415   -.0394768
+             |
+       _cons |  -4.121166   .0187706  -219.55   0.000    -4.157958   -4.084375
+-------------+----------------------------------------------------------------
+       marca |       F(6, 23954) =  10163.443   0.000           (7 categories)
+
+. testparm i.cve_ciudad
+
+ ( 1)  2.cve_ciudad = 0
+ ( 2)  3.cve_ciudad = 0
+ ( 3)  4.cve_ciudad = 0
+ ( 4)  5.cve_ciudad = 0
+ ( 5)  6.cve_ciudad = 0
+ ( 6)  7.cve_ciudad = 0
+ ( 7)  8.cve_ciudad = 0
+ ( 8)  9.cve_ciudad = 0
+ ( 9)  10.cve_ciudad = 0
+ (10)  11.cve_ciudad = 0
+ (11)  12.cve_ciudad = 0
+ (12)  13.cve_ciudad = 0
+ (13)  14.cve_ciudad = 0
+ (14)  15.cve_ciudad = 0
+ (15)  16.cve_ciudad = 0
+ (16)  17.cve_ciudad = 0
+ (17)  18.cve_ciudad = 0
+ (18)  19.cve_ciudad = 0
+ (19)  20.cve_ciudad = 0
+ (20)  21.cve_ciudad = 0
+ (21)  22.cve_ciudad = 0
+ (22)  23.cve_ciudad = 0
+ (23)  24.cve_ciudad = 0
+ (24)  25.cve_ciudad = 0
+ (25)  26.cve_ciudad = 0
+ (26)  27.cve_ciudad = 0
+ (27)  28.cve_ciudad = 0
+ (28)  29.cve_ciudad = 0
+ (29)  30.cve_ciudad = 0
+ (30)  31.cve_ciudad = 0
+ (31)  32.cve_ciudad = 0
+ (32)  33.cve_ciudad = 0
+ (33)  34.cve_ciudad = 0
+ (34)  35.cve_ciudad = 0
+ (35)  36.cve_ciudad = 0
+ (36)  37.cve_ciudad = 0
+ (37)  38.cve_ciudad = 0
+ (38)  39.cve_ciudad = 0
+ (39)  40.cve_ciudad = 0
+ (40)  41.cve_ciudad = 0
+ (41)  42.cve_ciudad = 0
+ (42)  43.cve_ciudad = 0
+ (43)  44.cve_ciudad = 0
+ (44)  45.cve_ciudad = 0
+ (45)  46.cve_ciudad = 0
+
+       F( 45, 23954) =   54.87
+            Prob > F =    0.0000
+
+. // H0: igualdad de parametros 
+. 
+. // cluster ciudad
+. areg ppu $varsRegStatic i.marca, absorb(cve_ciudad) vce(cluster cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  10,     45)   =    1441.28
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8969
+                                                Adj R-squared     =     0.8967
+                                                Root MSE          =     0.1417
+
+                             (Std. Err. adjusted for 46 clusters in cve_ciudad)
+-------------------------------------------------------------------------------
+              |               Robust
+          ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        m1_20 |   .2091468    .011151    18.76   0.000     .1866876    .2316061
+        m1_21 |   .2415632   .0104851    23.04   0.000     .2204452    .2626812
+           m1 |  -.0236906   .0011019   -21.50   0.000    -.0259099   -.0214712
+           ym |   .0094429   .0001042    90.67   0.000     .0092331    .0096526
+              |
+        marca |
+       CAMEL  |  -.0117116   .0102696    -1.14   0.260    -.0323956    .0089723
+CHESTERFIELD  |  -.5946784   .0177447   -33.51   0.000     -.630418   -.5589389
+LUCKY STRIKE  |  -.2699181   .0135276   -19.95   0.000    -.2971641   -.2426721
+    MARLBORO  |   .0107034   .0082342     1.30   0.200    -.0058811    .0272879
+     MONTANA  |  -.5236522   .0337422   -15.52   0.000    -.5916125   -.4556919
+   PALL MALL  |  -.4352867   .0193555   -22.49   0.000    -.4742707   -.3963028
+              |
+        _cons |  -3.924608   .0709503   -55.31   0.000    -4.067509   -3.781707
+--------------+----------------------------------------------------------------
+   cve_ciudad |   absorbed                                      (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+       F(  6,    45) =  353.79
+            Prob > F =    0.0000
+
+. // H0: igualdad de parametros 
+. 
+. // cluster marca
+. areg ppu $varsRegStatic i.marca, absorb(cve_ciudad) vce(cluster marca)
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(   6,      6)   =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.8969
+                                                Adj R-squared     =     0.8967
+                                                Root MSE          =     0.1417
+
+                                   (Std. Err. adjusted for 7 clusters in marca)
+-------------------------------------------------------------------------------
+              |               Robust
+          ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        m1_20 |   .2091468   .0102852    20.33   0.000     .1839799    .2343137
+        m1_21 |   .2415632   .0077805    31.05   0.000     .2225249    .2606015
+           m1 |  -.0236906   .0053262    -4.45   0.004    -.0367234   -.0106578
+           ym |   .0094429   .0004856    19.44   0.000     .0082546    .0106311
+              |
+        marca |
+       CAMEL  |  -.0117116   .0053767    -2.18   0.072     -.024868    .0014448
+CHESTERFIELD  |  -.5946784   .0060636   -98.07   0.000    -.6095155   -.5798414
+LUCKY STRIKE  |  -.2699181   .0030187   -89.41   0.000    -.2773046   -.2625315
+    MARLBORO  |   .0107034   .0013691     7.82   0.000     .0073534    .0140534
+     MONTANA  |  -.5236522   .0069072   -75.81   0.000    -.5405535   -.5067509
+   PALL MALL  |  -.4352867    .007295   -59.67   0.000    -.4531369   -.4174366
+              |
+        _cons |  -3.924608   .3261636   -12.03   0.000    -4.722702   -3.126515
+--------------+----------------------------------------------------------------
+   cve_ciudad |   absorbed                                      (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+       F(  6,     6) = 4.7e+05
+            Prob > F =    0.0000
+
+. // H0: igualdad de parametros 
+. 
+. // 
+. * interacciones de m1_20 con marca, con tendencia de tiempo
+. * areg ppu m1_20##i.marca m1 ym, absorb(cve_ciudad)
+. areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  22,  23942)   =    9104.50
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8973
+                                                Adj R-squared     =     0.8971
+                                                Root MSE          =     0.1415
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          marca |
+         CAMEL  |  -.0112271   .0033739    -3.33   0.001      -.01784   -.0046141
+  CHESTERFIELD  |  -.5933105   .0035439  -167.42   0.000    -.6002568   -.5863643
+  LUCKY STRIKE  |  -.2679276   .0033383   -80.26   0.000     -.274471   -.2613843
+      MARLBORO  |   .0101345   .0028624     3.54   0.000     .0045241    .0157449
+       MONTANA  |  -.5205564   .0048337  -107.69   0.000    -.5300308   -.5110819
+     PALL MALL  |  -.4347657   .0032746  -132.77   0.000    -.4411842   -.4283472
+                |
+        1.m1_20 |   .2377689   .0236285    10.06   0.000     .1914556    .2840822
+                |
+    m1_20#marca |
+       1#CAMEL  |  -.0065151   .0415908    -0.16   0.876    -.0880358    .0750055
+1#CHESTERFIELD  |  -.1109665   .0434503    -2.55   0.011    -.1961319   -.0258012
+1#LUCKY STRIKE  |  -.1472223   .0387952    -3.79   0.000    -.2232634   -.0711813
+    1#MARLBORO  |   .0517276   .0316848     1.63   0.103    -.0103766    .1138317
+     1#MONTANA  |  -.2390032   .0624559    -3.83   0.000    -.3614208   -.1165856
+   1#PALL MALL  |  -.0280244   .0335168    -0.84   0.403    -.0937195    .0376707
+                |
+        1.m1_21 |   .2845957   .0239679    11.87   0.000     .2376171    .3315744
+                |
+    m1_21#marca |
+       1#CAMEL  |  -.0350874   .0402601    -0.87   0.383    -.1139997    .0438249
+1#CHESTERFIELD  |  -.1157615    .045916    -2.52   0.012    -.2057599   -.0257632
+1#LUCKY STRIKE  |  -.1321056   .0384288    -3.44   0.001    -.2074285   -.0567826
+    1#MARLBORO  |   .0218706   .0319214     0.69   0.493    -.0406973    .0844386
+     1#MONTANA  |  -.3609023   .0625704    -5.77   0.000    -.4835442   -.2382605
+   1#PALL MALL  |  -.0359549   .0335058    -1.07   0.283    -.1016283    .0297186
+                |
+             m1 |   -.023692   .0035057    -6.76   0.000    -.0305633   -.0168207
+             ym |   .0094447   .0000269   351.04   0.000      .009392    .0094975
+          _cons |  -3.926467   .0182396  -215.27   0.000    -3.962217   -3.890716
+----------------+----------------------------------------------------------------
+     cve_ciudad |      F(45, 23942) =     55.039   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+       F(  6, 23942) =10006.08
+            Prob > F =    0.0000
+
+. putexcel (A3) = "impuesto y marca"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. 
+. testparm m1_20#i.marca
+
+ ( 1)  1.m1_20#2.marca = 0
+ ( 2)  1.m1_20#3.marca = 0
+ ( 3)  1.m1_20#4.marca = 0
+ ( 4)  1.m1_20#5.marca = 0
+ ( 5)  1.m1_20#6.marca = 0
+ ( 6)  1.m1_20#7.marca = 0
+
+       F(  6, 23942) =    8.15
+            Prob > F =    0.0000
+
+. putexcel (H1) = "marca con impuesto 2020"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (H3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm m1_21#i.marca
+
+ ( 1)  1.m1_21#2.marca = 0
+ ( 2)  1.m1_21#3.marca = 0
+ ( 3)  1.m1_21#4.marca = 0
+ ( 4)  1.m1_21#5.marca = 0
+ ( 5)  1.m1_21#6.marca = 0
+ ( 6)  1.m1_21#7.marca = 0
+
+       F(  6, 23942) =    9.14
+            Prob > F =    0.0000
+
+. putexcel (N1) = "marca con impuesto 2021"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (N3) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. /*outreg2 using resultados/doc/est_areg_total ///
+>                         , keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment)
+>  append
+> */
+. outreg2 using resultados/doc/est_areg_total ///
+>                         , bdec(3) tex(fragment) append
+resultados/doc/est_areg_total.tex
+dir : seeout
+
+. 
+. /* comparacion de cambio de definicion de marca
+> *areg ppu m1_20  m1_21 m1  ym i.marca if marca2 < 9, absorb(cve_ciudad)
+> areg ppu $varsRegStatic  i.marca if marca2 < 9, absorb(cve_ciudad)
+> * Mayo11: se pierden 41 observaciones en esta selecci'on, 
+> * respecto a la seleccion del documento anterior
+> */
+. /*-------------------------------------------------------
+> ** por tipo o SEGMENTO
+> -------------------------------------------------------*/
+. // ALTO
+. *regress ppu m1 m1_20 ym i.marca i.cve_ciudad if tipo == 1
+. *areg ppu m1 m1_20 ym i.marca if tipo == 1, absorb(cve_ciudad)
+. areg ppu $varsRegStatic i.marca if tipo == 1, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     13,396
+                                                F(   6,  13344)   =   23953.94
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9175
+                                                Adj R-squared     =     0.9171
+                                                Root MSE          =     0.1101
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |    .219312   .0117805    18.62   0.000     .1962205    .2424035
+       m1_21 |   .2377788   .0117794    20.19   0.000     .2146895    .2608681
+          m1 |  -.0182786    .003658    -5.00   0.000    -.0254488   -.0111085
+          ym |   .0101906    .000028   363.54   0.000     .0101357    .0102455
+             |
+       marca |
+      CAMEL  |  -.0075759    .002669    -2.84   0.005    -.0128076   -.0023443
+   MARLBORO  |   .0077984   .0022239     3.51   0.000     .0034392    .0121576
+             |
+       _cons |  -4.428593   .0189548  -233.64   0.000    -4.465747   -4.391439
+-------------+----------------------------------------------------------------
+  cve_ciudad |      F(45, 13344) =     34.840   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  5.marca = 0
+
+       F(  2, 13344) =   19.05
+            Prob > F =    0.0000
+
+. putexcel (A4) = "Alto"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B4) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. 
+. outreg2 using resultados\doc/est_areg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) replace
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+. // interacciones marca e impuestos
+. areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 1, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     13,396
+                                                F(  10,  13340)   =   14379.23
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9175
+                                                Adj R-squared     =     0.9172
+                                                Root MSE          =     0.1101
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+      CAMEL  |   -.007369   .0026836    -2.75   0.006    -.0126293   -.0021087
+   MARLBORO  |   .0072119    .002241     3.22   0.001     .0028193    .0116046
+             |
+     1.m1_20 |   .1979473   .0185561    10.67   0.000     .1615748    .2343198
+             |
+ m1_20#marca |
+    1#CAMEL  |   -.008657   .0323692    -0.27   0.789    -.0721052    .0547912
+ 1#MARLBORO  |   .0509436   .0246567     2.07   0.039      .002613    .0992743
+             |
+     1.m1_21 |   .2352405   .0188321    12.49   0.000     .1983268    .2721541
+             |
+ m1_21#marca |
+    1#CAMEL  |  -.0369742   .0313348    -1.18   0.238    -.0983949    .0244465
+ 1#MARLBORO  |   .0216682   .0248411     0.87   0.383     -.027024    .0703603
+             |
+          m1 |  -.0182772   .0036572    -5.00   0.000    -.0254459   -.0111085
+          ym |   .0101908    .000028   363.61   0.000     .0101358    .0102457
+       _cons |  -4.428504   .0189522  -233.67   0.000    -4.465653   -4.391355
+-------------+----------------------------------------------------------------
+  cve_ciudad |      F(45, 13340) =     34.889   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  2.marca = 0
+ ( 2)  5.marca = 0
+
+       F(  2, 13340) =   16.81
+            Prob > F =    0.0000
+
+. 
+. putexcel (A5) = "Alto: con interacción marca e impuestos"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B5) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. testparm m1_20#i.marca
+
+ ( 1)  1.m1_20#2.marca = 0
+ ( 2)  1.m1_20#5.marca = 0
+
+       F(  2, 13340) =    2.89
+            Prob > F =    0.0554
+
+. putexcel (H5) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm m1_21#i.marca
+
+ ( 1)  1.m1_21#2.marca = 0
+ ( 2)  1.m1_21#5.marca = 0
+
+       F(  2, 13340) =    1.88
+            Prob > F =    0.1521
+
+. putexcel (N5) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_areg_tipo ///
+>                         , keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment)
+>  append
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+.                         
+. *-------------------------------------------------------
+. // MEDIO
+. areg ppu $varsRegStatic i.marca if tipo == 2, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =      6,700
+                                                F(   5,   6649)   =    5966.09
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8461
+                                                Adj R-squared     =     0.8449
+                                                Root MSE          =     0.1483
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1823033   .0211842     8.61   0.000     .1407755    .2238311
+       m1_21 |   .2351551   .0210049    11.20   0.000     .1939786    .2763315
+          m1 |  -.0399375   .0070801    -5.64   0.000    -.0538166   -.0260583
+          ym |   .0092206   .0000557   165.40   0.000     .0091113    .0093299
+             |
+       marca |
+  PALL MALL  |  -.1648576   .0041155   -40.06   0.000    -.1729252     -.15679
+       _cons |  -4.040039   .0374681  -107.83   0.000    -4.113488   -3.966589
+-------------+----------------------------------------------------------------
+  cve_ciudad |       F(45, 6649) =     48.590   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  7.marca = 0
+
+       F(  1,  6649) = 1604.66
+            Prob > F =    0.0000
+
+. putexcel (A6) = "Medio"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B6) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. 
+. outreg2 using resultados\doc/est_areg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+. 
+. areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 2, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =      6,700
+                                                F(   7,   6647)   =    4267.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8463
+                                                Adj R-squared     =     0.8451
+                                                Root MSE          =     0.1483
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+  PALL MALL  |  -.1662635   .0041388   -40.17   0.000    -.1743768   -.1581501
+     1.m1_20 |   .1189365   .0332934     3.57   0.000     .0536708    .1842022
+             |
+ m1_20#marca |
+1#PALL MALL  |   .1015241   .0411388     2.47   0.014     .0208789    .1821693
+             |
+     1.m1_21 |   .1881823   .0326813     5.76   0.000     .1241165     .252248
+             |
+ m1_21#marca |
+1#PALL MALL  |   .0757201   .0403379     1.88   0.061    -.0033551    .1547953
+             |
+          m1 |  -.0399368   .0070761    -5.64   0.000    -.0538081   -.0260655
+          ym |   .0092233   .0000557   165.52   0.000      .009114    .0093325
+       _cons |  -4.041105   .0374485  -107.91   0.000    -4.114516   -3.967694
+-------------+----------------------------------------------------------------
+  cve_ciudad |       F(45, 6647) =     48.580   0.000          (46 categories)
+
+. testparm i.marca
+
+ ( 1)  7.marca = 0
+
+       F(  1,  6647) = 1613.81
+            Prob > F =    0.0000
+
+. 
+. putexcel (A7) = "Medio: con interacción marca e impuestos"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. testparm m1_20#i.marca
+
+ ( 1)  1.m1_20#7.marca = 0
+
+       F(  1,  6647) =    6.09
+            Prob > F =    0.0136
+
+. putexcel (H7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm m1_21#i.marca
+
+ ( 1)  1.m1_21#7.marca = 0
+
+       F(  1,  6647) =    3.52
+            Prob > F =    0.0605
+
+. putexcel (N7) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+.                                                 
+. outreg2 using resultados\doc/est_areg_tipo ///
+>                         , keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment)
+>  append
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+.                         
+. *-------------------------------------------------------
+. // BAJO
+. areg ppu $varsRegStatic i.marca if tipo == 3, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =      3,914
+                                                F(   5,   3867)   =    1840.76
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7604
+                                                Adj R-squared     =     0.7575
+                                                Root MSE          =     0.1483
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1910204   .0338207     5.65   0.000     .1247123    .2573284
+       m1_21 |   .2307435   .0355397     6.49   0.000     .1610652    .3004218
+          m1 |  -.0132249   .0088226    -1.50   0.134    -.0305224    .0040725
+          ym |   .0069792   .0000761    91.69   0.000       .00683    .0071285
+             |
+       marca |
+    MONTANA  |   .1007488   .0073675    13.67   0.000     .0863042    .1151934
+       _cons |   -2.89228   .0507849   -56.95   0.000    -2.991848   -2.792713
+-------------+----------------------------------------------------------------
+  cve_ciudad |       F(41, 3867) =     37.588   0.000          (42 categories)
+
+. testparm i.marca
+
+ ( 1)  6.marca = 0
+
+       F(  1,  3867) =  187.00
+            Prob > F =    0.0000
+
+. putexcel (A8) = "Bajo"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B8) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_areg_tipo ///
+>                         , keep($varsRegStatic i.marca) bdec(3) tex(fragment) append
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+.                         
+. areg ppu i.marca m1_20##i.marca m1_21##i.marca m1 ym if tipo == 3, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =      3,914
+                                                F(   7,   3865)   =    1321.13
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7612
+                                                Adj R-squared     =     0.7583
+                                                Root MSE          =     0.1481
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       marca |
+    MONTANA  |   .1024322   .0073708    13.90   0.000     .0879811    .1168832
+     1.m1_20 |   .2250574   .0395322     5.69   0.000     .1475515    .3025633
+             |
+ m1_20#marca |
+  1#MONTANA  |  -.1189833   .0719045    -1.65   0.098    -.2599576     .021991
+             |
+     1.m1_21 |   .3103824   .0423878     7.32   0.000     .2272779    .3934869
+             |
+ m1_21#marca |
+  1#MONTANA  |  -.2522312   .0734163    -3.44   0.001    -.3961696   -.1082928
+             |
+          m1 |  -.0132395   .0088085    -1.50   0.133    -.0305092    .0040302
+          ym |    .006983    .000076    91.87   0.000      .006834     .007132
+       _cons |  -2.895298   .0507103   -57.09   0.000    -2.994719   -2.795876
+-------------+----------------------------------------------------------------
+  cve_ciudad |       F(41, 3865) =     37.723   0.000          (42 categories)
+
+. testparm i.marca
+
+ ( 1)  6.marca = 0
+
+       F(  1,  3865) =  193.13
+            Prob > F =    0.0000
+
+. 
+. putexcel (A9) = "Bajo: con interacción marca e impuestos"
+file resultados\doc\f_tests_areg.xlsx saved
+
+. putexcel (B9) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. testparm m1_20#i.marca
+
+ ( 1)  1.m1_20#6.marca = 0
+
+       F(  1,  3865) =    2.74
+            Prob > F =    0.0981
+
+. putexcel (H9) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm m1_21#i.marca
+
+ ( 1)  1.m1_21#6.marca = 0
+
+       F(  1,  3865) =   11.80
+            Prob > F =    0.0006
+
+. putexcel (N9) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_areg.xlsx saved
+
+. 
+. outreg2 using resultados\doc/est_areg_tipo ///                  
+>                         , keep(i.marca m1_20##i.marca m1_21##i.marca m1 ym) bdec(3) tex(fragment)
+>  append
+resultados\doc/est_areg_tipo.tex
+dir : seeout
+
+.                         
+. **********///////////////////////////////////////////////////
+. * sin interacciones de m1_20 con marca
+. *areg ppu m1 m1_20 i.marca i.month i.year, absorb(cve_ciudad)
+. areg ppu m1_20 m1_21 m1 i.marca i.month i.year, absorb(cve_ciudad)
+note: 12.month omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  29,  23935)   =   12410.54
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9400
+                                                Adj R-squared     =     0.9399
+                                                Root MSE          =     0.1081
+
+-------------------------------------------------------------------------------
+          ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        m1_20 |  -.0165868   .0089471    -1.85   0.064    -.0341237    .0009501
+        m1_21 |  -.0110791    .009906    -1.12   0.263    -.0304954    .0083372
+           m1 |  -.0690176   .0035638   -19.37   0.000    -.0760028   -.0620324
+              |
+        marca |
+       CAMEL  |  -.0061394   .0025648    -2.39   0.017    -.0111665   -.0011122
+CHESTERFIELD  |  -.5921681   .0026936  -219.84   0.000    -.5974478   -.5868884
+LUCKY STRIKE  |  -.2677327   .0025343  -105.64   0.000    -.2727001   -.2627653
+    MARLBORO  |   .0106873   .0021708     4.92   0.000     .0064325    .0149422
+     MONTANA  |  -.5269023   .0036778  -143.26   0.000    -.5341111   -.5196935
+   PALL MALL  |  -.4406776   .0024813  -177.60   0.000     -.445541   -.4358141
+              |
+        month |
+           2  |  -.0351797   .0034246   -10.27   0.000    -.0418921   -.0284672
+           3  |   -.028199   .0034259    -8.23   0.000     -.034914    -.021484
+           4  |  -.0268369   .0034264    -7.83   0.000    -.0335529   -.0201209
+           5  |  -.0258557    .003472    -7.45   0.000    -.0326611   -.0190503
+           6  |  -.0238616    .003472    -6.87   0.000     -.030667   -.0170563
+           7  |  -.0163191    .003472    -4.70   0.000    -.0231244   -.0095138
+           8  |   -.007781   .0034817    -2.23   0.025    -.0146053   -.0009566
+           9  |  -.0033354   .0034799    -0.96   0.338    -.0101562    .0034854
+          10  |  -.0023498   .0034799    -0.68   0.500    -.0091706    .0044709
+          11  |  -.0007144   .0034794    -0.21   0.837    -.0075343    .0061054
+          12  |          0  (omitted)
+              |
+         year |
+        2012  |   .0801797   .0031214    25.69   0.000     .0740615     .086298
+        2013  |   .1630025   .0031201    52.24   0.000     .1568869    .1691181
+        2014  |   .2853843   .0030948    92.21   0.000     .2793183    .2914502
+        2015  |   .3712789   .0031148   119.20   0.000     .3651737     .377384
+        2016  |   .4003108   .0031336   127.75   0.000     .3941689    .4064528
+        2017  |   .5018881   .0031464   159.51   0.000     .4957211    .5080552
+        2018  |   .6424092   .0031958   201.02   0.000     .6361453    .6486732
+        2019  |   .8065844   .0032526   247.98   0.000      .800209    .8129597
+        2020  |   1.155911    .003337   346.39   0.000     1.149371    1.162452
+        2021  |   1.296374   .0054427   238.19   0.000     1.285706    1.307042
+              |
+        _cons |   1.990597     .00355   560.73   0.000     1.983639    1.997555
+--------------+----------------------------------------------------------------
+   cve_ciudad |      F(45, 23935) =     86.316   0.000          (46 categories)
+
+. 
+. outreg2 using resultados\doc/est_areg_total ///
+>                         , keep(m1_20 m1_21 m1 i.marca) bdec(3) tex(fragment) append
+resultados\doc/est_areg_total.tex
+dir : seeout
+
+.                         
+. * dummies para mes y anio, con interacciones
+. *regress ppu i.marca i.month##year i.cve_ciudad
+. *areg ppu i.marca i.month##year, absorb(cve_ciudad)
+. *areg ppu m1_20##i.marca m1 i.month i.year, absorb(cve_ciudad)
+. areg ppu i.marca m1_20 m1_21 m1_20##i.marca m1_21##i.marca m1 i.month i.year, absorb(cve_ciudad)
+note: 1.m1_20 omitted because of collinearity
+note: 1.m1_21 omitted because of collinearity
+note: 12.month omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =     24,010
+                                                F(  41,  23923)   =    8843.22
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9405
+                                                Adj R-squared     =     0.9403
+                                                Root MSE          =     0.1078
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          marca |
+         CAMEL  |  -.0055945   .0025714    -2.18   0.030    -.0106347   -.0005543
+  CHESTERFIELD  |  -.5907853   .0026996  -218.84   0.000    -.5960768   -.5854938
+  LUCKY STRIKE  |    -.26571   .0025431  -104.48   0.000    -.2706946   -.2607255
+      MARLBORO  |   .0101266   .0021804     4.64   0.000     .0058528    .0144004
+       MONTANA  |  -.5238345   .0036834  -142.21   0.000    -.5310543   -.5166147
+     PALL MALL  |  -.4402479   .0024955  -176.42   0.000    -.4451392   -.4353566
+                |
+          m1_20 |   .0121935   .0181388     0.67   0.501    -.0233597    .0477466
+          m1_21 |    .032068   .0188712     1.70   0.089    -.0049208    .0690568
+        1.m1_20 |          0  (omitted)
+                |
+    m1_20#marca |
+       1#CAMEL  |  -.0120338     .03168    -0.38   0.704    -.0741285    .0500609
+1#CHESTERFIELD  |  -.1119358   .0330962    -3.38   0.001    -.1768065    -.047065
+1#LUCKY STRIKE  |  -.1501264   .0295505    -5.08   0.000    -.2080472   -.0922057
+    1#MARLBORO  |   .0512293   .0241344     2.12   0.034     .0039244    .0985343
+     1#MONTANA  |  -.2351111   .0475729    -4.94   0.000     -.328357   -.1418651
+   1#PALL MALL  |  -.0240419   .0255299    -0.94   0.346    -.0740822    .0259983
+                |
+        1.m1_21 |          0  (omitted)
+                |
+    m1_21#marca |
+       1#CAMEL  |  -.0401379   .0306663    -1.31   0.191    -.1002459    .0199701
+1#CHESTERFIELD  |  -.1176744   .0349744    -3.36   0.001    -.1862264   -.0491224
+1#LUCKY STRIKE  |  -.1343468   .0292714    -4.59   0.000    -.1917205    -.076973
+    1#MARLBORO  |   .0211994   .0243147     0.87   0.383    -.0264589    .0688577
+     1#MONTANA  |  -.3571888   .0476601    -7.49   0.000    -.4506057    -.263772
+   1#PALL MALL  |  -.0314974   .0255215    -1.23   0.217    -.0815212    .0185265
+                |
+             m1 |  -.0690409   .0035515   -19.44   0.000    -.0760021   -.0620797
+                |
+          month |
+             2  |  -.0351992   .0034128   -10.31   0.000    -.0418886   -.0285099
+             3  |  -.0282132   .0034141    -8.26   0.000    -.0349051   -.0215213
+             4  |  -.0268512   .0034146    -7.86   0.000    -.0335441   -.0201583
+             5  |  -.0258676   .0034601    -7.48   0.000    -.0326496   -.0190856
+             6  |  -.0238735   .0034601    -6.90   0.000    -.0306555   -.0170916
+             7  |  -.0163291   .0034601    -4.72   0.000    -.0231111   -.0095472
+             8  |  -.0077886   .0034697    -2.24   0.025    -.0145894   -.0009877
+             9  |  -.0033444   .0034679    -0.96   0.335    -.0101417     .003453
+            10  |  -.0023583   .0034679    -0.68   0.496    -.0091556     .004439
+            11  |  -.0007204   .0034674    -0.21   0.835    -.0075168     .006076
+            12  |          0  (omitted)
+                |
+           year |
+          2012  |   .0801972   .0031107    25.78   0.000     .0741001    .0862944
+          2013  |     .16303   .0031094    52.43   0.000     .1569354    .1691246
+          2014  |   .2853892   .0030841    92.53   0.000     .2793441    .2914343
+          2015  |   .3713287   .0031041   119.63   0.000     .3652445     .377413
+          2016  |    .400418   .0031228   128.22   0.000     .3942971    .4065389
+          2017  |   .5020248   .0031356   160.11   0.000     .4958789    .5081708
+          2018  |   .6425453   .0031849   201.75   0.000     .6363027    .6487878
+          2019  |   .8067734   .0032416   248.88   0.000     .8004197    .8131272
+          2020  |   1.156112   .0033257   347.63   0.000     1.149594    1.162631
+          2021  |   1.296574   .0054241   239.04   0.000     1.285943    1.307206
+                |
+          _cons |   1.989932   .0035424   561.75   0.000     1.982989    1.996875
+----------------+----------------------------------------------------------------
+     cve_ciudad |      F(45, 23923) =     86.827   0.000          (46 categories)
+
+. 
+. outreg2 using resultados\doc/est_areg_total ///
+>                         , keep(i.marca m1_20 m1_21 m1_20##i.marca m1_21##i.marca m1) bdec(3) tex(
+> fragment) append
+resultados\doc/est_areg_total.tex
+dir : seeout
+
+. 
+. testparm m1_20#i.marca
+
+ ( 1)  1.m1_20#2.marca = 0
+ ( 2)  1.m1_20#3.marca = 0
+ ( 3)  1.m1_20#4.marca = 0
+ ( 4)  1.m1_20#5.marca = 0
+ ( 5)  1.m1_20#6.marca = 0
+ ( 6)  1.m1_20#7.marca = 0
+
+       F(  6, 23923) =   14.06
+            Prob > F =    0.0000
+
+. testparm m1_21#i.marca
+
+ ( 1)  1.m1_21#2.marca = 0
+ ( 2)  1.m1_21#3.marca = 0
+ ( 3)  1.m1_21#4.marca = 0
+ ( 4)  1.m1_21#5.marca = 0
+ ( 5)  1.m1_21#6.marca = 0
+ ( 6)  1.m1_21#7.marca = 0
+
+       F(  6, 23923) =   15.71
+            Prob > F =    0.0000
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg.log
+  log type:  text
+ closed on:  22 Jul 2021, 12:20:05
+---------------------------------------------------------------------------------------------------

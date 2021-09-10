@@ -1,0 +1,1819 @@
+-----------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\en
+> cuesta\/para_precio4_5.log
+  log type:  text
+ opened on:  29 Aug 2021, 16:36:13
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. 
+. 
+. *cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
+. /*      CON EL ANÁLISIS A PARTIR DE LOS DATOS DE INEGI SE PUEDE OMITIR EL ANALISI
+> S DE LOS DATOS DEL 
+> LEVANTAMIENTO 8, EN PARTICULAR LA PROPORCIÓN DE MÁS DEL 50 % DEL CONSUMO DE MONTA
+> NA.
+> *use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
+> ", clear
+> use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weigh
+> ts.dta", clear
+> 
+> keep if wave == 8
+> 
+> do "$codigo/etiquetas_marcas.do"
+> 
+> drop if q029a > 3
+> 
+> // Benson
+> ta q029a if marca == 1
+> proportion q029a if marca == 1
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>      q029a:  q029a:  q029a:
+>          1       2       3
+> y1  .11875   .8125  .06875
+> 
+> */
+> matrix prop1 = e(b)
+> 
+> //Camel
+> ta q029a if marca == 2
+> proportion q029a if marca == 2
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>             1.         2.         3.
+>         q029a      q029a      q029a
+> y1  .11594203  .85507246  .02898551
+> */
+> matrix prop2 = e(b)
+> 
+> //Chesterfield
+> ta q029a if marca == 3
+> proportion q029a if marca == 3
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>             1.         2.         3.
+>         q029a      q029a      q029a
+> y1  .22580645  .41935484  .35483871
+> */
+> matrix prop3 = e(b)
+> 
+> //Lucky Strike
+> ta q029a if marca == 4
+> proportion q029a if marca == 4
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>             1.         2.         3.
+>         q029a      q029a      q029a
+> y1  .23529412  .67647059  .08823529
+> */
+> matrix prop4 = e(b)
+> 
+> //Marlboro
+> ta q029a if marca == 5
+> proportion q029a if marca == 5
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>         q029a      q029a      q029a
+> y1  .13453815  .80923695   .0562249
+> */
+> matrix prop5 = e(b)
+> 
+> //Montana
+> ta q029a if marca == 6
+> proportion q029a if marca == 6
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>         q029a      q029a      q029a
+> y1  .32758621  .17241379         .5
+> 
+> */
+> matrix prop6 = e(b)
+> // proporción de montana es alto para 25 cigarros en la cajetilla.
+> 
+> //Pall Mall
+> ta q029a if marca == 7
+> proportion q029a if marca == 7
+> matrix list e(b)
+> /* estimación de las proporciones
+> e(b)[1,3]
+>         q029a      q029a      q029a
+> y1  .11111111  .83333333  .05555556
+> 
+> */
+> matrix prop7 = e(b)
+> */
+. //
+. use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weigh
+> ts.dta", clear
+
+. 
+. keep if wave == 5
+(10,509 observations deleted)
+
+. 
+. do "$codigo/etiquetas_marcas.do"
+
+. /*
+> etiquetas_marcas.do
+> usado: recodificar.do
+> Etiquetar e identificar las marcas más relevantes para el análisis
+> 2.      Benson y Hedges o B&H
+> 4.      Camel
+> 5.      Chesterfield
+> 7.      Delicados > 5
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 19.     Pall Mall
+> 22.     Raleigh[021] > 15 
+> * también está la marca q026, último consumo, pero se reporta menos
+> */
+. gen marca = .
+(1,499 missing values generated)
+
+. replace marca = 1 if q019 == 2
+(164 real changes made)
+
+. replace marca = 2 if q019 == 4
+(64 real changes made)
+
+. replace marca = 3 if q019 == 5
+(37 real changes made)
+
+. replace marca = 3 if q019 == 7 // Delicados por Chesterfield
+(24 real changes made)
+
+. replace marca = 4 if q019 == 15
+(65 real changes made)
+
+. replace marca = 4 if q019 == 22 // Raleigh a Lucky
+(8 real changes made)
+
+. replace marca = 5 if q019 == 16
+(609 real changes made)
+
+. replace marca = 6 if q019 == 17
+(69 real changes made)
+
+. replace marca = 7 if q019 == 19
+(289 real changes made)
+
+. recode marca . = 99
+(marca: 170 changes made)
+
+. 
+. #delimit ;
+delimiter now ;
+. label define marca 1 "Benson y Hedges" 
+>                                 2 "Camel"
+>                                 3 "Chesterfield"
+>                                 4 "Lucky Strike"
+>                                 5 "Marlboro"
+>                                 6 "Montana"
+>                                 7 "Pall Mall"
+>                                 99 "Otras"
+>                 ;
+
+. #delimit cr
+delimiter now cr
+. 
+. label values marca marca
+
+. 
+. // tipo_marca
+. gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
+(662 missing values generated)
+
+. replace tipo = 2 if marca == 4 | marca == 7
+(362 real changes made)
+
+. replace tipo = 3 if marca == 3 | marca == 6
+(130 real changes made)
+
+. 
+. label define tipo 1 "premium" 2 "medio" 3 "bajo"
+
+. label values tipo tipo
+
+. 
+. // Juntar Chesterfield y Delicados
+. // Raleigh : Lucky
+. // ajustar manual q019r30oe.xls
+. // 
+. // wave 8
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. 
+. replace marca = 5 if q019r30oe =="Malboro rubi"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="marlboro ice"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro Sandía"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson violeta"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="lucky strike"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollmol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pallmall"
+(1 real change made)
+
+. replace marca = 6 if q019r30oe =="Shots"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall Mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MAL"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="delicados sin filtro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="malvoro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo Mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="raleigt"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucky strike"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson mentolado"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palmall doble clik"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="paull mool"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Marlboro rubi"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollman"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 2 if q019r30oe =="Camel mentolados"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucy strigth"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Montana"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. // 
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. /*
+> [IF 018=1] ¿Qué marca es?
+> [IF 018=2] ¿Qué marca estás fumando actualmente o fumaste más recientemente?
+> 1.      Alas[023]
+> 2.      Benson y Hedges o B&H
+> 3.      Broadway[023]
+> 4.      Camel
+> 5.      Chesterfield
+> 6.      Cohiba[021]
+> 7.      Delicados
+> 8.      Dunhill
+> 9.      Faros
+> 10.     Fiesta[021]
+> 11.     Fortuna
+> 12.     Garañon[021]
+> 13.     Joe’s
+> 14.     Kent
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 18.     Murattimar
+> 19.     Pall Mall
+> 20.     Popular 
+> 21.     RGD
+> 22.     Raleigh[021]
+> 23.     Salem[021]
+> 24.     Seneca
+> 25.     Viceroy[021]
+> 26.     West[021]
+> 27.     Winston
+> 28.     L & M Baronet 
+> 29.     Link Ice Fusion 
+> 30.     Otro [Especificar] ___________ [021]
+> 99      No sé[021]
+> */
+. 
+. 
+end of do-file
+
+. 
+. keep id wave marca q019 q029
+
+. 
+. // Benson
+. *hist q029 if marca == 1
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*_pctile q029 if marca == 1, percentiles(12 93)
+> pctile pc_q029_1 = q029 if marca == 1, nq(100) genp(perc_q029_1)
+> 
+> 
+> tempname p1_1 p1_2
+> scalar `p1_1' = round(prop1[1,1]*100)
+> scalar `p1_2' = `p1_1' + round(prop1[1,2]*100)
+> scalar list
+> _pctile q029 if marca == 1, percentiles(`p1_1'  `p1_2')
+> 
+> return list
+> r(r1)*/
+. /*
+> scalars:
+> 
+>                  r(r1) =  50
+>                  r(r2) =  90
+> */
+. 
+. gen cantidad_cigarros = .
+(1,499 missing values generated)
+
+. /* AJUSTE CON BASE EN PORCENTAJES DE WAVE 8
+>  Benson no ten'ia presentaci'on de 25 en INEGI
+> replace cantidad_cigarros = 14 if marca == 1 & q029 <=pc_q029_1[12]
+> replace cantidad_cigarros = 20 if marca == 1 & q029 >pc_q029_1[12] & q029 <= pc_q
+> 029_1[93]
+> replace cantidad_cigarros = 25 if marca == 1 & q029 >pc_q029_1[12] & q029 <= pc_q
+> 029_1[93]
+> */
+. * todos los de q019 igual a 1 con 20.
+. // OTROS IGUAL A 20
+. replace cantidad_cigarros = 20 if q019 == 1
+(0 real changes made)
+
+. // ESTOS Valores CORRESPONDE A Las fechas del WAVE 5 en la tabla de excel
+. // replace cantidad_cigarros = 14 if q019 == 2 & q029 <=56.7375471698113
+. // replace cantidad_cigarros = 20 if q019 == 2 & q029 >56.7375471698113
+. // CON EL CÓDIGO DEL EXCEL:
+. //replace cantidad_cigarros = 14 if q019 == 2 & q029 <=54.886
+. //replace cantidad_cigarros = 20 if q019 == 2 & q029 >54.886
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. // replace cantidad_cigarros = 14 if marca == 1 & q029 <=54.886
+. // replace cantidad_cigarros = 20 if marca == 1 & q029 >54.886
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 14 if marca == 1 & q029 <=62.48
+(cantidad_cigarros: 71 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 1 & q029 >62.48
+(cantidad_cigarros: 94 changes made)
+
+. 
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |         71       43.03       43.03
+         20 |         94       56.97      100.00
+------------+-----------------------------------
+      Total |        165      100.00
+
+. ta marca cantidad_, m
+
+                |        cantidad_cigarros
+          marca |        14         20          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |        71         94          0 |       165 
+          Camel |         0          0         64 |        64 
+   Chesterfield |         0          0         61 |        61 
+   Lucky Strike |         0          0         73 |        73 
+       Marlboro |         0          0        610 |       610 
+        Montana |         0          0         69 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          0        164 |       164 
+----------------+---------------------------------+----------
+          Total |        71         94      1,334 |     1,499 
+
+
+. 
+. //Camel
+. *hist q029 if marca == 2
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*
+> _pctile q029 if marca == 2, percentiles(12 97)
+> 
+> return list
+> 
+> scalars:
+>                  r(r1) =  47
+>                  r(r2) =  85
+> 
+> */
+. replace cantidad_cigarros = 20 if q019 == 3
+(2 real changes made)
+
+. // SI NO HAY VARIABLES QUE CAMBIEN LA MARCA NO SE REQUIERE AJUSTAR EL VALOR PARA 
+> LA MARCA
+. // replace cantidad_cigarros = 14 if q019 == 4 & q029 <=54.3625
+. // replace cantidad_cigarros = 20 if q019 == 4 & q029 >54.3625
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 14 if marca == 2 & q029 <=60.1
+(cantidad_cigarros: 34 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 2 & q029 >60.1
+(cantidad_cigarros: 30 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        105       45.45       45.45
+         20 |        126       54.55      100.00
+------------+-----------------------------------
+      Total |        231      100.00
+
+. ta marca cantidad_, m
+
+                |        cantidad_cigarros
+          marca |        14         20          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |        71         94          0 |       165 
+          Camel |        34         30          0 |        64 
+   Chesterfield |         0          0         61 |        61 
+   Lucky Strike |         0          0         73 |        73 
+       Marlboro |         0          0        610 |       610 
+        Montana |         0          0         69 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          2        162 |       164 
+----------------+---------------------------------+----------
+          Total |       105        126      1,268 |     1,499 
+
+
+. 
+. //Chesterfield
+. *hist q029 if marca == 3
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*
+> _pctile q029 if marca == 3, percentiles(23 64)
+> 
+> return list
+> 
+> scalars:
+>                  r(r1) =  45
+>                  r(r2) =  55
+> 
+> */
+. 
+. /* EL AJUSTE ORIGINAL SOLO APLICARÍA A LA PARTE DE CHESTERFIELD, NO A DELICADOS
+> replace cantidad_cigarros = 15 if q019 == 5 & q029 <=48.3845
+> // ORIGINAL reescribe los de 14 a 18
+> // replace cantidad_cigarros = 18 if q019 == 5 & q029 <=48.3845
+> // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+> // NO LO CAMBIA
+> recode cantidad_cigarros . = 18 if q019 == 5 & q029 <=48.3845
+> // ORIGINAL reescribe los menores a 20 a 20
+> //replace cantidad_cigarros = 20 if q019 == 5 & q029 <=48.3845
+> // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+> // NO LO CAMBIA
+> recode cantidad_cigarros . = 20 if q019 == 5 & q029 <=48.3845
+> // ORIGINAL reescribe los menores a 24
+> // replace cantidad_cigarros = 24 if q019 == 5 & q029 <=48.3845
+> // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+> // NO LO CAMBIA
+> recode cantidad_cigarros . = 24 if q019 == 5 & q029 <=48.3845
+> // ORIGINAL reescribe los de 14 y 20 a 24
+> // replace cantidad_cigarros = 25 if q019 == 5 & q029 >48.3845
+> // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+> // NO LO CAMBIA
+> recode cantidad_cigarros . = 25 if q019 == 5 & q029 >48.3845
+> 
+> ta cantidad_
+> ta marca cantidad_, m
+> */
+. 
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. // replace cantidad_cigarros = 15 if marca == 3 & q029 <=48.3845
+. // recode cantidad_cigarros . = 18 if marca == 3 & q029 <=48.3845
+. // recode cantidad_cigarros . = 20 if marca == 3 & q029 <=48.3845
+. // recode cantidad_cigarros . = 24 if marca == 3 & q029 <=48.3845
+. // recode cantidad_cigarros . = 25 if marca == 3 & q029 >48.3845
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 15 if marca == 3 & q029 <=45.0975
+(cantidad_cigarros: 14 changes made)
+
+. recode cantidad_cigarros . = 18 if marca == 3 & q029 <=49.7225
+(cantidad_cigarros: 4 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 3 & q029 <=49.8
+(cantidad_cigarros: 0 changes made)
+
+. recode cantidad_cigarros . = 24 if marca == 3 & q029 <=53.5714
+(cantidad_cigarros: 7 changes made)
+
+. recode cantidad_cigarros . = 25 if marca == 3 & q029 >53.5714
+(cantidad_cigarros: 36 changes made)
+
+. 
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        105       35.96       35.96
+         15 |         14        4.79       40.75
+         18 |          4        1.37       42.12
+         20 |        126       43.15       85.27
+         24 |          7        2.40       87.67
+         25 |         36       12.33      100.00
+------------+-----------------------------------
+      Total |        292      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        71          0          0         94 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0          0 |        73 
+       Marlboro |         0          0          0          0 |       610 
+        Montana |         0          0          0          0 |        69 
+      Pall Mall |         0          0          0          0 |       293 
+          Otras |         0          0          0          2 |       164 
+----------------+--------------------------------------------+----------
+          Total |       105         14          4        126 |     1,499 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       165 
+          Camel |         0          0          0 |        64 
+   Chesterfield |         7         36          0 |        61 
+   Lucky Strike |         0          0         73 |        73 
+       Marlboro |         0          0        610 |       610 
+        Montana |         0          0         69 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          0        162 |       164 
+----------------+---------------------------------+----------
+          Total |         7         36      1,207 |     1,499 
+
+
+. 
+. // OTROS IGUAL A 20
+. replace cantidad_cigarros = 20 if q019 == 6
+(0 real changes made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 8
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 9
+(3 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 10
+(0 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 11
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 12
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 13
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 14
+(4 real changes made)
+
+. 
+. //Lucky Strike
+. *hist q029 if marca == 4
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*_pctile q029 if marca == 4, percentiles(24 91)
+> 
+> return list
+> 
+> 
+> scalars:
+>                  r(r1) =  54
+>                  r(r2) =  67
+> 
+> */
+. // replace cantidad_cigarros = 14 if q019 == 15 & q029 <=59.5315
+. // replace cantidad_cigarros = 20 if q019 == 15 & q029 >59.5315
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. // replace cantidad_cigarros = 14 if marca == 4 & q029 <=59.5315
+. // replace cantidad_cigarros = 20 if marca == 4 & q029 >59.5315
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 20 if marca == 4 & q029 <=56.618
+(cantidad_cigarros: 32 changes made)
+
+. recode cantidad_cigarros . = 25 if marca == 4 & q029 >56.618
+(cantidad_cigarros: 41 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        105       27.85       27.85
+         15 |         14        3.71       31.56
+         18 |          4        1.06       32.63
+         20 |        170       45.09       77.72
+         24 |          7        1.86       79.58
+         25 |         77       20.42      100.00
+------------+-----------------------------------
+      Total |        377      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        71          0          0         94 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0         32 |        73 
+       Marlboro |         0          0          0          0 |       610 
+        Montana |         0          0          0          0 |        69 
+      Pall Mall |         0          0          0          0 |       293 
+          Otras |         0          0          0         14 |       164 
+----------------+--------------------------------------------+----------
+          Total |       105         14          4        170 |     1,499 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       165 
+          Camel |         0          0          0 |        64 
+   Chesterfield |         7         36          0 |        61 
+   Lucky Strike |         0         41          0 |        73 
+       Marlboro |         0          0        610 |       610 
+        Montana |         0          0         69 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          0        150 |       164 
+----------------+---------------------------------+----------
+          Total |         7         77      1,122 |     1,499 
+
+
+. 
+. //Marlboro
+. *hist q029 if marca == 5
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*_pctile q029 if marca == 5, percentiles(13 94)
+> 
+> return list
+> 
+> 
+> scalars:
+>                  r(r1) =  50
+>                  r(r2) =  77
+> 
+> */
+. // replace cantidad_cigarros = 14 if q019 == 16 & q029 <=55.8757
+. // replace cantidad_cigarros = 20 if q019 == 16 & q029 >55.8757
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. // replace cantidad_cigarros = 14 if marca == 5 & q029 <=55.8757
+. // replace cantidad_cigarros = 20 if marca == 5 & q029 >55.8757
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 14 if marca == 5 & q029 <=63.3219
+(cantidad_cigarros: 353 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 5 & q029 >63.3219
+(cantidad_cigarros: 257 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        458       46.40       46.40
+         15 |         14        1.42       47.82
+         18 |          4        0.41       48.23
+         20 |        427       43.26       91.49
+         24 |          7        0.71       92.20
+         25 |         77        7.80      100.00
+------------+-----------------------------------
+      Total |        987      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        71          0          0         94 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0         32 |        73 
+       Marlboro |       353          0          0        257 |       610 
+        Montana |         0          0          0          0 |        69 
+      Pall Mall |         0          0          0          0 |       293 
+          Otras |         0          0          0         14 |       164 
+----------------+--------------------------------------------+----------
+          Total |       458         14          4        427 |     1,499 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       165 
+          Camel |         0          0          0 |        64 
+   Chesterfield |         7         36          0 |        61 
+   Lucky Strike |         0         41          0 |        73 
+       Marlboro |         0          0          0 |       610 
+        Montana |         0          0         69 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          0        150 |       164 
+----------------+---------------------------------+----------
+          Total |         7         77        512 |     1,499 
+
+
+. 
+. //Montana
+. *hist q029 if marca == 6
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*_pctile q029 if marca == 6, percentiles(33 50)
+> 
+> return list
+> 
+> 
+> scalars:
+>                  r(r1) =  38
+>                  r(r2) =  50
+> 
+> */
+. // replace cantidad_cigarros = 14 if q019 == 17 & q029 <=45.8906
+. // // ORIGINAL reescribe los de 14 a 20
+. // // replace cantidad_cigarros = 15 if q019 == 17 & q029 <=45.8906
+. // // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+. // // NO LO CAMBIA
+. // recode cantidad_cigarros . = 15 if q019 == 17 & q029 <=45.8906
+. // // ORIGINAL reescribe los de 14 y 20 a 24
+. // // replace cantidad_cigarros = 24 if q019 == 17 & q029 <=45.8906
+. // // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+. // // NO LO CAMBIA
+. // recode cantidad_cigarros . = 24 if q019 == 17 & q029 <=45.8906
+. // // ORIGINAL reescribe los de 14 y 20 a 24
+. // // replace cantidad_cigarros = 25 if q019 == 17 & q029 >45.8906
+. // // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+. // // NO LO CAMBIA
+. // recode cantidad_cigarros . = 25 if q019 == 17 & q029 >45.8906
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 14 if marca == 6 & q029 <=37
+(cantidad_cigarros: 16 changes made)
+
+. recode cantidad_cigarros . = 15 if marca == 6 & q029 <=46
+(cantidad_cigarros: 11 changes made)
+
+. recode cantidad_cigarros . = 24 if marca == 6 & q029 >46
+(cantidad_cigarros: 42 changes made)
+
+. 
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        474       44.89       44.89
+         15 |         25        2.37       47.25
+         18 |          4        0.38       47.63
+         20 |        427       40.44       88.07
+         24 |         49        4.64       92.71
+         25 |         77        7.29      100.00
+------------+-----------------------------------
+      Total |      1,056      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        71          0          0         94 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0         32 |        73 
+       Marlboro |       353          0          0        257 |       610 
+        Montana |        16         11          0          0 |        69 
+      Pall Mall |         0          0          0          0 |       293 
+          Otras |         0          0          0         14 |       164 
+----------------+--------------------------------------------+----------
+          Total |       474         25          4        427 |     1,499 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       165 
+          Camel |         0          0          0 |        64 
+   Chesterfield |         7         36          0 |        61 
+   Lucky Strike |         0         41          0 |        73 
+       Marlboro |         0          0          0 |       610 
+        Montana |        42          0          0 |        69 
+      Pall Mall |         0          0        293 |       293 
+          Otras |         0          0        150 |       164 
+----------------+---------------------------------+----------
+          Total |        49         77        443 |     1,499 
+
+
+. 
+. // OTROS IGUAL A 20
+. replace cantidad_cigarros = 20 if q019 == 18
+(2 real changes made)
+
+. 
+. //Pall Mall
+. *hist q029 if marca == 7
+. // los percentiles se toman del cálculo de la proporción en la w8
+. /*_pctile q029 if marca == 7, percentiles(11 93)
+> 
+> return list
+> 
+> 
+> scalars:
+>                  r(r1) =  48
+>                  r(r2) =  65
+> 
+> */
+. // replace cantidad_cigarros = 14 if q019 == 19 & q029 <=49.1343
+. // // ORIGINAL reescribe los de 14 a 20
+. // // replace cantidad_cigarros = 20 if q019 == 19 & q029 <=49.1343
+. // // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+. // // NO LO CAMBIA
+. // recode cantidad_cigarros . = 20 if q019 == 19 & q029 <=49.1343 
+. // // ORIGINAL reescribe los de 14 y 20 a 24
+. // // replace cantidad_cigarros = 24 if q019 == 19 & q029 >49.1343
+. // // SUSTITUIDO CON RECODE, PARA SOLO CAMBIAR LOS VACIOS, SI YA TIENE UN VALOR
+. // // NO LO CAMBIA
+. // recode cantidad_cigarros . = 24 if q019 == 19 & q029 >49.1343
+. // SE MODIFICA LA CANTIDAD QUE DEFINE EL PUNTO DE CORTE 
+. // PARA TENER PROMEDIOS PONDERADOS
+. recode cantidad_cigarros . = 14 if marca == 7 & q029 <=52.5769
+(cantidad_cigarros: 56 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 7 & q029 >52.5769
+(cantidad_cigarros: 237 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        530       39.23       39.23
+         15 |         25        1.85       41.08
+         18 |          4        0.30       41.38
+         20 |        666       49.30       90.67
+         24 |         49        3.63       94.30
+         25 |         77        5.70      100.00
+------------+-----------------------------------
+      Total |      1,351      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        71          0          0         94 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0         32 |        73 
+       Marlboro |       353          0          0        257 |       610 
+        Montana |        16         11          0          0 |        69 
+      Pall Mall |        56          0          0        237 |       293 
+          Otras |         0          0          0         16 |       164 
+----------------+--------------------------------------------+----------
+          Total |       530         25          4        666 |     1,499 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       165 
+          Camel |         0          0          0 |        64 
+   Chesterfield |         7         36          0 |        61 
+   Lucky Strike |         0         41          0 |        73 
+       Marlboro |         0          0          0 |       610 
+        Montana |        42          0          0 |        69 
+      Pall Mall |         0          0          0 |       293 
+          Otras |         0          0        148 |       164 
+----------------+---------------------------------+----------
+          Total |        49         77        148 |     1,499 
+
+
+. 
+. // OTROS IGUAL A 20
+. replace cantidad_cigarros = 20 if q019 == 20
+(0 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 21
+(0 real changes made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 23
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 24
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 25
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 26
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 27
+(10 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 28
+(16 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 29
+(0 real changes made)
+
+. 
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. recode cantidad_cigarros . = 20 if marca == 99
+(cantidad_cigarros: 117 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        529       35.29       35.29
+         15 |         25        1.67       36.96
+         18 |          4        0.27       37.22
+         20 |        815       54.37       91.59
+         24 |         49        3.27       94.86
+         25 |         77        5.14      100.00
+------------+-----------------------------------
+      Total |      1,499      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        70          0          0         95 |       165 
+          Camel |        34          0          0         30 |        64 
+   Chesterfield |         0         14          4          0 |        61 
+   Lucky Strike |         0          0          0         32 |        73 
+       Marlboro |       353          0          0        257 |       610 
+        Montana |        16         11          0          0 |        69 
+      Pall Mall |        56          0          0        237 |       293 
+          Otras |         0          0          0        164 |       164 
+----------------+--------------------------------------------+----------
+          Total |       529         25          4        815 |     1,499 
+
+
+                |   cantidad_cigarros
+          marca |        24         25 |     Total
+----------------+----------------------+----------
+Benson y Hedges |         0          0 |       165 
+          Camel |         0          0 |        64 
+   Chesterfield |         7         36 |        61 
+   Lucky Strike |         0         41 |        73 
+       Marlboro |         0          0 |       610 
+        Montana |        42          0 |        69 
+      Pall Mall |         0          0 |       293 
+          Otras |         0          0 |       164 
+----------------+----------------------+----------
+          Total |        49         77 |     1,499 
+
+
+. 
+. save "$datos/cantidades_cigarros_w5.dta", replace
+file datos/encuesta//cantidades_cigarros_w5.dta saved
+
+. 
+. // WAVE 4
+. use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weigh
+> ts.dta", clear
+
+. 
+. keep if wave == 4
+(10,504 observations deleted)
+
+. 
+. do "$codigo/etiquetas_marcas.do"
+
+. /*
+> etiquetas_marcas.do
+> usado: recodificar.do
+> Etiquetar e identificar las marcas más relevantes para el análisis
+> 2.      Benson y Hedges o B&H
+> 4.      Camel
+> 5.      Chesterfield
+> 7.      Delicados > 5
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 19.     Pall Mall
+> 22.     Raleigh[021] > 15 
+> * también está la marca q026, último consumo, pero se reporta menos
+> */
+. gen marca = .
+(1,504 missing values generated)
+
+. replace marca = 1 if q019 == 2
+(179 real changes made)
+
+. replace marca = 2 if q019 == 4
+(74 real changes made)
+
+. replace marca = 3 if q019 == 5
+(38 real changes made)
+
+. replace marca = 3 if q019 == 7 // Delicados por Chesterfield
+(31 real changes made)
+
+. replace marca = 4 if q019 == 15
+(57 real changes made)
+
+. replace marca = 4 if q019 == 22 // Raleigh a Lucky
+(1 real change made)
+
+. replace marca = 5 if q019 == 16
+(628 real changes made)
+
+. replace marca = 6 if q019 == 17
+(72 real changes made)
+
+. replace marca = 7 if q019 == 19
+(265 real changes made)
+
+. recode marca . = 99
+(marca: 159 changes made)
+
+. 
+. #delimit ;
+delimiter now ;
+. label define marca 1 "Benson y Hedges" 
+>                                 2 "Camel"
+>                                 3 "Chesterfield"
+>                                 4 "Lucky Strike"
+>                                 5 "Marlboro"
+>                                 6 "Montana"
+>                                 7 "Pall Mall"
+>                                 99 "Otras"
+>                 ;
+
+. #delimit cr
+delimiter now cr
+. 
+. label values marca marca
+
+. 
+. // tipo_marca
+. gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
+(623 missing values generated)
+
+. replace tipo = 2 if marca == 4 | marca == 7
+(323 real changes made)
+
+. replace tipo = 3 if marca == 3 | marca == 6
+(141 real changes made)
+
+. 
+. label define tipo 1 "premium" 2 "medio" 3 "bajo"
+
+. label values tipo tipo
+
+. 
+. // Juntar Chesterfield y Delicados
+. // Raleigh : Lucky
+. // ajustar manual q019r30oe.xls
+. // 
+. // wave 8
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. 
+. replace marca = 5 if q019r30oe =="Malboro rubi"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro ice"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro Sandía"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson violeta"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="lucky strike"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(1 real change made)
+
+. replace marca = 3 if q019r30oe =="chesterfield"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pollmol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pallmall"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shots"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall Mall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pall mol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MAL"
+(1 real change made)
+
+. replace marca = 3 if q019r30oe =="delicados sin filtro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="malvoro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo Mall"
+(1 real change made)
+
+. replace marca = 4 if q019r30oe =="raleigt"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucky strike"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson mentolado"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palmall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Palmall doble clik"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="paull mool"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Marlboro rubi"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollman"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 2 if q019r30oe =="Camel mentolados"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucy strigth"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Montana"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. // 
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. /*
+> [IF 018=1] ¿Qué marca es?
+> [IF 018=2] ¿Qué marca estás fumando actualmente o fumaste más recientemente?
+> 1.      Alas[023]
+> 2.      Benson y Hedges o B&H
+> 3.      Broadway[023]
+> 4.      Camel
+> 5.      Chesterfield
+> 6.      Cohiba[021]
+> 7.      Delicados
+> 8.      Dunhill
+> 9.      Faros
+> 10.     Fiesta[021]
+> 11.     Fortuna
+> 12.     Garañon[021]
+> 13.     Joe’s
+> 14.     Kent
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 18.     Murattimar
+> 19.     Pall Mall
+> 20.     Popular 
+> 21.     RGD
+> 22.     Raleigh[021]
+> 23.     Salem[021]
+> 24.     Seneca
+> 25.     Viceroy[021]
+> 26.     West[021]
+> 27.     Winston
+> 28.     L & M Baronet 
+> 29.     Link Ice Fusion 
+> 30.     Otro [Especificar] ___________ [021]
+> 99      No sé[021]
+> */
+. 
+. 
+end of do-file
+
+. 
+. keep id wave marca q019 q029 
+
+. // Benson
+. /*sum q029 if marca == 1, d
+> *hist q029 if marca == 1
+> // los percentiles se toman del cálculo de la proporción en la w8
+> 
+> _pctile q029 if marca == 1, percentiles(12 93)
+> 
+> 
+> // pctile pc_q029_1 = q029 if marca == 1, genp(pc_precio_1) nq
+> 
+> return list
+> 
+> scalars:
+>                  r(r1) =  48
+>                  r(r2) =  90
+> */
+. /* ALTERNATIVOA A PARTIR DEL WAVE 8 
+> gen cantidad_cigarros = .
+> replace cantidad_cigarros = 14 if marca == 1 & q029 <=48
+> replace cantidad_cigarros = 20 if marca == 1 & q029 >48 & q029 <=90
+> replace cantidad_cigarros = 25 if marca == 1 & q029 >90
+> */
+. gen cantidad_cigarros = .
+(1,504 missing values generated)
+
+. 
+. recode cantidad_cigarros . = 14 if marca == 1 & q029 <=56.7375
+(cantidad_cigarros: 73 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 1 & q029 >56.7375
+(cantidad_cigarros: 106 changes made)
+
+. 
+. 
+. recode cantidad_cigarros . = 14 if marca == 2 & q029 <=56.0444
+(cantidad_cigarros: 33 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 2 & q029 >56.0444
+(cantidad_cigarros: 41 changes made)
+
+. 
+. recode cantidad_cigarros . = 14 if marca == 3 & q029 <=31.6667
+(cantidad_cigarros: 3 changes made)
+
+. recode cantidad_cigarros . = 15 if marca == 3 & q029 <=41.5536
+(cantidad_cigarros: 11 changes made)
+
+. recode cantidad_cigarros . = 18 if marca == 3 & q029 <=44.2083
+(cantidad_cigarros: 3 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 3 & q029 <=44.1667
+(cantidad_cigarros: 0 changes made)
+
+. recode cantidad_cigarros . = 24 if marca == 3 & q029 <=48.1667
+(cantidad_cigarros: 11 changes made)
+
+. recode cantidad_cigarros . = 25 if marca == 3 & q029 >48.1667
+(cantidad_cigarros: 42 changes made)
+
+. 
+. recode cantidad_cigarros . = 20 if marca == 4 & q029 <=51.315
+(cantidad_cigarros: 22 changes made)
+
+. recode cantidad_cigarros . = 25 if marca == 4 & q029 >51.315
+(cantidad_cigarros: 36 changes made)
+
+. 
+. recode cantidad_cigarros . = 14 if marca == 5 & q029 <=57.2391
+(cantidad_cigarros: 366 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 5 & q029 >57.2391
+(cantidad_cigarros: 262 changes made)
+
+. 
+. 
+. recode cantidad_cigarros . = 14 if marca == 6 & q029 <=32.25
+(cantidad_cigarros: 17 changes made)
+
+. recode cantidad_cigarros . = 15 if marca == 6 & q029 <=35.2
+(cantidad_cigarros: 8 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 6 & q029 <=48.8571
+(cantidad_cigarros: 20 changes made)
+
+. recode cantidad_cigarros . = 24 if marca == 6 & q029 <=49
+(cantidad_cigarros: 7 changes made)
+
+. recode cantidad_cigarros . = 25 if marca == 6 & q029 >49
+(cantidad_cigarros: 20 changes made)
+
+. 
+. recode cantidad_cigarros . = 14 if marca == 7 & q029 <=47.7678
+(cantidad_cigarros: 51 changes made)
+
+. recode cantidad_cigarros . = 20 if marca == 7 & q029 <=49.6216
+(cantidad_cigarros: 65 changes made)
+
+. recode cantidad_cigarros . = 24 if marca == 7 & q029 >49.6216
+(cantidad_cigarros: 156 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        543       40.13       40.13
+         15 |         19        1.40       41.54
+         18 |          3        0.22       41.76
+         20 |        516       38.14       79.90
+         24 |        174       12.86       92.76
+         25 |         98        7.24      100.00
+------------+-----------------------------------
+      Total |      1,353      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        73          0          0        106 |       179 
+          Camel |        33          0          0         41 |        74 
+   Chesterfield |         3         11          3          0 |        70 
+   Lucky Strike |         0          0          0         22 |        58 
+       Marlboro |       366          0          0        262 |       628 
+        Montana |        17          8          0         20 |        72 
+      Pall Mall |        51          0          0         65 |       272 
+          Otras |         0          0          0          0 |       151 
+----------------+--------------------------------------------+----------
+          Total |       543         19          3        516 |     1,504 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       179 
+          Camel |         0          0          0 |        74 
+   Chesterfield |        11         42          0 |        70 
+   Lucky Strike |         0         36          0 |        58 
+       Marlboro |         0          0          0 |       628 
+        Montana |         7         20          0 |        72 
+      Pall Mall |       156          0          0 |       272 
+          Otras |         0          0        151 |       151 
+----------------+---------------------------------+----------
+          Total |       174         98        151 |     1,504 
+
+
+. 
+. /* OTROS */
+. replace cantidad_cigarros = 20 if q019 == 1
+(1 real change made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 3
+(2 real changes made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 6
+(2 real changes made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 8
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 9
+(3 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 10
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 11
+(0 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 12
+(6 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 13
+(0 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 14
+(0 real changes made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 18
+(1 real change made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 20
+(0 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 21
+(1 real change made)
+
+. 
+. replace cantidad_cigarros = 20 if q019 == 23
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 24
+(2 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 25
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 26
+(1 real change made)
+
+. replace cantidad_cigarros = 20 if q019 == 27
+(13 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 28
+(29 real changes made)
+
+. replace cantidad_cigarros = 20 if q019 == 29
+(0 real changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        540       38.22       38.22
+         15 |         19        1.34       39.56
+         18 |          3        0.21       39.77
+         20 |        583       41.26       81.03
+         24 |        170       12.03       93.06
+         25 |         98        6.94      100.00
+------------+-----------------------------------
+      Total |      1,413      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        73          0          0        106 |       179 
+          Camel |        33          0          0         41 |        74 
+   Chesterfield |         3         11          3          1 |        70 
+   Lucky Strike |         0          0          0         22 |        58 
+       Marlboro |       366          0          0        262 |       628 
+        Montana |        17          8          0         20 |        72 
+      Pall Mall |        48          0          0         71 |       272 
+          Otras |         0          0          0         60 |       151 
+----------------+--------------------------------------------+----------
+          Total |       540         19          3        583 |     1,504 
+
+
+                |        cantidad_cigarros
+          marca |        24         25          . |     Total
+----------------+---------------------------------+----------
+Benson y Hedges |         0          0          0 |       179 
+          Camel |         0          0          0 |        74 
+   Chesterfield |        10         42          0 |        70 
+   Lucky Strike |         0         36          0 |        58 
+       Marlboro |         0          0          0 |       628 
+        Montana |         7         20          0 |        72 
+      Pall Mall |       153          0          0 |       272 
+          Otras |         0          0         91 |       151 
+----------------+---------------------------------+----------
+          Total |       170         98         91 |     1,504 
+
+
+. 
+. // SE CAMBIA q019 por marca PARA MANTENER LA CONSISTENCIA SOBRE LAS MARCAS EN eti
+> quetas_marcas.do
+. recode cantidad_cigarros . = 20 if marca == 99
+(cantidad_cigarros: 91 changes made)
+
+. 
+. ta cantidad_
+
+cantidad_ci |
+     garros |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         14 |        540       35.90       35.90
+         15 |         19        1.26       37.17
+         18 |          3        0.20       37.37
+         20 |        674       44.81       82.18
+         24 |        170       11.30       93.48
+         25 |         98        6.52      100.00
+------------+-----------------------------------
+      Total |      1,504      100.00
+
+. ta marca cantidad_, m
+
+                |              cantidad_cigarros
+          marca |        14         15         18         20 |     Total
+----------------+--------------------------------------------+----------
+Benson y Hedges |        73          0          0        106 |       179 
+          Camel |        33          0          0         41 |        74 
+   Chesterfield |         3         11          3          1 |        70 
+   Lucky Strike |         0          0          0         22 |        58 
+       Marlboro |       366          0          0        262 |       628 
+        Montana |        17          8          0         20 |        72 
+      Pall Mall |        48          0          0         71 |       272 
+          Otras |         0          0          0        151 |       151 
+----------------+--------------------------------------------+----------
+          Total |       540         19          3        674 |     1,504 
+
+
+                |   cantidad_cigarros
+          marca |        24         25 |     Total
+----------------+----------------------+----------
+Benson y Hedges |         0          0 |       179 
+          Camel |         0          0 |        74 
+   Chesterfield |        10         42 |        70 
+   Lucky Strike |         0         36 |        58 
+       Marlboro |         0          0 |       628 
+        Montana |         7         20 |        72 
+      Pall Mall |       153          0 |       272 
+          Otras |         0          0 |       151 
+----------------+----------------------+----------
+          Total |       170         98 |     1,504 
+
+
+. 
+. save "$datos/cantidades_cigarros_w4.dta", replace
+file datos/encuesta//cantidades_cigarros_w4.dta saved
+
+. 
+. use "$datos/cantidades_cigarros_w4.dta", clear
+
+. 
+. append using "$datos/cantidades_cigarros_w5.dta"
+(label marca already defined)
+
+. 
+. save "$datos/cant_cigarros_w4_w5.dta", replace
+file datos/encuesta//cant_cigarros_w4_w5.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\en
+> cuesta\/para_precio4_5.log
+  log type:  text
+ closed on:  29 Aug 2021, 16:36:14
+-----------------------------------------------------------------------------------

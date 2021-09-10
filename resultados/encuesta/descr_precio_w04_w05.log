@@ -1,0 +1,1013 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05.log
+  log type:  text
+ opened on:   8 Sep 2021, 11:58:07
+
+. 
+. global v_tabA "sexo gr_edad gr_educ gr_ingr patron single tipo"
+
+. global v_tabB "sexo edad_gr3 gr_educ gr_ingr patron single tipo"
+
+. global v_tab "sexo gr_edad edad_gr3 gr_educ educ_gr3 gr_ingr patron single tipo"
+
+. 
+. // cambiar para wave 1 a 8
+. // "$datos/c_pw4_w5_balanc.dta",
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // local balanced_unbalanced  = "unbalanc"
+. 
+. foreach balanced_unbalanced  in unbalanc balanc {
+  2.         local data = "$datos/c_pw4_w5_`balanced_unbalanced'.dta"
+  3.         use "`data'", clear
+  4.         // use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
+.         foreach var_sum of varlist ppu consumo_semanal {
+  5.                 foreach w of numlist 4 5 {
+  6.                 di "Levantamiento " `w'
+  7.                  /***************************************************************************/
+.                          // UNBALANCED
+.                          // cambiar para wave 1 a 8
+.                 preserve 
+  8.                         keep if wave == `w'
+  9.                 * prueba:
+.                 *       keep if wave == 4
+. 
+.                         // sexo
+.                         tab1 $v_tab if has_fumado_1mes, sum(`var_sum') 
+ 10.                 restore
+ 11.                 }
+ 12.         }
+ 13. }
+Levantamiento 4
+(1,351 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            |           Summary of ppu
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   3.3507083   1.2717636         756
+   Femenino |   3.4122059   1.5772649         634
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.7371088   1.7416922         168
+      25-44 |   3.4913073   1.5153972         789
+      45-64 |   3.0474891   .94046732         416
+        65+ |   2.7201681   1.3544363          17
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.7371088   1.7416922         168
+      25-29 |   3.7090866   1.5557399         220
+      30-34 |   3.4623231   1.4144073         218
+      35-39 |   3.4685667   1.6388465         203
+      40-44 |   3.2414656   1.3873082         148
+      45-54 |   3.0918789   .93665741         258
+        55+ |    2.950249    .9901696         175
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |      3.2375   1.3784053          12
+  Secundari |   3.0785829   1.3413871         125
+  Técnica o |   3.3267428   1.1872577         516
+  Universid |   3.4758273   1.5741863         725
+       Otro |   3.0189286   1.0371436          12
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   3.0925026   1.3402483         137
+    Técnica |   3.0909069   .97093035         152
+  Preparato |   3.4252237   1.2548543         364
+  Licenciat |   3.4804137   1.5814393         263
+  Licenciat |   3.4884833   1.6286002         408
+       Otro |    3.296241   1.0488409          66
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de |
+    ingreso |           Summary of ppu
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   4.0611456   2.5180865          69
+  3,001 a 5 |   3.3287311   1.1833565          82
+  5,001 a 8 |   3.3523187   1.4093034         130
+  8,001 a 1 |   3.3423782   1.7731715         170
+  10,001 a  |   3.3470946   1.1049526         232
+  15,001 a  |   3.2577092   .91604575         272
+  20,001 a  |   3.2841394   1.3496322         306
+    50 mil+ |   3.8196429   1.7037147          60
+      No sé |   3.5151484   1.6097286          69
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of |
+smoking_pat |           Summary of ppu
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |    3.690656   1.5898324         694
+      daily |   3.0677569   1.1447397         696
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of singles if has_fumado_1mes 
+
+            |           Summary of ppu
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |    2.948613   .87717208       1,129
+   sueltos  |   5.2394253   1.7724043         261
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+    tipo de |           Summary of ppu
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   2.8681742   .88503844         636
+  diario-su |   5.1833333   1.4230746          60
+  esporádic |   3.0523838   .85670828         493
+  esporádic |   5.2561692    1.866869         201
+------------+------------------------------------
+      Total |   3.3787583    1.419088       1,390
+Levantamiento 5
+(1,390 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            |           Summary of ppu
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   3.4998292     1.37325         694
+   Femenino |   3.5316852   1.5135145         657
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.9693548   1.9056339         186
+      25-44 |   3.5930543   1.4010606         768
+      45-64 |   3.1701306   1.1693142         383
+        65+ |    2.662347   .93645473          14
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.9693548   1.9056339         186
+      25-29 |   3.7187883   1.3792778         224
+      30-34 |   3.5272946   1.3443634         226
+      35-39 |   3.5967913    1.369762         191
+      40-44 |   3.4826884   1.5739976         127
+      45-54 |   3.2872857   1.2263425         250
+        55+ |   2.9225267   1.0149513         147
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |   3.0111111   .81768643           9
+  Secundari |    3.572077   1.6315572         141
+  Técnica o |   3.5231567   1.5072621         515
+  Universid |   3.4995748   1.3534044         682
+       Otro |       4.325   1.9341233           4
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   3.5384191   1.5984223         150
+    Técnica |   3.3442608   1.1724851         172
+  Preparato |   3.6128655    1.644042         343
+  Licenciat |   3.5665253    1.334997         229
+  Licenciat |   3.4365103   1.3318005         402
+       Otro |   3.7417922   1.5979706          55
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de |
+    ingreso |           Summary of ppu
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   3.8403131   1.6592086          73
+  3,001 a 5 |   3.6484591    1.645941          89
+  5,001 a 8 |   3.5470724   1.2829313         142
+  8,001 a 1 |    3.638324   1.4488099         179
+  10,001 a  |   3.4950815   1.2440483         219
+  15,001 a  |    3.527414   1.8045762         216
+  20,001 a  |   3.3486909   1.2758603         299
+    50 mil+ |   3.4107253   1.3362239          65
+      No sé |   3.4622981   1.2674815          69
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of |
+smoking_pat |           Summary of ppu
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   3.8597815   1.5603196         706
+      daily |   3.1382835   1.1939791         645
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of singles if has_fumado_1mes 
+
+            |           Summary of ppu
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   3.0107623   .79872066       1,087
+   sueltos  |    5.592803   1.6325775         264
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+    tipo de |           Summary of ppu
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   2.9467217   .79450368         597
+  diario-su |   5.5208333   2.2946708          48
+  esporádic |   3.0887872   .79770966         490
+  esporádic |   5.6087963   1.4518525         216
+------------+------------------------------------
+      Total |   3.5153209   1.4427158       1,351
+Levantamiento 4
+(1,351 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   37.428571   44.083202         756
+   Femenino |   32.283912    42.69712         634
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   19.886905   31.622289         168
+      25-44 |   33.038023    41.38713         789
+      45-64 |   43.800481   48.872454         416
+        65+ |   66.764706   44.416395          17
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   19.886905   31.622289         168
+      25-29 |   26.722727   34.228088         220
+      30-34 |   34.330275   38.187762         218
+      35-39 |   32.684729    37.31322         203
+      40-44 |   41.006757   56.960124         148
+      45-54 |   40.205426   41.216809         258
+        55+ |   51.331429   57.829852         175
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |        76.5   79.044866          12
+  Secundari |      36.848   40.701719         125
+  Técnica o |   31.937984   36.525454         516
+  Universid |   36.026207   46.922125         725
+       Otro |   53.416667   63.484369          12
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   40.321168   46.286025         137
+    Técnica |   34.453947   34.864323         152
+  Preparato |   30.887363     37.1935         364
+  Licenciat |   28.562738   35.398533         263
+  Licenciat |   39.806373   51.971352         408
+       Otro |   45.560606   53.763908          66
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   23.318841   36.975545          69
+  3,001 a 5 |   33.073171   38.045061          82
+  5,001 a 8 |   31.230769   35.812937         130
+  8,001 a 1 |   30.088235   38.420723         170
+  10,001 a  |   35.853448   40.362267         232
+  15,001 a  |   34.992647   41.864127         272
+  20,001 a  |   39.313725   47.913237         306
+    50 mil+ |        58.7   74.951804          60
+      No sé |   27.246377    30.41691          69
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   10.876081    10.72181         694
+      daily |   59.218391    50.01529         696
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   40.161205     45.9282       1,129
+   sueltos  |   13.111111   19.196131         261
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   61.448113   51.070236         636
+  diario-su |   35.583333    27.83017          60
+  esporádic |   12.699797    11.33718         493
+  esporádic |   6.4029851   7.3370151         201
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+Levantamiento 5
+(1,390 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   35.095101   41.865098         694
+   Femenino |   27.444444   33.099633         657
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   17.494624   24.998648         186
+      25-44 |   28.066406   31.726126         768
+      45-64 |   43.704961   49.187526         383
+        65+ |   59.928571   45.856741          14
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   17.494624   24.998648         186
+      25-29 |   21.821429    26.16341         224
+      30-34 |    24.90708   27.414923         226
+      35-39 |   34.513089    37.87665         191
+      40-44 |   35.007874    34.80524         127
+      45-54 |        37.3   37.582172         250
+        55+ |   56.142857   62.512903         147
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |   35.555556   46.303648           9
+  Secundari |   36.751773   36.195137         141
+  Técnica o |   29.102913   33.757592         515
+  Universid |   31.979472   41.202835         682
+       Otro |       21.75   32.335481           4
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |       36.68   36.689943         150
+    Técnica |    33.44186    37.10428         172
+  Preparato |   26.927114   31.782299         343
+  Licenciat |   23.598253   29.706388         229
+  Licenciat |   35.497512   42.303926         402
+       Otro |   40.418182   63.223791          55
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   21.671233   28.969838          73
+  3,001 a 5 |   24.089888   32.063729          89
+  5,001 a 8 |   25.267606   29.984137         142
+  8,001 a 1 |   29.620112   34.824292         179
+  10,001 a  |   29.954338   30.574585         219
+  15,001 a  |   34.171296   39.456462         216
+  20,001 a  |   35.324415   34.784453         299
+    50 mil+ |   59.092308   83.255203          65
+      No sé |   20.681159   22.619937          69
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   9.9575071   10.924936         706
+      daily |   54.817054   42.997732         645
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   36.350506   40.215184       1,087
+   sueltos  |   10.886364   14.976863         264
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   56.469012   43.894525         597
+  diario-su |   34.270833   20.837507          48
+  esporádic |   11.838776   12.131881         490
+  esporádic |   5.6898148   5.5001977         216
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+Levantamiento 4
+(747 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            |           Summary of ppu
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   3.2601577   1.0383604         400
+   Femenino |   3.2928647    1.513915         347
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.5295698   1.3923017          57
+      25-44 |   3.4213698   1.4211492         417
+      45-64 |   3.0033858   .91526443         263
+        65+ |        2.89   1.5520238          10
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.5295698   1.3923017          57
+      25-29 |   3.5148586    1.224336          96
+      30-34 |   3.3785055   1.3374132         112
+      35-39 |   3.4136358   1.4600856         122
+      40-44 |   3.3842364   1.6709107          87
+      45-54 |   3.0988313   .88546899         164
+        55+ |   2.8493775   1.0064926         109
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |   2.8892857   .65844852           4
+  Secundari |   2.9365804   1.4276012          69
+  Técnica o |   3.2086413   1.1389177         283
+  Universid |   3.3859302   1.3421039         386
+       Otro |   3.4982857   1.5417107           5
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   2.9339889   1.3939163          73
+    Técnica |   2.9588121   .94539649          92
+  Preparato |   3.3289778   1.2051429         191
+  Licenciat |   3.2177116   1.0402295         108
+  Licenciat |   3.4556167    1.486569         244
+       Otro |   3.4301831   1.0996027          39
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de |
+    ingreso |           Summary of ppu
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |    3.492517   2.0159059          28
+  3,001 a 5 |   2.9183036   .98076956          32
+  5,001 a 8 |   3.2708843   1.4288623          63
+  8,001 a 1 |   3.0972903   1.1733123          84
+  10,001 a  |   3.2894039    1.070726         133
+  15,001 a  |   3.2184004   .85649282         149
+  20,001 a  |   3.2558585    1.347329         175
+    50 mil+ |   3.6589701   1.6399894          43
+      No sé |   3.6282381   1.8559996          40
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of |
+smoking_pat |           Summary of ppu
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   3.6038074   1.5244935         334
+      daily |   3.0097227   .96581841         413
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of singles if has_fumado_1mes 
+
+            |           Summary of ppu
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   2.9684092   .89556076         643
+   sueltos  |   5.1730769   1.6291776         104
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+    tipo de |           Summary of ppu
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   2.8843585    .8375109         389
+  diario-su |   5.0416667   .55003294          24
+  esporádic |   3.0971325   .96539566         254
+  esporádic |      5.2125   1.8345748          80
+------------+------------------------------------
+      Total |   3.2753509   1.2806082         747
+Levantamiento 5
+(747 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            |           Summary of ppu
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   3.3965104   1.3238711         393
+   Femenino |   3.4016263   1.3573636         354
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.6843769   1.3253291          47
+      25-44 |   3.5578875   1.4523822         424
+      45-64 |   3.1257089   1.0836516         267
+        65+ |   2.5255556    1.152878           9
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   3.6843769   1.3253291          47
+      25-29 |   3.6447908   1.4147523          99
+      30-34 |   3.4586239   1.3863278         109
+      35-39 |   3.5305399   1.3094743         127
+      40-44 |   3.6218138   1.7523738          89
+      45-54 |   3.2655766   1.1407356         166
+        55+ |   2.8655325   .96181365         110
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+  grupos de |           Summary of ppu
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |      2.6125   .34247869           4
+  Secundari |   3.4001085   1.5079436          79
+  Técnica o |   3.4190357   1.3178038         280
+  Universid |   3.3941664   1.3263656         383
+       Otro |   2.6500001           0           1
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            |           Summary of ppu
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   3.3621515   1.4819126          83
+    Técnica |   3.2799224   1.0885639          92
+  Preparato |   3.4871125   1.4142688         188
+  Licenciat |   3.3304148   1.1789398          93
+  Licenciat |   3.4013611   1.4180545         254
+       Otro |   3.4849035   .98976575          37
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de |
+    ingreso |           Summary of ppu
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   3.7642857   1.5850818          27
+  3,001 a 5 |    3.240119   1.1467892          36
+  5,001 a 8 |   3.3676417   1.2774798          63
+  8,001 a 1 |   3.5408663   1.5189147          94
+  10,001 a  |   3.4373529    1.231236         136
+  15,001 a  |   3.4548505   1.5631787         129
+  20,001 a  |   3.2449198   1.1337576         187
+    50 mil+ |   3.4351504   1.5446122          38
+      No sé |   3.3845946   1.2244327          37
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of |
+smoking_pat |           Summary of ppu
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |    3.816192   1.5949267         320
+      daily |   3.0862362   1.0029098         427
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of singles if has_fumado_1mes 
+
+            |           Summary of ppu
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   3.0156317   .85272777         640
+   sueltos  |   5.6915888   1.4285579         107
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+    tipo de |           Summary of ppu
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   2.9625256   .84664372         405
+  diario-su |   5.3636364   .94089393          22
+  esporádic |    3.107155   .85720997         235
+  esporádic |   5.7764706    1.522658          85
+------------+------------------------------------
+      Total |   3.3989348   1.3389492         747
+Levantamiento 4
+(747 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |        40.5   45.375791         400
+   Femenino |   34.118156   40.461719         347
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   25.842105   39.915889          57
+      25-44 |   32.848921   36.546515         417
+      45-64 |   46.235741   51.063775         263
+        65+ |        70.8   46.668571          10
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   25.842105   39.915889          57
+      25-29 |     28.5625   34.381088          96
+      30-34 |   32.205357   30.603579         112
+      35-39 |   35.491803   43.014748         122
+      40-44 |   34.701149   36.173071          87
+      45-54 |   40.506098   39.403917         164
+        55+ |   57.110092   63.642861         109
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |        61.5   74.173221           4
+  Secundari |   43.043478   46.108387          69
+  Técnica o |   34.201413    35.43106         283
+  Universid |    38.76943   47.463081         386
+       Otro |        35.8   35.421745           5
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   44.054795   47.486808          73
+    Técnica |   39.293478   38.298865          92
+  Preparato |   31.748691   33.794887         191
+  Licenciat |    32.37037   42.112797         108
+  Licenciat |   40.278689   47.663215         244
+       Otro |   46.666667   56.928549          39
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   26.678571   43.511645          28
+  3,001 a 5 |     30.5625   28.039071          32
+  5,001 a 8 |   28.714286   30.081839          63
+  8,001 a 1 |   32.761905   39.078734          84
+  10,001 a  |    38.37594   39.074637         133
+  15,001 a  |   37.845638   39.715326         149
+  20,001 a  |   41.137143   44.473724         175
+    50 mil+ |   60.418605   81.276785          43
+      No sé |      30.325   32.802742          40
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   11.140719   10.898988         334
+      daily |   58.881356   47.641389         413
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   41.491446   44.669899         643
+   sueltos  |   13.076923   20.246871         104
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   60.228792   48.227196         389
+  diario-su |   37.041667     29.8758          24
+  esporádic |   12.795276   11.399562         254
+  esporádic |      5.8875   6.9135599          80
+------------+------------------------------------
+      Total |   37.535475   43.251676         747
+Levantamiento 5
+(747 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Masculino |   41.348601   47.940313         393
+   Femenino |   33.474576   36.393049         354
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of gr_edad if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   24.255319   35.891423          47
+      25-44 |   32.926887   34.932246         424
+      45-64 |   46.202247   52.694219         267
+        65+ |   73.666667   45.940178           9
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of edad_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   edad_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+      18-24 |   24.255319   35.891423          47
+      25-29 |   26.747475   31.049777          99
+      30-34 |   31.137615   31.086042         109
+      35-39 |   36.905512   39.392899         127
+      40-44 |   36.314607   36.092871          89
+      45-54 |   38.150602   36.197709         166
+        55+ |        60.6   68.570623         110
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of gr_educ if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Pri |       58.25   61.472894           4
+  Secundari |   42.632911   37.040926          79
+  Técnica o |   33.282143   36.067078         280
+  Universid |   39.608355   48.200097         383
+       Otro |          10           0           1
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of educ_gr3 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+   educ_gr3 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  Hasta Sec |   43.385542   38.140252          83
+    Técnica |   35.097826   38.684142          92
+  Preparato |   32.393617   34.787581         188
+  Licenciat |   31.096774   34.539852          93
+  Licenciat |   41.334646   47.424271         254
+       Otro |   48.351351   74.398781          37
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   35.703704   40.133254          27
+  3,001 a 5 |   36.166667   40.597326          36
+  5,001 a 8 |    30.15873   33.357403          63
+  8,001 a 1 |   35.053191   39.736868          94
+  10,001 a  |   31.419118   31.394398         136
+  15,001 a  |   41.604651   43.770606         129
+  20,001 a  |   37.235294   32.307299         187
+    50 mil+ |   83.236842   100.51716          38
+      No sé |   23.594595   23.792458          37
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |    10.59375   11.309439         320
+      daily |   57.868852   46.733453         427
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  cajetilla |   41.867188   44.556126         640
+   sueltos  |   12.196262   17.024643         107
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+  diario-ca |   58.869136   47.555389         405
+  diario-su |   39.454545    20.55591          22
+  esporádic |   12.565957   12.418577         235
+  esporádic |   5.1411765   3.8918503          85
+------------+------------------------------------
+      Total |   37.617135   43.010107         747
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05.log
+  log type:  text
+ closed on:   8 Sep 2021, 11:58:09
+--------------------------------------------------------------------------------------------------------------------------------------------------------

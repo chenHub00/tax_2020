@@ -1,0 +1,427 @@
+{\rtf1\ansi\deff0 {\fonttbl{\f0\fnil Garamond;}}
+{\info {\author .}{\company .}{\title .}}
+\deflang1033\plain\fs20
+{\footer\pard\qc\plain\f0\fs20\chpgn\par}
+{
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(sexo ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx1100
+\fs20\pard\intbl\qr {sexo }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2320
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3540
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4760
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ Femenino}}\cell
+\cellx2320
+\qr {{3.348}}\cell
+\cellx3540
+\qr {{1.437}}\cell
+\cellx4760
+\qr {{701}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ Masculino}}\cell
+\cellx2320
+\qr {{3.328}}\cell
+\cellx3540
+\qr {{1.19}}\cell
+\cellx4760
+\qr {{793}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx4760{}\cell
+\row}
+
+
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(gr_edad ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx1100
+\fs20\pard\intbl\qr {gr_edad }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2320
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3540
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4760
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 18-24}}\cell
+\cellx2320
+\qr {{3.6}}\cell
+\cellx3540
+\qr {{1.358}}\cell
+\cellx4760
+\qr {{104}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 25-44}}\cell
+\cellx2320
+\qr {{3.49}}\cell
+\cellx3540
+\qr {{1.438}}\cell
+\cellx4760
+\qr {{841}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 45-64}}\cell
+\cellx2320
+\qr {{3.065}}\cell
+\cellx3540
+\qr {{1.005}}\cell
+\cellx4760
+\qr {{530}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 65+}}\cell
+\cellx2320
+\qr {{2.717}}\cell
+\cellx3540
+\qr {{1.353}}\cell
+\cellx4760
+\qr {{19}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx4760{}\cell
+\row}
+
+
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(edad_gr3 ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx1100
+\fs20\pard\intbl\qr {edad_gr3 }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2320
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3540
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4760
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 18-24}}\cell
+\cellx2320
+\qr {{3.6}}\cell
+\cellx3540
+\qr {{1.358}}\cell
+\cellx4760
+\qr {{104}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 25-29}}\cell
+\cellx2320
+\qr {{3.581}}\cell
+\cellx3540
+\qr {{1.323}}\cell
+\cellx4760
+\qr {{195}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 30-34}}\cell
+\cellx2320
+\qr {{3.418}}\cell
+\cellx3540
+\qr {{1.359}}\cell
+\cellx4760
+\qr {{221}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 35-39}}\cell
+\cellx2320
+\qr {{3.473}}\cell
+\cellx3540
+\qr {{1.384}}\cell
+\cellx4760
+\qr {{249}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 40-44}}\cell
+\cellx2320
+\qr {{3.504}}\cell
+\cellx3540
+\qr {{1.712}}\cell
+\cellx4760
+\qr {{176}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 45-54}}\cell
+\cellx2320
+\qr {{3.183}}\cell
+\cellx3540
+\qr {{1.024}}\cell
+\cellx4760
+\qr {{330}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ 55+}}\cell
+\cellx2320
+\qr {{2.857}}\cell
+\cellx3540
+\qr {{.982}}\cell
+\cellx4760
+\qr {{219}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx4760{}\cell
+\row}
+
+
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(gr_educ ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2530
+\fs20\pard\intbl\qr {gr_educ }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3750
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4970
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx6190
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx2530
+\fs20\pard\intbl\ql {{ Hasta Primaria com~a}}\cell
+\cellx3750
+\qr {{2.751}}\cell
+\cellx4970
+\qr {{.508}}\cell
+\cellx6190
+\qr {{8}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2530
+\fs20\pard\intbl\ql {{ Otro}}\cell
+\cellx3750
+\qr {{3.357}}\cell
+\cellx4970
+\qr {{1.422}}\cell
+\cellx6190
+\qr {{6}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2530
+\fs20\pard\intbl\ql {{ Secundaria completa}}\cell
+\cellx3750
+\qr {{3.184}}\cell
+\cellx4970
+\qr {{1.484}}\cell
+\cellx6190
+\qr {{148}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2530
+\fs20\pard\intbl\ql {{ Técnica o Preparat~a}}\cell
+\cellx3750
+\qr {{3.313}}\cell
+\cellx4970
+\qr {{1.235}}\cell
+\cellx6190
+\qr {{563}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2530
+\fs20\pard\intbl\ql {{ Universidad o post~r}}\cell
+\cellx3750
+\qr {{3.39}}\cell
+\cellx4970
+\qr {{1.333}}\cell
+\cellx6190
+\qr {{769}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx6190{}\cell
+\row}
+
+
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(educ_gr3 ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2750
+\fs20\pard\intbl\qr {educ_gr3 }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3970
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx5190
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx6410
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Hasta Secundaria c~a}}\cell
+\cellx3970
+\qr {{3.162}}\cell
+\cellx5190
+\qr {{1.453}}\cell
+\cellx6410
+\qr {{156}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Licenciatura compl~a}}\cell
+\cellx3970
+\qr {{3.428}}\cell
+\cellx5190
+\qr {{1.451}}\cell
+\cellx6410
+\qr {{498}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Licenciatura incom~a}}\cell
+\cellx3970
+\qr {{3.27}}\cell
+\cellx5190
+\qr {{1.105}}\cell
+\cellx6410
+\qr {{201}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Otro}}\cell
+\cellx3970
+\qr {{3.457}}\cell
+\cellx5190
+\qr {{1.041}}\cell
+\cellx6410
+\qr {{76}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Preparatoria}}\cell
+\cellx3970
+\qr {{3.407}}\cell
+\cellx5190
+\qr {{1.314}}\cell
+\cellx6410
+\qr {{379}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx2750
+\fs20\pard\intbl\ql {{ Técnica}}\cell
+\cellx3970
+\qr {{3.119}}\cell
+\cellx5190
+\qr {{1.029}}\cell
+\cellx6410
+\qr {{184}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx6410{}\cell
+\row}
+
+
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(tipo ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx1760
+\fs20\pard\intbl\qr {tipo }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2980
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4200
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx5420
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx1760
+\fs20\pard\intbl\ql {{ diario-cajetilla}}\cell
+\cellx2980
+\qr {{2.924}}\cell
+\cellx4200
+\qr {{.843}}\cell
+\cellx5420
+\qr {{794}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1760
+\fs20\pard\intbl\ql {{ diario-suelto}}\cell
+\cellx2980
+\qr {{5.196}}\cell
+\cellx4200
+\qr {{.771}}\cell
+\cellx5420
+\qr {{46}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1760
+\fs20\pard\intbl\ql {{ esporádico-cajetilla}}\cell
+\cellx2980
+\qr {{3.102}}\cell
+\cellx4200
+\qr {{.914}}\cell
+\cellx5420
+\qr {{489}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1760
+\fs20\pard\intbl\ql {{ esporádico-suelto}}\cell
+\cellx2980
+\qr {{5.503}}\cell
+\cellx4200
+\qr {{1.7}}\cell
+\cellx5420
+\qr {{165}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx5420{}\cell
+\row}
+
+
+\writepositionforappend
+}}

@@ -159,15 +159,15 @@ Next table present the results by brand type: premium, columns 1 and 2; medium, 
 
 \input{est_xtreg_tipo_mod.tex}
 
-By brand type, for premium(1) and low(3) brand types the Hausman test rejects the alternative of random effects in favour of fixed individual effects. The test for type 1 and 3 are Chi2(4) =  0.60,
+By brand type, for premium(1) and low(3) brand types the Hausman test (see  Table \ref{tab:AppHausmanStatic}) rejects the alternative of random effects in favour of fixed individual effects. The test for type 1 and 3 are Chi2(4) =  0.60,
 $Prob \geq chi2 =    0.9628$ and Chi2(4) =  0.60,
-$Prob \geq chi2 =    0.9628$, respectively.
+$Prob \geq chi2 =    0.9628$, respectively. 
 
 Similarly the Breusch-Pagan test for random effects does rule out the alternative of OLS : chibar2(01) =  7.5e+05,
 $Prob \geq chibar2 =    0.0000$
 
 The test of unit root, using the Fischer type estimation from Choi (2001): 
-Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel.
+Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel. See Table \ref{tab:AppUnitRoots}.
 
 The next table presents F or Chi-squared tests for equality of coeficients, F corresponds to models by fixed effects, Chi-squared corresponds to models estimated by random effects.
 
@@ -262,6 +262,27 @@ The results show that exception of premium brands, brand type or segment is rele
 \end{table}
 \end{landscape}
  
+The dynamic model with full interactions, i.e. also january, trend and lag, returns F tests that show significant different results for each brand. See Table \ref{tab:FtestsDynFullInt} 
+
+\begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{F tests by brand type, Fully interacted \label{tab:FtestsDynFullInt}} 
+HERE THE TABLE WITH F TESTS FOR DIFFERENCE BY BRAND OF JAN, Trend and Lag 	\end{table}
+\end{landscape}
+
+The table \ref{tab:XtregMarcas_dyn} shows the estimated coefficients by brand in columns.
+
+\begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Fixed/Random individual effects for each brand \label{tab:XtregMarcas_dyn}}
+		\input{est_xtreg_dyn_marca_mod.tex}
+	\end{table}
+\end{landscape}
+ 
 \section{Consistent estimation for Variable Intercept}
 This models are based on Andrews, et al. (2006). The initial model comes from the transformation of:
 \begin{equation*}
@@ -315,6 +336,30 @@ Results for mid-range segment brands
 \appendix
 \section{\\Appendix A: Tests tables}
 % the \\ insures the section title is centered below the phrase: AppendixA
+
+Results for static models Hausman tests
+
+\begin{table}[ht]
+	\centering
+	
+	\caption{Hausman tests static models \label{tab:AppHausmanStatic}} 
+	\input{hausman_tests_static.tex}
+	
+\end{table}
+
+Results for Unit Root tests
+\begin{landscape}
+\begin{table}[ht]
+	\centering
+	
+	\caption{Unit Root tests \label{tab:AppUnitRoots}} 
+	\input{unitroot_tests.tex}
+	
+\end{table}
+\end{landscape}
+
+
+
 
 Results for dynamic models Hausman tests
 

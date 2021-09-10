@@ -1,0 +1,1124 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05_2.log
+  log type:  text
+ opened on:   2 Sep 2021, 17:17:34
+
+. 
+. global v_tabA "sexo gr_edad gr_educ gr_ingr patron single tipo"
+
+. global v_tabB "sexo edad_gr3 gr_educ gr_ingr patron single tipo"
+
+. global v_tab "sexo gr_edad edad_gr3 gr_educ educ_gr3 gr_ingr patron single tipo"
+
+. 
+. // cambiar para wave 1 a 8
+. // "$datos/c_pw4_w5_balanc.dta",
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // local balanced_unbalanced  = "unbalanc"
+. 
+. // collapse (mean) ppu (sd) sd_ppu = ppu (count) Nppu = ppu, by(tipo)
+. 
+. /* ASDOC y TABSTAT son m'as "limpios" pero las etiquetas afectan el orden y no siempre funciona */
+. use "$datos/c_pw4_w5_unbalanc.dta", clear
+
+. 
+. asdoc tabstat ppu, by(sexo) stat(mean sd count) save($resultados/precios) replace
+sexo
+
+Summary for variables: ppu
+     by categories of: __000000 (sexo)
+
+ __000000 |      mean        sd         N
+----------+------------------------------
+ Femenino |  3.725359   1.51454      1291
+Masculino |  3.689915  1.312995      1450
+----------+------------------------------
+    Total |  3.706609   1.41136      2741
+-----------------------------------------
+(note: file resultados\encuesta\/precios.doc not found)
+  1291.000
+  1450.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_edad) stat(mean sd count) save($resultados/precios) append
+gr_edad
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de edad)
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  4.027608  1.786969       354
+   25-44 |   3.79089  1.424345      1557
+   45-64 |  3.430561  1.118136       799
+     65+ |  2.922857  1.275374        31
+---------+------------------------------
+   Total |  3.706609   1.41136      2741
+----------------------------------------
+  354.000
+  1557.000
+  799.000
+  31.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(edad_gr3) stat(mean sd count) save($resultados/precios) append
+edad_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  4.027608  1.786969       354
+   25-29 |   3.94779   1.40308       444
+   30-34 |  3.737271  1.353881       444
+   35-39 |  3.774383  1.480292       394
+   40-44 |  3.647788  1.471771       275
+   45-54 |  3.521537  1.120917       508
+     55+ |  3.238154  1.118134       322
+---------+------------------------------
+   Total |  3.706609   1.41136      2741
+----------------------------------------
+  354.000
+  444.000
+  444.000
+  394.000
+  275.000
+  508.000
+  322.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_educ) stat(mean sd count) save($resultados/precios) append
+gr_educ
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de escolaridad)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Primaria c |  3.466213  1.163164        21
+            Otro |   3.64872  1.321174        16
+Secundaria compl |  3.524349  1.514122       266
+Técnica o Prepar |  3.671859  1.345386      1031
+Universidad o po |  3.770776  1.440037      1407
+-----------------+------------------------------
+           Total |  3.706609   1.41136      2741
+------------------------------------------------
+  21.000
+  16.000
+  266.000
+  1031.000
+  1407.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(educ_gr3) stat(mean sd count) save($resultados/precios) append
+educ_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Secundaria |  3.520095  1.489655       287
+Licenciatura com |  3.742566  1.467709       810
+Licenciatura inc |  3.806092  1.425916       492
+            Otro |  3.799884   1.28987       121
+    Preparatoria |  3.761552  1.430708       707
+         Técnica |  3.476141  1.114409       324
+-----------------+------------------------------
+           Total |  3.706609   1.41136      2741
+------------------------------------------------
+  287.000
+  810.000
+  492.000
+  121.000
+  707.000
+  324.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. //asdoc tabstat ppu, by(gr_ingr) stat(mean sd count) save($resultados/precios) append
+. /*             asdoctable():  3301  subscript invalid
+>                  <istmt>:     -  function returned error
+> r(3301);
+> */
+. asdoc tabstat ppu, by(tipo) stat(mean sd count) save($resultados/precios) append
+tipo_cons
+
+Summary for variables: ppu
+     by categories of: __000000 (tipo de consumo)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+diario-cajetilla |  3.237964   .995519      1233
+   diario-suelto |  5.333333  1.859555       108
+esporádico-cajet |  3.380891   .897851       983
+esporádico-suelt |  5.438825  1.672156       417
+-----------------+------------------------------
+           Total |  3.706609   1.41136      2741
+------------------------------------------------
+  1233.000
+  108.000
+  983.000
+  417.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. 
+. use "$datos/c_pw4_w5_balanc.dta", clear
+
+. 
+. asdoc tabstat ppu, by(sexo) stat(mean sd count) save($resultados/precios) replace
+sexo
+
+Summary for variables: ppu
+     by categories of: __000000 (sexo)
+
+ __000000 |      mean        sd         N
+----------+------------------------------
+ Femenino |  3.613903  1.425521       701
+Masculino |  3.629995   1.19804       793
+----------+------------------------------
+    Total |  3.622445  1.309282      1494
+-----------------------------------------
+(note: file resultados\encuesta\/precios.doc not found)
+  701.000
+  793.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_edad) stat(mean sd count) save($resultados/precios) append
+gr_edad
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de edad)
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.773775  1.324245       104
+   25-44 |  3.779441  1.404269       841
+   45-64 |  3.369445  1.081297       530
+     65+ |  2.902331  1.430907        19
+---------+------------------------------
+   Total |  3.622445  1.309282      1494
+----------------------------------------
+  104.000
+  841.000
+  530.000
+  19.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(edad_gr3) stat(mean sd count) save($resultados/precios) append
+edad_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.773775  1.324245       104
+   25-29 |  3.839512  1.257313       195
+   30-34 |  3.694989  1.349836       221
+   35-39 |  3.765294  1.351694       249
+   40-44 |  3.838946  1.678182       176
+   45-54 |  3.493721  1.060476       330
+     55+ |  3.141653  1.119167       219
+---------+------------------------------
+   Total |  3.622445  1.309282      1494
+----------------------------------------
+  104.000
+  195.000
+  221.000
+  249.000
+  176.000
+  330.000
+  219.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_educ) stat(mean sd count) save($resultados/precios) append
+gr_educ
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de escolaridad)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Primaria c |  3.019345  .8643449         8
+            Otro |  3.445794  1.301549         6
+Secundaria compl |   3.39283   1.50777       148
+Técnica o Prepar |  3.599863  1.236222       563
+Universidad o po |  3.690821  1.319815       769
+-----------------+------------------------------
+           Total |  3.622445  1.309282      1494
+------------------------------------------------
+  8.000
+  6.000
+  148.000
+  563.000
+  769.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(educ_gr3) stat(mean sd count) save($resultados/precios) append
+educ_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Secundaria |  3.373677  1.482095       156
+Licenciatura com |  3.721638  1.435337       498
+Licenciatura inc |   3.59078  1.110257       201
+            Otro |  3.734123  .9902276        76
+    Preparatoria |  3.697312  1.298838       379
+         Técnica |  3.399138  1.071702       184
+-----------------+------------------------------
+           Total |  3.622445  1.309282      1494
+------------------------------------------------
+  156.000
+  498.000
+  201.000
+  76.000
+  379.000
+  184.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. //asdoc tabstat ppu, by(gr_ingr) stat(mean sd count) save($resultados/precios) append
+. /*             asdoctable():  3301  subscript invalid
+>                  <istmt>:     -  function returned error
+> r(3301);
+> */
+. asdoc tabstat ppu, by(tipo) stat(mean sd count) save($resultados/precios) append
+tipo_cons
+
+Summary for variables: ppu
+     by categories of: __000000 (tipo de consumo)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+diario-cajetilla |  3.267492  .9968293       794
+   diario-suelto |  5.195652  .7708456        46
+esporádico-cajet |  3.416244  .9630956       489
+esporádico-suelt |   5.50303  1.699621       165
+-----------------+------------------------------
+           Total |  3.622445  1.309282      1494
+------------------------------------------------
+  794.000
+  46.000
+  489.000
+  165.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. 
+. // Para exportar los estadísticos
+. 
+. foreach balanced_unbalanced  in unbalanc balanc {
+  2.         local data = "$datos/c_pw4_w5_`balanced_unbalanced'.dta"
+  3.         use "`data'", clear
+  4.         // use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
+.         foreach vartab of varlist $v_tab {
+  5.                 foreach var_sum of varlist ppu consumo_semanal {
+  6.                         foreach w of numlist 4 5 {
+  7.                         di "Levantamiento " `w'
+  8.                          /***************************************************************************/
+.                                  // UNBALANCED
+.                                  // cambiar para wave 1 a 8
+.                         preserve 
+  9.                                 keep if wave == `w'
+ 10.                         * prueba:
+.                         *       keep if wave == 4
+. 
+.                                 collapse (mean) ppu (sd) sd_ppu = ppu (count) Nppu = ppu, by(`vartab')
+ 11.                                 export excel using "$resultados/descriptivos/`var_sum'_`balanced_unbalanced'.xlsx", ///
+>                                         sheet(`vartab'`w', modify) firstrow(variables) 
+ 12. 
+. //                              tab1 $v_tab if has_fumado_1mes, sum(consumo_) 
+.                         restore
+ 13.                         }
+ 14.                 }
+ 15.         }
+ 16. }
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05_2.log
+  log type:  text
+ closed on:   2 Sep 2021, 17:17:46
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05_2.log
+  log type:  text
+ opened on:   8 Sep 2021, 11:58:09
+
+. 
+. global v_tabA "sexo gr_edad gr_educ gr_ingr patron single tipo"
+
+. global v_tabB "sexo edad_gr3 gr_educ gr_ingr patron single tipo"
+
+. global v_tab "sexo gr_edad edad_gr3 gr_educ educ_gr3 gr_ingr patron single tipo"
+
+. 
+. // cambiar para wave 1 a 8
+. // "$datos/c_pw4_w5_balanc.dta",
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // use "$datos/c_pw4_w5_unbalanc.dta", clear
+. // local balanced_unbalanced  = "unbalanc"
+. 
+. // collapse (mean) ppu (sd) sd_ppu = ppu (count) Nppu = ppu, by(tipo)
+. 
+. /* ASDOC y TABSTAT son m'as "limpios" pero las etiquetas afectan el orden y no siempre funciona */
+. use "$datos/c_pw4_w5_unbalanc.dta", clear
+
+. 
+. asdoc tabstat ppu, by(sexo) stat(mean sd count) save($resultados/precios) replace
+sexo
+
+Summary for variables: ppu
+     by categories of: __000000 (sexo)
+
+ __000000 |      mean        sd         N
+----------+------------------------------
+ Femenino |   3.47301  1.545706      1291
+Masculino |  3.422081  1.322951      1450
+----------+------------------------------
+    Total |  3.446068   1.43215      2741
+-----------------------------------------
+(note: file resultados\encuesta\/precios.doc not found)
+  1291.000
+  1450.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_edad) stat(mean sd count) save($resultados/precios) append
+gr_edad
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de edad)
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.859136  1.830781       354
+   25-44 |  3.541495  1.460538      1557
+   45-64 |  3.106277  1.057474       799
+     65+ |  2.694055  1.165875        31
+---------+------------------------------
+   Total |  3.446068   1.43215      2741
+----------------------------------------
+  354.000
+  1557.000
+  799.000
+  31.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(edad_gr3) stat(mean sd count) save($resultados/precios) append
+edad_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.859136  1.830781       354
+   25-29 |  3.713981   1.46771       444
+   30-34 |  3.495394  1.378022       444
+   35-39 |  3.530726  1.513838       394
+   40-44 |  3.352867  1.478629       275
+   45-54 |  3.188044  1.092196       508
+     55+ |  2.937593  1.000087       322
+---------+------------------------------
+   Total |  3.446068   1.43215      2741
+----------------------------------------
+  354.000
+  444.000
+  444.000
+  394.000
+  275.000
+  508.000
+  322.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_educ) stat(mean sd count) save($resultados/precios) append
+gr_educ
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de escolaridad)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Primaria c |  3.140476  1.151358        21
+            Otro |  3.345446  1.370457        16
+Secundaria compl |  3.340172  1.519594       266
+Técnica o Prepar |  3.424855   1.35947      1031
+Universidad o po |  3.487338  1.470842      1407
+-----------------+------------------------------
+           Total |  3.446068   1.43215      2741
+------------------------------------------------
+  21.000
+  16.000
+  266.000
+  1031.000
+  1407.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(educ_gr3) stat(mean sd count) save($resultados/precios) append
+educ_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Secundaria |   3.32556  1.495001       287
+Licenciatura com |  3.462689  1.488024       810
+Licenciatura inc |  3.520494  1.471039       492
+            Otro |  3.498764  1.339619       121
+    Preparatoria |  3.516258  1.458686       707
+         Técnica |  3.225403  1.088364       324
+-----------------+------------------------------
+           Total |  3.446068   1.43215      2741
+------------------------------------------------
+  287.000
+  810.000
+  492.000
+  121.000
+  707.000
+  324.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. //asdoc tabstat ppu, by(gr_ingr) stat(mean sd count) save($resultados/precios) append
+. /*             asdoctable():  3301  subscript invalid
+>                  <istmt>:     -  function returned error
+> r(3301);
+> */
+. asdoc tabstat ppu, by(tipo) stat(mean sd count) save($resultados/precios) append
+tipo_cons
+
+Summary for variables: ppu
+     by categories of: __000000 (tipo de consumo)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+diario-cajetilla |  2.906206  .8429943      1233
+   diario-suelto |  5.333333  1.859555       108
+esporádico-cajet |   3.07053  .8276037       983
+esporádico-suelt |  5.438825  1.672156       417
+-----------------+------------------------------
+           Total |  3.446068   1.43215      2741
+------------------------------------------------
+  1233.000
+  108.000
+  983.000
+  417.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. 
+. use "$datos/c_pw4_w5_balanc.dta", clear
+
+. 
+. asdoc tabstat ppu, by(sexo) stat(mean sd count) save($resultados/precios) replace
+sexo
+
+Summary for variables: ppu
+     by categories of: __000000 (sexo)
+
+ __000000 |      mean        sd         N
+----------+------------------------------
+ Femenino |  3.347789  1.436993       701
+Masculino |  3.327732  1.189664       793
+----------+------------------------------
+    Total |  3.337143  1.311123      1494
+-----------------------------------------
+(note: file resultados\encuesta\/precios.doc not found)
+  701.000
+  793.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_edad) stat(mean sd count) save($resultados/precios) append
+gr_edad
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de edad)
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.599531  1.358084       104
+   25-44 |  3.490197  1.437748       841
+   45-64 |  3.065009  1.004551       530
+     65+ |  2.717368  1.352799        19
+---------+------------------------------
+   Total |  3.337143  1.311123      1494
+----------------------------------------
+  104.000
+  841.000
+  530.000
+  19.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(edad_gr3) stat(mean sd count) save($resultados/precios) append
+edad_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+__000000 |      mean        sd         N
+---------+------------------------------
+   18-24 |  3.599531  1.358084       104
+   25-29 |  3.580824  1.322636       195
+   30-34 |  3.418021   1.35925       221
+   35-39 |  3.473262  1.383747       249
+   40-44 |  3.504375  1.711844       176
+   45-54 |  3.182709  1.023739       330
+     55+ |  2.857492  .9820769       219
+---------+------------------------------
+   Total |  3.337143  1.311123      1494
+----------------------------------------
+  104.000
+  195.000
+  221.000
+  249.000
+  176.000
+  330.000
+  219.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(gr_educ) stat(mean sd count) save($resultados/precios) append
+gr_educ
+
+Summary for variables: ppu
+     by categories of: __000000 (grupos de escolaridad)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Primaria c |  2.750893  .5079031         8
+            Otro |  3.356905   1.42177         6
+Secundaria compl |  3.184004  1.484304       148
+Técnica o Prepar |  3.313278  1.234538       563
+Universidad o po |  3.390032  1.333426       769
+-----------------+------------------------------
+           Total |  3.337143  1.311123      1494
+------------------------------------------------
+  8.000
+  6.000
+  148.000
+  563.000
+  769.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. asdoc tabstat ppu, by(educ_gr3) stat(mean sd count) save($resultados/precios) append
+educ_gr3
+
+Summary for variables: ppu
+     by categories of: __000000 
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+Hasta Secundaria |  3.161793  1.452681       156
+Licenciatura com |  3.427944  1.450818       498
+Licenciatura inc |  3.269858  1.105187       201
+            Otro |  3.456823  1.040965        76
+    Preparatoria |  3.407419  1.313693       379
+         Técnica |  3.119367  1.029375       184
+-----------------+------------------------------
+           Total |  3.337143  1.311123      1494
+------------------------------------------------
+  156.000
+  498.000
+  201.000
+  76.000
+  379.000
+  184.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. //asdoc tabstat ppu, by(gr_ingr) stat(mean sd count) save($resultados/precios) append
+. /*             asdoctable():  3301  subscript invalid
+>                  <istmt>:     -  function returned error
+> r(3301);
+> */
+. asdoc tabstat ppu, by(tipo) stat(mean sd count) save($resultados/precios) append
+tipo_cons
+
+Summary for variables: ppu
+     by categories of: __000000 (tipo de consumo)
+
+        __000000 |      mean        sd         N
+-----------------+------------------------------
+diario-cajetilla |   2.92423  .8425585       794
+   diario-suelto |  5.195652  .7708456        46
+esporádico-cajet |  3.101949  .9140868       489
+esporádico-suelt |   5.50303  1.699621       165
+-----------------+------------------------------
+           Total |  3.337143  1.311123      1494
+------------------------------------------------
+  794.000
+  46.000
+  489.000
+  165.000
+Click to Open File:  resultados\encuesta\/precios.doc
+
+. 
+. // Para exportar los estadísticos
+. 
+. foreach balanced_unbalanced  in unbalanc balanc {
+  2.         local data = "$datos/c_pw4_w5_`balanced_unbalanced'.dta"
+  3.         use "`data'", clear
+  4.         // use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
+.         foreach vartab of varlist $v_tab {
+  5.                 foreach var_sum of varlist ppu consumo_semanal {
+  6.                         foreach w of numlist 4 5 {
+  7.                         di "Levantamiento " `w'
+  8.                          /***************************************************************************/
+.                                  // UNBALANCED
+.                                  // cambiar para wave 1 a 8
+.                         preserve 
+  9.                                 keep if wave == `w'
+ 10.                         * prueba:
+.                         *       keep if wave == 4
+. 
+.                                 collapse (mean) ppu (sd) sd_ppu = ppu (count) Nppu = ppu, by(`vartab')
+ 11.                                 export excel using "$resultados/descriptivos/`var_sum'_`balanced_unbalanced'.xlsx", ///
+>                                         sheet(`vartab'`w', modify) firstrow(variables) 
+ 12. 
+. //                              tab1 $v_tab if has_fumado_1mes, sum(consumo_) 
+.                         restore
+ 13.                         }
+ 14.                 }
+ 15.         }
+ 16. }
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_unbalanc.xlsx saved
+Levantamiento 4
+(1,351 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 5
+(1,390 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_unbalanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/ppu_balanc.xlsx saved
+Levantamiento 4
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+Levantamiento 5
+(747 observations deleted)
+file resultados\encuesta\/descriptivos/consumo_semanal_balanc.xlsx saved
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/descr_precio_w04_w05_2.log
+  log type:  text
+ closed on:   8 Sep 2021, 11:58:23
+--------------------------------------------------------------------------------------------------------------------------------------------------------

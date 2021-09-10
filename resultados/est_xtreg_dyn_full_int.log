@@ -1,0 +1,3165 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:09:43
+
+. 
+. // global vardep "ppu100"
+. *global vardep "ppu"
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. // global varsReg_notrend "jan20 jan21 jan"
+. // global varsRegLag "jan20 jan21 jan ym L.ppu"
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. // creado en: est_one_panel_dyn.do
+. putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+. 
+. /*-----------------------------------------------------
+> RESULTADOS CON INTERACCIONES EN L.ppu, tendencia y enero
+> */
+. // Estático
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.0626                                         min =          1
+     between = 0.0173                                         avg =       91.0
+     overall = 0.0114                                         max =        124
+
+                                                F(21,23642)       =      75.18
+corr(u_i, Xb)  = -0.8790                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |   .7315344   .0575228    12.72   0.000      .618786    .8442828
+          CAMEL#0  |  -.7016771   .0834477    -8.41   0.000    -.8652401   -.5381141
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.5730267   .0890186    -6.44   0.000    -.7475089   -.3985446
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.5529213    .075721    -7.30   0.000    -.7013394   -.4045032
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   -.848114   .0526692   -16.10   0.000    -.9513491   -.7448789
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.5090576   .1400618    -3.63   0.000    -.7835878   -.2345275
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.6400567   .0603651   -10.60   0.000    -.7583763   -.5217372
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .8884595   .0582466    15.25   0.000     .7742924    1.002627
+          CAMEL#0  |  -.7914804   .0795746    -9.95   0.000    -.9474518   -.6355091
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.7476111    .095155    -7.86   0.000     -.934121   -.5611013
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.7212904   .0742791    -9.71   0.000    -.8668821   -.5756986
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.9784209   .0526692   -18.58   0.000    -1.081656   -.8751858
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.5583068   .1398009    -3.99   0.000    -.8323255    -.284288
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.7779896   .0599431   -12.98   0.000     -.895482   -.6604971
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |  -.1314243   .0187316    -7.02   0.000    -.1681394   -.0947092
+          CAMEL#0  |   .1089825    .022079     4.94   0.000     .0657062    .1522588
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |   .0725135   .0238894     3.04   0.002     .0256887    .1193383
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   .1110083   .0223372     4.97   0.000      .067226    .1547906
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   .1518691   .0171512     8.85   0.000     .1182517    .1854865
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |   .0740878   .0346962     2.14   0.033     .0060811    .1420945
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |   .1774075   .0226696     7.83   0.000     .1329736    .2218415
+      PALL MALL#1  |          0  (omitted)
+                   |
+             _cons |   3.326268   .0340034    97.82   0.000     3.259619    3.392917
+-------------------+----------------------------------------------------------------
+           sigma_u |  .58819543
+           sigma_e |  .33168454
+               rho |  .75873375   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23642) = 18.63                 Prob > F = 0.0000
+
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan) bdec(3) tex(fragment) replace
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm i.marca
+no such variables;
+the specified varlist does not identify any testable coefficients
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\chen\AppData\Local\Temp\STD00000000.tmp"
+
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23642) =  101.73
+            Prob > F =    0.0000
+
+. 
+end of do-file
+
+. do "C:\Users\chen\AppData\Local\Temp\STD00000000.tmp"
+
+. putexcel (H10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx could not be saved
+r(603);
+
+end of do-file
+
+r(603);
+
+. do "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\stata_code\est_xtreg_dyn_full_int.do"
+
+. // modelos dinámicos 
+. // con interacciones completas
+. // estimaciones similares a 
+. // Seemingly Unrelated Regression
+. 
+. // outreg2 : resultados\doc/est_xtreg_dyn_full_int 
+. // resultados de interacción completa
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:11:26
+
+. 
+. // global vardep "ppu100"
+. *global vardep "ppu"
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. // global varsReg_notrend "jan20 jan21 jan"
+. // global varsRegLag "jan20 jan21 jan ym L.ppu"
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. // creado en: est_one_panel_dyn.do
+. putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+. 
+. /*-----------------------------------------------------
+> RESULTADOS CON INTERACCIONES EN L.ppu, tendencia y enero
+> */
+. // Estático
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.0626                                         min =          1
+     between = 0.0173                                         avg =       91.0
+     overall = 0.0114                                         max =        124
+
+                                                F(21,23642)       =      75.18
+corr(u_i, Xb)  = -0.8790                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |   .7315344   .0575228    12.72   0.000      .618786    .8442828
+          CAMEL#0  |  -.7016771   .0834477    -8.41   0.000    -.8652401   -.5381141
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.5730267   .0890186    -6.44   0.000    -.7475089   -.3985446
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.5529213    .075721    -7.30   0.000    -.7013394   -.4045032
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   -.848114   .0526692   -16.10   0.000    -.9513491   -.7448789
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.5090576   .1400618    -3.63   0.000    -.7835878   -.2345275
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.6400567   .0603651   -10.60   0.000    -.7583763   -.5217372
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .8884595   .0582466    15.25   0.000     .7742924    1.002627
+          CAMEL#0  |  -.7914804   .0795746    -9.95   0.000    -.9474518   -.6355091
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.7476111    .095155    -7.86   0.000     -.934121   -.5611013
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.7212904   .0742791    -9.71   0.000    -.8668821   -.5756986
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.9784209   .0526692   -18.58   0.000    -1.081656   -.8751858
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.5583068   .1398009    -3.99   0.000    -.8323255    -.284288
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.7779896   .0599431   -12.98   0.000     -.895482   -.6604971
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |  -.1314243   .0187316    -7.02   0.000    -.1681394   -.0947092
+          CAMEL#0  |   .1089825    .022079     4.94   0.000     .0657062    .1522588
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |   .0725135   .0238894     3.04   0.002     .0256887    .1193383
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   .1110083   .0223372     4.97   0.000      .067226    .1547906
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   .1518691   .0171512     8.85   0.000     .1182517    .1854865
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |   .0740878   .0346962     2.14   0.033     .0060811    .1420945
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |   .1774075   .0226696     7.83   0.000     .1329736    .2218415
+      PALL MALL#1  |          0  (omitted)
+                   |
+             _cons |   3.326268   .0340034    97.82   0.000     3.259619    3.392917
+-------------------+----------------------------------------------------------------
+           sigma_u |  .58819543
+           sigma_e |  .33168454
+               rho |  .75873375   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23642) = 18.63                 Prob > F = 0.0000
+
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan) bdec(3) tex(fragment) replace
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23642) =  101.73
+            Prob > F =    0.0000
+
+. putexcel (H10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. //putexcel (B8) = rscalars, colwise overwritefmt
+. putexcel (C10) =  `e(df_r)' 
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (D10) =  `e(F_f)' 
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (E10) = `e(df_a)' 
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+
+. putexcel (F10) = F_ui
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+. // Dinámico
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.L.ppu, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9901                                         min =          1
+     between = 0.9266                                         avg =       90.1
+     overall = 0.9383                                         max =        123
+
+                                                F(28,23326)       =   83137.85
+corr(u_i, Xb)  = -0.3229                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |   .1938002   .0059758    32.43   0.000     .1820873    .2055131
+          CAMEL#0  |  -.2022073   .0086329   -23.42   0.000    -.2191283   -.1852863
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.1686969   .0092213   -18.29   0.000    -.1867712   -.1506226
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.1285073   .0078499   -16.37   0.000    -.1438937   -.1131209
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2241425   .0054793   -40.91   0.000    -.2348823   -.2134026
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1783028   .0145134   -12.29   0.000    -.2067501   -.1498555
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.1510046   .0062824   -24.04   0.000    -.1633185   -.1386907
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .0643217   .0061119    10.52   0.000      .052342    .0763015
+          CAMEL#0  |  -.0215535   .0083204    -2.59   0.010     -.037862    -.005245
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.0598632   .0099349    -6.03   0.000    -.0793363   -.0403901
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.0026499   .0078035    -0.34   0.734    -.0179453    .0126456
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.0505165   .0055391    -9.12   0.000    -.0613734   -.0396596
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.0472288   .0145943    -3.24   0.001    -.0758345   -.0186231
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.0245614   .0063723    -3.85   0.000    -.0370515   -.0120712
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |   .0387734   .0020321    19.08   0.000     .0347904    .0427564
+          CAMEL#0  |  -.0115643   .0023761    -4.87   0.000    -.0162216    -.006907
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.0235933   .0026208    -9.00   0.000    -.0287302   -.0184564
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.0148907   .0024302    -6.13   0.000     -.019654   -.0101274
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.0385783   .0018662   -20.67   0.000    -.0422361   -.0349205
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.0110405   .0038893    -2.84   0.005    -.0186638   -.0034172
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.0056582   .0024574    -2.30   0.021    -.0104749   -.0008416
+      PALL MALL#1  |          0  (omitted)
+                   |
+      marca#cL.ppu |
+  BENSON & HEDGES  |   1.000995   .0014478   691.38   0.000     .9981576    1.003833
+            CAMEL  |   .9989466   .0019412   514.61   0.000     .9951418    1.002751
+     CHESTERFIELD  |    .997632   .0024557   406.25   0.000     .9928187    1.002445
+     LUCKY STRIKE  |   1.004295   .0021805   460.59   0.000     1.000021    1.008569
+         MARLBORO  |    1.00029   .0012194   820.29   0.000     .9979003    1.002681
+          MONTANA  |   .9912119   .0046018   215.40   0.000      .982192    1.000232
+        PALL MALL  |   1.001924   .0016871   593.87   0.000     .9986175    1.005231
+                   |
+             _cons |   .1958757   .0041142    47.61   0.000     .1878116    .2039398
+-------------------+----------------------------------------------------------------
+           sigma_u |  .10252906
+           sigma_e |  .03401281
+               rho |  .90086012   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23326) = 7.09                  Prob > F = 0.0000
+
+. putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+. 
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.L.ppu) bdec(3) tex(fragment) append
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm i.marca
+no such variables;
+the specified varlist does not identify any testable coefficients
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\chen\AppData\Local\Temp\STD00000000.tmp"
+
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23326) =  657.88
+            Prob > F =    0.0000
+
+. 
+end of do-file
+
+. do "C:\Users\chen\AppData\Local\Temp\STD00000000.tmp"
+
+. putexcel (H11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  1b.marca#1.jan21 = 0
+ ( 2)  2.marca#0b.jan21 = 0
+ ( 3)  3.marca#0b.jan21 = 0
+ ( 4)  4.marca#0b.jan21 = 0
+ ( 5)  5.marca#0b.jan21 = 0
+ ( 6)  6.marca#0b.jan21 = 0
+ ( 7)  7.marca#0b.jan21 = 0
+
+       F(  7, 23326) =   37.48
+            Prob > F =    0.0000
+
+. putexcel (N11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan#i.marca
+
+ ( 1)  1b.marca#1.jan = 0
+ ( 2)  2.marca#0b.jan = 0
+ ( 3)  3.marca#0b.jan = 0
+ ( 4)  4.marca#0b.jan = 0
+ ( 5)  5.marca#0b.jan = 0
+ ( 6)  6.marca#0b.jan = 0
+ ( 7)  7.marca#0b.jan = 0
+
+       F(  7, 23326) =  135.29
+            Prob > F =    0.0000
+
+. putexcel (S11) = "Enero por marcas"
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (S11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+. testparm c.L.ppu#i.marca
+
+ ( 1)  1b.marca#cL.ppu = 0
+ ( 2)  2.marca#cL.ppu = 0
+ ( 3)  3.marca#cL.ppu = 0
+ ( 4)  4.marca#cL.ppu = 0
+ ( 5)  5.marca#cL.ppu = 0
+ ( 6)  6.marca#cL.ppu = 0
+ ( 7)  7.marca#cL.ppu = 0
+
+       F(  7, 23326) = 3.1e+05
+            Prob > F =    0.0000
+
+. putexcel (S11) = "Marcas"
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (S11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+end of do-file
+
+. do "C:\Users\chen\AppData\Local\Temp\STD00000000.tmp"
+
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:12:13
+
+. 
+. 
+. // Resultados por marcas
+. gen xb_ppu_2019 = .
+(23,926 missing values generated)
+
+. gen xb_ppu_nodyn = .
+(23,926 missing values generated)
+
+. gen xb_ppu_dyn = .
+(23,926 missing values generated)
+
+. 
+. local n_marca = 1
+
+. /*
+> if `n_marca' == 1 {
+>         global append_replace = "replace"
+> } 
+> else {
+>         global append_replace = "append"
+> }
+> di "$append_replace" */
+. di `n_marca'
+1
+
+. // modelo hasta enero 2020 (sin efecto del impuesto)
+. // xtreg ppu $v_taxTrend  if ym<ym(2020,1), fe
+. xtreg ppu $varsRegStatic if ym<ym(2020,1) & marca == `n_marca', fe
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,074
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9506                                         min =         16
+     between = 0.8345                                         avg =       92.6
+     overall = 0.9187                                         max =        108
+
+                                                F(2,4028)         =   38794.95
+corr(u_i, Xb)  = -0.0501                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0029188   .0033097     0.88   0.378    -.0035702    .0094077
+          ym |   .0086318    .000031   278.27   0.000      .008571    .0086926
+       _cons |  -3.415032    .020677  -165.16   0.000    -3.455571   -3.374494
+-------------+----------------------------------------------------------------
+     sigma_u |  .05475296
+     sigma_e |  .05827225
+         rho |   .4688929   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4028) = 76.59                   Prob > F = 0.0000
+
+. outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+>                 , keep($varsRegStatic) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+
+. 
+. predict xb_ppu_2019_`n_marca' if marca == `n_marca'
+(option xb assumed; fitted values)
+(19,276 missing values generated)
+
+. replace xb_ppu_2019 = xb_ppu_2019_`n_marca' if marca == `n_marca'
+(4,650 real changes made)
+
+. // hace la proyecci'on sin necesidad de re-ajustar la muestra?
+. 
+. // modelo interactuado, sin dinámica
+. xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 if marca == `n_marca', fe
+note: 1.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 1.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 1.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,650
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9212                                         min =         32
+     between = 0.8936                                         avg =      105.7
+     overall = 0.9091                                         max =        124
+
+                                                F(4,4602)         =   13458.09
+corr(u_i, Xb)  = -0.0251                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             jan20 |    .192923    .017783    10.85   0.000     .1580598    .2277862
+             jan21 |   .2306976   .0180817    12.76   0.000     .1952489    .2661464
+               jan |  -.0132262   .0057617    -2.30   0.022     -.024522   -.0019304
+                ym |   .0101402   .0000453   223.61   0.000     .0100513    .0102291
+                   |
+             marca |
+  BENSON & HEDGES  |          0  (omitted)
+           1.jan20 |          0  (omitted)
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+           1.jan21 |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+             _cons |  -4.394058   .0305693  -143.74   0.000    -4.453989   -4.334128
+-------------------+----------------------------------------------------------------
+           sigma_u |  .05749365
+           sigma_e |  .10159413
+               rho |  .24257341   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4602) = 30.55                   Prob > F = 0.0000
+
+. outreg2 using resultados/doc/est_xtreg_stat_marca ///                   
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+
+. predict xb_ppu_nodyn_`n_marca' if ym>=ym(2020,1)  & marca == `n_marca'
+(option xb assumed; fitted values)
+(23,350 missing values generated)
+
+. replace xb_ppu_nodyn = xb_ppu_nodyn_`n_marca' if marca == `n_marca'
+(576 real changes made)
+
+. 
+. // modelo interactuado, con dinámica
+. xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu if marca == `n_marca', fe
+note: 1.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 1.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 1.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,601
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9945                                         min =         31
+     between = 0.9998                                         avg =      104.6
+     overall = 0.9950                                         max =        123
+
+                                                F(5,4552)         =  163153.91
+corr(u_i, Xb)  = 0.0838                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             jan20 |   .1925989   .0047226    40.78   0.000     .1833403    .2018574
+             jan21 |    .068816   .0048507    14.19   0.000     .0593062    .0783258
+               jan |   .0365892   .0016211    22.57   0.000      .033411    .0397674
+                ym |   .0004049   .0000418     9.69   0.000      .000323    .0004867
+                   |
+             marca |
+  BENSON & HEDGES  |          0  (omitted)
+           1.jan20 |          0  (omitted)
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+           1.jan21 |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+               ppu |
+               L1. |   .9644621   .0039388   244.86   0.000     .9567401    .9721841
+                   |
+             _cons |  -.1804184   .0191796    -9.41   0.000    -.2180198   -.1428171
+-------------------+----------------------------------------------------------------
+           sigma_u |  .00256703
+           sigma_e |  .02687072
+               rho |  .00904397   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4552) = 0.67                    Prob > F = 0.9526
+
+. outreg2 using resultados/doc/est_xtreg_dyn_marca ///                    
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+
+. predict xb_ppu_dyn_`n_marca' if ym>=ym(2020,1) & marca == `n_marca'
+(option xb assumed; fitted values)
+(23,350 missing values generated)
+
+. replace xb_ppu_dyn = xb_ppu_dyn_`n_marca' if marca == `n_marca'
+(576 real changes made)
+
+. 
+. foreach n_marca of numlist 2/7 {
+  2.     
+. di `n_marca'
+  3.         // modelo hasta enero 2020 (sin efecto del impuesto)
+.         // xtreg ppu $v_taxTrend  if ym<ym(2020,1), fe
+.         xtreg ppu $varsRegStatic if ym<ym(2020,1) & marca == `n_marca', fe
+  4.         outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+  5.         predict xb_ppu_2019_`n_marca' if marca == `n_marca'
+  6.         replace xb_ppu_2019 = xb_ppu_2019_`n_marca' if marca == `n_marca'
+  7.         // hace la proyecci'on sin necesidad de re-ajustar la muestra?
+.         
+.         // modelo interactuado, sin dinámica
+.         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 if marca == `n_marca', fe
+  8.         outreg2 using resultados/doc/est_xtreg_stat_marca ///                   
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+  9.         predict xb_ppu_nodyn_`n_marca' if ym>=ym(2020,1)  & marca == `n_marca'
+ 10.         replace xb_ppu_nodyn = xb_ppu_nodyn_`n_marca' if marca == `n_marca'
+ 11. 
+.         // modelo interactuado, con dinámica
+.         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu if marca == `n_marca', fe
+ 12.         outreg2 using resultados/doc/est_xtreg_dyn_marca ///                    
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+ 13.         predict xb_ppu_dyn_`n_marca' if ym>=ym(2020,1) & marca == `n_marca'
+ 14.         replace xb_ppu_dyn = xb_ppu_dyn_`n_marca' if marca == `n_marca'
+ 15. }
+2
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,917
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9302                                         min =          1
+     between = 0.8614                                         avg =       83.3
+     overall = 0.9140                                         max =        108
+
+                                                F(2,2880)         =   19182.38
+corr(u_i, Xb)  = 0.0189                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0169255   .0043005    -3.94   0.000    -.0253579   -.0084931
+          ym |   .0083024   .0000425   195.56   0.000     .0082192    .0083857
+       _cons |  -3.207537   .0281605  -113.90   0.000    -3.262754    -3.15232
+-------------+----------------------------------------------------------------
+     sigma_u |  .04382345
+     sigma_e |  .06436798
+         rho |  .31671835   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2880) = 30.06                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,719 missing values generated)
+(3,207 real changes made)
+note: 2.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,207
+Group variable: gr_marca_c~d                    Number of groups  =         36
+
+R-sq:                                           Obs per group:
+     within  = 0.8961                                         min =          1
+     between = 0.9433                                         avg =       89.1
+     overall = 0.8966                                         max =        124
+
+                                                F(4,3167)         =    6824.91
+corr(u_i, Xb)  = 0.1388                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2194243   .0265174     8.27   0.000     .1674314    .2714173
+       jan21 |   .2242836   .0253712     8.84   0.000     .1745379    .2740294
+         jan |  -.0313217   .0069876    -4.48   0.000    -.0450224   -.0176209
+          ym |   .0096396   .0000601   160.34   0.000     .0095218    .0097575
+             |
+       marca |
+      CAMEL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+    CAMEL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+    CAMEL#1  |          0  (omitted)
+             |
+       _cons |  -4.071334   .0402278  -101.21   0.000    -4.150209   -3.992459
+-------------+----------------------------------------------------------------
+     sigma_u |  .06936554
+     sigma_e |   .1047199
+         rho |  .30495807   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(35, 3167) = 17.34                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,636 missing values generated)
+(290 real changes made)
+note: 2.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,163
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9913                                         min =          5
+     between = 0.9998                                         avg =       90.4
+     overall = 0.9927                                         max =        123
+
+                                                F(5,3123)         =   71563.22
+corr(u_i, Xb)  = 0.2338                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2012488   .0076173    26.42   0.000     .1863132    .2161843
+       jan21 |   .0278983   .0073817     3.78   0.000     .0134247    .0423718
+         jan |   .0094881   .0021117     4.49   0.000     .0053477    .0136286
+          ym |   .0004468   .0000547     8.17   0.000     .0003395     .000554
+             |
+       marca |
+      CAMEL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+    CAMEL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+    CAMEL#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |     .95744   .0053617   178.57   0.000     .9469272    .9679528
+             |
+       _cons |  -.1900425   .0248791    -7.64   0.000    -.2388235   -.1412616
+-------------+----------------------------------------------------------------
+     sigma_u |  .00502464
+     sigma_e |  .03000819
+         rho |  .02727227   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 3123) = 0.54                    Prob > F = 0.9855
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,638 missing values generated)
+(288 real changes made)
+3
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,476
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.7017                                         min =          2
+     between = 0.5649                                         avg =       70.7
+     overall = 0.6398                                         max =        108
+
+                                                F(2,2439)         =    2868.89
+corr(u_i, Xb)  = 0.0287                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0045242   .0081613     0.55   0.579    -.0114797     .020528
+          ym |   .0062303   .0000823    75.69   0.000     .0060689    .0063917
+       _cons |  -2.408351    .054456   -44.23   0.000    -2.515136   -2.301566
+-------------+----------------------------------------------------------------
+     sigma_u |  .11231889
+     sigma_e |   .1128668
+         rho |  .49756686   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2439) = 45.05                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(21,226 missing values generated)
+(2,700 real changes made)
+note: 3.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,700
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.7168                                         min =          2
+     between = 0.6827                                         avg =       77.1
+     overall = 0.6964                                         max =        124
+
+                                                F(4,2661)         =    1683.94
+corr(u_i, Xb)  = 0.0454                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1916979   .0403999     4.75   0.000     .1124795    .2709163
+          jan21 |   .2695834   .0433001     6.23   0.000     .1846782    .3544886
+            jan |  -.0068015   .0107965    -0.63   0.529    -.0279718    .0143688
+             ym |   .0074961   .0000948    79.11   0.000     .0073103    .0076819
+                |
+          marca |
+  CHESTERFIELD  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+          _cons |  -3.225041   .0632043   -51.03   0.000    -3.348976   -3.101107
+----------------+----------------------------------------------------------------
+        sigma_u |  .11906036
+        sigma_e |  .14945555
+            rho |  .38823512   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2661) = 31.64                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,702 missing values generated)
+(224 real changes made)
+note: 3.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,655
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9786                                         min =          1
+     between = 0.9996                                         avg =       75.9
+     overall = 0.9835                                         max =        123
+
+                                                F(5,2615)         =   23891.32
+corr(u_i, Xb)  = 0.3041                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1659972   .0111283    14.92   0.000     .1441761    .1878184
+          jan21 |   .0611348   .0119812     5.10   0.000     .0376412    .0846284
+            jan |   .0225839   .0031647     7.14   0.000     .0163783    .0287896
+             ym |   .0002841   .0000484     5.87   0.000     .0001891     .000379
+                |
+          marca |
+  CHESTERFIELD  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+            ppu |
+            L1. |    .970845    .005443   178.37   0.000     .9601721    .9815179
+                |
+          _cons |  -.1334128   .0247803    -5.38   0.000    -.1820039   -.0848218
+----------------+----------------------------------------------------------------
+        sigma_u |  .00534028
+        sigma_e |  .04101171
+            rho |  .01667288   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2615) = 0.71                    Prob > F = 0.8935
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,703 missing values generated)
+(223 real changes made)
+4
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,865
+Group variable: gr_marca_c~d                    Number of groups  =         37
+
+R-sq:                                           Obs per group:
+     within  = 0.7766                                         min =          3
+     between = 0.6013                                         avg =       77.4
+     overall = 0.7035                                         max =        108
+
+                                                F(2,2826)         =    4911.45
+corr(u_i, Xb)  = -0.0882                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0157943    .006527    -2.42   0.016    -.0285924   -.0029962
+          ym |   .0064443   .0000652    98.87   0.000     .0063165    .0065721
+       _cons |  -2.216736   .0433392   -51.15   0.000    -2.301715   -2.131756
+-------------+----------------------------------------------------------------
+     sigma_u |  .09417617
+     sigma_e |  .09646628
+         rho |  .48798913   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(36, 2826) = 52.45                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,713 missing values generated)
+(3,213 real changes made)
+note: 4.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,213
+Group variable: gr_marca_c~d                    Number of groups  =         38
+
+R-sq:                                           Obs per group:
+     within  = 0.7924                                         min =          3
+     between = 0.7944                                         avg =       84.6
+     overall = 0.7709                                         max =        124
+
+                                                F(4,3171)         =    3025.56
+corr(u_i, Xb)  = -0.0545                        Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |    .168581   .0304852     5.53   0.000     .1088083    .2283536
+          jan21 |   .2381791     .03004     7.93   0.000     .1792794    .2970789
+            jan |  -.0326064   .0089597    -3.64   0.000    -.0501738    -.015039
+             ym |   .0080752   .0000761   106.05   0.000     .0079259    .0082245
+                |
+          marca |
+  LUCKY STRIKE  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+          _cons |  -3.273626   .0511481   -64.00   0.000    -3.373912   -3.173339
+----------------+----------------------------------------------------------------
+        sigma_u |  .09637067
+        sigma_e |  .13258868
+            rho |  .34567626   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(37, 3171) = 32.60                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,578 missing values generated)
+(348 real changes made)
+note: 4.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,167
+Group variable: gr_marca_c~d                    Number of groups  =         38
+
+R-sq:                                           Obs per group:
+     within  = 0.9833                                         min =          2
+     between = 0.9996                                         avg =       83.3
+     overall = 0.9866                                         max =        123
+
+                                                F(5,3124)         =   36782.02
+corr(u_i, Xb)  = 0.1964                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1272399   .0086619    14.69   0.000     .1102563    .1442236
+          jan21 |   .0063834   .0086273     0.74   0.459    -.0105324    .0232992
+            jan |   .0133975   .0026905     4.98   0.000     .0081221    .0186728
+             ym |   .0003064   .0000466     6.57   0.000      .000215    .0003978
+                |
+          marca |
+  LUCKY STRIKE  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+            ppu |
+            L1. |   .9744381   .0051411   189.54   0.000     .9643579    .9845183
+                |
+          _cons |   -.142974    .022192    -6.44   0.000    -.1864863   -.0994617
+----------------+----------------------------------------------------------------
+        sigma_u |  .00534017
+        sigma_e |  .03752178
+            rho |  .01985338   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(37, 3124) = 0.59                    Prob > F = 0.9763
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,580 missing values generated)
+(346 real changes made)
+5
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,838
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9376                                         min =         44
+     between = 0.4740                                         avg =      105.2
+     overall = 0.9176                                         max =        108
+
+                                                F(2,4790)         =   36014.41
+corr(u_i, Xb)  = -0.0039                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0045857   .0036908     1.24   0.214    -.0026499    .0118214
+          ym |    .008846    .000033   268.07   0.000     .0087813    .0089107
+       _cons |  -3.553297   .0220002  -161.51   0.000    -3.596427   -3.510167
+-------------+----------------------------------------------------------------
+     sigma_u |   .0430637
+     sigma_e |  .07091833
+         rho |  .26939447   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 4790) = 39.03                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(18,387 missing values generated)
+(5,539 real changes made)
+note: 5.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      5,539
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9221                                         min =         60
+     between = 0.6532                                         avg =      120.4
+     overall = 0.9118                                         max =        124
+
+                                                F(4,5489)         =   16232.96
+corr(u_i, Xb)  = 0.0008                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2320508    .017645    13.15   0.000     .1974596     .266642
+       jan21 |   .2370061   .0177253    13.37   0.000     .2022575    .2717547
+         jan |  -.0132276   .0057153    -2.31   0.021    -.0244318   -.0020233
+          ym |    .010446   .0000427   244.78   0.000     .0103623    .0105296
+             |
+       marca |
+   MARLBORO  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+ MARLBORO#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+ MARLBORO#1  |          0  (omitted)
+             |
+       _cons |  -4.591275   .0287795  -159.53   0.000    -4.647694   -4.534855
+-------------+----------------------------------------------------------------
+     sigma_u |  .04457261
+     sigma_e |  .10998329
+         rho |  .14107163   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5489) = 19.89                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,225 missing values generated)
+(701 real changes made)
+note: 5.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      5,491
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9939                                         min =         59
+     between = 0.9993                                         avg =      119.4
+     overall = 0.9941                                         max =        123
+
+                                                F(5,5440)         =  178263.05
+corr(u_i, Xb)  = 0.0973                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2229829   .0049278    45.25   0.000     .2133225    .2326434
+       jan21 |   .0561637   .0050055    11.22   0.000     .0463509    .0659764
+         jan |   .0361431   .0016918    21.36   0.000     .0328265    .0394596
+          ym |   .0004654   .0000412    11.29   0.000     .0003845    .0005462
+             |
+       marca |
+   MARLBORO  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+ MARLBORO#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+ MARLBORO#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9595098   .0037751   254.17   0.000      .952109    .9669106
+             |
+       _cons |  -.2085638   .0191478   -10.89   0.000    -.2461011   -.1710265
+-------------+----------------------------------------------------------------
+     sigma_u |  .00231218
+     sigma_e |  .03058246
+         rho |  .00568359   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5440) = 0.59                    Prob > F = 0.9875
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,225 missing values generated)
+(701 real changes made)
+6
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,120
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.7251                                         min =          5
+     between = 0.1152                                         avg =       50.9
+     overall = 0.4590                                         max =        108
+
+                                                F(2,1096)         =    1445.29
+corr(u_i, Xb)  = -0.2086                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0153563   .0090166    -1.70   0.089     -.033048    .0023353
+          ym |   .0052443   .0000978    53.62   0.000     .0050523    .0054362
+       _cons |  -1.686941   .0643446   -26.22   0.000    -1.813193   -1.560688
+-------------+----------------------------------------------------------------
+     sigma_u |  .12128959
+     sigma_e |  .08588464
+         rho |  .66604523   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1096) = 93.20                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(22,716 missing values generated)
+(1,210 real changes made)
+note: 6.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,210
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.7520                                         min =          5
+     between = 0.2221                                         avg =       55.0
+     overall = 0.5991                                         max =        124
+
+                                                F(4,1184)         =     897.61
+corr(u_i, Xb)  = -0.1591                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1817536   .0478076     3.80   0.000     .0879566    .2755507
+       jan21 |   .1134725   .0480029     2.36   0.018     .0192923    .2076528
+         jan |  -.0231726   .0117926    -1.97   0.050    -.0463093   -.0000358
+          ym |   .0062869   .0001086    57.87   0.000     .0060737       .0065
+             |
+       marca |
+    MONTANA  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+  MONTANA#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+  MONTANA#1  |          0  (omitted)
+             |
+       _cons |  -2.358205   .0720377   -32.74   0.000     -2.49954   -2.216869
+-------------+----------------------------------------------------------------
+     sigma_u |   .1344163
+     sigma_e |  .11241947
+         rho |  .58841312   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1184) = 62.67                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,836 missing values generated)
+(90 real changes made)
+note: 6.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,182
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.9684                                         min =          4
+     between = 0.9905                                         avg =       53.7
+     overall = 0.9751                                         max =        123
+
+                                                F(5,1155)         =    7084.34
+corr(u_i, Xb)  = 0.1984                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1741405   .0170532    10.21   0.000     .1406818    .2075992
+       jan21 |   .0441414   .0171394     2.58   0.010     .0105135    .0777692
+         jan |   .0093424   .0045767     2.04   0.041     .0003629    .0183219
+          ym |   .0003971   .0000771     5.15   0.000     .0002457    .0005484
+             |
+       marca |
+    MONTANA  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+  MONTANA#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+  MONTANA#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9443861   .0105795    89.27   0.000      .923629    .9651433
+             |
+       _cons |  -.1576016   .0360693    -4.37   0.000    -.2283703   -.0868329
+-------------+----------------------------------------------------------------
+     sigma_u |  .01138768
+     sigma_e |   .0399199
+         rho |  .07525157   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1155) = 1.47                    Prob > F = 0.0781
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,838 missing values generated)
+(88 real changes made)
+7
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,848
+Group variable: gr_marca_c~d                    Number of groups  =         40
+
+R-sq:                                           Obs per group:
+     within  = 0.8886                                         min =          2
+     between = 0.7990                                         avg =       71.2
+     overall = 0.7886                                         max =        108
+
+                                                F(2,2806)         =   11191.07
+corr(u_i, Xb)  = 0.0935                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0234343   .0059198    -3.96   0.000    -.0350418   -.0118267
+          ym |   .0082452   .0000553   149.13   0.000     .0081368    .0083536
+       _cons |  -3.595235   .0371171   -96.86   0.000    -3.668015   -3.522456
+-------------+----------------------------------------------------------------
+     sigma_u |  .10802431
+     sigma_e |  .08601014
+         rho |   .6120131   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(39, 2806) = 122.25                  Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,519 missing values generated)
+(3,407 real changes made)
+note: 7.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,407
+Group variable: gr_marca_c~d                    Number of groups  =         42
+
+R-sq:                                           Obs per group:
+     within  = 0.8744                                         min =          2
+     between = 0.7100                                         avg =       81.1
+     overall = 0.8274                                         max =        124
+
+                                                F(4,3361)         =    5851.28
+corr(u_i, Xb)  = 0.0990                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1765415   .0237242     7.44   0.000     .1300262    .2230568
+       jan21 |   .2183845   .0236569     9.23   0.000     .1720011    .2647679
+         jan |  -.0451651   .0088763    -5.09   0.000    -.0625687   -.0277615
+          ym |   .0101123   .0000685   147.55   0.000     .0099779    .0102467
+             |
+       marca |
+  PALL MALL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+PALL MALL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+PALL MALL#1  |          0  (omitted)
+             |
+       _cons |  -4.809371   .0466401  -103.12   0.000    -4.900817   -4.717925
+-------------+----------------------------------------------------------------
+     sigma_u |  .16230864
+     sigma_e |  .12920808
+         rho |  .61210072   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(41, 3361) = 68.29                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,367 missing values generated)
+(559 real changes made)
+note: 7.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,357
+Group variable: gr_marca_c~d                    Number of groups  =         42
+
+R-sq:                                           Obs per group:
+     within  = 0.9894                                         min =          1
+     between = 0.9996                                         avg =       79.9
+     overall = 0.9919                                         max =        123
+
+                                                F(5,3310)         =   61698.88
+corr(u_i, Xb)  = 0.3571                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1502369   .0069157    21.72   0.000     .1366775    .1637964
+       jan21 |   .0304363   .0070444     4.32   0.000     .0166244    .0442482
+         jan |   .0031437   .0027193     1.16   0.248     -.002188    .0084754
+          ym |   .0004957   .0000551     9.00   0.000     .0003878    .0006037
+             |
+       marca |
+  PALL MALL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+PALL MALL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+PALL MALL#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9593404    .005081   188.81   0.000     .9493782    .9693026
+             |
+       _cons |  -.2438705   .0279727    -8.72   0.000     -.298716    -.189025
+-------------+----------------------------------------------------------------
+     sigma_u |  .00827414
+     sigma_e |  .03743866
+         rho |  .04656876   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(41, 3310) = 1.24                    Prob > F = 0.1404
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,369 missing values generated)
+(557 real changes made)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ closed on:  31 Aug 2021, 12:12:23
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:31:07
+
+. // outreg2 : resultados\doc/est_xtreg_dyn_full_int 
+. // resultados interacci'on completa (est'atico y din'amico)
+. //      outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+. // resultados previos a impuesto
+. // outreg2 : resultados/doc/est_xtreg_stat_marca 
+. // resultados por marca est'atico
+. // outreg2 using resultados/doc/est_xtreg_dyn_marca 
+. // resultados por marca din'amico
+. 
+. // resultados de interacción completa
+. 
+. *global vardep "ppu" 
+. // global vardep "ppu100"
+. // global varsReg_notrend "jan20 jan21 jan"
+. // global varsRegLag "jan20 jan21 jan ym L.ppu"
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. // creado en: est_one_panel_dyn.do
+. putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+. 
+. // globales
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. 
+. /*-----------------------------------------------------
+> RESULTADOS CON INTERACCIONES EN L.ppu, tendencia y enero
+> */
+. // Estático
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.ym, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8793                                         min =          1
+     between = 0.5722                                         avg =       91.0
+     overall = 0.4754                                         max =        124
+
+                                                F(28,23635)       =    6149.65
+corr(u_i, Xb)  = -0.9147                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |    .192923   .0208356     9.26   0.000     .1520839    .2337621
+          CAMEL#0  |  -.2194243   .0301419    -7.28   0.000    -.2785044   -.1603442
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.1916979   .0321765    -5.96   0.000    -.2547658     -.12863
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   -.168581   .0273686    -6.16   0.000    -.2222251   -.1149368
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2320508    .019097   -12.15   0.000    -.2694821   -.1946195
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1817536   .0506203    -3.59   0.000    -.2809728   -.0825345
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.1765415    .021856    -8.08   0.000    -.2193808   -.1337023
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .2306976   .0211855    10.89   0.000     .1891726    .2722227
+          CAMEL#0  |  -.2242836   .0288391    -7.78   0.000    -.2808102   -.1677571
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.2695834   .0344863    -7.82   0.000    -.3371787   -.2019881
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.2381791   .0269689    -8.83   0.000    -.2910399   -.1853184
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2370061   .0191839   -12.35   0.000    -.2746077   -.1994044
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1134725   .0508272    -2.23   0.026     -.213097    -.013848
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.2183845    .021794   -10.02   0.000    -.2611022   -.1756668
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |  -.0132262   .0067508    -1.96   0.050    -.0264582    5.79e-06
+          CAMEL#0  |   .0313217   .0079427     3.94   0.000     .0157534    .0468899
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |   .0068015   .0085988     0.79   0.429    -.0100527    .0236558
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   .0326064   .0080437     4.05   0.000     .0168402    .0483726
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   .0132276   .0061856     2.14   0.032     .0011034    .0253517
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |   .0231726   .0124864     1.86   0.063    -.0013016    .0476468
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |   .0451651   .0081774     5.52   0.000     .0291369    .0611933
+      PALL MALL#1  |          0  (omitted)
+                   |
+        marca#c.ym |
+  BENSON & HEDGES  |   .0101402   .0000531   190.85   0.000      .010036    .0102443
+            CAMEL  |   .0096396   .0000683   141.06   0.000     .0095057    .0097736
+     CHESTERFIELD  |   .0074961   .0000755    99.33   0.000     .0073482     .007644
+     LUCKY STRIKE  |   .0080752   .0000684   118.12   0.000     .0079412    .0082091
+         MARLBORO  |    .010446   .0000462   226.17   0.000     .0103554    .0105365
+          MONTANA  |   .0062869    .000115    54.65   0.000     .0060614    .0065123
+        PALL MALL  |   .0101123   .0000631   160.17   0.000     .0099885     .010236
+                   |
+             _cons |  -3.744358   .0218945  -171.02   0.000    -3.787272   -3.701443
+-------------------+----------------------------------------------------------------
+           sigma_u |  .79953439
+           sigma_e |  .11903362
+               rho |  .97831577   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23635) = 43.13                 Prob > F = 0.0000
+
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan) bdec(3) tex(fragment) replace
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23635) =   62.56
+            Prob > F =    0.0000
+
+. putexcel (H10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx could not be saved
+r(603);
+
+end of do-file
+
+r(603);
+
+. do "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\stata_code\est_xtreg_dyn_full_int.do"
+
+. // modelos dinámicos 
+. // con interacciones completas
+. // estimaciones similares a 
+. // Seemingly Unrelated Regression
+. set more off
+
+. 
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:31:21
+
+. // outreg2 : resultados\doc/est_xtreg_dyn_full_int 
+. // resultados interacci'on completa (est'atico y din'amico)
+. //      outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+. // resultados previos a impuesto
+. // outreg2 : resultados/doc/est_xtreg_stat_marca 
+. // resultados por marca est'atico
+. // outreg2 using resultados/doc/est_xtreg_dyn_marca 
+. // resultados por marca din'amico
+. 
+. // resultados de interacción completa
+. 
+. *global vardep "ppu" 
+. // global vardep "ppu100"
+. // global varsReg_notrend "jan20 jan21 jan"
+. // global varsRegLag "jan20 jan21 jan ym L.ppu"
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. // creado en: est_one_panel_dyn.do
+. putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
+
+. 
+. // globales
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. 
+. /*-----------------------------------------------------
+> RESULTADOS CON INTERACCIONES EN L.ppu, tendencia y enero
+> */
+. // Estático
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.ym, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,926
+Group variable: gr_marca_c~d                    Number of groups  =        263
+
+R-sq:                                           Obs per group:
+     within  = 0.8793                                         min =          1
+     between = 0.5722                                         avg =       91.0
+     overall = 0.4754                                         max =        124
+
+                                                F(28,23635)       =    6149.65
+corr(u_i, Xb)  = -0.9147                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |    .192923   .0208356     9.26   0.000     .1520839    .2337621
+          CAMEL#0  |  -.2194243   .0301419    -7.28   0.000    -.2785044   -.1603442
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.1916979   .0321765    -5.96   0.000    -.2547658     -.12863
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   -.168581   .0273686    -6.16   0.000    -.2222251   -.1149368
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2320508    .019097   -12.15   0.000    -.2694821   -.1946195
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1817536   .0506203    -3.59   0.000    -.2809728   -.0825345
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.1765415    .021856    -8.08   0.000    -.2193808   -.1337023
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |   .2306976   .0211855    10.89   0.000     .1891726    .2722227
+          CAMEL#0  |  -.2242836   .0288391    -7.78   0.000    -.2808102   -.1677571
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.2695834   .0344863    -7.82   0.000    -.3371787   -.2019881
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.2381791   .0269689    -8.83   0.000    -.2910399   -.1853184
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2370061   .0191839   -12.35   0.000    -.2746077   -.1994044
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1134725   .0508272    -2.23   0.026     -.213097    -.013848
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.2183845    .021794   -10.02   0.000    -.2611022   -.1756668
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |  -.0132262   .0067508    -1.96   0.050    -.0264582    5.79e-06
+          CAMEL#0  |   .0313217   .0079427     3.94   0.000     .0157534    .0468899
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |   .0068015   .0085988     0.79   0.429    -.0100527    .0236558
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |   .0326064   .0080437     4.05   0.000     .0168402    .0483726
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |   .0132276   .0061856     2.14   0.032     .0011034    .0253517
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |   .0231726   .0124864     1.86   0.063    -.0013016    .0476468
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |   .0451651   .0081774     5.52   0.000     .0291369    .0611933
+      PALL MALL#1  |          0  (omitted)
+                   |
+        marca#c.ym |
+  BENSON & HEDGES  |   .0101402   .0000531   190.85   0.000      .010036    .0102443
+            CAMEL  |   .0096396   .0000683   141.06   0.000     .0095057    .0097736
+     CHESTERFIELD  |   .0074961   .0000755    99.33   0.000     .0073482     .007644
+     LUCKY STRIKE  |   .0080752   .0000684   118.12   0.000     .0079412    .0082091
+         MARLBORO  |    .010446   .0000462   226.17   0.000     .0103554    .0105365
+          MONTANA  |   .0062869    .000115    54.65   0.000     .0060614    .0065123
+        PALL MALL  |   .0101123   .0000631   160.17   0.000     .0099885     .010236
+                   |
+             _cons |  -3.744358   .0218945  -171.02   0.000    -3.787272   -3.701443
+-------------------+----------------------------------------------------------------
+           sigma_u |  .79953439
+           sigma_e |  .11903362
+               rho |  .97831577   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(262, 23635) = 43.13                 Prob > F = 0.0000
+
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan) bdec(3) tex(fragment) replace
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23635) =   62.56
+            Prob > F =    0.0000
+
+. putexcel (H10) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. //putexcel (B8) = rscalars, colwise overwritefmt
+. 
+. // Dinámico
+. xtreg ppu i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.ym i.marca#c.L.ppu, fe
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+note: 2.marca#1.jan omitted because of collinearity
+note: 3.marca#1.jan omitted because of collinearity
+note: 4.marca#1.jan omitted because of collinearity
+note: 5.marca#1.jan omitted because of collinearity
+note: 6.marca#1.jan omitted because of collinearity
+note: 7.marca#1.jan omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9903                                         min =          1
+     between = 0.9330                                         avg =       90.1
+     overall = 0.9425                                         max =        123
+
+                                                F(35,23319)       =   67814.10
+corr(u_i, Xb)  = -0.3656                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+       marca#jan20 |
+BENSON & HEDGES#1  |   .1925989   .0059206    32.53   0.000      .180994    .2042038
+          CAMEL#0  |  -.2012488   .0085513   -23.53   0.000    -.2180099   -.1844876
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.1659972   .0091409   -18.16   0.000     -.183914   -.1480804
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.1272399   .0077768   -16.36   0.000    -.1424829   -.1119969
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.2229829   .0054281   -41.08   0.000    -.2336224   -.2123435
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.1741405   .0143908   -12.10   0.000    -.2023474   -.1459336
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.1502369   .0062228   -24.14   0.000    -.1624339   -.1380399
+      PALL MALL#1  |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |    .068816   .0060813    11.32   0.000     .0568962    .0807357
+          CAMEL#0  |  -.0278983   .0082868    -3.37   0.001     -.044141   -.0116556
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.0611348   .0098415    -6.21   0.000    -.0804248   -.0418448
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.0063834   .0077457    -0.82   0.410    -.0215656    .0087987
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.0561637   .0055137   -10.19   0.000    -.0669709   -.0453565
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.0441414   .0144636    -3.05   0.002    -.0724909   -.0157919
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.0304363   .0063386    -4.80   0.000    -.0428604   -.0180122
+      PALL MALL#1  |          0  (omitted)
+                   |
+         marca#jan |
+BENSON & HEDGES#1  |   .0365892   .0020324    18.00   0.000     .0326056    .0405728
+          CAMEL#0  |  -.0094881   .0023706    -4.00   0.000    -.0141347   -.0048416
+          CAMEL#1  |          0  (omitted)
+   CHESTERFIELD#0  |  -.0225839   .0025995    -8.69   0.000    -.0276792   -.0174887
+   CHESTERFIELD#1  |          0  (omitted)
+   LUCKY STRIKE#0  |  -.0133975   .0024156    -5.55   0.000    -.0181321   -.0086628
+   LUCKY STRIKE#1  |          0  (omitted)
+       MARLBORO#0  |  -.0361431   .0018635   -19.39   0.000    -.0397957   -.0324904
+       MARLBORO#1  |          0  (omitted)
+        MONTANA#0  |  -.0093424   .0038621    -2.42   0.016    -.0169125   -.0017724
+        MONTANA#1  |          0  (omitted)
+      PALL MALL#0  |  -.0031437   .0024468    -1.28   0.199    -.0079397    .0016523
+      PALL MALL#1  |          0  (omitted)
+                   |
+        marca#c.ym |
+  BENSON & HEDGES  |   .0004049   .0000524     7.73   0.000     .0003022    .0005075
+            CAMEL  |   .0004468   .0000614     7.28   0.000     .0003264    .0005671
+     CHESTERFIELD  |   .0002841   .0000398     7.14   0.000     .0002061     .000362
+     LUCKY STRIKE  |   .0003064   .0000419     7.32   0.000     .0002244    .0003885
+         MARLBORO  |   .0004654   .0000454    10.25   0.000     .0003764    .0005544
+          MONTANA  |   .0003971   .0000651     6.10   0.000     .0002695    .0005247
+        PALL MALL  |   .0004957   .0000495    10.01   0.000     .0003986    .0005928
+                   |
+      marca#cL.ppu |
+  BENSON & HEDGES  |   .9644621   .0049381   195.31   0.000     .9547832     .974141
+            CAMEL  |     .95744   .0060191   159.07   0.000     .9456421    .9692378
+     CHESTERFIELD  |    .970845   .0044709   217.15   0.000     .9620817    .9796083
+     LUCKY STRIKE  |   .9744381   .0046157   211.11   0.000      .965391    .9834852
+         MARLBORO  |   .9595098   .0041584   230.74   0.000      .951359    .9676606
+          MONTANA  |   .9443861   .0089278   105.78   0.000     .9268871    .9618852
+        PALL MALL  |   .9593404   .0045719   209.83   0.000     .9503792    .9683016
+                   |
+             _cons |   .0047592   .0100431     0.47   0.636    -.0149259    .0244443
+-------------------+----------------------------------------------------------------
+           sigma_u |  .10293941
+           sigma_e |  .03368751
+               rho |  .90326377   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23319) = 1.34                  Prob > F = 0.0003
+
+. 
+. outreg2 using resultados\doc/est_xtreg_dyn_full_int ///
+>                         , keep(i.marca#i.jan20 i.marca#jan21 i.marca#jan i.marca#c.L.ppu) bdec(3) tex(fragment) append
+resultados\doc/est_xtreg_dyn_full_int.tex
+dir : seeout
+
+. 
+. testparm jan20#i.marca
+
+ ( 1)  1b.marca#1.jan20 = 0
+ ( 2)  2.marca#0b.jan20 = 0
+ ( 3)  3.marca#0b.jan20 = 0
+ ( 4)  4.marca#0b.jan20 = 0
+ ( 5)  5.marca#0b.jan20 = 0
+ ( 6)  6.marca#0b.jan20 = 0
+ ( 7)  7.marca#0b.jan20 = 0
+
+       F(  7, 23319) =  660.91
+            Prob > F =    0.0000
+
+. putexcel (H11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan21#i.marca
+
+ ( 1)  1b.marca#1.jan21 = 0
+ ( 2)  2.marca#0b.jan21 = 0
+ ( 3)  3.marca#0b.jan21 = 0
+ ( 4)  4.marca#0b.jan21 = 0
+ ( 5)  5.marca#0b.jan21 = 0
+ ( 6)  6.marca#0b.jan21 = 0
+ ( 7)  7.marca#0b.jan21 = 0
+
+       F(  7, 23319) =   44.97
+            Prob > F =    0.0000
+
+. putexcel (N11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. // H0: igualdad de parametros 
+. // rechazo h0, son iguales
+. 
+. testparm jan#i.marca
+
+ ( 1)  1b.marca#1.jan = 0
+ ( 2)  2.marca#0b.jan = 0
+ ( 3)  3.marca#0b.jan = 0
+ ( 4)  4.marca#0b.jan = 0
+ ( 5)  5.marca#0b.jan = 0
+ ( 6)  6.marca#0b.jan = 0
+ ( 7)  7.marca#0b.jan = 0
+
+       F(  7, 23319) =  118.58
+            Prob > F =    0.0000
+
+. putexcel (T1) = "Enero por marcas"
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (T11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+. testparm c.ym#i.marca
+
+ ( 1)  1b.marca#c.ym = 0
+ ( 2)  2.marca#c.ym = 0
+ ( 3)  3.marca#c.ym = 0
+ ( 4)  4.marca#c.ym = 0
+ ( 5)  5.marca#c.ym = 0
+ ( 6)  6.marca#c.ym = 0
+ ( 7)  7.marca#c.ym = 0
+
+       F(  7, 23319) =   65.67
+            Prob > F =    0.0000
+
+. putexcel (Z11) = "Tendencia por marcas"
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (S11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+. testparm c.L.ppu#i.marca
+
+ ( 1)  1b.marca#cL.ppu = 0
+ ( 2)  2.marca#cL.ppu = 0
+ ( 3)  3.marca#cL.ppu = 0
+ ( 4)  4.marca#cL.ppu = 0
+ ( 5)  5.marca#cL.ppu = 0
+ ( 6)  6.marca#cL.ppu = 0
+ ( 7)  7.marca#cL.ppu = 0
+
+       F(  7, 23319) =37661.61
+            Prob > F =    0.0000
+
+. putexcel (S11) = "Marcas"
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. putexcel (S11) = rscalars, colwise overwritefmt
+file resultados\doc\f_tests_xtreg_dyn.xlsx saved
+
+. 
+. /*-----------------------------------------------------
+> RESULTADOS POR MARCA
+> */
+. 
+. capture log close
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ opened on:  31 Aug 2021, 12:31:24
+
+. 
+. 
+. // Resultados por marcas
+. gen xb_ppu_2019 = .
+(23,926 missing values generated)
+
+. gen xb_ppu_nodyn = .
+(23,926 missing values generated)
+
+. gen xb_ppu_dyn = .
+(23,926 missing values generated)
+
+. 
+. local n_marca = 1
+
+. /*
+> if `n_marca' == 1 {
+>         global append_replace = "replace"
+> } 
+> else {
+>         global append_replace = "append"
+> }
+> di "$append_replace" */
+. di `n_marca'
+1
+
+. // modelo hasta enero 2020 (sin efecto del impuesto)
+. // xtreg ppu $v_taxTrend  if ym<ym(2020,1), fe
+. xtreg ppu $varsRegStatic if ym<ym(2020,1) & marca == `n_marca', fe
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,074
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9506                                         min =         16
+     between = 0.8345                                         avg =       92.6
+     overall = 0.9187                                         max =        108
+
+                                                F(2,4028)         =   38794.95
+corr(u_i, Xb)  = -0.0501                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0029188   .0033097     0.88   0.378    -.0035702    .0094077
+          ym |   .0086318    .000031   278.27   0.000      .008571    .0086926
+       _cons |  -3.415032    .020677  -165.16   0.000    -3.455571   -3.374494
+-------------+----------------------------------------------------------------
+     sigma_u |  .05475296
+     sigma_e |  .05827225
+         rho |   .4688929   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4028) = 76.59                   Prob > F = 0.0000
+
+. outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+>                 , keep($varsRegStatic) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+
+. 
+. predict xb_ppu_2019_`n_marca' if marca == `n_marca'
+(option xb assumed; fitted values)
+(19,276 missing values generated)
+
+. replace xb_ppu_2019 = xb_ppu_2019_`n_marca' if marca == `n_marca'
+(4,650 real changes made)
+
+. // hace la proyecci'on sin necesidad de re-ajustar la muestra?
+. 
+. // modelo interactuado, sin dinámica
+. xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 if marca == `n_marca', fe
+note: 1.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 1.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 1.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,650
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9212                                         min =         32
+     between = 0.8936                                         avg =      105.7
+     overall = 0.9091                                         max =        124
+
+                                                F(4,4602)         =   13458.09
+corr(u_i, Xb)  = -0.0251                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             jan20 |    .192923    .017783    10.85   0.000     .1580598    .2277862
+             jan21 |   .2306976   .0180817    12.76   0.000     .1952489    .2661464
+               jan |  -.0132262   .0057617    -2.30   0.022     -.024522   -.0019304
+                ym |   .0101402   .0000453   223.61   0.000     .0100513    .0102291
+                   |
+             marca |
+  BENSON & HEDGES  |          0  (omitted)
+           1.jan20 |          0  (omitted)
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+           1.jan21 |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+             _cons |  -4.394058   .0305693  -143.74   0.000    -4.453989   -4.334128
+-------------------+----------------------------------------------------------------
+           sigma_u |  .05749365
+           sigma_e |  .10159413
+               rho |  .24257341   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4602) = 30.55                   Prob > F = 0.0000
+
+. outreg2 using resultados/doc/est_xtreg_stat_marca ///                   
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+
+. predict xb_ppu_nodyn_`n_marca' if ym>=ym(2020,1)  & marca == `n_marca'
+(option xb assumed; fitted values)
+(23,350 missing values generated)
+
+. replace xb_ppu_nodyn = xb_ppu_nodyn_`n_marca' if marca == `n_marca'
+(576 real changes made)
+
+. 
+. // modelo interactuado, con dinámica
+. xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu if marca == `n_marca', fe
+note: 1.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 1.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 1.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,601
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9945                                         min =         31
+     between = 0.9998                                         avg =      104.6
+     overall = 0.9950                                         max =        123
+
+                                                F(5,4552)         =  163153.91
+corr(u_i, Xb)  = 0.0838                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------------
+               ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------------+----------------------------------------------------------------
+             jan20 |   .1925989   .0047226    40.78   0.000     .1833403    .2018574
+             jan21 |    .068816   .0048507    14.19   0.000     .0593062    .0783258
+               jan |   .0365892   .0016211    22.57   0.000      .033411    .0397674
+                ym |   .0004049   .0000418     9.69   0.000      .000323    .0004867
+                   |
+             marca |
+  BENSON & HEDGES  |          0  (omitted)
+           1.jan20 |          0  (omitted)
+                   |
+       marca#jan20 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+           1.jan21 |          0  (omitted)
+                   |
+       marca#jan21 |
+BENSON & HEDGES#1  |          0  (omitted)
+                   |
+               ppu |
+               L1. |   .9644621   .0039388   244.86   0.000     .9567401    .9721841
+                   |
+             _cons |  -.1804184   .0191796    -9.41   0.000    -.2180198   -.1428171
+-------------------+----------------------------------------------------------------
+           sigma_u |  .00256703
+           sigma_e |  .02687072
+               rho |  .00904397   (fraction of variance due to u_i)
+------------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4552) = 0.67                    Prob > F = 0.9526
+
+. outreg2 using resultados/doc/est_xtreg_dyn_marca ///                    
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) replace
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+
+. predict xb_ppu_dyn_`n_marca' if ym>=ym(2020,1) & marca == `n_marca'
+(option xb assumed; fitted values)
+(23,350 missing values generated)
+
+. replace xb_ppu_dyn = xb_ppu_dyn_`n_marca' if marca == `n_marca'
+(576 real changes made)
+
+. 
+. foreach n_marca of numlist 2/7 {
+  2.     
+. di `n_marca'
+  3.         // modelo hasta enero 2020 (sin efecto del impuesto)
+.         // xtreg ppu $v_taxTrend  if ym<ym(2020,1), fe
+.         xtreg ppu $varsRegStatic if ym<ym(2020,1) & marca == `n_marca', fe
+  4.         outreg2 using resultados/doc/est_xtreg_no_tax_marca ///                 
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+  5.         predict xb_ppu_2019_`n_marca' if marca == `n_marca'
+  6.         replace xb_ppu_2019 = xb_ppu_2019_`n_marca' if marca == `n_marca'
+  7.         // hace la proyecci'on sin necesidad de re-ajustar la muestra?
+.         
+.         // modelo interactuado, sin dinámica
+.         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 if marca == `n_marca', fe
+  8.         outreg2 using resultados/doc/est_xtreg_stat_marca ///                   
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+  9.         predict xb_ppu_nodyn_`n_marca' if ym>=ym(2020,1)  & marca == `n_marca'
+ 10.         replace xb_ppu_nodyn = xb_ppu_nodyn_`n_marca' if marca == `n_marca'
+ 11. 
+.         // modelo interactuado, con dinámica
+.         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu if marca == `n_marca', fe
+ 12.         outreg2 using resultados/doc/est_xtreg_dyn_marca ///                    
+>                         , keep(i.marca##jan20 i.marca##jan21  $varsRegStatic L.ppu) bdec(3) tex(fragment) append
+ 13.         predict xb_ppu_dyn_`n_marca' if ym>=ym(2020,1) & marca == `n_marca'
+ 14.         replace xb_ppu_dyn = xb_ppu_dyn_`n_marca' if marca == `n_marca'
+ 15. }
+2
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,917
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9302                                         min =          1
+     between = 0.8614                                         avg =       83.3
+     overall = 0.9140                                         max =        108
+
+                                                F(2,2880)         =   19182.38
+corr(u_i, Xb)  = 0.0189                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0169255   .0043005    -3.94   0.000    -.0253579   -.0084931
+          ym |   .0083024   .0000425   195.56   0.000     .0082192    .0083857
+       _cons |  -3.207537   .0281605  -113.90   0.000    -3.262754    -3.15232
+-------------+----------------------------------------------------------------
+     sigma_u |  .04382345
+     sigma_e |  .06436798
+         rho |  .31671835   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2880) = 30.06                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,719 missing values generated)
+(3,207 real changes made)
+note: 2.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,207
+Group variable: gr_marca_c~d                    Number of groups  =         36
+
+R-sq:                                           Obs per group:
+     within  = 0.8961                                         min =          1
+     between = 0.9433                                         avg =       89.1
+     overall = 0.8966                                         max =        124
+
+                                                F(4,3167)         =    6824.91
+corr(u_i, Xb)  = 0.1388                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2194243   .0265174     8.27   0.000     .1674314    .2714173
+       jan21 |   .2242836   .0253712     8.84   0.000     .1745379    .2740294
+         jan |  -.0313217   .0069876    -4.48   0.000    -.0450224   -.0176209
+          ym |   .0096396   .0000601   160.34   0.000     .0095218    .0097575
+             |
+       marca |
+      CAMEL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+    CAMEL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+    CAMEL#1  |          0  (omitted)
+             |
+       _cons |  -4.071334   .0402278  -101.21   0.000    -4.150209   -3.992459
+-------------+----------------------------------------------------------------
+     sigma_u |  .06936554
+     sigma_e |   .1047199
+         rho |  .30495807   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(35, 3167) = 17.34                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,636 missing values generated)
+(290 real changes made)
+note: 2.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 2.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 2.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,163
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9913                                         min =          5
+     between = 0.9998                                         avg =       90.4
+     overall = 0.9927                                         max =        123
+
+                                                F(5,3123)         =   71563.22
+corr(u_i, Xb)  = 0.2338                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2012488   .0076173    26.42   0.000     .1863132    .2161843
+       jan21 |   .0278983   .0073817     3.78   0.000     .0134247    .0423718
+         jan |   .0094881   .0021117     4.49   0.000     .0053477    .0136286
+          ym |   .0004468   .0000547     8.17   0.000     .0003395     .000554
+             |
+       marca |
+      CAMEL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+    CAMEL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+    CAMEL#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |     .95744   .0053617   178.57   0.000     .9469272    .9679528
+             |
+       _cons |  -.1900425   .0248791    -7.64   0.000    -.2388235   -.1412616
+-------------+----------------------------------------------------------------
+     sigma_u |  .00502464
+     sigma_e |  .03000819
+         rho |  .02727227   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 3123) = 0.54                    Prob > F = 0.9855
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,638 missing values generated)
+(288 real changes made)
+3
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,476
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.7017                                         min =          2
+     between = 0.5649                                         avg =       70.7
+     overall = 0.6398                                         max =        108
+
+                                                F(2,2439)         =    2868.89
+corr(u_i, Xb)  = 0.0287                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0045242   .0081613     0.55   0.579    -.0114797     .020528
+          ym |   .0062303   .0000823    75.69   0.000     .0060689    .0063917
+       _cons |  -2.408351    .054456   -44.23   0.000    -2.515136   -2.301566
+-------------+----------------------------------------------------------------
+     sigma_u |  .11231889
+     sigma_e |   .1128668
+         rho |  .49756686   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2439) = 45.05                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(21,226 missing values generated)
+(2,700 real changes made)
+note: 3.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,700
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.7168                                         min =          2
+     between = 0.6827                                         avg =       77.1
+     overall = 0.6964                                         max =        124
+
+                                                F(4,2661)         =    1683.94
+corr(u_i, Xb)  = 0.0454                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1916979   .0403999     4.75   0.000     .1124795    .2709163
+          jan21 |   .2695834   .0433001     6.23   0.000     .1846782    .3544886
+            jan |  -.0068015   .0107965    -0.63   0.529    -.0279718    .0143688
+             ym |   .0074961   .0000948    79.11   0.000     .0073103    .0076819
+                |
+          marca |
+  CHESTERFIELD  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+          _cons |  -3.225041   .0632043   -51.03   0.000    -3.348976   -3.101107
+----------------+----------------------------------------------------------------
+        sigma_u |  .11906036
+        sigma_e |  .14945555
+            rho |  .38823512   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2661) = 31.64                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,702 missing values generated)
+(224 real changes made)
+note: 3.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 3.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 3.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,655
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9786                                         min =          1
+     between = 0.9996                                         avg =       75.9
+     overall = 0.9835                                         max =        123
+
+                                                F(5,2615)         =   23891.32
+corr(u_i, Xb)  = 0.3041                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1659972   .0111283    14.92   0.000     .1441761    .1878184
+          jan21 |   .0611348   .0119812     5.10   0.000     .0376412    .0846284
+            jan |   .0225839   .0031647     7.14   0.000     .0163783    .0287896
+             ym |   .0002841   .0000484     5.87   0.000     .0001891     .000379
+                |
+          marca |
+  CHESTERFIELD  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+CHESTERFIELD#1  |          0  (omitted)
+                |
+            ppu |
+            L1. |    .970845    .005443   178.37   0.000     .9601721    .9815179
+                |
+          _cons |  -.1334128   .0247803    -5.38   0.000    -.1820039   -.0848218
+----------------+----------------------------------------------------------------
+        sigma_u |  .00534028
+        sigma_e |  .04101171
+            rho |  .01667288   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2615) = 0.71                    Prob > F = 0.8935
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,703 missing values generated)
+(223 real changes made)
+4
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,865
+Group variable: gr_marca_c~d                    Number of groups  =         37
+
+R-sq:                                           Obs per group:
+     within  = 0.7766                                         min =          3
+     between = 0.6013                                         avg =       77.4
+     overall = 0.7035                                         max =        108
+
+                                                F(2,2826)         =    4911.45
+corr(u_i, Xb)  = -0.0882                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0157943    .006527    -2.42   0.016    -.0285924   -.0029962
+          ym |   .0064443   .0000652    98.87   0.000     .0063165    .0065721
+       _cons |  -2.216736   .0433392   -51.15   0.000    -2.301715   -2.131756
+-------------+----------------------------------------------------------------
+     sigma_u |  .09417617
+     sigma_e |  .09646628
+         rho |  .48798913   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(36, 2826) = 52.45                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,713 missing values generated)
+(3,213 real changes made)
+note: 4.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,213
+Group variable: gr_marca_c~d                    Number of groups  =         38
+
+R-sq:                                           Obs per group:
+     within  = 0.7924                                         min =          3
+     between = 0.7944                                         avg =       84.6
+     overall = 0.7709                                         max =        124
+
+                                                F(4,3171)         =    3025.56
+corr(u_i, Xb)  = -0.0545                        Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |    .168581   .0304852     5.53   0.000     .1088083    .2283536
+          jan21 |   .2381791     .03004     7.93   0.000     .1792794    .2970789
+            jan |  -.0326064   .0089597    -3.64   0.000    -.0501738    -.015039
+             ym |   .0080752   .0000761   106.05   0.000     .0079259    .0082245
+                |
+          marca |
+  LUCKY STRIKE  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+          _cons |  -3.273626   .0511481   -64.00   0.000    -3.373912   -3.173339
+----------------+----------------------------------------------------------------
+        sigma_u |  .09637067
+        sigma_e |  .13258868
+            rho |  .34567626   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(37, 3171) = 32.60                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,578 missing values generated)
+(348 real changes made)
+note: 4.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 4.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 4.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,167
+Group variable: gr_marca_c~d                    Number of groups  =         38
+
+R-sq:                                           Obs per group:
+     within  = 0.9833                                         min =          2
+     between = 0.9996                                         avg =       83.3
+     overall = 0.9866                                         max =        123
+
+                                                F(5,3124)         =   36782.02
+corr(u_i, Xb)  = 0.1964                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------
+            ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          jan20 |   .1272399   .0086619    14.69   0.000     .1102563    .1442236
+          jan21 |   .0063834   .0086273     0.74   0.459    -.0105324    .0232992
+            jan |   .0133975   .0026905     4.98   0.000     .0081221    .0186728
+             ym |   .0003064   .0000466     6.57   0.000      .000215    .0003978
+                |
+          marca |
+  LUCKY STRIKE  |          0  (omitted)
+        1.jan20 |          0  (omitted)
+                |
+    marca#jan20 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+        1.jan21 |          0  (omitted)
+                |
+    marca#jan21 |
+LUCKY STRIKE#1  |          0  (omitted)
+                |
+            ppu |
+            L1. |   .9744381   .0051411   189.54   0.000     .9643579    .9845183
+                |
+          _cons |   -.142974    .022192    -6.44   0.000    -.1864863   -.0994617
+----------------+----------------------------------------------------------------
+        sigma_u |  .00534017
+        sigma_e |  .03752178
+            rho |  .01985338   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+F test that all u_i=0: F(37, 3124) = 0.59                    Prob > F = 0.9763
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,580 missing values generated)
+(346 real changes made)
+5
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,838
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9376                                         min =         44
+     between = 0.4740                                         avg =      105.2
+     overall = 0.9176                                         max =        108
+
+                                                F(2,4790)         =   36014.41
+corr(u_i, Xb)  = -0.0039                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |   .0045857   .0036908     1.24   0.214    -.0026499    .0118214
+          ym |    .008846    .000033   268.07   0.000     .0087813    .0089107
+       _cons |  -3.553297   .0220002  -161.51   0.000    -3.596427   -3.510167
+-------------+----------------------------------------------------------------
+     sigma_u |   .0430637
+     sigma_e |  .07091833
+         rho |  .26939447   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 4790) = 39.03                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(18,387 missing values generated)
+(5,539 real changes made)
+note: 5.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      5,539
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9221                                         min =         60
+     between = 0.6532                                         avg =      120.4
+     overall = 0.9118                                         max =        124
+
+                                                F(4,5489)         =   16232.96
+corr(u_i, Xb)  = 0.0008                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2320508    .017645    13.15   0.000     .1974596     .266642
+       jan21 |   .2370061   .0177253    13.37   0.000     .2022575    .2717547
+         jan |  -.0132276   .0057153    -2.31   0.021    -.0244318   -.0020233
+          ym |    .010446   .0000427   244.78   0.000     .0103623    .0105296
+             |
+       marca |
+   MARLBORO  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+ MARLBORO#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+ MARLBORO#1  |          0  (omitted)
+             |
+       _cons |  -4.591275   .0287795  -159.53   0.000    -4.647694   -4.534855
+-------------+----------------------------------------------------------------
+     sigma_u |  .04457261
+     sigma_e |  .10998329
+         rho |  .14107163   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5489) = 19.89                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,225 missing values generated)
+(701 real changes made)
+note: 5.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 5.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 5.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      5,491
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9939                                         min =         59
+     between = 0.9993                                         avg =      119.4
+     overall = 0.9941                                         max =        123
+
+                                                F(5,5440)         =  178263.05
+corr(u_i, Xb)  = 0.0973                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .2229829   .0049278    45.25   0.000     .2133225    .2326434
+       jan21 |   .0561637   .0050055    11.22   0.000     .0463509    .0659764
+         jan |   .0361431   .0016918    21.36   0.000     .0328265    .0394596
+          ym |   .0004654   .0000412    11.29   0.000     .0003845    .0005462
+             |
+       marca |
+   MARLBORO  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+ MARLBORO#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+ MARLBORO#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9595098   .0037751   254.17   0.000      .952109    .9669106
+             |
+       _cons |  -.2085638   .0191478   -10.89   0.000    -.2461011   -.1710265
+-------------+----------------------------------------------------------------
+     sigma_u |  .00231218
+     sigma_e |  .03058246
+         rho |  .00568359   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5440) = 0.59                    Prob > F = 0.9875
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,225 missing values generated)
+(701 real changes made)
+6
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,120
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.7251                                         min =          5
+     between = 0.1152                                         avg =       50.9
+     overall = 0.4590                                         max =        108
+
+                                                F(2,1096)         =    1445.29
+corr(u_i, Xb)  = -0.2086                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0153563   .0090166    -1.70   0.089     -.033048    .0023353
+          ym |   .0052443   .0000978    53.62   0.000     .0050523    .0054362
+       _cons |  -1.686941   .0643446   -26.22   0.000    -1.813193   -1.560688
+-------------+----------------------------------------------------------------
+     sigma_u |  .12128959
+     sigma_e |  .08588464
+         rho |  .66604523   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1096) = 93.20                   Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(22,716 missing values generated)
+(1,210 real changes made)
+note: 6.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,210
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.7520                                         min =          5
+     between = 0.2221                                         avg =       55.0
+     overall = 0.5991                                         max =        124
+
+                                                F(4,1184)         =     897.61
+corr(u_i, Xb)  = -0.1591                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1817536   .0478076     3.80   0.000     .0879566    .2755507
+       jan21 |   .1134725   .0480029     2.36   0.018     .0192923    .2076528
+         jan |  -.0231726   .0117926    -1.97   0.050    -.0463093   -.0000358
+          ym |   .0062869   .0001086    57.87   0.000     .0060737       .0065
+             |
+       marca |
+    MONTANA  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+  MONTANA#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+  MONTANA#1  |          0  (omitted)
+             |
+       _cons |  -2.358205   .0720377   -32.74   0.000     -2.49954   -2.216869
+-------------+----------------------------------------------------------------
+     sigma_u |   .1344163
+     sigma_e |  .11241947
+         rho |  .58841312   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1184) = 62.67                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,836 missing values generated)
+(90 real changes made)
+note: 6.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 6.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 6.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,182
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.9684                                         min =          4
+     between = 0.9905                                         avg =       53.7
+     overall = 0.9751                                         max =        123
+
+                                                F(5,1155)         =    7084.34
+corr(u_i, Xb)  = 0.1984                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1741405   .0170532    10.21   0.000     .1406818    .2075992
+       jan21 |   .0441414   .0171394     2.58   0.010     .0105135    .0777692
+         jan |   .0093424   .0045767     2.04   0.041     .0003629    .0183219
+          ym |   .0003971   .0000771     5.15   0.000     .0002457    .0005484
+             |
+       marca |
+    MONTANA  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+  MONTANA#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+  MONTANA#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9443861   .0105795    89.27   0.000      .923629    .9651433
+             |
+       _cons |  -.1576016   .0360693    -4.37   0.000    -.2283703   -.0868329
+-------------+----------------------------------------------------------------
+     sigma_u |  .01138768
+     sigma_e |   .0399199
+         rho |  .07525157   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1155) = 1.47                    Prob > F = 0.0781
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,838 missing values generated)
+(88 real changes made)
+7
+note: jan20 omitted because of collinearity
+note: jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,848
+Group variable: gr_marca_c~d                    Number of groups  =         40
+
+R-sq:                                           Obs per group:
+     within  = 0.8886                                         min =          2
+     between = 0.7990                                         avg =       71.2
+     overall = 0.7886                                         max =        108
+
+                                                F(2,2806)         =   11191.07
+corr(u_i, Xb)  = 0.0935                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |          0  (omitted)
+       jan21 |          0  (omitted)
+         jan |  -.0234343   .0059198    -3.96   0.000    -.0350418   -.0118267
+          ym |   .0082452   .0000553   149.13   0.000     .0081368    .0083536
+       _cons |  -3.595235   .0371171   -96.86   0.000    -3.668015   -3.522456
+-------------+----------------------------------------------------------------
+     sigma_u |  .10802431
+     sigma_e |  .08601014
+         rho |   .6120131   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(39, 2806) = 122.25                  Prob > F = 0.0000
+resultados/doc/est_xtreg_no_tax_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(20,519 missing values generated)
+(3,407 real changes made)
+note: 7.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,407
+Group variable: gr_marca_c~d                    Number of groups  =         42
+
+R-sq:                                           Obs per group:
+     within  = 0.8744                                         min =          2
+     between = 0.7100                                         avg =       81.1
+     overall = 0.8274                                         max =        124
+
+                                                F(4,3361)         =    5851.28
+corr(u_i, Xb)  = 0.0990                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1765415   .0237242     7.44   0.000     .1300262    .2230568
+       jan21 |   .2183845   .0236569     9.23   0.000     .1720011    .2647679
+         jan |  -.0451651   .0088763    -5.09   0.000    -.0625687   -.0277615
+          ym |   .0101123   .0000685   147.55   0.000     .0099779    .0102467
+             |
+       marca |
+  PALL MALL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+PALL MALL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+PALL MALL#1  |          0  (omitted)
+             |
+       _cons |  -4.809371   .0466401  -103.12   0.000    -4.900817   -4.717925
+-------------+----------------------------------------------------------------
+     sigma_u |  .16230864
+     sigma_e |  .12920808
+         rho |  .61210072   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(41, 3361) = 68.29                   Prob > F = 0.0000
+resultados/doc/est_xtreg_stat_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,367 missing values generated)
+(559 real changes made)
+note: 7.marca omitted because of collinearity
+note: 1.jan20 omitted because of collinearity
+note: 7.marca#1.jan20 omitted because of collinearity
+note: 1.jan21 omitted because of collinearity
+note: 7.marca#1.jan21 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      3,357
+Group variable: gr_marca_c~d                    Number of groups  =         42
+
+R-sq:                                           Obs per group:
+     within  = 0.9894                                         min =          1
+     between = 0.9996                                         avg =       79.9
+     overall = 0.9919                                         max =        123
+
+                                                F(5,3310)         =   61698.88
+corr(u_i, Xb)  = 0.3571                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jan20 |   .1502369   .0069157    21.72   0.000     .1366775    .1637964
+       jan21 |   .0304363   .0070444     4.32   0.000     .0166244    .0442482
+         jan |   .0031437   .0027193     1.16   0.248     -.002188    .0084754
+          ym |   .0004957   .0000551     9.00   0.000     .0003878    .0006037
+             |
+       marca |
+  PALL MALL  |          0  (omitted)
+     1.jan20 |          0  (omitted)
+             |
+ marca#jan20 |
+PALL MALL#1  |          0  (omitted)
+             |
+     1.jan21 |          0  (omitted)
+             |
+ marca#jan21 |
+PALL MALL#1  |          0  (omitted)
+             |
+         ppu |
+         L1. |   .9593404    .005081   188.81   0.000     .9493782    .9693026
+             |
+       _cons |  -.2438705   .0279727    -8.72   0.000     -.298716    -.189025
+-------------+----------------------------------------------------------------
+     sigma_u |  .00827414
+     sigma_e |  .03743866
+         rho |  .04656876   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(41, 3310) = 1.24                    Prob > F = 0.1404
+resultados/doc/est_xtreg_dyn_marca.tex
+dir : seeout
+(option xb assumed; fitted values)
+(23,369 missing values generated)
+(557 real changes made)
+
+. 
+. gen trend = ym[_n]
+
+. 
+. export excel using "datos\finales\pred_xtreg_dyn.xlsx", firstrow(variables) replace
+file datos\finales\pred_xtreg_dyn.xlsx saved
+
+. save "datos\finales\pred_xtreg_dyn.dta", replace
+file datos\finales\pred_xtreg_dyn.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xtreg_dyn_full_int.log
+  log type:  text
+ closed on:  31 Aug 2021, 12:31:50
+--------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,1114 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_precio_w8.log
+  log type:  text
+ opened on:   8 Sep 2021, 12:36:09
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. 
+. *cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
+. 
+. *use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+. use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+
+. 
+. keep if wave == 8
+(10,508 observations deleted)
+
+. 
+. do "$codigo/etiquetas_marcas.do"
+
+. /*
+> etiquetas_marcas.do
+> usado: recodificar.do
+> Etiquetar e identificar las marcas más relevantes para el análisis
+> 2.      Benson y Hedges o B&H
+> 4.      Camel
+> 5.      Chesterfield
+> 7.      Delicados > 5
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 19.     Pall Mall
+> 22.     Raleigh[021] > 15 
+> * también está la marca q026, último consumo, pero se reporta menos
+> */
+. gen marca = .
+(1,500 missing values generated)
+
+. replace marca = 1 if q019 == 2
+(186 real changes made)
+
+. replace marca = 2 if q019 == 4
+(86 real changes made)
+
+. replace marca = 3 if q019 == 5
+(46 real changes made)
+
+. replace marca = 3 if q019 == 7 // Delicados por Chesterfield
+(26 real changes made)
+
+. replace marca = 4 if q019 == 15
+(42 real changes made)
+
+. replace marca = 4 if q019 == 22 // Raleigh a Lucky
+(2 real changes made)
+
+. replace marca = 5 if q019 == 16
+(602 real changes made)
+
+. replace marca = 6 if q019 == 17
+(65 real changes made)
+
+. replace marca = 7 if q019 == 19
+(290 real changes made)
+
+. recode marca . = 99
+(marca: 155 changes made)
+
+. 
+. #delimit ;
+delimiter now ;
+. label define marca 1 "Benson y Hedges" 
+>                                 2 "Camel"
+>                                 3 "Chesterfield"
+>                                 4 "Lucky Strike"
+>                                 5 "Marlboro"
+>                                 6 "Montana"
+>                                 7 "Pall Mall"
+>                                 99 "Otras"
+>                 ;
+
+. #delimit cr
+delimiter now cr
+. 
+. label values marca marca
+
+. 
+. // tipo_marca
+. gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
+(626 missing values generated)
+
+. replace tipo = 2 if marca == 4 | marca == 7
+(334 real changes made)
+
+. replace tipo = 3 if marca == 3 | marca == 6
+(137 real changes made)
+
+. 
+. label define tipo 1 "premium" 2 "medio" 3 "bajo"
+
+. label values tipo tipo
+
+. 
+. // Juntar Chesterfield y Delicados
+. // Raleigh : Lucky
+. // ajustar manual q019r30oe.xls
+. // 
+. // wave 8
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(1 real change made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(1 real change made)
+
+. 
+. 
+. replace marca = 5 if q019r30oe =="Malboro rubi"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro ice"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro Sandía"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson violeta"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="lucky strike"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollmol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pallmall"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shots"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall Mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MAL"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="delicados sin filtro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="malvoro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo Mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="raleigt"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucky strike"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson mentolado"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palmall doble clik"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="paull mool"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Marlboro rubi"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollman"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 2 if q019r30oe =="Camel mentolados"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Palo mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucy strigth"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Montana"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. // 
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. /*
+> [IF 018=1] ¿Qué marca es?
+> [IF 018=2] ¿Qué marca estás fumando actualmente o fumaste más recientemente?
+> 1.      Alas[023]
+> 2.      Benson y Hedges o B&H
+> 3.      Broadway[023]
+> 4.      Camel
+> 5.      Chesterfield
+> 6.      Cohiba[021]
+> 7.      Delicados
+> 8.      Dunhill
+> 9.      Faros
+> 10.     Fiesta[021]
+> 11.     Fortuna
+> 12.     Garañon[021]
+> 13.     Joe’s
+> 14.     Kent
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 18.     Murattimar
+> 19.     Pall Mall
+> 20.     Popular 
+> 21.     RGD
+> 22.     Raleigh[021]
+> 23.     Salem[021]
+> 24.     Seneca
+> 25.     Viceroy[021]
+> 26.     West[021]
+> 27.     Winston
+> 28.     L & M Baronet 
+> 29.     Link Ice Fusion 
+> 30.     Otro [Especificar] ___________ [021]
+> 99      No sé[021]
+> */
+. 
+. 
+end of do-file
+
+. 
+. // solo cantidades 14, 20 y 25
+. // no considera compras de cigarro suelto
+. drop if q029a > 3
+(341 observations deleted)
+
+. // 341 obs deleted
+. drop if has_ == 0
+(28 observations deleted)
+
+. // 38 obs deleted
+. 
+. gen cantidad_cajetilla = q029a
+
+. gen precio_cajetilla = q029
+
+. gen ppu = q029/14 if q029a == 1 
+(971 missing values generated)
+
+. replace ppu = q029/20 if q029a == 2
+(861 real changes made)
+
+. replace ppu = q029/25 if q029a == 3
+(110 real changes made)
+
+. 
+. // a partir de qué precio por cajetilla
+. // se observa una mayor proporción de cajetillas en cada grupo?
+. 
+. // tablas para cantidad
+. ta precio cantidad if marca == 3, row col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+|  row percentage   |
+| column percentage |
++-------------------+
+
+precio_caj |        cantidad_cajetilla
+    etilla |         1          2          3 |     Total
+-----------+---------------------------------+----------
+        35 |         1          1          0 |         2 
+           |     50.00      50.00       0.00 |    100.00 
+           |      7.69       4.00       0.00 |      3.33 
+-----------+---------------------------------+----------
+        38 |         2          0          0 |         2 
+           |    100.00       0.00       0.00 |    100.00 
+           |     15.38       0.00       0.00 |      3.33 
+-----------+---------------------------------+----------
+        39 |         2          1          0 |         3 
+           |     66.67      33.33       0.00 |    100.00 
+           |     15.38       4.00       0.00 |      5.00 
+-----------+---------------------------------+----------
+        40 |         3          0          0 |         3 
+           |    100.00       0.00       0.00 |    100.00 
+           |     23.08       0.00       0.00 |      5.00 
+-----------+---------------------------------+----------
+        45 |         3          1          0 |         4 
+           |     75.00      25.00       0.00 |    100.00 
+           |     23.08       4.00       0.00 |      6.67 
+-----------+---------------------------------+----------
+        47 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00       4.00       0.00 |      1.67 
+-----------+---------------------------------+----------
+        48 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00       4.00       0.00 |      1.67 
+-----------+---------------------------------+----------
+        50 |         0          3          0 |         3 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00      12.00       0.00 |      5.00 
+-----------+---------------------------------+----------
+        53 |         0          3          1 |         4 
+           |      0.00      75.00      25.00 |    100.00 
+           |      0.00      12.00       4.55 |      6.67 
+-----------+---------------------------------+----------
+        54 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00       4.00       0.00 |      1.67 
+-----------+---------------------------------+----------
+        55 |         0          5          1 |         6 
+           |      0.00      83.33      16.67 |    100.00 
+           |      0.00      20.00       4.55 |     10.00 
+-----------+---------------------------------+----------
+        56 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00       4.00       0.00 |      1.67 
+-----------+---------------------------------+----------
+        57 |         0          0          4 |         4 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00      18.18 |      6.67 
+-----------+---------------------------------+----------
+        58 |         1          0         10 |        11 
+           |      9.09       0.00      90.91 |    100.00 
+           |      7.69       0.00      45.45 |     18.33 
+-----------+---------------------------------+----------
+        59 |         0          0          1 |         1 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       4.55 |      1.67 
+-----------+---------------------------------+----------
+        60 |         0          2          2 |         4 
+           |      0.00      50.00      50.00 |    100.00 
+           |      0.00       8.00       9.09 |      6.67 
+-----------+---------------------------------+----------
+        63 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00       4.00       0.00 |      1.67 
+-----------+---------------------------------+----------
+        65 |         0          2          1 |         3 
+           |      0.00      66.67      33.33 |    100.00 
+           |      0.00       8.00       4.55 |      5.00 
+-----------+---------------------------------+----------
+        68 |         0          0          1 |         1 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       4.55 |      1.67 
+-----------+---------------------------------+----------
+        70 |         1          1          0 |         2 
+           |     50.00      50.00       0.00 |    100.00 
+           |      7.69       4.00       0.00 |      3.33 
+-----------+---------------------------------+----------
+        85 |         0          1          1 |         2 
+           |      0.00      50.00      50.00 |    100.00 
+           |      0.00       4.00       4.55 |      3.33 
+-----------+---------------------------------+----------
+     Total |        13         25         22 |        60 
+           |     21.67      41.67      36.67 |    100.00 
+           |    100.00     100.00     100.00 |    100.00 
+
+
+. 
+. ta precio cantidad if marca == 6, row col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+|  row percentage   |
+| column percentage |
++-------------------+
+
+precio_caj |        cantidad_cajetilla
+    etilla |         1          2          3 |     Total
+-----------+---------------------------------+----------
+        20 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00      10.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        35 |         1          0          0 |         1 
+           |    100.00       0.00       0.00 |    100.00 
+           |      5.26       0.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        36 |         1          0          0 |         1 
+           |    100.00       0.00       0.00 |    100.00 
+           |      5.26       0.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        37 |         1          0          0 |         1 
+           |    100.00       0.00       0.00 |    100.00 
+           |      5.26       0.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        38 |         2          1          0 |         3 
+           |     66.67      33.33       0.00 |    100.00 
+           |     10.53      10.00       0.00 |      5.17 
+-----------+---------------------------------+----------
+        39 |         7          0          0 |         7 
+           |    100.00       0.00       0.00 |    100.00 
+           |     36.84       0.00       0.00 |     12.07 
+-----------+---------------------------------+----------
+        40 |         1          2          0 |         3 
+           |     33.33      66.67       0.00 |    100.00 
+           |      5.26      20.00       0.00 |      5.17 
+-----------+---------------------------------+----------
+        42 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00      10.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        45 |         0          1          1 |         2 
+           |      0.00      50.00      50.00 |    100.00 
+           |      0.00      10.00       3.45 |      3.45 
+-----------+---------------------------------+----------
+        48 |         0          0          2 |         2 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       6.90 |      3.45 
+-----------+---------------------------------+----------
+        50 |         2          1          1 |         4 
+           |     50.00      25.00      25.00 |    100.00 
+           |     10.53      10.00       3.45 |      6.90 
+-----------+---------------------------------+----------
+        52 |         0          0          1 |         1 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       3.45 |      1.72 
+-----------+---------------------------------+----------
+        53 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00      10.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        55 |         0          0          3 |         3 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00      10.34 |      5.17 
+-----------+---------------------------------+----------
+        56 |         0          0          3 |         3 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00      10.34 |      5.17 
+-----------+---------------------------------+----------
+        57 |         0          0          2 |         2 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       6.90 |      3.45 
+-----------+---------------------------------+----------
+        58 |         0          0         12 |        12 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00      41.38 |     20.69 
+-----------+---------------------------------+----------
+        59 |         0          0          2 |         2 
+           |      0.00       0.00     100.00 |    100.00 
+           |      0.00       0.00       6.90 |      3.45 
+-----------+---------------------------------+----------
+        60 |         2          0          2 |         4 
+           |     50.00       0.00      50.00 |    100.00 
+           |     10.53       0.00       6.90 |      6.90 
+-----------+---------------------------------+----------
+        65 |         0          1          0 |         1 
+           |      0.00     100.00       0.00 |    100.00 
+           |      0.00      10.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        68 |         1          0          0 |         1 
+           |    100.00       0.00       0.00 |    100.00 
+           |      5.26       0.00       0.00 |      1.72 
+-----------+---------------------------------+----------
+        70 |         1          1          0 |         2 
+           |     50.00      50.00       0.00 |    100.00 
+           |      5.26      10.00       0.00 |      3.45 
+-----------+---------------------------------+----------
+     Total |        19         10         29 |        58 
+           |     32.76      17.24      50.00 |    100.00 
+           |    100.00     100.00     100.00 |    100.00 
+
+
+. 
+. // histogramas de cantidad por marca
+. histogram q029 if marca == 99, normal kdensity
+(bin=7, start=10, width=27.142857)
+
+. graph save Graph "graficos\exploratorios\precio_caja_m99_w8.gph", replace
+(file graficos\exploratorios\precio_caja_m99_w8.gph saved)
+
+. 
+. // todas las proporciones
+. proportion q029a, over(marca)
+
+Proportion estimation             Number of obs   =      1,131
+
+      _prop_1: q029a = 1
+      _prop_2: q029a = 2
+      _prop_3: q029a = 3
+
+    _subpop_1: marca = Benson y Hedges
+        Camel: marca = Camel
+ Chesterfield: marca = Chesterfield
+    _subpop_4: marca = Lucky Strike
+     Marlboro: marca = Marlboro
+      Montana: marca = Montana
+    _subpop_7: marca = Pall Mall
+        Otras: marca = Otras
+
+--------------------------------------------------------------
+        Over | Proportion   Std. Err.     [95% Conf. Interval]
+-------------+------------------------------------------------
+_prop_1      |
+   _subpop_1 |   .1139241   .0253567       .072822    .1738743
+       Camel |    .109375   .0393221      .0526919    .2133046
+Chesterfield |   .2166667   .0536344       .129517    .3395813
+   _subpop_4 |   .2352941   .0738407      .1209085    .4077064
+    Marlboro |   .1319588   .0153839      .1045873    .1651722
+     Montana |   .3275862   .0621647        .21877    .4587449
+   _subpop_7 |   .1084906   .0214101      .0730621    .1581671
+       Otras |   .1333333   .0442557      .0676577    .2459434
+-------------+------------------------------------------------
+_prop_2      |
+   _subpop_1 |   .8164557   .0308949      .7480066    .8695544
+       Camel |    .859375   .0437978      .7500774    .9256142
+Chesterfield |   .4166667    .064184      .2984693    .5452888
+   _subpop_4 |   .6764706   .0814375      .5018777    .8127056
+    Marlboro |   .8123711   .0177462      .7750511    .8447399
+     Montana |   .1724138   .0500328       .094781    .2930485
+   _subpop_7 |   .8349057    .025559      .7785059    .8791731
+       Otras |         .8   .0520756      .6786766    .8833859
+-------------+------------------------------------------------
+_prop_3      |
+   _subpop_1 |   .0696203   .0203118       .038873    .1216104
+       Camel |     .03125    .021921      .0077313    .1178183
+Chesterfield |   .3666667   .0627373      .2541468    .4958824
+   _subpop_4 |   .0882353   .0493748      .0282073     .243942
+    Marlboro |   .0556701    .010422      .0384198    .0800211
+     Montana |         .5   .0662266      .3729075    .6270925
+   _subpop_7 |   .0566038   .0159085      .0323601    .0971863
+       Otras |   .0666667   .0324748      .0250114    .1658925
+--------------------------------------------------------------
+
+. // para Chesterfield 25 es muy alto, pero 20 no es tanto
+. // para Montana 20 es muy bajo, 25 llega a 50 %, 14 también es alto
+. matrix prop_cant_caj_marca = r(table)
+
+. 
+. 
+. save "$datos/cantidades_cigarros_w8.dta", replace
+file datos/encuesta//cantidades_cigarros_w8.dta saved
+
+. 
+. // 
+. use "$datos/c_pw4_w5_unbalanc.dta", clear
+
+. 
+. drop if has_ == 0
+(0 observations deleted)
+
+. keep if q028 == 1
+(525 observations deleted)
+
+. //(525 observations deleted)
+. 
+. append using "$datos/cantidades_cigarros_w8.dta"
+(label marca already defined)
+(label edad_cat4 already defined)
+(label consumo1 already defined)
+(label escolaridad already defined)
+(label sexo already defined)
+(label educ_9cat already defined)
+(label educ_3catr already defined)
+(label educ_3catED already defined)
+(label educat3 already defined)
+(label hsample already defined)
+(label edad_cat3 already defined)
+(label edad_cat2R already defined)
+(label pais_vives already defined)
+(label has_fumado_1mes already defined)
+(label current_smoker already defined)
+(label uso_ecig_30d already defined)
+(label use_ecig already defined)
+(label fum_100cig_vida already defined)
+(label frec_fuma_cigar already defined)
+(label frec_fuma_cigar3CAT already defined)
+(label smoking_pattern already defined)
+(label patron already defined)
+(label smoking_patternRR already defined)
+(label patron_2 already defined)
+(label frec_fuma_patron3cat already defined)
+(label dual_use already defined)
+(label daily_non already defined)
+(label tiempo_fumar_diario already defined)
+(label ult_vez_cigar already defined)
+(label fuma_semana_tipica already defined)
+(label fuma_mes_tipico already defined)
+(label alguna_fumar_diario already defined)
+(label hora_fum_despertar already defined)
+(label marca_fav_cig already defined)
+(label marca_fav_capsula already defined)
+(label marca_fav_capsulaR already defined)
+(label capsulas already defined)
+(label cig_saludable already defined)
+(label cig_saludable3CT already defined)
+(label vap_mas_menos_daño already defined)
+(label vap_mas_menos_daño3CT already defined)
+(label cig_sauv_garganta already defined)
+(label cig_sauv_garganta3CT already defined)
+(label cig_sauv_garganta2CT already defined)
+(label ult_marca_fav already defined)
+(label ult_capsula already defined)
+(label ult_cajeti_sueltos already defined)
+(label ult_cajeti_sueltosREC already defined)
+(label dejar_fumar_alguna already defined)
+(label dejar_fumar_4meses already defined)
+(label dej_fumar_reciente already defined)
+(label tiem_sinfumar_ultintento already defined)
+(label dejar_fumar_largo already defined)
+(label tiem_sinfumar_ult4meses already defined)
+(label rec_nrt_cesacion already defined)
+(label vareniclina_chant_champ already defined)
+(label bupropion_zyban_wellbut already defined)
+(label linea_telefon_cesacion already defined)
+(label terap_individ_cesacion already defined)
+(label prof_salud_cesacion already defined)
+(label apps_telef_cesacion already defined)
+(label internet_cesacion already defined)
+(label panfle_libros_cesacion already defined)
+(label ninguno_ant_cesacion already defined)
+(label otro_rec_cesacion already defined)
+(label Planes_dejar_de_fumar already defined)
+(label Planes_dejar_de_fumar3CT already defined)
+(label Planes_dejar_de_fumar2CT already defined)
+(label ganas_dejar_de_fumar already defined)
+(label ganas_dejar_de_fumar4ct already defined)
+(label seguro_dejar_de_fumar already defined)
+(label seguro_dejar_de_fumar3cat already defined)
+(label adverten_ult_mes already defined)
+(label adverten_ult_mes2cat already defined)
+(label adverten_ult_mes3cat already defined)
+(label adv_cajetilla_daño already defined)
+(label adv_cajetilla_daño3cat already defined)
+(label hablar_adverten_cajet already defined)
+(label hablar_adverten_cajet3cat already defined)
+(label hablar_adverten_cajet2cat already defined)
+(label daño_salud_fumar already defined)
+(label daño_respirar_humo already defined)
+(label benef_dejar_fumar already defined)
+(label neces_dejar_fumar already defined)
+(label advert_informativas already defined)
+(label advert_exag already defined)
+(label advert_inutiles already defined)
+(label adv_sanit_otro already defined)
+(label adverten_evita_cigar already defined)
+(label adverten_evita_cigar2cat already defined)
+(label adverten_evita_cigar2catOT already defined)
+(label adverten_evita_cigar3cat already defined)
+(label cuanto_sin_fumar already defined)
+(label rec_nrt_cesacion_48 already defined)
+(label vareniclina_chant_champ_48 already defined)
+(label bupropion_zyban_wellbut_48 already defined)
+(label linea_telefon_cesacion_48 already defined)
+(label terap_individ_cesacion_48 already defined)
+(label prof_salud_cesacion_48 already defined)
+(label apps_telef_cesacion_48 already defined)
+(label internet_cesacion_48 already defined)
+(label panfle_libros_cesacion_48 already defined)
+(label ninguno_ant_cesacion_48 already defined)
+(label otro_rec_cesacion_48 already defined)
+(label dificil_nofum_1dia already defined)
+(label seguro_dejar_fum already defined)
+(label benef_nofumar_perm already defined)
+(label frec_fumaba already defined)
+(label num_cigar_cajetilla already defined)
+(label part_futuro_estud already defined)
+(label fumar_recaida already defined)
+(label motiv_recaida already defined)
+(label frec_cons_ocasion already defined)
+(label ever_ecigs already defined)
+(label prim_vez_ecigs already defined)
+(label prim_vez_ecigs2cat already defined)
+(label tiempo_uso already defined)
+(label frec_ecigs_4m already defined)
+(label tiempo_vap_despertar already defined)
+(label type already defined)
+(label type_rec already defined)
+(label type_rec_2CT already defined)
+(label type_rec_2CTCOMPL already defined)
+(label vapead_desech already defined)
+(label vapead_desech_cig already defined)
+(label vapead_desech_pod already defined)
+(label vapead_tanq_resis already defined)
+(label vapead_modu_repar already defined)
+(label ajuste_poder_vapeador already defined)
+(label nicotina_e_liquid already defined)
+(label nicotine already defined)
+(label nicotine_2cat already defined)
+(label nicotine_2catCOMPL already defined)
+(label vapeador_nicotina already defined)
+(label cant_nicot_eliquid already defined)
+(label dias_vap_semana already defined)
+(label ecig_freq already defined)
+(label ecig_freq2CTNW already defined)
+(label ecig_freq2ctnwCOMPL already defined)
+(label ecig_freq2CTNWSM already defined)
+(label ecig_freq2CTNWSMPR already defined)
+(label ecig_freq2CTNW100cig already defined)
+(label ecig_freq2cat already defined)
+(label tiempo_semana_vap already defined)
+(label tiempo_diario_vap already defined)
+(label como_obv_vapeador already defined)
+(label comp_vap_4m already defined)
+(label donde_comp_vapeador already defined)
+(label vap_comp_fumar already defined)
+(label conseg_eliquid_1año already defined)
+(label mezclas_eliquid already defined)
+(label sabor_tabaco already defined)
+(label sabor_tabaco_mentol already defined)
+(label sabor_mentol already defined)
+(label sabor_frutal already defined)
+(label sabor_dulces already defined)
+(label sabor_chocolate already defined)
+(label sabor_clavo already defined)
+(label sabor_cafe already defined)
+(label sabor_bebida_noalcohol already defined)
+(label sabor_bebida_alcohol already defined)
+(label sabor_otro already defined)
+(label sabor_no_se already defined)
+(label sabor_pepino already defined)
+(label sabor_eliquid_usamas already defined)
+(label disfrutas_vapear already defined)
+(label disfrut_vapear_fumar already defined)
+(label frec_vapeo_ult_mes already defined)
+(label menos_daño_personas already defined)
+(label vapear_acept_personas already defined)
+(label disfruto_vapear already defined)
+(label vapear_sitios_fumar already defined)
+(label vapear_ayuda_dejar_fumar already defined)
+(label vapear_ahorro_dinero already defined)
+(label vapear_no_volver_fumar already defined)
+(label vapear_control_peso already defined)
+(label vapear_reduc_cigarros already defined)
+(label senti_adict_vapear already defined)
+(label vapeador_caro already defined)
+(label e_liquid_caro already defined)
+(label exp_negativ_vapeador already defined)
+(label incomod_usar_publico already defined)
+(label seguro_vapeador already defined)
+(label no_suficie_satis already defined)
+(label vapea_demasiado_esfuerzo already defined)
+(label vapea_no_ayuda_dejar already defined)
+(label no_quitaba_ganas already defined)
+(label no_neces_vapear_fumar already defined)
+(label preoc_vap_daña_salud already defined)
+(label algun_inten_uso_vapeador already defined)
+(label algun_inten_uso_vapeadorR already defined)
+(label algun_inten_uso_vapeadorRM already defined)
+(label algun_inten_uso_vapeadorRMV already defined)
+(label ult_inten_uso_vapeador already defined)
+(label ult_inten_uso_vapeadorMB already defined)
+(label ult_inten_uso_vapeadorMCONF already defined)
+(label ult_inten_uso_vapeadorMNW already defined)
+(label ult_inten_uso_vapeadorMNWR already defined)
+(label ult_inten_uso_vapeadorMNWRECB already defined)
+(label tiempo_ayuda_uso_vape already defined)
+(label e_liquid_nicot_cesacion already defined)
+(label vapea_mismo_cesacion already defined)
+(label vap_fac_dif_cesac already defined)
+(label frec_fum_ant_vap already defined)
+(label jalar_seco_quemado already defined)
+(label fuga_liquido already defined)
+(label sobrecalent_bateria already defined)
+(label explos_incend_bateria already defined)
+(label ningun_anterior_prob already defined)
+(label plan_vapear_dejar already defined)
+(label dejar_vapear_4m already defined)
+(label dejar_vapear_4m_nousa_vap already defined)
+(label tiempo_sin_vapear_ultintento already defined)
+(label tiempo_ningun_producto already defined)
+(label cons_med_4m already defined)
+(label cons_fumar_consulta already defined)
+(label ayuda_canaliz_consulta already defined)
+(label folletos_consulta already defined)
+(label otros_consulta already defined)
+(label ninguna_ant_rec_4m already defined)
+(label med_hablar_vapeo already defined)
+(label quien_tema_vapeo2 already defined)
+(label cons_med_vapeoV2dicR already defined)
+(label cons_med_intento2CT already defined)
+(label correo_pub_ecig already defined)
+(label correo_pub_ecigREC already defined)
+(label pub_internet_ecig already defined)
+(label pub_internet_ecigREC already defined)
+(label pub_email_ecig already defined)
+(label pub_email_ecigREC already defined)
+(label pub_bares_ecig already defined)
+(label pub_bares_ecigREC already defined)
+(label pub_tiend_cigar_ecig already defined)
+(label pub_tiend_cigar_ecigREC already defined)
+(label pub_tiend_vap_ecig already defined)
+(label pub_tiend_vap_ecigREC already defined)
+(label pub_ferias_ecig already defined)
+(label pub_ferias_ecigREC already defined)
+(label pub_venta_tempor_ecig already defined)
+(label pub_venta_tempor_ecigREC already defined)
+(label desc_cupon_vap_30d already defined)
+(label desc_cupon_vap_30dREC already defined)
+(label muestra_vapeador already defined)
+(label muestra_e_liquid already defined)
+(label algunavez_web_vapeo already defined)
+(label visita_web_vapeo already defined)
+(label visita_web_vapeo_3cat already defined)
+(label inform_fuente_vapeo already defined)
+(label visto already defined)
+(label interes already defined)
+(label interesr already defined)
+(label prob1_htp already defined)
+(label satisf_htp already defined)
+(label frec_30d_htp already defined)
+(label ever_htp already defined)
+(label uso_seguido_htp already defined)
+(label razon_htp_menos_danino already defined)
+(label razon_htp_mas_acept already defined)
+(label razon_htp_menos_cigar already defined)
+(label razon_htp_ayuda_reducir already defined)
+(label razon_htp_nopuedo_fumar already defined)
+(label razon_htp_ayuda_dejar already defined)
+(label razon_htp_gusta_tecno already defined)
+(label razon_htp_otro already defined)
+(label obtuviste_htp already defined)
+(label donde_conseg_htp already defined)
+(label frec_puros_30dB already defined)
+(label frec_puros_30d already defined)
+(label frec_pipa_agua_30dB already defined)
+(label frec_pipa_agua_30d already defined)
+(label frec_hookah_30d already defined)
+(label mes_curso already defined)
+(label fumar_causa_ceguera already defined)
+(label fumar_causa_cancer_boca already defined)
+(label fumar_causa_artritis already defined)
+(label fumar_causa_enf_pulm already defined)
+(label nicotina_dañina already defined)
+(label tantas_enf_nicotina already defined)
+(label tantas_enf_otras_subs already defined)
+(label tantas_enf_subs_combus already defined)
+(label tantas_enf_sab_aditivos already defined)
+(label aerosol_vap_daño already defined)
+(label personas_piensan_fumes already defined)
+(label actitud_pub_fumar already defined)
+(label pers_import_piensan_vapeas already defined)
+(label actitud_pub_vapear already defined)
+(label verguenza_fumo already defined)
+(label evito_social_fumo already defined)
+(label gente_discrim_fumo already defined)
+(label verguenza_vapeo already defined)
+(label evito_social_vapeo already defined)
+(label gente_discrim_vapeo already defined)
+(label cuantas_pers_viven_casa already defined)
+(label cuant_pers_fuman already defined)
+(label cuant_pers_vapean already defined)
+(label familiares_col already defined)
+(label vives_pareja already defined)
+(label pareja_fuma already defined)
+(label pareja_fumamr already defined)
+(label pareja_fumaM_2cat already defined)
+(label pareja_vapea already defined)
+(label pareja_vapeamrB already defined)
+(label pareja_vapeaM_2cat already defined)
+(label pareja_dual already defined)
+(label pareja_dualMR already defined)
+(label pareja_usaM4CT already defined)
+(label pareja_usaM3CT already defined)
+(label pareja_usaM3CTREC already defined)
+(label user_status already defined)
+(label reglas_fumar_casa already defined)
+(label reglas_fumar_casa2cat already defined)
+(label reglas_vapear_casa already defined)
+(label reglas_vapear_casa2cat already defined)
+(label cuant_amig_pasar_tiem already defined)
+(label cuant_amig_fuman already defined)
+(label cuant_amig_fumanM already defined)
+(label cuant_amig_vapean already defined)
+(label cuant_amig_tab_calent already defined)
+(label amigos_fumanM already defined)
+(label amigos_fumanM_2cat already defined)
+(label amigos_vapeanM already defined)
+(label amigos_vapeanM_2cat already defined)
+(label amigos_f_v_1 already defined)
+(label amigos_usaM4CT already defined)
+(label amigos_usaM3CTR already defined)
+(label amigos_usaM3CTREC already defined)
+(label amigos_col already defined)
+(label cree_adict_cigarro already defined)
+(label cree_adict_vapear already defined)
+(label adic_masvapear_fumar already defined)
+(label fumo_sin_pensarlo already defined)
+(label dif_ignorar_ganas_fum already defined)
+(label ganas_fum_crecen already defined)
+(label dif_fuma_lugar already defined)
+(label veo_alguien_ganas_fum already defined)
+(label horas_antoja_fumar already defined)
+(label horas_antoja_fumar2CT already defined)
+(label fumar_sentir_mejor already defined)
+(label fum_ayuda_estres already defined)
+(label fum_ayuda_estres2CT already defined)
+(label fum_placer already defined)
+(label fum_placer2CT already defined)
+(label fum_control_comer already defined)
+(label fumo_control_comer2CT already defined)
+(label vapeo_sin_pensarlo already defined)
+(label dif_ignorar_ganas_vap already defined)
+(label ganas_vap_crecen already defined)
+(label dif_vap_lugar already defined)
+(label veo_alguien_ganas_vap already defined)
+(label horas_antoja_vapear already defined)
+(label vapear_sentir_mejor already defined)
+(label vap_ayuda_estres already defined)
+(label vap_placer already defined)
+(label vap_control_comer already defined)
+(label fumar_dañado_salud already defined)
+(label fumar_daño_salud_futuro already defined)
+(label vapear_dañado_salud already defined)
+(label vapear_daño_salud_futuro already defined)
+(label salud_camb_fumar_vap already defined)
+(label tab_calent_mas_menos_daño already defined)
+(label daño_vapear_o_tab_calent already defined)
+(label taxes_vap_cigar already defined)
+(label prohib_capsulas_ley already defined)
+(label prohib_mentol already defined)
+(label prohib_saboriz_cigar already defined)
+(label eleve_edad_tabaco already defined)
+(label restring_lugar_vend_tab already defined)
+(label prohib_marketing_cigar already defined)
+(label oblig_lic_vend_cigar already defined)
+(label apoy_increm_tax_cigar already defined)
+(label ley_lim_nicot_vap already defined)
+(label prohib_saboriz_frut already defined)
+(label edad_min_vap already defined)
+(label lim_areas_vap already defined)
+(label prohib_cupon_vap already defined)
+(label oblig_lic_vend_vap already defined)
+(label prohib_vapea_mantener_acuerdo already defined)
+(label control_vida_30d already defined)
+(label freq_dif_noresolv_30d already defined)
+(label aburrido_nointeres_30d already defined)
+(label seguro_prob_pers_30d already defined)
+(label no_marchan_quieres_30d already defined)
+(label decaido_depre_30d already defined)
+(label trat_depre_actual already defined)
+(label cov_sev already defined)
+(label cov_sev_2cat already defined)
+(label cov_fum already defined)
+(label cov_fum_2cat already defined)
+(label cov_vap already defined)
+(label cov_vap_2cat already defined)
+(label freq_alc_6omas already defined)
+(label binge already defined)
+(label marihuana_current already defined)
+(label freq_marihuana_2 already defined)
+(label DDT1_3sem_5000 already defined)
+(label DDT2_1dia_5000 already defined)
+(label DDT3_2años_5000 already defined)
+(label DDT4_4horas_5000 already defined)
+(label DDT5_4dias_5000 already defined)
+(label DDT6_4meses_5000 already defined)
+(label DDT7_8años_5000 already defined)
+(label DDT8_2horas_5000 already defined)
+(label DDT9_9horas_5000 already defined)
+(label DDT10_2dias_5000 already defined)
+(label DDT11_sem_media_5000 already defined)
+(label DDT12_2meses_5000 already defined)
+(label DDT13_8meses_5000 already defined)
+(label DDT14_4años_5000 already defined)
+(label DDT15_18años_5000 already defined)
+(label DDT16_1hora_5000 already defined)
+(label DDT17_3horas_5000 already defined)
+(label DDT18_6horas_5000 already defined)
+(label DDT19_12horas_5000 already defined)
+(label DDT20_36horas_5000 already defined)
+(label DDT21_3dias_5000 already defined)
+(label DDT22_1semana_5000 already defined)
+(label DDT23_2semanas_5000 already defined)
+(label DDT24_1mes_5000 already defined)
+(label DDT25_3meses_5000 already defined)
+(label DDT26_6meses_5000 already defined)
+(label DDT27_1año_5000 already defined)
+(label DDT28_3años_5000 already defined)
+(label DDT29_5años_5000 already defined)
+(label DDT30_12años_5000 already defined)
+(label DDT31_25años_5000 already defined)
+(label identidad_genero already defined)
+(label ingreso_hogar already defined)
+(label family_income already defined)
+(label family_income_2 already defined)
+(label no_pagar_cuentas already defined)
+(label estados_vive_act already defined)
+(label enc_linea_ult_mes already defined)
+(label enc_linea_fumar already defined)
+(label enc_linea_vapear already defined)
+
+. 
+. save "$datos/c_pw4_w5_w8_caj.dta", replace
+file datos/encuesta//c_pw4_w5_w8_caj.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_precio_w8.log
+  log type:  text
+ closed on:   8 Sep 2021, 12:36:12
+--------------------------------------------------------------------------------------------------------------------------------------------------------

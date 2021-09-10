@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	ppu
+	
+m1	0.021***
+	(0.003)
+m1_20	0.177***
+	(0.008)
+	
+Observations	826
+Number of marca	7
+R-squared	0.996
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

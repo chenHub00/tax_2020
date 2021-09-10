@@ -1,0 +1,122 @@
+--------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\r
+> esultados\encuesta\/para_precio_consumo_w4_w5.log
+  log type:  text
+ opened on:  10 Sep 2021, 14:48:46
+
+. 
+. //use "$datos/wave4_5unbalanced.dta", replace
+. use "$datos/cons_w456_unbalanc.dta", replace
+
+. 
+. //merge 1:1 id wave using "$datos/cant_cigarros_w4_w5.dta", gen(merge_co
+> ns_precio)
+. merge 1:1 id wave using "$datos/cant_cig_caj_w4_w5_w6.dta", gen(merge_co
+> ns_precio)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           431
+        from master                         0  (merge_cons_precio==1)
+        from using                        431  (merge_cons_precio==2)
+
+    Matched                             4,073  (merge_cons_precio==3)
+    -----------------------------------------
+
+. 
+. ta merge_cons_precio
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+         using only (2) |        431        9.57        9.57
+            matched (3) |      4,073       90.43      100.00
+------------------------+-----------------------------------
+                  Total |      4,504      100.00
+
+. 
+. /* Desde consumo
+> 177 no consumieron en el último mes 
+> 85 dejaron de fumar o nunca han fumado  
+> */
+. drop if merge_cons_precio != 3
+(431 observations deleted)
+
+. drop merge_cons_precio
+
+. 
+. gen ppu = q029/cantidad_
+(763 missing values generated)
+
+. replace ppu = precioSingles if ppu == .
+(763 real changes made)
+
+. 
+. label data "cantidad y precio waves 4, 5 y 6"
+
+. //"$datos/c_pw4_w5_w6unbalanc.dta"
+. save "$datos/cp_w456unbalanc.dta", replace
+file datos/encuesta//cp_w456unbalanc.dta saved
+
+. 
+. 
+. /// balanceado
+> use "$datos/cons_w456_balanc.dta", replace
+
+. 
+. merge 1:1 id wave using "$datos/cant_cig_caj_w4_w5_w6.dta", gen(merge_co
+> ns_precio)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,154
+        from master                         0  (merge_cons_precio==1)
+        from using                      3,154  (merge_cons_precio==2)
+
+    Matched                             1,350  (merge_cons_precio==3)
+    -----------------------------------------
+
+. ta merge_cons_precio
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+         using only (2) |      3,154       70.03       70.03
+            matched (3) |      1,350       29.97      100.00
+------------------------+-----------------------------------
+                  Total |      4,504      100.00
+
+. 
+. /* Desde consumo
+> 177 no consumieron en el último mes 
+> 85 dejaron de fumar o nunca han fumado  
+> */
+. drop if merge_cons_precio != 3
+(3,154 observations deleted)
+
+. drop merge_cons_precio
+
+. 
+. gen ppu = q029/cantidad_
+(155 missing values generated)
+
+. replace ppu = precioSingles if ppu == .
+(155 real changes made)
+
+. 
+. label data "panel balanceado cantidad y precio waves 4, 5 y 6"
+
+. // save "$datos/c_pw4_w5_balanc.dta", replace
+. save "$datos/cp_w456balanc.dta", replace
+(file datos/encuesta//cp_w456balanc.dta not found)
+file datos/encuesta//cp_w456balanc.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\r
+> esultados\encuesta\/para_precio_consumo_w4_w5.log
+  log type:  text
+ closed on:  10 Sep 2021, 14:48:47
+--------------------------------------------------------------------------

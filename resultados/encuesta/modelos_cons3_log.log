@@ -1,0 +1,1096 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons3_log.log
+  log type:  text
+ opened on:  20 Aug 2021, 01:09:00
+
+. use "$datos/wave4_5unbalanced.dta", clear
+
+. /***************************************************************************/
+. // 1.3 MODELOS tipo
+. global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.gr_ingr#i.ti
+> po_cons i.tipo"
+
+. global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
+
+. 
+. // modelo
+. regress $depvar  $v_tipo_int $v_tipo if has_fumado_1mes, noconst
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+
+      Source |       SS           df       MS      Number of obs   =     2,741
+-------------+----------------------------------   F(103, 2638)    =    348.54
+       Model |   24495.467       103  237.820068   Prob > F        =    0.0000
+    Residual |  1800.01194     2,638   .68233963   R-squared       =    0.9315
+-------------+----------------------------------   Adj R-squared   =    0.9289
+       Total |  26295.4789     2,741  9.59338889   Root MSE        =    .82604
+
+---------------------------------------------------------------------------------------------
+               log_cons_sem |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |  -.1020479   .1154209    -0.88   0.377    -.3283726    .1242768
+                            |
+          tax2020#tipo_cons |
+        1#diario-cajetilla  |   .1554021    .131606     1.18   0.238    -.1026593    .4134634
+           1#diario-suelto  |   .2081851   .2725725     0.76   0.445    -.3262924    .7426625
+    1#esporádico-cajetilla  |    .043879   .1377956     0.32   0.750    -.2263195    .3140774
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+        1#diario-cajetilla  |  -.1242821   .0948956    -1.31   0.190    -.3103594    .0617951
+           1#diario-suelto  |  -.0708262   .3602937    -0.20   0.844     -.777313    .6356606
+    1#esporádico-cajetilla  |  -.0557246   .1060552    -0.53   0.599    -.2636843    .1522351
+       1#esporádico-suelto  |   .1021695   .1665863     0.61   0.540    -.2244836    .4288225
+                            |
+             sexo#tipo_cons |
+ Femenino#diario-cajetilla  |   .0227845   .0669563     0.34   0.734    -.1085076    .1540766
+    Femenino#diario-suelto  |  -.2031052   .2576515    -0.79   0.431    -.7083247    .3021143
+                  Femenino #|
+      esporádico-cajetilla  |  -.2601081   .0753182    -3.45   0.001    -.4077969   -.1124193
+Femenino#esporádico-suelto  |  -.3929062   .1218747    -3.22   0.001    -.6318859   -.1539265
+                            |
+         edad_gr2#tipo_cons |
+    25-29#diario-cajetilla  |   .4618261   .1163468     3.97   0.000      .233686    .6899662
+       25-29#diario-suelto  |   -.006047   .3010906    -0.02   0.984    -.5964446    .5843507
+25-29#esporádico-cajetilla  |   .1412471   .0920114     1.54   0.125    -.0391747     .321669
+   25-29#esporádico-suelto  |  -.0827967   .1207029    -0.69   0.493    -.3194788    .1538853
+    30-34#diario-cajetilla  |   .4264359   .1111365     3.84   0.000     .2085124    .6443594
+       30-34#diario-suelto  |  -.2399995   .3497831    -0.69   0.493    -.9258764    .4458775
+30-34#esporádico-cajetilla  |   .2879455    .095255     3.02   0.003     .1011634    .4747276
+   30-34#esporádico-suelto  |   .0457485   .1299513     0.35   0.725    -.2090682    .3005652
+    35-39#diario-cajetilla  |   .5554799   .1138943     4.88   0.000     .3321488    .7788111
+       35-39#diario-suelto  |  -.1744629    .322926    -0.54   0.589    -.8076767    .4587509
+35-39#esporádico-cajetilla  |   .1609697   .0984715     1.63   0.102    -.0321194    .3540589
+   35-39#esporádico-suelto  |  -.1038108   .1549729    -0.67   0.503    -.4076915      .20007
+    40-44#diario-cajetilla  |   .6131814   .1163879     5.27   0.000     .3849606    .8414023
+       40-44#diario-suelto  |  -.1070844   .3412454    -0.31   0.754    -.7762201    .5620512
+40-44#esporádico-cajetilla  |   .0725177   .1085996     0.67   0.504    -.1404313    .2854667
+   40-44#esporádico-suelto  |   .2638918   .2091714     1.26   0.207    -.1462649    .6740484
+    45-54#diario-cajetilla  |    .598862   .1075031     5.57   0.000      .388063    .8096609
+       45-54#diario-suelto  |   .3569137   .3331775     1.07   0.284    -.2964019    1.010229
+45-54#esporádico-cajetilla  |   .2939124   .0947288     3.10   0.002     .1081621    .4796626
+   45-54#esporádico-suelto  |   .1009746   .1577804     0.64   0.522    -.2084113    .4103604
+    55-64#diario-cajetilla  |    .736555   .1132102     6.51   0.000     .5145653    .9585447
+       55-64#diario-suelto  |   .2113447   .4519274     0.47   0.640    -.6748233    1.097513
+55-64#esporádico-cajetilla  |   .3122263   .1208844     2.58   0.010     .0751884    .5492641
+   55-64#esporádico-suelto  |   .1002829   .2396285     0.42   0.676    -.3695959    .5701617
+      65+#diario-cajetilla  |   1.013261   .2092366     4.84   0.000     .6029762    1.423545
+         65+#diario-suelto  |   .5124552    .607265     0.84   0.399    -.6783087    1.703219
+  65+#esporádico-cajetilla  |   .3519431   .3227964     1.09   0.276    -.2810166    .9849028
+     65+#esporádico-suelto  |   -1.65253   .8878491    -1.86   0.063    -3.393481    .0884214
+                            |
+         educ_gr2#tipo_cons |
+       Secundaria completa #|
+          diario-cajetilla  |   2.572753   .1575884    16.33   0.000     2.263743    2.881762
+       Secundaria completa #|
+             diario-suelto  |  -1.966682   .9358672    -2.10   0.036    -3.801789   -.1315736
+       Secundaria completa #|
+      esporádico-cajetilla  |   .4300242   .3335826     1.29   0.197    -.2240857    1.084134
+       Secundaria completa #|
+         esporádico-suelto  |   .5221918   .5007208     1.04   0.297    -.4596534    1.504037
+  Técnica#diario-cajetilla  |   2.425709   .1653195    14.67   0.000      2.10154    2.749878
+     Técnica#diario-suelto  |  -1.933212   .9253356    -2.09   0.037    -3.747669   -.1187547
+                   Técnica #|
+      esporádico-cajetilla  |   .1451327   .3260125     0.45   0.656    -.4941333    .7843987
+ Técnica#esporádico-suelto  |   .7405103   .5094489     1.45   0.146    -.2584495     1.73947
+              Preparatoria #|
+          diario-cajetilla  |   2.404361   .1525212    15.76   0.000     2.105288    2.703434
+Preparatoria#diario-suelto  |  -1.983911   .9215025    -2.15   0.031    -3.790852   -.1769704
+              Preparatoria #|
+      esporádico-cajetilla  |   .4120191   .3210477     1.28   0.199    -.2175116     1.04155
+              Preparatoria #|
+         esporádico-suelto  |   .4919124   .4923047     1.00   0.318    -.4734301    1.457255
+   Licenciatura incompleta #|
+          diario-cajetilla  |   2.473491   .1550696    15.95   0.000     2.169421    2.777561
+   Licenciatura incompleta #|
+             diario-suelto  |  -1.857258   .9367521    -1.98   0.048    -3.694101   -.0204145
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |   .2714535   .3233328     0.84   0.401     -.362558    .9054651
+   Licenciatura incompleta #|
+         esporádico-suelto  |   .7246181     .49505     1.46   0.143    -.2461073    1.695344
+     Licenciatura completa #|
+          diario-cajetilla  |    2.46113    .155713    15.81   0.000     2.155798    2.766462
+     Licenciatura completa #|
+             diario-suelto  |  -2.215585   .9398042    -2.36   0.018    -4.058413   -.3727574
+     Licenciatura completa #|
+      esporádico-cajetilla  |   .4821618   .3227604     1.49   0.135    -.1507274    1.115051
+     Licenciatura completa #|
+         esporádico-suelto  |   .6491269   .4997782     1.30   0.194      -.33087    1.629124
+ Posgrado#diario-cajetilla  |   2.298008   .1923899    11.94   0.000     1.920758    2.675258
+    Posgrado#diario-suelto  |  -2.413861   1.102855    -2.19   0.029     -4.57641   -.2513124
+                  Posgrado #|
+      esporádico-cajetilla  |   .7473551   .3483041     2.15   0.032     .0643783    1.430332
+Posgrado#esporádico-suelto  |   .6289362   .5751096     1.09   0.274    -.4987753    1.756648
+     Otro#diario-cajetilla  |   2.919865   .3439062     8.49   0.000     2.245512    3.594219
+        Otro#diario-suelto  |  -1.128746    1.21798    -0.93   0.354     -3.51704    1.259547
+ Otro#esporádico-cajetilla  |   .2929466   .4866523     0.60   0.547    -.6613123    1.247205
+    Otro#esporádico-suelto  |   .4075213   .6992108     0.58   0.560    -.9635357    1.778578
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+          diario-cajetilla  |   .8429958   .1647152     5.12   0.000     .5200118     1.16598
+             3,001 a 5 mil #|
+             diario-suelto  |  -.3315993   .3801406    -0.87   0.383    -1.077003    .4138045
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .5710962   .1626352     3.51   0.000     .2521907    .8900017
+             3,001 a 5 mil #|
+         esporádico-suelto  |  -.0552275   .1844818    -0.30   0.765    -.4169712    .3065161
+             5,001 a 8 mil #|
+          diario-cajetilla  |   .8294979   .1513021     5.48   0.000     .5328152    1.126181
+             5,001 a 8 mil #|
+             diario-suelto  |  -.2575477   .3446687    -0.75   0.455     -.933396    .4183006
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |   .3074418   .1435592     2.14   0.032     .0259418    .5889417
+             5,001 a 8 mil #|
+         esporádico-suelto  |  -.2358627   .1753078    -1.35   0.179    -.5796175     .107892
+            8,001 a 10 mil #|
+          diario-cajetilla  |   .8772825   .1452244     6.04   0.000     .5925173    1.162048
+            8,001 a 10 mil #|
+             diario-suelto  |   .3070769   .3878694     0.79   0.429    -.4534821    1.067636
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |   .2204985   .1360075     1.62   0.105    -.0461937    .4871907
+            8,001 a 10 mil #|
+         esporádico-suelto  |  -.0185997   .1740124    -0.11   0.915    -.3598143    .3226148
+           10,001 a 15 mil #|
+          diario-cajetilla  |   .7981927   .1413092     5.65   0.000     .5211045    1.075281
+           10,001 a 15 mil #|
+             diario-suelto  |  -.0044241   .3407662    -0.01   0.990    -.6726201     .663772
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .3790331   .1353559     2.80   0.005     .1136186    .6444477
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .1430357   .1719723     0.83   0.406    -.1941785    .4802499
+           15,001 a 20 mil #|
+          diario-cajetilla  |   .8168911   .1435728     5.69   0.000     .5353644    1.098418
+           15,001 a 20 mil #|
+             diario-suelto  |   .0265571   .3659436     0.07   0.942    -.6910084    .7441226
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |   .3835755   .1328089     2.89   0.004     .1231553    .6439957
+           15,001 a 20 mil #|
+         esporádico-suelto  |  -.0264204   .1832985    -0.14   0.885    -.3858438     .333003
+           20,001 a 49,999 #|
+          diario-cajetilla  |   .8487724   .1424887     5.96   0.000     .5693715    1.128173
+           20,001 a 49,999 #|
+             diario-suelto  |   .1978678   .4987494     0.40   0.692    -.7801118    1.175847
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .3169779   .1333174     2.38   0.017     .0555607    .5783951
+           20,001 a 49,999 #|
+         esporádico-suelto  |  -.0184996   .1912536    -0.10   0.923    -.3935219    .3565226
+  50 mil+#diario-cajetilla  |   1.240036   .1718243     7.22   0.000     .9031125     1.57696
+     50 mil+#diario-suelto  |   -.427333   .5014399    -0.85   0.394    -1.410588    .5559224
+                   50 mil+ #|
+      esporádico-cajetilla  |    .537251   .1755422     3.06   0.002     .1930368    .8814653
+ 50 mil+#esporádico-suelto  |   .1747587   .3771411     0.46   0.643    -.5647636     .914281
+    No sé#diario-cajetilla  |   .5366345   .1739319     3.09   0.002     .1955778    .8776912
+       No sé#diario-suelto  |   .1684857   .3912284     0.43   0.667    -.5986598    .9356313
+No sé#esporádico-cajetilla  |   .0359184   .1694754     0.21   0.832    -.2963998    .3682366
+   No sé#esporádico-suelto  |  -.0528271   .2103648    -0.25   0.802    -.4653238    .3596695
+                            |
+                  tipo_cons |
+             diario-suelto  |   5.384747   .9230704     5.83   0.000     3.574732    7.194762
+      esporádico-cajetilla  |   1.396796   .3348356     4.17   0.000     .7402288    2.053363
+         esporádico-suelto  |   1.042093   .5048227     2.06   0.039     .0522047    2.031982
+---------------------------------------------------------------------------------------------
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel replace
+resultados/encuesta/modelos1_3_log.rtf
+resultados/encuesta/modelos1_3_log.xml
+dir : seeout
+
+. 
+. // pruebas
+. testparm i.tipo // se rechaza igualdad
+
+ ( 1)  2.tipo_cons = 0
+ ( 2)  3.tipo_cons = 0
+ ( 3)  4.tipo_cons = 0
+
+       F(  3,  2638) =   18.56
+            Prob > F =    0.0000
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  1.tax2020#1b.tipo_cons = 0
+ ( 2)  1.tax2020#2.tipo_cons = 0
+ ( 3)  1.tax2020#3.tipo_cons = 0
+
+       F(  3,  2638) =    0.75
+            Prob > F =    0.5203
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  1.tax2020_sexo#1b.tipo_cons = 0
+ ( 2)  1.tax2020_sexo#2.tipo_cons = 0
+ ( 3)  1.tax2020_sexo#3.tipo_cons = 0
+ ( 4)  1.tax2020_sexo#4.tipo_cons = 0
+
+       F(  4,  2638) =    0.60
+            Prob > F =    0.6616
+
+. 
+. // estimación panel
+. xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+note: 7.edad_gr2#2.tipo_cons omitted because of collinearity
+note: 7.educ_gr2#2.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#1b.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#2.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#3.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#4.tipo_cons omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      2,741
+Group variable: id_num                          Number of groups  =      1,994
+
+R-sq:                                           Obs per group:
+     within  = 0.3333                                         min =          1
+     between = 0.4069                                         avg =        1.4
+     overall = 0.4094                                         max =          2
+
+                                                F(97,650)         =       3.35
+corr(u_i, Xb)  = 0.2508                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------------------
+               log_cons_sem |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |   .0625116   .1022481     0.61   0.541    -.1382648     .263288
+                            |
+          tax2020#tipo_cons |
+        1#diario-cajetilla  |  -.0742286   .1098971    -0.68   0.500    -.2900249    .1415676
+           1#diario-suelto  |  -.1750668   .2740808    -0.64   0.523    -.7132574    .3631237
+    1#esporádico-cajetilla  |  -.0094288   .1237523    -0.08   0.939    -.2524314    .2335738
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+        1#diario-cajetilla  |   .0270091   .0611151     0.44   0.659    -.0929977     .147016
+           1#diario-suelto  |   .1068986   .4019576     0.27   0.790    -.6823934    .8961907
+    1#esporádico-cajetilla  |  -.1267706   .0830566    -1.53   0.127    -.2898623     .036321
+       1#esporádico-suelto  |   .0685651   .1595525     0.43   0.668    -.2447353    .3818656
+                            |
+             sexo#tipo_cons |
+ Femenino#diario-cajetilla  |   .0955374   .1790528     0.53   0.594    -.2560543    .4471291
+    Femenino#diario-suelto  |  -.5417814   .4286843    -1.26   0.207    -1.383555    .2999918
+                  Femenino #|
+      esporádico-cajetilla  |  -.2740419   .1863935    -1.47   0.142     -.640048    .0919641
+Femenino#esporádico-suelto  |  -.1150277   .2438224    -0.47   0.637    -.5938023    .3637469
+                            |
+         edad_gr2#tipo_cons |
+    25-29#diario-cajetilla  |  -.2345743   .2312931    -1.01   0.311    -.6887461    .2195975
+       25-29#diario-suelto  |  -.5010415   .9963987    -0.50   0.615     -2.45759    1.455507
+25-29#esporádico-cajetilla  |  -.1501171   .2037499    -0.74   0.462    -.5502046    .2499703
+   25-29#esporádico-suelto  |   .2823393   .3031973     0.93   0.352     -.313025    .8777036
+    30-34#diario-cajetilla  |   .0978369    .301811     0.32   0.746    -.4948052     .690479
+       30-34#diario-suelto  |  -.1272183   .9215852    -0.14   0.890    -1.936862    1.682425
+30-34#esporádico-cajetilla  |    .143569   .2583256     0.56   0.579    -.3636843    .6508223
+   30-34#esporádico-suelto  |   .4665273    .350873     1.33   0.184    -.2224542    1.155509
+    35-39#diario-cajetilla  |    .244202   .3181761     0.77   0.443    -.3805751    .8689791
+       35-39#diario-suelto  |   .2081344   .9999293     0.21   0.835    -1.755347    2.171616
+35-39#esporádico-cajetilla  |   .2483385   .2985151     0.83   0.406    -.3378319    .8345089
+   35-39#esporádico-suelto  |   .6930122   .4125834     1.68   0.093     -.117145    1.503169
+    40-44#diario-cajetilla  |   .0381157   .3763663     0.10   0.919    -.7009247    .7771562
+       40-44#diario-suelto  |  -.6853525   1.193913    -0.57   0.566    -3.029745     1.65904
+40-44#esporádico-cajetilla  |   .1582959   .3557698     0.44   0.657    -.5403008    .8568927
+   40-44#esporádico-suelto  |   .0380404   .4535133     0.08   0.933    -.8524875    .9285683
+    45-54#diario-cajetilla  |  -.2581585   .4653268    -0.55   0.579    -1.171884    .6555667
+       45-54#diario-suelto  |  -.6923698   .9425783    -0.73   0.463    -2.543236    1.158496
+45-54#esporádico-cajetilla  |  -.1003448   .4306393    -0.23   0.816    -.9459569    .7452673
+   45-54#esporádico-suelto  |   .3840509   .4901872     0.78   0.434    -.5784906    1.346592
+    55-64#diario-cajetilla  |  -.3345333   .5291833    -0.63   0.527    -1.373648    .7045818
+       55-64#diario-suelto  |          0  (omitted)
+55-64#esporádico-cajetilla  |   .1544276   .5674975     0.27   0.786    -.9599219    1.268777
+   55-64#esporádico-suelto  |   .4748619   .7705974     0.62   0.538    -1.038299    1.988023
+      65+#diario-cajetilla  |  -.3192412   .7688356    -0.42   0.678    -1.828942     1.19046
+         65+#diario-suelto  |  -1.153495   1.421843    -0.81   0.418    -3.945455    1.638465
+  65+#esporádico-cajetilla  |   .9212626   .8000559     1.15   0.250    -.6497433    2.492269
+     65+#esporádico-suelto  |  -.2465847    .749815    -0.33   0.742    -1.718937    1.225767
+                            |
+         educ_gr2#tipo_cons |
+       Secundaria completa #|
+          diario-cajetilla  |   -.018026   .4013855    -0.04   0.964    -.8061947    .7701426
+       Secundaria completa #|
+             diario-suelto  |  -.6194421   1.121149    -0.55   0.581    -2.820954     1.58207
+       Secundaria completa #|
+      esporádico-cajetilla  |   .0351582   .4832632     0.07   0.942    -.9137873    .9841037
+       Secundaria completa #|
+         esporádico-suelto  |   .2103411   .6923195     0.30   0.761    -1.149112    1.569794
+  Técnica#diario-cajetilla  |  -.0652975   .4438618    -0.15   0.883    -.9368734    .8062785
+     Técnica#diario-suelto  |  -.4053501   1.258835    -0.32   0.748    -2.877224    2.066524
+                   Técnica #|
+      esporádico-cajetilla  |  -.3155428   .4326199    -0.73   0.466    -1.165044    .5339584
+ Técnica#esporádico-suelto  |   .3797489    .571979     0.66   0.507    -.7434006    1.502898
+              Preparatoria #|
+          diario-cajetilla  |   .0094335   .4365818     0.02   0.983    -.8478474    .8667144
+Preparatoria#diario-suelto  |  -.6725846   1.212533    -0.55   0.579    -3.053539     1.70837
+              Preparatoria #|
+      esporádico-cajetilla  |  -.1459004   .4461055    -0.33   0.744    -1.021882    .7300814
+              Preparatoria #|
+         esporádico-suelto  |   .0010796   .6297708     0.00   0.999    -1.235551     1.23771
+   Licenciatura incompleta #|
+          diario-cajetilla  |  -.0408943   .4485696    -0.09   0.927    -.9217148    .8399261
+   Licenciatura incompleta #|
+             diario-suelto  |  -.6270427   1.294888    -0.48   0.628    -3.169711    1.915625
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |  -.1698002   .4635913    -0.37   0.714    -1.080118    .7405171
+   Licenciatura incompleta #|
+         esporádico-suelto  |   .5702845   .6695214     0.85   0.395    -.7444012     1.88497
+     Licenciatura completa #|
+          diario-cajetilla  |   .0385664   .4479998     0.09   0.931    -.8411351     .918268
+     Licenciatura completa #|
+             diario-suelto  |  -.6105622   1.225531    -0.50   0.619    -3.017039    1.795915
+     Licenciatura completa #|
+      esporádico-cajetilla  |  -.0353103   .4672575    -0.08   0.940    -.9528267    .8822061
+     Licenciatura completa #|
+         esporádico-suelto  |   .2779891    .660701     0.42   0.674    -1.019377    1.575355
+ Posgrado#diario-cajetilla  |  -.0432079   .5146552    -0.08   0.933    -1.053795    .9673795
+    Posgrado#diario-suelto  |          0  (omitted)
+                  Posgrado #|
+      esporádico-cajetilla  |  -.3180284   .5279175    -0.60   0.547    -1.354658    .7186011
+Posgrado#esporádico-suelto  |   .1781523   .7379518     0.24   0.809    -1.270905     1.62721
+     Otro#diario-cajetilla  |          0  (omitted)
+        Otro#diario-suelto  |          0  (omitted)
+ Otro#esporádico-cajetilla  |          0  (omitted)
+    Otro#esporádico-suelto  |          0  (omitted)
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+          diario-cajetilla  |  -.0092507   .2288807    -0.04   0.968    -.4586855    .4401841
+             3,001 a 5 mil #|
+             diario-suelto  |   .3634631   .8712704     0.42   0.677    -1.347381    2.074307
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .4580116   .1856667     2.47   0.014     .0934328    .8225905
+             3,001 a 5 mil #|
+         esporádico-suelto  |   1.071314   .3362157     3.19   0.002     .4111141    1.731514
+             5,001 a 8 mil #|
+          diario-cajetilla  |   .3906867   .2163674     1.81   0.071    -.0341768    .8155502
+             5,001 a 8 mil #|
+             diario-suelto  |   .9900079   .7769513     1.27   0.203    -.5356294    2.515645
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |   .2472583   .1740471     1.42   0.156    -.0945042    .5890208
+             5,001 a 8 mil #|
+         esporádico-suelto  |   .7716007   .3019303     2.56   0.011     .1787243    1.364477
+            8,001 a 10 mil #|
+          diario-cajetilla  |   .4620675   .2152293     2.15   0.032     .0394388    .8846962
+            8,001 a 10 mil #|
+             diario-suelto  |   .0243728   .5806758     0.04   0.967    -1.115854      1.1646
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |   .5000908    .181135     2.76   0.006     .1444105    .8557712
+            8,001 a 10 mil #|
+         esporádico-suelto  |   .8872219   .2827564     3.14   0.002     .3319957    1.442448
+           10,001 a 15 mil #|
+          diario-cajetilla  |   .4157776   .2121652     1.96   0.050    -.0008342    .8323895
+           10,001 a 15 mil #|
+             diario-suelto  |    .549034   .6086459     0.90   0.367    -.6461155    1.744183
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .5997571   .1809869     3.31   0.001     .2443676    .9551466
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .7127303     .27017     2.64   0.009      .182219    1.243242
+           15,001 a 20 mil #|
+          diario-cajetilla  |   .4234521   .2165031     1.96   0.051    -.0016777     .848582
+           15,001 a 20 mil #|
+             diario-suelto  |   .1853355   .8954524     0.21   0.836    -1.572993    1.943664
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |    .631769   .1860565     3.40   0.001     .2664247    .9971133
+           15,001 a 20 mil #|
+         esporádico-suelto  |   .8923642   .3011802     2.96   0.003     .3009606    1.483768
+           20,001 a 49,999 #|
+          diario-cajetilla  |    .470653   .2161454     2.18   0.030     .0462254    .8950806
+           20,001 a 49,999 #|
+             diario-suelto  |   .2252107   .9853873     0.23   0.819    -1.709716    2.160137
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .6585138   .1966852     3.35   0.001     .2722988    1.044729
+           20,001 a 49,999 #|
+         esporádico-suelto  |   .8469561   .3184766     2.66   0.008     .2215889    1.472323
+  50 mil+#diario-cajetilla  |   .5598477   .2465853     2.27   0.024     .0756478    1.044047
+     50 mil+#diario-suelto  |  -.5790329    .960171    -0.60   0.547    -2.464444    1.306378
+                   50 mil+ #|
+      esporádico-cajetilla  |   .8848605   .2548969     3.47   0.001     .3843398    1.385381
+ 50 mil+#esporádico-suelto  |   .7472195   .5287429     1.41   0.158    -.2910308     1.78547
+    No sé#diario-cajetilla  |   .4741436   .2430199     1.95   0.051    -.0030551    .9513424
+       No sé#diario-suelto  |   .3745738   .5913458     0.63   0.527    -.7866048    1.535752
+No sé#esporádico-cajetilla  |   .7509566   .2665212     2.82   0.005     .2276101    1.274303
+   No sé#esporádico-suelto  |   1.310409   .3703449     3.54   0.000     .5831925    2.037626
+                            |
+                  tipo_cons |
+             diario-suelto  |    1.28698   1.324608     0.97   0.332    -1.314047    3.888006
+      esporádico-cajetilla  |  -.7654305    .677971    -1.13   0.259    -2.096708    .5658472
+         esporádico-suelto  |  -2.070742   .8812244    -2.35   0.019    -3.801133   -.3403523
+                            |
+                      _cons |   2.899809   .5381489     5.39   0.000     1.843089    3.956529
+----------------------------+----------------------------------------------------------------
+                    sigma_u |  1.0067596
+                    sigma_e |  .39580678
+                        rho |  .86612607   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------------------
+F test that all u_i=0: F(1993, 650) = 5.05                   Prob > F = 0.0000
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+resultados/encuesta/modelos1_3_log.rtf
+resultados/encuesta/modelos1_3_log.xml
+dir : seeout
+
+. 
+. estimates store fixed
+
+. *xttest2
+. /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+. // pruebas
+. testparm i.tipo // se rechaza igualdad
+
+ ( 1)  2.tipo_cons = 0
+ ( 2)  3.tipo_cons = 0
+ ( 3)  4.tipo_cons = 0
+
+       F(  3,   650) =    2.54
+            Prob > F =    0.0552
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  1.tax2020#1b.tipo_cons = 0
+ ( 2)  1.tax2020#2.tipo_cons = 0
+ ( 3)  1.tax2020#3.tipo_cons = 0
+
+       F(  3,   650) =    0.44
+            Prob > F =    0.7246
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  1.tax2020_sexo#1b.tipo_cons = 0
+ ( 2)  1.tax2020_sexo#2.tipo_cons = 0
+ ( 3)  1.tax2020_sexo#3.tipo_cons = 0
+ ( 4)  1.tax2020_sexo#4.tipo_cons = 0
+
+       F(  4,   650) =    0.65
+            Prob > F =    0.6268
+
+. 
+. xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, re 
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+
+Random-effects GLS regression                   Number of obs     =      2,741
+Group variable: id_num                          Number of groups  =      1,994
+
+R-sq:                                           Obs per group:
+     within  = 0.2564                                         min =          1
+     between = 0.6230                                         avg =        1.4
+     overall = 0.6155                                         max =          2
+
+                                                Wald chi2(103)    =    3076.05
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+---------------------------------------------------------------------------------------------
+               log_cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |  -.0305377   .0837433    -0.36   0.715    -.1946715    .1335961
+                            |
+          tax2020#tipo_cons |
+        1#diario-cajetilla  |   -.012752   .0923023    -0.14   0.890    -.1936612    .1681572
+           1#diario-suelto  |   .0687602   .2009935     0.34   0.732    -.3251798    .4627002
+    1#esporádico-cajetilla  |   .0297318    .101282     0.29   0.769    -.1687773    .2282409
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+        1#diario-cajetilla  |   .0239957   .0578704     0.41   0.678    -.0894282    .1374197
+           1#diario-suelto  |  -.0016273   .2770437    -0.01   0.995     -.544623    .5413684
+    1#esporádico-cajetilla  |  -.0748291   .0720772    -1.04   0.299    -.2160978    .0664395
+       1#esporádico-suelto  |   .0913952   .1236314     0.74   0.460    -.1509178    .3337083
+                            |
+             sexo#tipo_cons |
+ Femenino#diario-cajetilla  |  -.0548458   .0594871    -0.92   0.357    -.1714383    .0617467
+    Femenino#diario-suelto  |  -.2105857   .2157118    -0.98   0.329    -.6333731    .2122017
+                  Femenino #|
+      esporádico-cajetilla  |   -.315915   .0643562    -4.91   0.000    -.4420507   -.1897792
+Femenino#esporádico-suelto  |  -.3888331   .1051695    -3.70   0.000    -.5949617   -.1827046
+                            |
+         edad_gr2#tipo_cons |
+    25-29#diario-cajetilla  |  -.0366341   .1182483    -0.31   0.757    -.2683965    .1951283
+       25-29#diario-suelto  |  -.0036727   .2913453    -0.01   0.990    -.5746989    .5673536
+25-29#esporádico-cajetilla  |   .0414647   .0890897     0.47   0.642     -.133148    .2160774
+   25-29#esporádico-suelto  |   .0517798   .1160609     0.45   0.655    -.1756954     .279255
+    30-34#diario-cajetilla  |  -.0299326   .1164154    -0.26   0.797    -.2581026    .1982374
+       30-34#diario-suelto  |  -.1380774   .3102318    -0.45   0.656    -.7461206    .4699658
+30-34#esporádico-cajetilla  |   .2718551   .0900467     3.02   0.003     .0953668    .4483434
+   30-34#esporádico-suelto  |   .1628981   .1248938     1.30   0.192    -.0818893    .4076854
+    35-39#diario-cajetilla  |   .0715446   .1188143     0.60   0.547    -.1613272    .3044163
+       35-39#diario-suelto  |  -.0645805    .297088    -0.22   0.828    -.6468624    .5177013
+35-39#esporádico-cajetilla  |   .2638444   .0953785     2.77   0.006      .076906    .4507828
+   35-39#esporádico-suelto  |   .1708523   .1503522     1.14   0.256    -.1238326    .4655371
+    40-44#diario-cajetilla  |   .0726129   .1242234     0.58   0.559    -.1708605    .3160862
+       40-44#diario-suelto  |   .0370236   .3300531     0.11   0.911    -.6098686    .6839157
+40-44#esporádico-cajetilla  |   .2400691   .1070347     2.24   0.025     .0302849    .4498533
+   40-44#esporádico-suelto  |   .1990763   .1895313     1.05   0.294    -.1723981    .5705508
+    45-54#diario-cajetilla  |   .1191423   .1154982     1.03   0.302      -.10723    .3455146
+       45-54#diario-suelto  |   .1848404   .2998769     0.62   0.538    -.4029076    .7725884
+45-54#esporádico-cajetilla  |   .3335469   .0943319     3.54   0.000     .1486598     .518434
+   45-54#esporádico-suelto  |   .3522817   .1511524     2.33   0.020     .0560285     .648535
+    55-64#diario-cajetilla  |   .2426775   .1241089     1.96   0.051    -.0005714    .4859264
+       55-64#diario-suelto  |   .3701831   .4671244     0.79   0.428     -.545364     1.28573
+55-64#esporádico-cajetilla  |   .4765096   .1255039     3.80   0.000     .2305265    .7224927
+   55-64#esporádico-suelto  |   .1784195   .2432874     0.73   0.463     -.298415    .6552541
+      65+#diario-cajetilla  |   .5895713   .2256018     2.61   0.009     .1473999    1.031743
+         65+#diario-suelto  |   .4283268   .5764247     0.74   0.457    -.7014448    1.558098
+  65+#esporádico-cajetilla  |   .4241638   .3157722     1.34   0.179    -.1947383    1.043066
+     65+#esporádico-suelto  |  -.6779968   .5755141    -1.18   0.239    -1.805984    .4499901
+                            |
+         educ_gr2#tipo_cons |
+       Secundaria completa #|
+          diario-cajetilla  |   -.578914    .301321    -1.92   0.055    -1.169492    .0116642
+       Secundaria completa #|
+             diario-suelto  |   -1.81309   .9113636    -1.99   0.047     -3.59933   -.0268503
+       Secundaria completa #|
+      esporádico-cajetilla  |   .6968894   .3783448     1.84   0.065    -.0446528    1.438432
+       Secundaria completa #|
+         esporádico-suelto  |   .6566335   .5032792     1.30   0.192    -.3297756    1.643043
+  Técnica#diario-cajetilla  |  -.6484896   .3008073    -2.16   0.031    -1.238061   -.0589182
+     Técnica#diario-suelto  |  -1.896243   .9162608    -2.07   0.038    -3.692081   -.1004049
+                   Técnica #|
+      esporádico-cajetilla  |   .3513658   .3748535     0.94   0.349    -.3833336    1.086065
+ Técnica#esporádico-suelto  |   .8334358   .5098616     1.63   0.102    -.1658746    1.832746
+              Preparatoria #|
+          diario-cajetilla  |  -.6661024    .297193    -2.24   0.025     -1.24859   -.0836148
+Preparatoria#diario-suelto  |  -1.882236   .9026717    -2.09   0.037     -3.65144   -.1130323
+              Preparatoria #|
+      esporádico-cajetilla  |   .5816473   .3700069     1.57   0.116    -.1435528    1.306847
+              Preparatoria #|
+         esporádico-suelto  |   .5618574   .4954926     1.13   0.257    -.4092902    1.533005
+   Licenciatura incompleta #|
+          diario-cajetilla  |    -.68411   .3004282    -2.28   0.023    -1.272938   -.0952816
+   Licenciatura incompleta #|
+             diario-suelto  |  -1.741995   .9222499    -1.89   0.059    -3.549572    .0655813
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |   .5088268   .3720395     1.37   0.171    -.2203573    1.238011
+   Licenciatura incompleta #|
+         esporádico-suelto  |   .8600661   .4982828     1.73   0.084    -.1165502    1.836682
+     Licenciatura completa #|
+          diario-cajetilla  |  -.6220508    .298378    -2.08   0.037    -1.206861   -.0372406
+     Licenciatura completa #|
+             diario-suelto  |  -1.881697   .9165079    -2.05   0.040     -3.67802   -.0853748
+     Licenciatura completa #|
+      esporádico-cajetilla  |   .6755187   .3713681     1.82   0.069    -.0523495    1.403387
+     Licenciatura completa #|
+         esporádico-suelto  |   .8039356   .5012481     1.60   0.109    -.1784926    1.786364
+ Posgrado#diario-cajetilla  |  -.6249494   .3204023    -1.95   0.051    -1.252926    .0030276
+    Posgrado#diario-suelto  |  -2.143821   1.111629    -1.93   0.054    -4.322573    .0349314
+                  Posgrado #|
+      esporádico-cajetilla  |   .7084498   .3935281     1.80   0.072     -.062851    1.479751
+Posgrado#esporádico-suelto  |   .7675166   .5515275     1.39   0.164    -.3134573    1.848491
+     Otro#diario-cajetilla  |  -.2695367   .3994213    -0.67   0.500    -1.052388    .5133146
+        Otro#diario-suelto  |  -.9583335   1.081239    -0.89   0.375    -3.077523    1.160856
+ Otro#esporádico-cajetilla  |   .3783579   .4772152     0.79   0.428    -.5569666    1.313682
+    Otro#esporádico-suelto  |   .3755762   .6456178     0.58   0.561    -.8898114    1.640964
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+          diario-cajetilla  |   .0441539   .1510043     0.29   0.770    -.2518092    .3401169
+             3,001 a 5 mil #|
+             diario-suelto  |  -.2872965     .35465    -0.81   0.418    -.9823978    .4078048
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .5012119    .133682     3.75   0.000        .2392    .7632237
+             3,001 a 5 mil #|
+         esporádico-suelto  |   .1542267   .1715915     0.90   0.369    -.1820866    .4905399
+             5,001 a 8 mil #|
+          diario-cajetilla  |   .2428877   .1403764     1.73   0.084    -.0322451    .5180204
+             5,001 a 8 mil #|
+             diario-suelto  |  -.1918653   .3154601    -0.61   0.543    -.8101556    .4264251
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |   .3125923   .1199973     2.60   0.009     .0774019    .5477828
+             5,001 a 8 mil #|
+         esporádico-suelto  |   -.036903   .1625046    -0.23   0.820    -.3554061    .2816002
+            8,001 a 10 mil #|
+          diario-cajetilla  |   .2691684   .1382749     1.95   0.052    -.0018455    .5401823
+            8,001 a 10 mil #|
+             diario-suelto  |  -.0376711   .3257754    -0.12   0.908    -.6761792    .6008369
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |   .2797802   .1157256     2.42   0.016     .0529621    .5065983
+            8,001 a 10 mil #|
+         esporádico-suelto  |   .2079291   .1564322     1.33   0.184    -.0986725    .5145306
+           10,001 a 15 mil #|
+          diario-cajetilla  |   .2111459   .1338204     1.58   0.115    -.0511372    .4734289
+           10,001 a 15 mil #|
+             diario-suelto  |   .0799178   .3021547     0.26   0.791    -.5122946    .6721301
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .3836958   .1155609     3.32   0.001     .1572007     .610191
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .2465344   .1534123     1.61   0.108    -.0541482    .5472171
+           15,001 a 20 mil #|
+          diario-cajetilla  |   .2390268   .1359599     1.76   0.079    -.0274498    .5055034
+           15,001 a 20 mil #|
+             diario-suelto  |    .005852   .3310223     0.02   0.986    -.6429398    .6546437
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |    .403755   .1151282     3.51   0.000      .178108     .629402
+           15,001 a 20 mil #|
+         esporádico-suelto  |   .2170768   .1654677     1.31   0.190     -.107234    .5413876
+           20,001 a 49,999 #|
+          diario-cajetilla  |   .2712378   .1351358     2.01   0.045     .0063765     .536099
+           20,001 a 49,999 #|
+             diario-suelto  |   .0260152   .4181138     0.06   0.950    -.7934728    .8455032
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .3717245    .117144     3.17   0.002     .1421264    .6013226
+           20,001 a 49,999 #|
+         esporádico-suelto  |   .1162027   .1728967     0.67   0.502    -.2226686    .4550741
+  50 mil+#diario-cajetilla  |   .4893537   .1625502     3.01   0.003     .1707612    .8079461
+     50 mil+#diario-suelto  |  -.3313332   .4559701    -0.73   0.467    -1.225018    .5623519
+                   50 mil+ #|
+      esporádico-cajetilla  |   .5715824   .1562473     3.66   0.000     .2653432    .8778216
+ 50 mil+#esporádico-suelto  |   .1196314   .3276035     0.37   0.715    -.5224596    .7617224
+    No sé#diario-cajetilla  |   .1032741   .1602216     0.64   0.519    -.2107545    .4173027
+       No sé#diario-suelto  |  -.0386362   .3304485    -0.12   0.907    -.6863033    .6090309
+No sé#esporádico-cajetilla  |   .2105187   .1525735     1.38   0.168    -.0885198    .5095573
+   No sé#esporádico-suelto  |   .1846511   .1961127     0.94   0.346    -.1997227     .569025
+                            |
+                  tipo_cons |
+             diario-suelto  |   1.238716    .965594     1.28   0.200    -.6538131    3.131246
+      esporádico-cajetilla  |  -2.820271    .495621    -5.69   0.000     -3.79167   -1.848871
+         esporádico-suelto  |   -3.30731   .5997347    -5.51   0.000    -4.482769   -2.131852
+                            |
+                      _cons |   4.051589   .3226663    12.56   0.000     3.419175    4.684003
+----------------------------+----------------------------------------------------------------
+                    sigma_u |  .69672881
+                    sigma_e |  .39580678
+                        rho |  .75601236   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------------------
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+resultados/encuesta/modelos1_3_log.rtf
+resultados/encuesta/modelos1_3_log.xml
+dir : seeout
+
+. 
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        log_cons_sem[id_num,t] = Xb + u[id_num] + e[id_num,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+               log_con~m |   1.628956       1.276305
+                       e |    .156663       .3958068
+                       u |    .485431       .6967288
+
+        Test:   Var(u) = 0
+                             chibar2(01) =   214.76
+                          Prob > chibar2 =   0.0000
+
+. * rechazo Pooled 
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+     tax2020 |    .0625116    -.0305377        .0930493        .0659732
+     tax2020#|
+   tipo_cons |
+        1 1  |   -.0742286     -.012752       -.0614766        .0678952
+        1 2  |   -.1750668     .0687602        -.243827        .2031399
+        1 3  |   -.0094288     .0297318       -.0391606        .0799418
+tax2020_sexo#|
+   tipo_cons |
+        1 1  |    .0270091     .0239957        .0030134        .0266728
+        1 2  |    .1068986    -.0016273        .1085259        .3144702
+        1 3  |   -.1267706    -.0748291       -.0519415        .0480023
+        1 4  |    .0685651     .0913952       -.0228301        .1113099
+        sexo#|
+   tipo_cons |
+        1 1  |    .0955374    -.0548458        .1503832        .1769577
+        1 2  |   -.5417814    -.2105857       -.3311957        .3914683
+        1 3  |   -.2740419     -.315915         .041873        .1833776
+        1 4  |   -.1150277    -.3888331        .2738054        .2314466
+    edad_gr2#|
+   tipo_cons |
+        2 1  |   -.2345743    -.0366341       -.1979402        .2101763
+        2 2  |   -.5010415    -.0036727       -.4973688        .9972035
+        2 3  |   -.1501171     .0414647       -.1915818         .192856
+        2 4  |    .2823393     .0517798        .2305595         .294052
+        3 1  |    .0978369    -.0299326        .1277696        .2923566
+        3 2  |   -.1272183    -.1380774        .0108591        .9094296
+        3 3  |     .143569     .2718551       -.1282861        .2538443
+        3 4  |    .4665273     .1628981        .3036292        .3438576
+        4 1  |     .244202     .0715446        .1726574        .3097389
+        4 2  |    .2081344    -.0645805         .272715        .9993487
+        4 3  |    .2483385     .2638444       -.0155059        .2962718
+        4 4  |    .6930122     .1708523        .5221599        .4030485
+        5 1  |    .0381157     .0726129       -.0344971        .3722362
+        5 2  |   -.6853525     .0370236        -.722376        1.200278
+        5 3  |    .1582959     .2400691       -.0817732        .3551644
+        5 4  |    .0380404     .1990763       -.1610359        .4332079
+        6 1  |   -.2581585     .1191423       -.3773008        .4712236
+        6 2  |   -.6923698     .1848404       -.8772102        .9359078
+        6 3  |   -.1003448     .3335469       -.4338917        .4389838
+        6 4  |    .3840509     .3522817        .0317692        .4882297
+        7 1  |   -.3345333     .2426775       -.5772108         .537612
+        7 3  |    .1544276     .4765096        -.322082        .5782362
+        7 4  |    .4748619     .1784195        .2964423        .7657421
+        8 1  |   -.3192412     .5895713       -.9088125        .7692237
+        8 2  |   -1.153495     .4283268       -1.581822        1.365827
+        8 3  |    .9212626     .4241638        .4970988        .7720993
+        8 4  |   -.2465847    -.6779968        .4314121         .529134
+    educ_gr2#|
+   tipo_cons |
+        2 1  |    -.018026     -.578914         .560888         .290432
+        2 2  |   -.6194421     -1.81309        1.193648        .7320457
+        2 3  |    .0351582     .6968894       -.6617313         .332781
+        2 4  |    .2103411     .6566335       -.4462924         .517465
+        3 1  |   -.0652975    -.6484896        .5831921        .3516968
+        3 2  |   -.4053501    -1.896243        1.490893        .9397749
+        3 3  |   -.3155428     .3513658       -.6669086         .250896
+        3 4  |    .3797489     .8334358       -.4536868        .3093557
+        4 1  |    .0094335    -.6661024        .6755359        .3447956
+        4 2  |   -.6725846    -1.882236        1.209652        .8851536
+        4 3  |   -.1459004     .5816473       -.7275476        .2818534
+        4 4  |    .0010796     .5618574       -.5607778        .4308693
+        5 1  |   -.0408943      -.68411        .6432156        .3584495
+        5 2  |   -.6270427    -1.741995        1.114953        .9860297
+        5 3  |   -.1698002     .5088268        -.678627        .3085863
+        5 4  |    .5702845     .8600661       -.2897816         .488899
+        6 1  |    .0385664    -.6220508        .6606172         .359386
+        6 2  |   -.6105622    -1.881697        1.271135        .8903795
+        6 3  |   -.0353103     .6755187        -.710829        .3153325
+        6 4  |    .2779891     .8039356       -.5259466        .4725496
+        7 1  |   -.0432079    -.6249494        .5817415        .4304485
+        7 3  |   -.3180284     .7084498       -1.026478        .3848514
+        7 4  |    .1781523     .7675166       -.5893643        .5364976
+     gr_ingr#|
+   tipo_cons |
+        2 1  |   -.0092507     .0441539       -.0534045        .1847907
+        2 2  |    .3634631    -.2872965        .6507596        .8363396
+        2 3  |    .4580116     .5012119       -.0432003         .140015
+        2 4  |    1.071314     .1542267        .9170874        .3056872
+        3 1  |    .3906867     .2428877         .147799        .1765998
+        3 2  |    .9900079    -.1918653        1.181873        .7461395
+        3 3  |    .2472583     .3125923        -.065334        .1361319
+        3 4  |    .7716007     -.036903        .8085037        .2696211
+        4 1  |    .4620675     .2691684        .1928991        .1767459
+        4 2  |    .0243728    -.0376711        .0620439        .5103213
+        4 3  |    .5000908     .2797802        .2203106        .1492502
+        4 4  |    .8872219     .2079291        .6792928        .2498897
+        5 1  |    .4157776     .2111459        .2046318        .1761462
+        5 2  |     .549034     .0799178        .4691162        .5580531
+        5 3  |    .5997571     .3836958        .2160613        .1491825
+        5 4  |    .7127303     .2465344        .4661959         .236252
+        6 1  |    .4234521     .2390268        .1844253        .1801992
+        6 2  |    .1853355      .005852        .1794836        .8729888
+        6 3  |     .631769      .403755         .228014        .1561349
+        6 4  |    .8923642     .2170768        .6752874        .2668931
+        7 1  |     .470653     .2712378        .1994152        .1803524
+        7 2  |    .2252107     .0260152        .1991954        .9384852
+        7 3  |    .6585138     .3717245        .2867893         .168322
+        7 4  |    .8469561     .1162027        .7307534        .2834955
+        8 1  |    .5598477     .4893537         .070494        .1991948
+        8 2  |   -.5790329    -.3313332       -.2476997        .8912526
+        8 3  |    .8848605     .5715824        .3132781        .2149863
+        8 4  |    .7472195     .1196314        .6275881         .443395
+       99 1  |    .4741436     .1032741        .3708696        .1962968
+       99 2  |    .3745738    -.0386362          .41321        .5205344
+       99 3  |    .7509566     .2105187        .5404379         .232256
+       99 4  |    1.310409     .1846511        1.125758        .3326307
+   tipo_cons |
+          2  |     1.28698     1.238716        .0482631        .9874516
+          3  |   -.7654305    -2.820271         2.05484        .5040292
+          4  |   -2.070742     -3.30731        1.236568        .6960768
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                 chi2(97) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      314.52
+                Prob>chi2 =      0.0000
+                (V_b-V_B is not positive definite)
+
+. // Rechazo Efectos aleatorios
+. 
+. // pruebas
+. testparm i.tipo // se rechaza igualdad
+
+ ( 1)  2.tipo_cons = 0
+ ( 2)  3.tipo_cons = 0
+ ( 3)  4.tipo_cons = 0
+
+           chi2(  3) =   55.77
+         Prob > chi2 =    0.0000
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  1.tax2020#1b.tipo_cons = 0
+ ( 2)  1.tax2020#2.tipo_cons = 0
+ ( 3)  1.tax2020#3.tipo_cons = 0
+
+           chi2(  3) =    0.53
+         Prob > chi2 =    0.9127
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  1.tax2020_sexo#1b.tipo_cons = 0
+ ( 2)  1.tax2020_sexo#2.tipo_cons = 0
+ ( 3)  1.tax2020_sexo#3.tipo_cons = 0
+ ( 4)  1.tax2020_sexo#4.tipo_cons = 0
+
+           chi2(  4) =    1.66
+         Prob > chi2 =    0.7972
+
+. 
+. use "$datos/wave4_5balanc.dta", clear
+
+. xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+note: 7.edad_gr2#2.tipo_cons omitted because of collinearity
+note: 1b.educ_gr2#2.tipo_cons identifies no observations in the sample
+note: 1b.educ_gr2#4.tipo_cons identifies no observations in the sample
+note: 7.educ_gr2#2.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#1b.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#2.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#3.tipo_cons omitted because of collinearity
+note: 9.educ_gr2#4.tipo_cons omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,494
+Group variable: id_num                          Number of groups  =        747
+
+R-sq:                                           Obs per group:
+     within  = 0.3333                                         min =          2
+     between = 0.4244                                         avg =        2.0
+     overall = 0.4121                                         max =          2
+
+                                                F(97,650)         =       3.35
+corr(u_i, Xb)  = 0.2765                         Prob > F          =     0.0000
+
+---------------------------------------------------------------------------------------------
+               log_cons_sem |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |   .0625116   .1022481     0.61   0.541    -.1382648     .263288
+                            |
+          tax2020#tipo_cons |
+        1#diario-cajetilla  |  -.0742286   .1098971    -0.68   0.500    -.2900249    .1415676
+           1#diario-suelto  |  -.1750668   .2740808    -0.64   0.523    -.7132574    .3631237
+    1#esporádico-cajetilla  |  -.0094288   .1237523    -0.08   0.939    -.2524314    .2335738
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+        1#diario-cajetilla  |   .0270091   .0611151     0.44   0.659    -.0929977     .147016
+           1#diario-suelto  |   .1068986   .4019576     0.27   0.790    -.6823934    .8961907
+    1#esporádico-cajetilla  |  -.1267706   .0830566    -1.53   0.127    -.2898623     .036321
+       1#esporádico-suelto  |   .0685651   .1595525     0.43   0.668    -.2447353    .3818656
+                            |
+             sexo#tipo_cons |
+ Femenino#diario-cajetilla  |   .0955374   .1790528     0.53   0.594    -.2560543    .4471291
+    Femenino#diario-suelto  |  -.5417814   .4286843    -1.26   0.207    -1.383555    .2999918
+                  Femenino #|
+      esporádico-cajetilla  |  -.2740419   .1863935    -1.47   0.142     -.640048    .0919641
+Femenino#esporádico-suelto  |  -.1150277   .2438224    -0.47   0.637    -.5938023    .3637469
+                            |
+         edad_gr2#tipo_cons |
+    25-29#diario-cajetilla  |  -.2345743   .2312931    -1.01   0.311    -.6887461    .2195975
+       25-29#diario-suelto  |  -.5010415   .9963987    -0.50   0.615     -2.45759    1.455507
+25-29#esporádico-cajetilla  |  -.1501171   .2037499    -0.74   0.462    -.5502046    .2499703
+   25-29#esporádico-suelto  |   .2823393   .3031973     0.93   0.352     -.313025    .8777036
+    30-34#diario-cajetilla  |   .0978369    .301811     0.32   0.746    -.4948052     .690479
+       30-34#diario-suelto  |  -.1272183   .9215852    -0.14   0.890    -1.936862    1.682425
+30-34#esporádico-cajetilla  |    .143569   .2583256     0.56   0.579    -.3636843    .6508223
+   30-34#esporádico-suelto  |   .4665273    .350873     1.33   0.184    -.2224542    1.155509
+    35-39#diario-cajetilla  |    .244202   .3181761     0.77   0.443    -.3805751    .8689791
+       35-39#diario-suelto  |   .2081344   .9999293     0.21   0.835    -1.755347    2.171616
+35-39#esporádico-cajetilla  |   .2483385   .2985151     0.83   0.406    -.3378319    .8345089
+   35-39#esporádico-suelto  |   .6930122   .4125834     1.68   0.093     -.117145    1.503169
+    40-44#diario-cajetilla  |   .0381157   .3763663     0.10   0.919    -.7009247    .7771562
+       40-44#diario-suelto  |  -.6853525   1.193913    -0.57   0.566    -3.029745     1.65904
+40-44#esporádico-cajetilla  |   .1582959   .3557698     0.44   0.657    -.5403008    .8568927
+   40-44#esporádico-suelto  |   .0380404   .4535133     0.08   0.933    -.8524875    .9285683
+    45-54#diario-cajetilla  |  -.2581585   .4653268    -0.55   0.579    -1.171884    .6555667
+       45-54#diario-suelto  |  -.6923698   .9425783    -0.73   0.463    -2.543236    1.158496
+45-54#esporádico-cajetilla  |  -.1003448   .4306393    -0.23   0.816    -.9459569    .7452673
+   45-54#esporádico-suelto  |   .3840509   .4901872     0.78   0.434    -.5784906    1.346592
+    55-64#diario-cajetilla  |  -.3345333   .5291833    -0.63   0.527    -1.373648    .7045818
+       55-64#diario-suelto  |          0  (omitted)
+55-64#esporádico-cajetilla  |   .1544276   .5674975     0.27   0.786    -.9599219    1.268777
+   55-64#esporádico-suelto  |   .4748619   .7705974     0.62   0.538    -1.038299    1.988023
+      65+#diario-cajetilla  |  -.3192412   .7688356    -0.42   0.678    -1.828942     1.19046
+         65+#diario-suelto  |  -1.153495   1.421843    -0.81   0.418    -3.945455    1.638465
+  65+#esporádico-cajetilla  |   .9212626   .8000559     1.15   0.250    -.6497433    2.492269
+     65+#esporádico-suelto  |  -.2465847    .749815    -0.33   0.742    -1.718937    1.225767
+                            |
+         educ_gr2#tipo_cons |
+   Hasta primaria completa #|
+             diario-suelto  |          0  (empty)
+   Hasta primaria completa #|
+         esporádico-suelto  |          0  (empty)
+       Secundaria completa #|
+          diario-cajetilla  |   -.018026   .4013855    -0.04   0.964    -.8061947    .7701426
+       Secundaria completa #|
+             diario-suelto  |  -.6194421   1.121149    -0.55   0.581    -2.820954     1.58207
+       Secundaria completa #|
+      esporádico-cajetilla  |   .0351582   .4832632     0.07   0.942    -.9137873    .9841037
+       Secundaria completa #|
+         esporádico-suelto  |   .2103411   .6923195     0.30   0.761    -1.149112    1.569794
+  Técnica#diario-cajetilla  |  -.0652975   .4438618    -0.15   0.883    -.9368734    .8062785
+     Técnica#diario-suelto  |  -.4053501   1.258835    -0.32   0.748    -2.877224    2.066524
+                   Técnica #|
+      esporádico-cajetilla  |  -.3155428   .4326199    -0.73   0.466    -1.165044    .5339584
+ Técnica#esporádico-suelto  |   .3797489    .571979     0.66   0.507    -.7434006    1.502898
+              Preparatoria #|
+          diario-cajetilla  |   .0094335   .4365818     0.02   0.983    -.8478474    .8667144
+Preparatoria#diario-suelto  |  -.6725846   1.212533    -0.55   0.579    -3.053539     1.70837
+              Preparatoria #|
+      esporádico-cajetilla  |  -.1459004   .4461055    -0.33   0.744    -1.021882    .7300814
+              Preparatoria #|
+         esporádico-suelto  |   .0010796   .6297708     0.00   0.999    -1.235551     1.23771
+   Licenciatura incompleta #|
+          diario-cajetilla  |  -.0408943   .4485696    -0.09   0.927    -.9217148    .8399261
+   Licenciatura incompleta #|
+             diario-suelto  |  -.6270427   1.294888    -0.48   0.628    -3.169711    1.915625
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |  -.1698002   .4635913    -0.37   0.714    -1.080118    .7405171
+   Licenciatura incompleta #|
+         esporádico-suelto  |   .5702845   .6695214     0.85   0.395    -.7444012     1.88497
+     Licenciatura completa #|
+          diario-cajetilla  |   .0385664   .4479998     0.09   0.931    -.8411351     .918268
+     Licenciatura completa #|
+             diario-suelto  |  -.6105622   1.225531    -0.50   0.619    -3.017039    1.795915
+     Licenciatura completa #|
+      esporádico-cajetilla  |  -.0353103   .4672575    -0.08   0.940    -.9528267    .8822061
+     Licenciatura completa #|
+         esporádico-suelto  |   .2779891    .660701     0.42   0.674    -1.019377    1.575355
+ Posgrado#diario-cajetilla  |  -.0432079   .5146552    -0.08   0.933    -1.053795    .9673795
+    Posgrado#diario-suelto  |          0  (omitted)
+                  Posgrado #|
+      esporádico-cajetilla  |  -.3180284   .5279175    -0.60   0.547    -1.354658    .7186011
+Posgrado#esporádico-suelto  |   .1781523   .7379518     0.24   0.809    -1.270905     1.62721
+     Otro#diario-cajetilla  |          0  (omitted)
+        Otro#diario-suelto  |          0  (omitted)
+ Otro#esporádico-cajetilla  |          0  (omitted)
+    Otro#esporádico-suelto  |          0  (omitted)
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+          diario-cajetilla  |  -.0092507   .2288807    -0.04   0.968    -.4586855    .4401841
+             3,001 a 5 mil #|
+             diario-suelto  |   .3634631   .8712704     0.42   0.677    -1.347381    2.074307
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .4580116   .1856667     2.47   0.014     .0934328    .8225905
+             3,001 a 5 mil #|
+         esporádico-suelto  |   1.071314   .3362157     3.19   0.002     .4111141    1.731514
+             5,001 a 8 mil #|
+          diario-cajetilla  |   .3906867   .2163674     1.81   0.071    -.0341768    .8155502
+             5,001 a 8 mil #|
+             diario-suelto  |   .9900079   .7769513     1.27   0.203    -.5356294    2.515645
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |   .2472583   .1740471     1.42   0.156    -.0945042    .5890208
+             5,001 a 8 mil #|
+         esporádico-suelto  |   .7716007   .3019303     2.56   0.011     .1787243    1.364477
+            8,001 a 10 mil #|
+          diario-cajetilla  |   .4620675   .2152293     2.15   0.032     .0394388    .8846962
+            8,001 a 10 mil #|
+             diario-suelto  |   .0243728   .5806758     0.04   0.967    -1.115854      1.1646
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |   .5000908    .181135     2.76   0.006     .1444105    .8557712
+            8,001 a 10 mil #|
+         esporádico-suelto  |   .8872219   .2827564     3.14   0.002     .3319957    1.442448
+           10,001 a 15 mil #|
+          diario-cajetilla  |   .4157776   .2121652     1.96   0.050    -.0008342    .8323895
+           10,001 a 15 mil #|
+             diario-suelto  |    .549034   .6086459     0.90   0.367    -.6461155    1.744183
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .5997571   .1809869     3.31   0.001     .2443676    .9551466
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .7127303     .27017     2.64   0.009      .182219    1.243242
+           15,001 a 20 mil #|
+          diario-cajetilla  |   .4234521   .2165031     1.96   0.051    -.0016777     .848582
+           15,001 a 20 mil #|
+             diario-suelto  |   .1853355   .8954524     0.21   0.836    -1.572993    1.943664
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |    .631769   .1860565     3.40   0.001     .2664247    .9971133
+           15,001 a 20 mil #|
+         esporádico-suelto  |   .8923642   .3011802     2.96   0.003     .3009606    1.483768
+           20,001 a 49,999 #|
+          diario-cajetilla  |    .470653   .2161454     2.18   0.030     .0462254    .8950806
+           20,001 a 49,999 #|
+             diario-suelto  |   .2252107   .9853873     0.23   0.819    -1.709716    2.160137
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .6585138   .1966852     3.35   0.001     .2722988    1.044729
+           20,001 a 49,999 #|
+         esporádico-suelto  |   .8469561   .3184766     2.66   0.008     .2215889    1.472323
+  50 mil+#diario-cajetilla  |   .5598477   .2465853     2.27   0.024     .0756478    1.044047
+     50 mil+#diario-suelto  |  -.5790329    .960171    -0.60   0.547    -2.464444    1.306378
+                   50 mil+ #|
+      esporádico-cajetilla  |   .8848605   .2548969     3.47   0.001     .3843398    1.385381
+ 50 mil+#esporádico-suelto  |   .7472195   .5287429     1.41   0.158    -.2910308     1.78547
+    No sé#diario-cajetilla  |   .4741436   .2430199     1.95   0.051    -.0030551    .9513424
+       No sé#diario-suelto  |   .3745738   .5913458     0.63   0.527    -.7866048    1.535752
+No sé#esporádico-cajetilla  |   .7509566   .2665212     2.82   0.005     .2276101    1.274303
+   No sé#esporádico-suelto  |   1.310409   .3703449     3.54   0.000     .5831925    2.037626
+                            |
+                  tipo_cons |
+             diario-suelto  |    1.28698   1.324608     0.97   0.332    -1.314047    3.888006
+      esporádico-cajetilla  |  -.7654305    .677971    -1.13   0.259    -2.096708    .5658472
+         esporádico-suelto  |  -2.070742   .8812244    -2.35   0.019    -3.801133   -.3403523
+                            |
+                      _cons |   2.999764   .5527556     5.43   0.000     1.914362    4.085166
+----------------------------+----------------------------------------------------------------
+                    sigma_u |  .95060825
+                    sigma_e |  .39580678
+                        rho |  .85224918   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------------------
+F test that all u_i=0: F(746, 650) = 5.92                    Prob > F = 0.0000
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+resultados/encuesta/modelos1_3_log.rtf
+resultados/encuesta/modelos1_3_log.xml
+dir : seeout
+
+. 
+. estimates store fixed
+
+. *xttest2
+. /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+. // pruebas
+. testparm i.tipo // NO se rechaza igualdad
+
+ ( 1)  2.tipo_cons = 0
+ ( 2)  3.tipo_cons = 0
+ ( 3)  4.tipo_cons = 0
+
+       F(  3,   650) =    2.54
+            Prob > F =    0.0552
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  1.tax2020#1b.tipo_cons = 0
+ ( 2)  1.tax2020#2.tipo_cons = 0
+ ( 3)  1.tax2020#3.tipo_cons = 0
+
+       F(  3,   650) =    0.44
+            Prob > F =    0.7246
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  1.tax2020_sexo#1b.tipo_cons = 0
+ ( 2)  1.tax2020_sexo#2.tipo_cons = 0
+ ( 3)  1.tax2020_sexo#3.tipo_cons = 0
+ ( 4)  1.tax2020_sexo#4.tipo_cons = 0
+
+       F(  4,   650) =    0.65
+            Prob > F =    0.6268
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons3_log.log
+  log type:  text
+ closed on:  20 Aug 2021, 01:09:10
+----------------------------------------------------------------------------------------------

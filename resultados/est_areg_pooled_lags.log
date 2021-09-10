@@ -1,0 +1,1630 @@
+---------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg_poo
+> led_lags.log
+  log type:  text
+ opened on:   2 Jun 2021, 10:51:51
+
+. 
+. 
+. global varsReg "m1_20 m1_21 m1 ym L.ppu"
+
+. 
+. use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
+. 
+. gen dif_ppu = d.ppu
+(310 missing values generated)
+
+. 
+. // inicial 
+. xtreg ppu m1_20 m1 ym L.ppu, fe
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9997                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(4,23350)        =  570323.35
+corr(u_i, Xb)  = 0.5536                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1769554   .0027437    64.49   0.000     .1715775    .1823333
+          m1 |   .0267871   .0008587    31.20   0.000      .025104    .0284702
+          ym |   .0003526   .0000185    19.09   0.000     .0003164    .0003888
+             |
+         ppu |
+         L1. |   .9706831   .0017948   540.84   0.000     .9671652    .9742009
+             |
+       _cons |  -.1649183   .0088377   -18.66   0.000    -.1822408   -.1475958
+-------------+----------------------------------------------------------------
+     sigma_u |  .00943451
+     sigma_e |  .03435454
+         rho |   .0701283   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23350) = 1.36                  Prob > F = 0.0001
+
+. // actualizado junio (con datos de abril)
+. xtreg ppu $varsReg, fe
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+
+. 
+. //testparm ym L.ppu
+. //testparm L.ppu
+. //xtreg ppu m1_20 m1 ym, fe
+. estimates store fixed
+
+. xtreg ppu $varsReg, re
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1821607     .1812522        .0009085        .0001195
+       m1_21 |     .043721     .0378194        .0059016        .0003688
+          m1 |    .0222459      .024046       -.0018001        .0001021
+          ym |    .0003729     .0001002        .0002727        .0000154
+         ppu |
+         L1. |    .9668938     .9961308        -.029237        .0016139
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      330.24
+                Prob>chi2 =      0.0000
+
+. // fixed effects
+. xtreg ppu $varsReg, fe
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+
+. 
+. predict error_ppu_ym_fe, e
+(310 missing values generated)
+
+. xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe
+Based on augmented Dickey-Fuller tests
+----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. // Sin presencia de ra'iz unitaria
+. 
+. areg ppu $varsReg i.marca, absorb(cve_ciudad)
+
+Linear regression, absorbing indicators         Number of obs     =     23,616
+                                                F(  11,  23559)   =  340912.88
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9940
+                                                Adj R-squared     =     0.9940
+                                                Root MSE          =     0.0341
+
+-------------------------------------------------------------------------------
+          ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        m1_20 |   .1821356   .0027453    66.34   0.000     .1767546    .1875166
+        m1_21 |   .0424526   .0027781    15.28   0.000     .0370075    .0478978
+           m1 |   .0226964   .0008997    25.23   0.000     .0209329    .0244599
+           ym |   .0002957   .0000164    18.07   0.000     .0002636    .0003277
+              |
+          ppu |
+          L1. |   .9751663   .0015879   614.14   0.000      .972054    .9782786
+              |
+        marca |
+       CAMEL  |  -.0004275   .0008151    -0.52   0.600    -.0020251    .0011701
+CHESTERFIELD  |   -.017469   .0012735   -13.72   0.000    -.0199652   -.0149727
+LUCKY STRIKE  |  -.0072666   .0009147    -7.94   0.000    -.0090596   -.0054736
+    MARLBORO  |   .0006054   .0006891     0.88   0.380    -.0007453     .001956
+     MONTANA  |  -.0154047   .0014374   -10.72   0.000    -.0182221   -.0125873
+   PALL MALL  |   -.011125   .0010502   -10.59   0.000    -.0131834   -.0090666
+              |
+        _cons |  -.1314248   .0076638   -17.15   0.000    -.1464463   -.1164033
+--------------+----------------------------------------------------------------
+   cve_ciudad |      F(45, 23559) =      0.978   0.514          (46 categories)
+
+. testparm i.marca 
+
+ ( 1)  2.marca = 0
+ ( 2)  3.marca = 0
+ ( 3)  4.marca = 0
+ ( 4)  5.marca = 0
+ ( 5)  6.marca = 0
+ ( 6)  7.marca = 0
+
+       F(  6, 23559) =   39.43
+            Prob > F =    0.0000
+
+. // por marca son significativamente diferentes
+. areg ppu $varsReg i.cve_ciudad, absorb(marca)
+
+Linear regression, absorbing indicators         Number of obs     =     23,616
+                                                F(  50,  23559)   =   53972.64
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9940
+                                                Adj R-squared     =     0.9940
+                                                Root MSE          =     0.0341
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821356   .0027453    66.34   0.000     .1767546    .1875166
+       m1_21 |   .0424526   .0027781    15.28   0.000     .0370075    .0478978
+          m1 |   .0226964   .0008997    25.23   0.000     .0209329    .0244599
+          ym |   .0002957   .0000164    18.07   0.000     .0002636    .0003277
+             |
+         ppu |
+         L1. |   .9751663   .0015879   614.14   0.000      .972054    .9782786
+             |
+  cve_ciudad |
+          2  |   .0008158    .001851     0.44   0.659    -.0028123    .0044439
+          3  |   .0005202   .0018146     0.29   0.774    -.0030365    .0040769
+          4  |    .000254   .0017663     0.14   0.886    -.0032081     .003716
+          5  |   .0004256   .0017552     0.24   0.808    -.0030148    .0038659
+          6  |    .001844   .0019981     0.92   0.356    -.0020724    .0057605
+          7  |   .0010187   .0017823     0.57   0.568    -.0024747    .0045122
+          8  |   .0015072   .0020101     0.75   0.453    -.0024327     .005447
+          9  |  -.0004725   .0018889    -0.25   0.802    -.0041749      .00323
+         10  |  -.0015595   .0018513    -0.84   0.400    -.0051881    .0020691
+         11  |  -.0005503   .0017741    -0.31   0.756    -.0040277    .0029271
+         12  |   .0003646   .0018104     0.20   0.840     -.003184    .0039131
+         13  |  -.0026704   .0019938    -1.34   0.180    -.0065783    .0012376
+         14  |   .0001528   .0017804     0.09   0.932     -.003337    .0036425
+         15  |  -.0008657   .0020172    -0.43   0.668    -.0048195    .0030881
+         16  |   .0011531   .0018438     0.63   0.532     -.002461    .0047671
+         17  |  -.0009542   .0018624    -0.51   0.608    -.0046046    .0026962
+         18  |  -.0017503   .0018655    -0.94   0.348    -.0054068    .0019062
+         19  |  -.0016086   .0021797    -0.74   0.461     -.005881    .0026637
+         20  |  -.0006482   .0020013    -0.32   0.746     -.004571    .0032746
+         21  |  -.0005595   .0019136    -0.29   0.770    -.0043104    .0031913
+         22  |  -.0014578   .0018535    -0.79   0.432    -.0050908    .0021753
+         23  |  -.0008703   .0018287    -0.48   0.634    -.0044547    .0027142
+         24  |   .0025694   .0018517     1.39   0.165      -.00106    .0061989
+         25  |  -.0016515   .0018622    -0.89   0.375    -.0053015    .0019984
+         26  |   .0006734   .0018608     0.36   0.717    -.0029739    .0043208
+         27  |   .0057474   .0019078     3.01   0.003      .002008    .0094869
+         28  |   .0013861   .0020961     0.66   0.508    -.0027224    .0054947
+         29  |  -.0010588   .0020579    -0.51   0.607    -.0050924    .0029748
+         30  |  -.0009939   .0022559    -0.44   0.660    -.0054157    .0034279
+         31  |   .0002901    .002154     0.13   0.893    -.0039319    .0045121
+         32  |   -.000436   .0021848    -0.20   0.842    -.0047183    .0038463
+         33  |   .0004337   .0021615     0.20   0.841     -.003803    .0046705
+         34  |  -.0005131   .0023877    -0.21   0.830    -.0051931     .004167
+         35  |  -.0001188   .0022426    -0.05   0.958    -.0045144    .0042768
+         36  |   .0000594    .002026     0.03   0.977    -.0039118    .0040305
+         37  |   .0014096   .0019099     0.74   0.461     -.002334    .0051531
+         38  |   .0008445   .0018783     0.45   0.653     -.002837    .0045261
+         39  |  -.0011146   .0018871    -0.59   0.555    -.0048135    .0025843
+         40  |  -.0028122   .0018881    -1.49   0.136     -.006513    .0008885
+         41  |   .0006068   .0020397     0.30   0.766    -.0033911    .0046047
+         42  |  -.0017513   .0021055    -0.83   0.406    -.0058782    .0023756
+         43  |  -.0016392   .0018683    -0.88   0.380    -.0053012    .0020228
+         44  |  -.0025786   .0020933    -1.23   0.218    -.0066816    .0015245
+         45  |   .0017044   .0021035     0.81   0.418    -.0024187    .0058275
+         46  |  -.0016865    .002102    -0.80   0.422    -.0058066    .0024336
+             |
+       _cons |  -.1365395   .0079894   -17.09   0.000    -.1521992   -.1208797
+-------------+----------------------------------------------------------------
+       marca |       F(6, 23559) =     39.425   0.000           (7 categories)
+
+. testparm i.cve_ciudad 
+
+ ( 1)  2.cve_ciudad = 0
+ ( 2)  3.cve_ciudad = 0
+ ( 3)  4.cve_ciudad = 0
+ ( 4)  5.cve_ciudad = 0
+ ( 5)  6.cve_ciudad = 0
+ ( 6)  7.cve_ciudad = 0
+ ( 7)  8.cve_ciudad = 0
+ ( 8)  9.cve_ciudad = 0
+ ( 9)  10.cve_ciudad = 0
+ (10)  11.cve_ciudad = 0
+ (11)  12.cve_ciudad = 0
+ (12)  13.cve_ciudad = 0
+ (13)  14.cve_ciudad = 0
+ (14)  15.cve_ciudad = 0
+ (15)  16.cve_ciudad = 0
+ (16)  17.cve_ciudad = 0
+ (17)  18.cve_ciudad = 0
+ (18)  19.cve_ciudad = 0
+ (19)  20.cve_ciudad = 0
+ (20)  21.cve_ciudad = 0
+ (21)  22.cve_ciudad = 0
+ (22)  23.cve_ciudad = 0
+ (23)  24.cve_ciudad = 0
+ (24)  25.cve_ciudad = 0
+ (25)  26.cve_ciudad = 0
+ (26)  27.cve_ciudad = 0
+ (27)  28.cve_ciudad = 0
+ (28)  29.cve_ciudad = 0
+ (29)  30.cve_ciudad = 0
+ (30)  31.cve_ciudad = 0
+ (31)  32.cve_ciudad = 0
+ (32)  33.cve_ciudad = 0
+ (33)  34.cve_ciudad = 0
+ (34)  35.cve_ciudad = 0
+ (35)  36.cve_ciudad = 0
+ (36)  37.cve_ciudad = 0
+ (37)  38.cve_ciudad = 0
+ (38)  39.cve_ciudad = 0
+ (39)  40.cve_ciudad = 0
+ (40)  41.cve_ciudad = 0
+ (41)  42.cve_ciudad = 0
+ (42)  43.cve_ciudad = 0
+ (43)  44.cve_ciudad = 0
+ (44)  45.cve_ciudad = 0
+ (45)  46.cve_ciudad = 0
+
+       F( 45, 23559) =    0.98
+            Prob > F =    0.5136
+
+. 
+. // por ciudad no son significativos
+. // un mismo coeficiente para cada ciudad,
+. // ? take the mean by city 
+. // ? take the random effects on city or brand
+. // sort marca 
+. 
+. xtreg ppu $varsReg if marca == 1, fe
+
+Fixed-effects (within) regression               Number of obs     =      4,601
+Group variable: gr_marca_c~d                    Number of groups  =         44
+
+R-sq:                                           Obs per group:
+     within  = 0.9945                                         min =         31
+     between = 0.9998                                         avg =      104.6
+     overall = 0.9950                                         max =        123
+
+                                                F(5,4552)         =  163153.91
+corr(u_i, Xb)  = 0.0838                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1925989   .0047226    40.78   0.000     .1833403    .2018574
+       m1_21 |    .068816   .0048507    14.19   0.000     .0593062    .0783258
+          m1 |   .0365892   .0016211    22.57   0.000      .033411    .0397674
+          ym |   .0004049   .0000418     9.69   0.000      .000323    .0004867
+             |
+         ppu |
+         L1. |   .9644621   .0039388   244.86   0.000     .9567401    .9721841
+             |
+       _cons |  -.1804184   .0191796    -9.41   0.000    -.2180198   -.1428171
+-------------+----------------------------------------------------------------
+     sigma_u |  .00256703
+     sigma_e |  .02687072
+         rho |  .00904397   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(43, 4552) = 0.67                    Prob > F = 0.9526
+
+. estimates store fixed
+
+. outreg2 using resultados/doc/est_xt_marcas_lags ///
+>                         , keep($varsReg) bdec(3) nocons  tex(fragment) replace
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+. 
+. xtreg ppu $varsReg, re
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+. // fixed effects
+. xtreg ppu $varsReg, fe
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+
+. 
+. predict error_ppu_ym_fe1, e
+(310 missing values generated)
+
+. xtunitroot fisher error_ppu_ym_fe1, dfuller lags(4)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe1
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. 
+. /*
+> preserve 
+> keep if marca == 1
+> restore
+> */
+. 
+. foreach number of numlist 2/7 {
+  2. di "`number'"
+  3. 
+. xtreg ppu $varsReg if marca == `number', fe
+  4. *estimates store fixed
+. outreg2 using resultados/doc/est_xt_marcas_lags ///
+>                         , keep($varsReg) bdec(3) nocons  tex(fragment) append
+  5. 
+. xtreg ppu $varsReg, re
+  6. estimates store random
+  7. xttest0 
+  8. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+  9. // fixed effects
+. xtreg ppu $varsReg, fe
+ 10. 
+. predict error_ppu_ym_fe`number', e
+ 11. xtunitroot fisher error_ppu_ym_fe`number', dfuller lags(4)
+ 12. }
+2
+
+Fixed-effects (within) regression               Number of obs     =      3,163
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9913                                         min =          5
+     between = 0.9998                                         avg =       90.4
+     overall = 0.9927                                         max =        123
+
+                                                F(5,3123)         =   71563.22
+corr(u_i, Xb)  = 0.2338                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2012488   .0076173    26.42   0.000     .1863132    .2161843
+       m1_21 |   .0278983   .0073817     3.78   0.000     .0134247    .0423718
+          m1 |   .0094881   .0021117     4.49   0.000     .0053477    .0136286
+          ym |   .0004468   .0000547     8.17   0.000     .0003395     .000554
+             |
+         ppu |
+         L1. |     .95744   .0053617   178.57   0.000     .9469272    .9679528
+             |
+       _cons |  -.1900425   .0248791    -7.64   0.000    -.2388235   -.1412616
+-------------+----------------------------------------------------------------
+     sigma_u |  .00502464
+     sigma_e |  .03000819
+         rho |  .02727227   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 3123) = 0.54                    Prob > F = 0.9855
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe2
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+3
+
+Fixed-effects (within) regression               Number of obs     =      2,655
+Group variable: gr_marca_c~d                    Number of groups  =         35
+
+R-sq:                                           Obs per group:
+     within  = 0.9786                                         min =          1
+     between = 0.9996                                         avg =       75.9
+     overall = 0.9835                                         max =        123
+
+                                                F(5,2615)         =   23891.32
+corr(u_i, Xb)  = 0.3041                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1659972   .0111283    14.92   0.000     .1441761    .1878184
+       m1_21 |   .0611348   .0119812     5.10   0.000     .0376412    .0846284
+          m1 |   .0225839   .0031647     7.14   0.000     .0163783    .0287896
+          ym |   .0002841   .0000484     5.87   0.000     .0001891     .000379
+             |
+         ppu |
+         L1. |    .970845    .005443   178.37   0.000     .9601721    .9815179
+             |
+       _cons |  -.1334128   .0247803    -5.38   0.000    -.1820039   -.0848218
+-------------+----------------------------------------------------------------
+     sigma_u |  .00534028
+     sigma_e |  .04101171
+         rho |  .01667288   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(34, 2615) = 0.71                    Prob > F = 0.8935
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe3
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+4
+
+Fixed-effects (within) regression               Number of obs     =      3,167
+Group variable: gr_marca_c~d                    Number of groups  =         38
+
+R-sq:                                           Obs per group:
+     within  = 0.9833                                         min =          2
+     between = 0.9996                                         avg =       83.3
+     overall = 0.9866                                         max =        123
+
+                                                F(5,3124)         =   36782.02
+corr(u_i, Xb)  = 0.1964                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1272399   .0086619    14.69   0.000     .1102563    .1442236
+       m1_21 |   .0063834   .0086273     0.74   0.459    -.0105324    .0232992
+          m1 |   .0133975   .0026905     4.98   0.000     .0081221    .0186728
+          ym |   .0003064   .0000466     6.57   0.000      .000215    .0003978
+             |
+         ppu |
+         L1. |   .9744381   .0051411   189.54   0.000     .9643579    .9845183
+             |
+       _cons |   -.142974    .022192    -6.44   0.000    -.1864863   -.0994617
+-------------+----------------------------------------------------------------
+     sigma_u |  .00534017
+     sigma_e |  .03752178
+         rho |  .01985338   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(37, 3124) = 0.59                    Prob > F = 0.9763
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe4
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+5
+
+Fixed-effects (within) regression               Number of obs     =      5,491
+Group variable: gr_marca_c~d                    Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9939                                         min =         59
+     between = 0.9993                                         avg =      119.4
+     overall = 0.9941                                         max =        123
+
+                                                F(5,5440)         =  178263.05
+corr(u_i, Xb)  = 0.0973                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2229829   .0049278    45.25   0.000     .2133225    .2326434
+       m1_21 |   .0561637   .0050055    11.22   0.000     .0463509    .0659764
+          m1 |   .0361431   .0016918    21.36   0.000     .0328265    .0394596
+          ym |   .0004654   .0000412    11.29   0.000     .0003845    .0005462
+             |
+         ppu |
+         L1. |   .9595098   .0037751   254.17   0.000      .952109    .9669106
+             |
+       _cons |  -.2085638   .0191478   -10.89   0.000    -.2461011   -.1710265
+-------------+----------------------------------------------------------------
+     sigma_u |  .00231218
+     sigma_e |  .03058246
+         rho |  .00568359   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5440) = 0.59                    Prob > F = 0.9875
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe5
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+6
+
+Fixed-effects (within) regression               Number of obs     =      1,182
+Group variable: gr_marca_c~d                    Number of groups  =         22
+
+R-sq:                                           Obs per group:
+     within  = 0.9684                                         min =          4
+     between = 0.9905                                         avg =       53.7
+     overall = 0.9751                                         max =        123
+
+                                                F(5,1155)         =    7084.34
+corr(u_i, Xb)  = 0.1984                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1741405   .0170532    10.21   0.000     .1406818    .2075992
+       m1_21 |   .0441414   .0171394     2.58   0.010     .0105135    .0777692
+          m1 |   .0093424   .0045767     2.04   0.041     .0003629    .0183219
+          ym |   .0003971   .0000771     5.15   0.000     .0002457    .0005484
+             |
+         ppu |
+         L1. |   .9443861   .0105795    89.27   0.000      .923629    .9651433
+             |
+       _cons |  -.1576016   .0360693    -4.37   0.000    -.2283703   -.0868329
+-------------+----------------------------------------------------------------
+     sigma_u |  .01138768
+     sigma_e |   .0399199
+         rho |  .07525157   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(21, 1155) = 1.47                    Prob > F = 0.0781
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe6
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+7
+
+Fixed-effects (within) regression               Number of obs     =      3,357
+Group variable: gr_marca_c~d                    Number of groups  =         42
+
+R-sq:                                           Obs per group:
+     within  = 0.9894                                         min =          1
+     between = 0.9996                                         avg =       79.9
+     overall = 0.9919                                         max =        123
+
+                                                F(5,3310)         =   61698.88
+corr(u_i, Xb)  = 0.3571                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1502369   .0069157    21.72   0.000     .1366775    .1637964
+       m1_21 |   .0304363   .0070444     4.32   0.000     .0166244    .0442482
+          m1 |   .0031437   .0027193     1.16   0.248     -.002188    .0084754
+          ym |   .0004957   .0000551     9.00   0.000     .0003878    .0006037
+             |
+         ppu |
+         L1. |   .9593404    .005081   188.81   0.000     .9493782    .9693026
+             |
+       _cons |  -.2438705   .0279727    -8.72   0.000     -.298716    -.189025
+-------------+----------------------------------------------------------------
+     sigma_u |  .00827414
+     sigma_e |  .03743866
+         rho |  .04656876   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(41, 3310) = 1.24                    Prob > F = 0.1404
+resultados/doc/est_xt_marcas_lags.tex
+dir : seeout
+
+Random-effects GLS regression                   Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9899                                         min =          1
+     between = 0.9999                                         avg =       90.1
+     overall = 0.9939                                         max =        123
+
+                                                Wald chi2(5)      =   3.87e+06
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1812522   .0027561    65.76   0.000     .1758504    .1866541
+       m1_21 |   .0378194   .0027731    13.64   0.000     .0323843    .0432545
+          m1 |    .024046   .0008992    26.74   0.000     .0222836    .0258084
+          ym |   .0001002   .0000101     9.87   0.000     .0000803    .0001201
+             |
+         ppu |
+         L1. |   .9961308   .0008143  1223.22   0.000     .9945348    .9977269
+             |
+       _cons |  -.0518998   .0055556    -9.34   0.000    -.0627885   -.0410111
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .0341758
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu[gr_marca_ciudad,t] = Xb + u[gr_marca_ciudad] + e[gr_marca_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                     ppu |   .1938966       .4403369
+                       e |    .001168       .0341758
+                       u |          0              0
+
+        Test:   Var(u) = 0
+                             chibar2(01) =     0.00
+                          Prob > chibar2 =   1.0000
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+       m1_20 |    .1925989     .1812522        .0113467        .0053592
+       m1_21 |     .068816     .0378194        .0309966         .005534
+          m1 |    .0365892      .024046        .0125432         .001863
+          ym |    .0004049     .0001002        .0003047        .0000523
+         ppu |
+         L1. |    .9644621     .9961308       -.0316688        .0049598
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      184.45
+                Prob>chi2 =      0.0000
+
+Fixed-effects (within) regression               Number of obs     =     23,616
+Group variable: gr_marca_c~d                    Number of groups  =        262
+
+R-sq:                                           Obs per group:
+     within  = 0.9900                                         min =          1
+     between = 0.9996                                         avg =       90.1
+     overall = 0.9937                                         max =        123
+
+                                                F(5,23349)        =  461092.79
+corr(u_i, Xb)  = 0.5540                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .1821607   .0027496    66.25   0.000     .1767714      .18755
+       m1_21 |    .043721   .0027882    15.68   0.000     .0382559    .0491861
+          m1 |   .0222459    .000902    24.66   0.000      .020478    .0240138
+          ym |   .0003729   .0000184    20.25   0.000     .0003368     .000409
+             |
+         ppu |
+         L1. |   .9668938   .0018017   536.66   0.000     .9633624    .9704253
+             |
+       _cons |  -.1701147    .008798   -19.34   0.000    -.1873593   -.1528701
+-------------+----------------------------------------------------------------
+     sigma_u |   .0101662
+     sigma_e |   .0341758
+         rho |  .08129366   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(261, 23349) = 1.60                  Prob > F = 0.0000
+(310 missing values generated)
+(310 missing values generated)
+could not compute test for panel 66
+could not compute test for panel 104
+could not compute test for panel 128
+could not compute test for panel 202
+could not compute test for panel 203
+could not compute test for panel 227
+could not compute test for panel 251
+could not compute test for panel 253
+could not compute test for panel 261
+
+Fisher-type unit-root test for error_ppu_ym_fe7
+Based on augmented Dickey-Fuller tests
+-----------------------------------------------
+Ho: All panels contain unit roots           Number of panels       =    262
+Ha: At least one panel is stationary        Avg. number of periods =  90.14
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(506)  P      4495.0018       0.0000
+ Inverse normal            Z       -53.1478       0.0000
+ Inverse logit t(1259)     L*      -76.8045       0.0000
+ Modified inv. chi-squared Pm      125.3932       0.0000
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. 
+. /** se estimaba en 2 partes antes de tener la tabla final en horizontal
+> local number = 5 
+> di "`number'"
+> 
+> use datos\panel_marca_ciudad.dta if marca == `number', clear
+> 
+> xtset cve_ciudad ym 
+> // gen dif_ppu = d.ppu
+> 
+> xtreg ppu if marca == `number', fe
+> *estimates store fixed
+> outreg2 using resultados/doc/est_xt_marcas_lags_p2 ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+> 
+> predict error_ppu_ym_fe, e
+> xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
+> 
+> foreach number of numlist 6 7 {
+>         di "`number'"
+> 
+>         use datos\panel_marca_ciudad.dta if marca == `number', clear
+> 
+>         xtset cve_ciudad ym 
+>         // gen dif_ppu = d.ppu
+> 
+>         xtreg ppu m1_20 m1 ym L.ppu, fe
+>         *estimates store fixed
+>         outreg2 using resultados/doc/est_xt_marcas_lags_p2 ///
+>                                 , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+> 
+>         predict error_ppu_ym_fe, e
+>         xtunitroot fisher error_ppu_ym_fe, dfuller lags(4)
+> }
+> */
+.                                         
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg_poo
+> led_lags.log
+  log type:  text
+ closed on:   2 Jun 2021, 10:55:05
+---------------------------------------------------------------------------------------------

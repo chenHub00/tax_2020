@@ -1,0 +1,16 @@
+	(1)	(2)	(3)
+VARIABLES	trunk	trunk	trunk
+			
+weight	0.001	0.001	-0.007**
+	(0.003)	(0.003)	(0.003)
+wtsq	0.000	0.000	0.000**
+	(0.000)	(0.000)	(0.000)
+foreign		0.405	0.362
+		(0.909)	(0.911)
+length			0.185***
+			(0.036)
+			
+Observations	74	74	74
+R-squared	0.457	0.458	0.551
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

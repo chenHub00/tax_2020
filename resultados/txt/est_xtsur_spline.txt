@@ -1,0 +1,12 @@
+	(1)	(2)
+VARIABLES	ppu4	ppu7
+		
+m1	0.013	0.039***
+	(0.012)	(0.007)
+m1_20	0.256	0.192
+	(0.000)	(0.000)
+		
+Observations	1,356	1,356
+Number of cve_ciudad	43	43
+Standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

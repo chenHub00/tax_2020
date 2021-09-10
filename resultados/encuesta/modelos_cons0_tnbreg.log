@@ -1,0 +1,101 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons0_tnbreg.log
+  log type:  text
+ opened on:  20 Aug 2021, 14:22:39
+
+. 
+. use "$datos/wave4_5unbalanced.dta", clear
+
+. /***************************************************************************/
+. // 1.0 MODELOS
+. global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
+
+. 
+. tnbreg $depvar $vars_reg if has_fumado_1mes
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -7624.3176  
+Iteration 1:   log likelihood = -7624.1864  
+Iteration 2:   log likelihood = -7624.1864  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -4617.0492  
+Iteration 1:   log likelihood = -4610.5947  
+Iteration 2:   log likelihood = -4610.5164  
+Iteration 3:   log likelihood = -4610.5164  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -4507.6126  
+Iteration 1:   log likelihood = -4491.8768  
+Iteration 2:   log likelihood =  -4490.806  
+Iteration 3:   log likelihood = -4490.8041  
+Iteration 4:   log likelihood = -4490.8041  
+
+Truncated negative binomial regression          Number of obs     =      1,400
+Truncation point: 0                             LR chi2(18)       =     239.42
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -4490.8041                     Pseudo R2         =     0.0260
+
+------------------------------------------------------------------------------------------
+                cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+                    sexo |  -.3063253   .0523497    -5.85   0.000    -.4089289   -.2037217
+                         |
+                 gr_edad |
+                  25-44  |   .1787219   .0696048     2.57   0.010     .0422991    .3151448
+                  45-64  |   .2818604   .0826779     3.41   0.001     .1198146    .4439061
+                    65+  |    .370497   .3376946     1.10   0.273    -.2913723    1.032366
+                         |
+                 gr_educ |
+    Secundaria completa  |   .5479327   .3320813     1.65   0.099    -.1029346      1.1988
+ Técnica o Preparatoria  |   .4854943   .3224877     1.51   0.132    -.1465699    1.117558
+Universidad o posterior  |   .5984698   .3234367     1.85   0.064    -.0354544    1.232394
+                   Otro  |   .4631795   .4724538     0.98   0.327     -.462813    1.389172
+                         |
+           ingreso_hogar |
+     De $1,501 a $3,000  |   .4389465   .2362686     1.86   0.063    -.0241314    .9020245
+    De $3,001 a $5,000   |   .6872125   .2232078     3.08   0.002     .2497333    1.124692
+    De $5,001 a $8,000   |   .4096028   .2163941     1.89   0.058    -.0145218    .8337274
+   De $8,001 a $10,000   |   .3564195   .2132263     1.67   0.095    -.0614963    .7743353
+   De $10,001 a $15,000  |   .5386311   .2125248     2.53   0.011     .1220902    .9551721
+   De $15,001 a $20,000  |   .4682472   .2122542     2.21   0.027     .0522366    .8842578
+   De $20,001 a $49,999  |   .4154001   .2120192     1.96   0.050    -.0001498      .83095
+          $50,000 o más  |   .6214564   .2422457     2.57   0.010     .1466635    1.096249
+                  No se  |   .1426692   .2327653     0.61   0.540    -.3135424    .5988809
+                         |
+               tipo_cons |
+      esporádico-suelto  |  -.7620365   .0595832   -12.79   0.000    -.8788174   -.6452555
+                   _cons |   1.411961    .382707     3.69   0.000     .6618692    2.162053
+-------------------------+----------------------------------------------------------------
+                /lnalpha |  -.2425173   .0590594                     -.3582716    -.126763
+-------------------------+----------------------------------------------------------------
+                   alpha |   .7846502    .046341                      .6988832    .8809424
+------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 6266.76              Prob >= chibar2 = 0.000
+
+. 
+. /*
+> // FE:
+> xtreg $depvar $vars_reg if has_fumado_1mes, fe
+> estimates store fixed
+> *xttest2
+> /*Error: too few common observations across panel.
+> no observations
+> r(2000);*/
+> // RE:
+> xtreg $depvar $vars_reg if has_fumado_1mes, re
+> estimates store random
+> xttest0 
+> * significance of random effects
+> * Hausmann Test
+> // hausman consistent efficient
+> hausman fixed random , sigmamore
+> // ?fixed effects?random effects
+> // RECHAZO ALEATORIOS
+> */
+. capture log close

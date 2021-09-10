@@ -1,15 +1,11 @@
 // cd al directorio raiz
 
-// previos: 
 set more off
-
 
 capture log close
 log using "resultados/encuesta/modelos_consumo0.log", replace
 
-global datos = "datos/encuesta/"
-global codigo = "stata_code\encuesta_\"
-global resultados = "resultados\encuesta\"
+do stata_code/encuesta_/dir_encuesta.do
 
 //use "$datos/wave4_5unbalanced.dta", clear
 use "$datos/cons_w456_unbalanc.dta", clear
@@ -17,7 +13,7 @@ use "$datos/cons_w456_unbalanc.dta", clear
 // 1.0 MODELOS
 // 1.2 MODELOS ajustes variables agrupadas
 // global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
-global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.tipo_cons"
+global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 // regress
 regress consumo_semanal $vars_reg if has_fumado_1mes
 // FE:
@@ -95,11 +91,11 @@ use "$datos/cons_w456_unbalanc.dta", clear
 global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles i.singles  i.patron"
 global v_txc_singles "tax2020#i.singles tax2020_sexo#i.singles tax2020#i.patron tax2020_sexo#i.patron"
 global v_covid19 "covid19#i.singles covid19_sexo#i.singles covid19#i.patron covid19_sexo#i.patron"
-
+/*
 global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.gr_ingr#i.tipo_cons i.tipo"
 global v_txc_tipo_int "tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons covid19#i.tipo_cons covid19_sexo#i.tipo_cons "
 global v_tipo_int "tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
-
+*/
 // modelo
 //regress consumo_semanal $vars_txc $v_tipo_int $v_tipo if has_fumado_1mes
 regress consumo_semanal $vars_txc $v_txc_singles $v_singles if has_fumado_1mes

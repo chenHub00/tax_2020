@@ -221,10 +221,4 @@ ta marca cantidad_, m
 
 save "$datos/cantidades_cigarros_w4.dta", replace
 
-use "$datos/cantidades_cigarros_w4.dta", clear
-
-append using "$datos/cantidades_cigarros_w5.dta"
-
-save "$datos/cant_cigarros_w4_w5.dta", replace
-
 log close

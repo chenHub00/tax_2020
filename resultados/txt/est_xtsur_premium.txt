@@ -1,0 +1,14 @@
+	(1)
+VARIABLES	ppu
+	
+m1	-0.023***
+	(0.004)
+m1_20	0.214***
+	(0.010)
+ym	0.009***
+	(0.000)
+	
+Observations	22,771
+R-squared	0.898
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
