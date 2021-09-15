@@ -45,6 +45,18 @@ do "$codigo/para_consumo.do"
 *do "$codigo/modelos_consumo.do"
 do "$codigo/modelos_consumo_log.do"
 
+para_consumo_w4_w5_w6.do
+usa:
+do $codigo/recodificar_.do
+do $codigo/gen_vars.do
+
+para_consumo.do
+usa:
+< 91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
+- $codigo/recodificar_.do
+- $codigo/gen_vars.do
+resultado:
+> cons_w_1to8.dta
 
 modelos_consumo_tnb.do
 * estimación tnb: tobit negative binomial

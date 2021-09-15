@@ -1,7 +1,10 @@
 
 // largo de nombre en variables
 // orden de las etiquetas
-// 
+// vars:
+// sexo tipo_fumador_diario/ocasional/dejo/nunca_cigarro cigarros_diarios cigarros_semanales
+// compra_sueltos precio_sueltos numero_cigarros_cajetilla (num_caj)
+// sexo q009 q010 q012 q028 q030 q029a 
 
 recode sexo (2 = 1) (1 = 0)
 label define sexo 1 "Femenino" 0 "Masculino", modify

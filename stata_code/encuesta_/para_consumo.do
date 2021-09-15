@@ -14,22 +14,29 @@ log using "$resultados/para_consumo.log", replace
 
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
+keep id wave has_fumado_1mes /// 
+	q001 escolaridad ingreso patron q028 /// 
+		sexo q009 q010 q012 q028 q030 q029a 
 // para generar variables de 
 // grupos de edad y educación
 // recodificar 
 
 // impuesto2020
 gen tax2020 = wave >= 5
+// pandemia
+gen covid19 = wave >= 6
 
 do $codigo/recodificar_.do
+
 do $codigo/gen_vars.do
 
-// solo los periodos más cercanos al cambio de impuestos
-keep if wave == 4 | wave == 5
+// septiembre: Todos los periodos
+// agosto: solo los periodos más cercanos al cambio de impuestos
+// keep if wave == 4 | wave == 5
 
 // personas que no han fumado en el último mes
 // salen de la muestra
-ta has_fumado_1mes wave
+ta wave has_fumado_1mes 
 
 // para generar variables de 
 // grupos de edad y educación
@@ -38,8 +45,8 @@ ta has_fumado_1mes wave
 //do $codigo/gen_vars.do
 
 // muestra:
-ta has_fumado_1mes wave, m
-ta has_fumado_1mes wave, sum(consumo_semanal)
+ta wave has_fumado_1mes , m
+ta wave has_fumado_1mes , sum(consumo_semanal)
 
 duplicates report id wave
 
@@ -76,45 +83,48 @@ ta q009, su(cons_1)
 ta patron if has_fumado_1mes, sum(consumo_semanal )
 
 // hist consumo_semanal
-
-ta q009 sum_nId
-gen s2_idN_q3_009 = q009 == 3 & sum_nId == 2
+ta sum_nId q009 
+//gen s2_idN_q3_009 = q009 == 3 & sum_nId == 2
 
 /***************************************************************************/
 // busqueda de algún patrón entre los que dejaron de fumar
-preserve 
-
-keep id s2_idN_q3_009  
-keep if s2_idN_q3_009  == 1
-
-duplicates report id
-duplicates tag id, generate(dup_id)
-keep if dup_id == 0
-
-save "$datos/s2_idN_q3_009.dta", replace
-
-restore 
-
-merge n:1 id using "$datos/s2_idN_q3_009.dta"
- 
-rename _merge cambios_q009_3 
-label variable cambios_q009_3 "dejaron de fumar o volvieron a fumar"
-
-// panel No balanceado
-preserve 
+// preserve 
+//
+// keep id s2_idN_q3_009  
+// keep if s2_idN_q3_009  == 1
+//
+// duplicates report id
+// duplicates tag id, generate(dup_id)
+// keep if dup_id == 0
+//
+// save "$datos/s2_idN_q3_009.dta", replace
+//
+// restore 
+// // Fin busqueda de algún patrón entre los que dejaron de fumar
+//
+// merge n:1 id using "$datos/s2_idN_q3_009.dta"
+// 
+// rename _merge cambios_q009_3 
+// label variable cambios_q009_3 "dejaron de fumar o volvieron a fumar"
+//
+// // panel No balanceado, no se considera el balanceado
+// preserve 
+// s'olo con consumo, se eliminan los que dejaron de fumar (3) o nunca han fumado cigarros (4)
 keep if q009 <= 2
-save "$datos/wave4_5unbalanced.dta", replace
+//   227 con q009 == 3
+// 10 con q009 == 4
+save "$datos/cons_w_1to8.dta", replace
 
-restore
-
-// panel balanceado
-// id en ambas encuestas
-keep if sum_nId == 2
-// no dejo de fumar en una ocasion
-keep if cambios_q009_3 != 3
-// reportó consumo
-keep if q009 <= 2
-save "$datos/wave4_5balanc.dta", replace
+// restore
+//
+// // panel balanceado
+// // id en ambas encuestas
+// keep if sum_nId == 2
+// // no dejo de fumar en una ocasion
+// keep if cambios_q009_3 != 3
+// // reportó consumo
+// keep if q009 <= 2
+// save "$datos/wave4_5balanc.dta", replace
 
 log close
 

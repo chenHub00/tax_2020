@@ -1,5 +1,8 @@
 // agrupar categorias
 // interacciones con impuestos
+// vars: 
+// edad escolaridad ingreso patron cajetilla/suelto
+// q001 escolaridad ingreso patron q028
 
 // grupo de edad como en GATS 2015
 gen gr_edad = 1 if (q001 >= 18 & q001 <= 24)
