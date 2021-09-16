@@ -6,210 +6,95 @@ global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 global resultados = "resultados\encuesta\"
 
-global mod = "_tnbreg"
+global mod = "w1a8_tnb"
 global depvar "cons_sem"
 
 capture log close
-log using "$resultados/modelos_cons0$mod.log", replace
+log using "$resultados/modelos_cons$mod.log", replace
 
-use "$datos/wave4_5unbalanced.dta", clear
+//use "$datos/wave4_5unbalanced.dta", clear
+use "$datos/cons_w_1to8.dta", clear
+
 /***************************************************************************/
 // 1.0 MODELOS
-global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
+//global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
+// 1.2 MODELOS ajustes variables agrupadas
+global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 
 tnbreg $depvar $vars_reg if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel replace
 
-/*
-// FE:
-xtreg $depvar $vars_reg if has_fumado_1mes, fe
-estimates store fixed
-*xttest2
-/*Error: too few common observations across panel.
-no observations
-r(2000);*/
-// RE:
-xtreg $depvar $vars_reg if has_fumado_1mes, re
-estimates store random
-xttest0 
-* significance of random effects
-* Hausmann Test
-// hausman consistent efficient
-hausman fixed random , sigmamore
-// ?fixed effects?random effects
-// RECHAZO ALEATORIOS
-*/
-capture log close
-/*-----------------------------------------------------*/
-log using "$resultados/modelos_cons1$mod.log", replace
-
-use "$datos/wave4_5unbalanced.dta", clear
 /***************************************************************************/
 // 1.1 MODELOS
-global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
-
-// modelo
-tnbreg $depvar tax2020 $vars_reg if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_1$mod, word excel replace
-
-/*
-// estimación panel
-xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
-
-estimates store fixed
-*xttest2
-/*
-insufficient observations
-r(2001);
-
-end of do-file
-*/
-
-xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, re
-outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
-
-estimates store random
-xttest0 
-* rechazo Pooled 
-* significance of random effects
-* Hausmann Test
-// hausman consistent efficient
-hausman fixed random , sigmamore
-// Rechazo Efectos aleatorios
-
-use "$datos/wave4_5balanc.dta", clear
-xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
-*/
-use "$datos/wave4_5balanc.dta", clear
-tnbreg $depvar tax2020 $vars_reg if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
-
-capture log close
-/*-----------------------------------------------------*/
-log using "$resultados/modelos_cons2$mod.log", replace
-use "$datos/wave4_5unbalanced.dta", clear
-/***************************************************************************/
 // 1.2 MODELOS ajustes variables agrupadas
-global vreg "sexo i.edad_gr2 i.educ_gr2 i.gr_ingr i.tipo"
-global v_int "tax2020 tax2020_sexo "
-// sólo interacción de impuesto con sexo
+global vars_txc "tax2020 covid19" 
 
 // modelo
-tnbreg $depvar  $v_int $vreg if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_2$mod, word excel replace
+tnbreg $depvar $vars_txc $vars_reg if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel append
 
-/*  
-// estimación panel
-xtreg $depvar $v_int $vreg if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
-
-estimates store fixed
-*xttest2
-/*
-insufficient observations
-r(2001);
-
-end of do-file
-*/
-
-xtreg $depvar  $v_int $vreg if has_fumado_1mes, re
-outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
-
-estimates store random
-xttest0 
-* rechazo Pooled 
-* significance of random effects
-* Hausmann Test
-// hausman consistent efficient
-hausman fixed random , sigmamore
-// Rechazo Efectos aleatorios
-
-use "$datos/wave4_5balanc.dta", clear
-xtreg $depvar  $v_int $vreg if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
-*/
-use "$datos/wave4_5balanc.dta", clear
-tnbreg $depvar  $v_int $vreg if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
-
-capture log close
-/*-----------------------------------------------------*/
-log using "$resultados/modelos_cons3$mod.log", replace
-use "$datos/wave4_5unbalanced.dta", clear
 /***************************************************************************/
-// 1.3 MODELOS tipo
-global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.gr_ingr#i.tipo_cons i.tipo"
-global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
+// 1.3 MODELOS interacciones, patron and singles interaction
+global v_patron "sexo#patron i.edad_gr3#patron i.educ_gr3#patron i.ingr_gr#patron patron"
+global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles singles"
+global v_txc_singles "tax2020#singles tax2020_sexo#singles"
+global v_txc_patron "tax2020#patron tax2020_sexo#patron"
+global v_covid19 "covid19#singles covid19_sexo#singles covid19#patron covid19_sexo#patron"
 
+// 1.3a MODELOS interacciones, patron * tax
 // modelo
-tnbreg $depvar  $v_tipo_int $v_tipo if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_3$mod, word excel replace
+tnbreg $depvar $v_txc_patron $vars_reg $v_covid19 if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel append
 
 // pruebas
-testparm i.tipo // se rechaza igualdad
-testparm tax2020#i.tipo // no se rechaza igualdad
-testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+testparm $v_txc_patron // no se rechaza igualdad
+
+// 1.3b MODELOS interacciones, patron * vars
+tnbreg $depvar $v_patron $v_txc_patron $v_covid19 if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel append
+
+// pruebas
+testparm $v_txc_patron // no se rechaza igualdad
+
+// 1.3c MODELOS interacciones, singles * tax
+
+tnbreg $depvar $v_txc_singles $v_reg $v_covid19 if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel append
+
+// pruebas
+testparm $v_txc_singles // Sí se rechaza igualdad
+/*
+. testparm $v_txc_singles // No se rechaza igualdad
+
+ ( 1)  [cons_sem]0b.tax2020#1.singles = 0
+ ( 2)  [cons_sem]1.tax2020#0b.singles = 0
+ ( 3)  [cons_sem]1.tax2020#1.singles = 0
+ ( 4)  [cons_sem]0b.tax2020_sexo#1.singles = 0
+ ( 5)  [cons_sem]1.tax2020_sexo#0b.singles = 0
+
+           chi2(  5) =  157.66
+         Prob > chi2 =    0.0000
+
+*/
+
+// 1.3d MODELOS interacciones, singles * vars
+
+tnbreg $depvar $v_singles $v_txc_singles $v_covid19 if has_fumado_1mes
+outreg2 using resultados/encuesta/mods_consumo_$mod, word excel append
+
+// pruebas
+testparm $v_txc_singles // No se rechaza igualdad
 
 /*
-// estimación panel
-xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+. testparm $v_txc_singles // No se rechaza igualdad
 
-estimates store fixed
-*xttest2
-/*
-insufficient observations
-r(2001);
+ ( 1)  [cons_sem]0b.tax2020#1.singles = 0
+ ( 2)  [cons_sem]1.tax2020#0b.singles = 0
+ ( 3)  [cons_sem]0b.tax2020_sexo#1.singles = 0
+ ( 4)  [cons_sem]1.tax2020_sexo#0b.singles = 0
 
-end of do-file
+           chi2(  4) =    1.42
+         Prob > chi2 =    0.8410
 */
-// pruebas
-testparm i.tipo // se rechaza igualdad
-testparm tax2020#i.tipo // no se rechaza igualdad
-testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
-
-xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, re 
-outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
-
-estimates store random
-xttest0 
-* rechazo Pooled 
-* significance of random effects
-* Hausmann Test
-// hausman consistent efficient
-hausman fixed random , sigmamore
-// Rechazo Efectos aleatorios
-
-// pruebas
-testparm i.tipo // se rechaza igualdad
-testparm tax2020#i.tipo // no se rechaza igualdad
-testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
-
-use "$datos/wave4_5balanc.dta", clear
-xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
-outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
-
-estimates store fixed
-*xttest2
-/*
-insufficient observations
-r(2001);
-
-end of do-file
-*/
-// pruebas
-testparm i.tipo // NO se rechaza igualdad
-testparm tax2020#i.tipo // no se rechaza igualdad
-testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
-*/
-use "$datos/wave4_5balanc.dta", clear
-tnbreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes
-outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
-
-testparm i.tipo // NO se rechaza igualdad
-testparm tax2020#i.tipo // no se rechaza igualdad
-testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
-
 log close
 

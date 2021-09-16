@@ -27,8 +27,9 @@ gen tax2020 = wave >= 5
 gen covid19 = wave >= 6
 
 do $codigo/recodificar_.do
-
 do $codigo/gen_vars.do
+do $codigo/gen_interacciones.do
+
 
 // septiembre: Todos los periodos
 // agosto: solo los periodos más cercanos al cambio de impuestos

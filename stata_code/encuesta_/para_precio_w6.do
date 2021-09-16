@@ -33,8 +33,8 @@ recode cantidad_cigarros . = 14 if marca == 3 & q029 <=44.5
 //recode cantidad_cigarros . = 18 if marca == 3 & q029 <=50.75
 // 18 queda en 20
 recode cantidad_cigarros . = 20 if marca == 3 & q029 <=47
-recode cantidad_cigarros . = 24 if marca == 3 & q029 <=55
-recode cantidad_cigarros . = 25 if marca == 3 & q029 >55
+// recode cantidad_cigarros . = 24 if marca == 3 & q029 <=55
+recode cantidad_cigarros . = 25 if marca == 3 & q029 >47
 
 recode cantidad_cigarros . = 20 if marca == 4 & q029 <=63.5
 recode cantidad_cigarros . = 25 if marca == 4 & q029 >63.5

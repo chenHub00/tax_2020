@@ -10,7 +10,8 @@ global resultados = "resultados\encuesta\"
 do "$codigo/para_consumo.do"
 // separar las gr'aficas
 
-do "$codigo/para_consumo_w4_w5_w6.do"
+// s'olo waves 4 a 6
+// do "$codigo/para_consumo_w4_w5_w6.do"
 
 // gen_vars.do
 // pre_panel.do
@@ -22,7 +23,7 @@ do "$codigo/para_consumo_w4_w5_w6.do"
 do "$codigo/modelos_consumo_log.do"
 
 // Modelos
-do "$codigo/modelos_consumo_tnb.do
+do "$codigo/modelos_consumo_tnb.do"
 * estimación tnb: tobit negative binomial
 
 

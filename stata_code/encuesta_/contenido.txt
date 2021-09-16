@@ -58,6 +58,8 @@ usa:
 resultado:
 > cons_w_1to8.dta
 
+modelos_consumo_w4a6.do
+
 modelos_consumo_tnb.do
 * estimación tnb: tobit negative binomial
 
