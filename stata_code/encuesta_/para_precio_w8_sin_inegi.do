@@ -28,7 +28,7 @@ drop if has_ == 0
 
 gen cantidad_cajetilla = q029a
 gen precio_cajetilla = q029
-gen ppu = q029/14 if q029a == 1 
+gen ppu_ = q029/14 if q029a == 1 
 replace ppu = q029/20 if q029a == 2
 replace ppu = q029/25 if q029a == 3
 
@@ -42,7 +42,7 @@ ta precio cantidad if marca == 6, row col
 
 // histogramas de cantidad por marca
 * histogram q029 if marca == 99, normal kdensity
-graph save Graph "graficos\exploratorios\precio_caja_m99_w8.gph", replace
+//graph save Graph "graficos\exploratorios\precio_caja_m99_w8.gph", replace
 
 // todas las proporciones
 proportion q029a, over(marca)
@@ -50,18 +50,22 @@ proportion q029a, over(marca)
 // para Montana 20 es muy bajo, 25 llega a 50 %, 14 también es alto
 matrix prop_cant_caj_marca = r(table)
 
+rename ppu ppu_cuest
+label variable ppu_cuest "obtenido desde el cuestionario"
 
-save "$datos/cantidades_cigarros_w8.dta", replace
+keep id wave cantidad_cajetilla precio_cajetilla ppu_cuest
 
-// 
-use "$datos/c_pw4_w5_unbalanc.dta", clear
+save "$datos/cantidades_cigarros_w8_sin_inegi.dta", replace
 
-drop if has_ == 0
-keep if q028 == 1
-//(525 observations deleted)
-
-append using "$datos/cantidades_cigarros_w8.dta"
-
-save "$datos/c_pw4_w5_w8_caj.dta", replace
+// // 
+// use "$datos/c_pw4_w5_unbalanc.dta", clear
+//
+// drop if has_ == 0
+// keep if q028 == 1
+// //(525 observations deleted)
+//
+// append using "$datos/cantidades_cigarros_w8.dta"
+//
+// save "$datos/c_pw4_w5_w8_caj.dta", replace
 
 log close
