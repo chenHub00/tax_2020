@@ -7,9 +7,10 @@ usa:
 
 ======================= c'odigos de precios (definición) --------------------
 
-descr_precio_w04_w05.do	
-* descriptivos de la definici'on de precios, w4 y w5
+descr_precio_w1a8.do // sucede a descr_precio_w04_w05.do (pero sin balanceado)
+* descriptivos de la definici'on de precios w1 a w8 // , w4 y w5
 // do $codigo/descr_precio_w04_w05.do
+usa: cp_w1a8.dta // c_pw4_w5_`balanced_unbalanced'.dta
 
 gr_ppu_w04_w05.do
 * gr'afico para comparar w8 con w4 y w8
