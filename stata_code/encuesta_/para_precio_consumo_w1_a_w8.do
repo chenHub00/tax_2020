@@ -1,0 +1,37 @@
+//
+// previos: para_precio4_5.do
+set more off
+
+*cd "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
+//  
+capture log close
+log using "$resultados/para_precio_consumo_w1_a_w8.log", replace
+
+// MACROS
+do stata_code/encuesta_/dir_encuesta.do
+
+//use "$datos/wave4_5unbalanced.dta", replace
+use "$datos/cons_w_1to8.dta", replace
+
+//merge 1:1 id wave using "$datos/cant_cigarros_w4_w5.dta", gen(merge_cons_precio)
+merge 1:1 id wave using "$datos/cant_cig_caj_w1_a_w8.dta", gen(merge_cons_precio)
+
+ta merge_cons_precio
+
+/* Desde consumo
+177 no consumieron en el último mes 
+85 dejaron de fumar o nunca han fumado  
+*/
+drop if merge_cons_precio != 3
+drop merge_cons_precio
+
+gen ppu = q029/cantidad_cigarros
+replace ppu = precioSingles if ppu == .
+
+label data "cantidad y precio waves 1 a la 8"
+//"$datos/c_pw4_w5_w6unbalanc.dta"
+save "$datos/cp_w1a8.dta", replace
+
+
+log close
+

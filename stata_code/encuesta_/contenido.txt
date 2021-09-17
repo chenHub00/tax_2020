@@ -14,18 +14,33 @@ descr_precio_w04_w05.do
 gr_ppu_w04_w05.do
 * gr'afico para comparar w8 con w4 y w8
 
-para_precio_w8.do
+para_precio_consumo_w1_a_w8.do
+* tabla con precios (y consumo) desde wave 1 hasta 8.
+usa: cant_cig_caj_w1_a_w8.dta
+cons_w_1to8.dta
+tabla> cp_w1a8.dta
+
+cant_cig_caj_w1_a_w8.do // antes cant_cig_caj_w4_w5_w6.do // sigue a para_precio_w1.do hasta para_precio_w8.do
+* unir las estimaciones de cantidades de cigarros por cajetilla 
+: cant_cig_caj_w1_a_w8.dta
+
+para_precio_w1.do hasta para_precio_w8.do con para_precio_w4_w5_prom_minmax.do (para 4 y 5)
 * ppu para comparar con w4 y w5 generados
 (descriptivos)
+para_precio_w6.do 
+- usar datos de INPC de INEGI para definir los puntos de corte
+
+para_precio_w8_sin_inegi.do
+*ppu_cuest variable obtenida del cuestionario
 
 para_precio_consumo_w4_w5_w6.do  // ANTES: para_precio_consumo_w4_w5.do 
 * cantidades por cajetilla, ppu y consumo wave 4 y 5
 * une las tablas de consumo y precios para wave 4 y wave 5.
-usa:
+-usa:
 < cons_w456_unbalanc.dta  // use "$datos/wave4_5unbalanced.dta", replace
 < cant_cig_caj_w4_w5_w6.dta // "$datos/cant_cigarros_w4_w5.dta",
 < cons_w456_balanc // use "$datos/wave4_5balanc.dta", replace
-
+- resultados:
 > cp_w456unbalanc.dta // "$datos/c_pw4_w5_w6unbalanc.dta"
 > cp_w456balanc.dta // "$datos/c_pw4_w5_w6balanc.dta"
 
@@ -33,8 +48,6 @@ para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
 - A partir de los datos de INEGI
 > cant_cigarros_w4_w5.dta
 
-para_precio_w6.do 
-- usar datos de INPC de INEGI para definir los puntos de corte
 
 
 ======================= c'odigos de consumo --------------------
