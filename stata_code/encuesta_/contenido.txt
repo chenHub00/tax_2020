@@ -63,6 +63,12 @@ para_consumo_w4_w5_w6.do
 usa:
 do $codigo/recodificar_.do
 do $codigo/gen_vars.do
+< "$datos/cons_w456_unbalanc.dta"
+< "$datos/cons_w456_unbalanc.dta"
+> save "$datos/cons_w456_balanc.dta", replace
+> save "$datos/cons_w456_unbalanc.dta", replace
+
+
 
 para_consumo.do
 usa:
