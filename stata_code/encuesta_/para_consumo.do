@@ -22,7 +22,9 @@ keep id wave has_fumado_1mes ///
 // recodificar 
 
 // impuesto2020
-gen tax2020 = wave >= 5
+gen tax2020 = wave == 5
+// impuesto2020
+gen tax2021 = wave == 8
 // pandemia
 gen covid19 = wave >= 6
 
