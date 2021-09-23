@@ -15,11 +15,12 @@ gen cons_dia7 = q010*7 if q009 == 1
 gen cons_sem = q012 if q009 == 2
 egen consumo_semanal = rowtotal(cons_dia7 cons_sem), missing
 egen cons_1 = rowtotal(q010 cons_sem), missing
+gen cons_por_dia = consumo_semanal/7
 
-
-label variable cons_dia7 "consumo semanal, 7x, con reporte diario"
-label variable cons_sem "consumo semanal, con reporte semanal"
-label variable consumo_semanal "consumo semanal, suma 2 tipos de reportes"
+label variable cons_dia7 "consumo semanal, 7x, con reporte diario (solo reporte diario)"
+label variable cons_sem "consumo semanal, con reporte semanal (solo reporte semanal/ocasional)"
+label variable consumo_semanal "consumo semanal, suma 2 tipos de reportes (diario y ocasional)"
+label variable cons_por_dia "consumo semanal / 7, suma 2 tipos de reportes (diario y ocasional)"
 
 
 // precio

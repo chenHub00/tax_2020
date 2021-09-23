@@ -25,13 +25,22 @@ ta merge_cons_precio
 drop if merge_cons_precio != 3
 drop merge_cons_precio
 
-gen ppu = q029/cantidad_cigarros
-replace ppu = precioSingles if ppu == .
+gen ppu_imp = q029/cantidad_cigarros
+replace ppu_imp = precioSingles if ppu_imp== .
+
+label variable ppu_imp "precio por unidad, separa cantidad por cajetilla a partir de datos INEGI"
 
 label data "cantidad y precio waves 1 a la 8"
 //"$datos/c_pw4_w5_w6unbalanc.dta"
+
+gen ppu = ppu_cuest if wave == 8
+replace ppu = ppu_imp if wave <= 7
+
 save "$datos/cp_w1a8.dta", replace
 
+keep if wave == 8
+
+save "$datos/cp_w8.dta", replace
 
 log close
 
