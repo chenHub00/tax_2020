@@ -27,7 +27,7 @@ di "Levantamiento " `w'
 *	keep if wave == 4
 
 	// sexo
-	tab1 $v_tab if has_fumado_1mes, sum(consumo_semanal) 
+	tab1 $v_tab if has_fumado_1mes, sum(cons_por_dia) 
 }
 
 log close
@@ -50,7 +50,7 @@ log close
 	// use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
 	foreach vartab of varlist $v_tab {
 //		foreach var_sum of varlist consumo_semanal {
-local var_sum = "consumo_semanal"
+//local var_sum = "cons_por_dia "
 			foreach w of numlist 1/8 {
 			di "Levantamiento " `w'
 			 /***************************************************************************/
@@ -61,12 +61,11 @@ local var_sum = "consumo_semanal"
 			* prueba:
 			*	keep if wave == 4
 
-				collapse (mean) consumo_semanal (sd) sd_consumo_semanal = consumo_semanal ///
+				collapse (mean) cons_por_dia (sd) sd_cons_por_dia  = cons_por_dia ///
 					(count) N_consumo_semanal = consumo_semanal, by(`vartab')
-				export excel using "$resultados/descriptivos/`var_sum'_.xlsx", ///
+				export excel using "$resultados/descriptivos/cons_por_dia_.xlsx", ///
 					sheet(`vartab'`w', modify) firstrow(variables) 
 
-//				tab1 $v_tab if has_fumado_1mes, sum(consumo_) 
 			restore
 //			}
 		}

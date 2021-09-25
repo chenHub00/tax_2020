@@ -36,6 +36,11 @@ label data "cantidad y precio waves 1 a la 8"
 gen ppu = ppu_cuest if wave == 8
 replace ppu = ppu_imp if wave <= 7
 
+// ppu
+gen log_ppu = log(ppu)
+label variable log_ppu "log ppu"
+
+
 save "$datos/cp_w1a8.dta", replace
 
 keep if wave == 8

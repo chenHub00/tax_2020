@@ -8,7 +8,9 @@ do stata_code/encuesta_/dir_encuesta.do
 
 //global mod = "w1a8_patron"
 //global mod = "w1a8_singles"
-global depvar "cons_por_dia"
+//global depvar "cons_por_dia"
+global mod = "log_cons_patron"
+global depvar "log_cons_x_dia"
 
 // regresiones
 global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
@@ -38,11 +40,11 @@ keep if singles == `value'
 	regress  $depvar $vars_txc $vars_regsingles  
 // second change resp "patron"
 	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
-	outreg2 using resultados/encuesta/cons_singles`value', word excel replace
+	outreg2 using resultados/encuesta/$mod`value', word excel replace
 
 	// estimación panel
 	xtreg $depvar $vars_txc $vars_regsingles , fe
-	outreg2 using "resultados/encuesta/cons_singles`value'", word excel append
+	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
 	*xttest2
@@ -54,7 +56,7 @@ keep if singles == `value'
 	*/
 
 	xtreg $depvar $vars_txc $vars_regsingles , re
-	outreg2 using resultados/encuesta/cons_singles`value', word excel append
+	outreg2 using resultados/encuesta/$mod`value', word excel append
 
 	estimates store random
 	xttest0 

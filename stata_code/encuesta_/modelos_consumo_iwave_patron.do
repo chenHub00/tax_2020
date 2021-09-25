@@ -6,8 +6,10 @@ log using "resultados/encuesta/modelos_cons_patron.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
-global mod = "w1a8_iwave_patron_singles"
-global depvar "cons_por_dia"
+//global mod = "w1a8_iwave_patron_singles"
+//global depvar "cons_por_dia"
+global mod = "log_cons_patron"
+global depvar "log_cons_x_dia"
 
 // regresiones
 global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
@@ -83,7 +85,7 @@ keep if patron == `value'
 
 	// modelo
 	regress  $depvar $vars_txc $vars_regpatron 
-	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
+	outreg2 using resultados/encuesta/$mod`value', word excel replace
 
 	
 //	outreg2 using "resultados/encuesta/cons_patron1", word excel replace
@@ -91,7 +93,7 @@ keep if patron == `value'
 	// estimación panel
 	xtreg $depvar $vars_txc $vars_regpatron, fe
 //	outreg2 using resultados/encuesta/cons_$mod`value', word excel append
-outreg2 using "resultados/encuesta/cons_patron`value'", word excel append
+outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
 	*xttest2
@@ -103,7 +105,7 @@ outreg2 using "resultados/encuesta/cons_patron`value'", word excel append
 	*/
 
 	xtreg $depvar $vars_txc $vars_regpatron, re
-	outreg2 using resultados/encuesta/cons_patron`value', word excel append
+	outreg2 using resultados/encuesta/$mod`value', word excel append
 
 	estimates store random
 	xttest0 

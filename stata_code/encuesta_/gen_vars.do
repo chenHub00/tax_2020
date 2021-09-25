@@ -105,3 +105,6 @@ label values tipo_cons tipo_cons
 // transformación de la variable dependiente para logaritmos
 gen log_cons_sem = log(consumo_semanal)
 label variable log_cons_sem "logaritmo consumo semanal"
+
+gen log_cons_x_dia = log(cons_por_dia)
+label variable log_cons_x_dia "log consumo diario"
