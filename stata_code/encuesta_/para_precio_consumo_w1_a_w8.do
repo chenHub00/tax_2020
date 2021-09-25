@@ -35,6 +35,7 @@ label data "cantidad y precio waves 1 a la 8"
 
 gen ppu = ppu_cuest if wave == 8
 replace ppu = ppu_imp if wave <= 7
+replace ppu = q030 if wave == 8 & singles == 1
 
 // ppu
 gen log_ppu = log(ppu)

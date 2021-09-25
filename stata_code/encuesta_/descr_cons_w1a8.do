@@ -71,3 +71,34 @@ log close
 		}
 	}
 //}
+
+	use "$datos/cons_w_1to8.dta", clear
+
+//	collapse (mean) cons_por_dia (sd) sd_cons_por_dia  = cons_por_dia ///
+	//				(count) N_consumo_semanal = consumo_semanal, by(sexo wave)
+	
+	// use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
+	foreach vartab of varlist $v_tab {
+		di "Levantamiento " `vartab'
+	
+//		foreach var_sum of varlist consumo_semanal {
+//local var_sum = "cons_por_dia "
+//			foreach w of numlist 1/8 {
+	//		di "Levantamiento " `w'
+			 /***************************************************************************/
+				 // UNBALANCED
+				 // cambiar para wave 1 a 8
+			preserve 
+//				keep if wave == `w'
+			* prueba:
+			*	keep if wave == 4
+
+				collapse (mean) cons_por_dia (sd) sd_cons_por_dia  = cons_por_dia ///
+					(count) N_cons_por_dia = cons_por_dia, by(`vartab' wave)
+				sort wave `vartab'
+				export excel using "$resultados/descriptivos/cons_por_dia_1.xlsx", ///
+					sheet(`vartab', modify) firstrow(variables) 
+
+			restore
+//			}
+		}

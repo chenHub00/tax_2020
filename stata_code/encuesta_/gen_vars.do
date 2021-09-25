@@ -99,7 +99,7 @@ replace tipo_cons = 3 if patron == 0 & q028 == 1
 replace tipo_cons = 4 if patron == 0 & q028 == 2
 label variable tipo_cons "tipo de consumo"
 label define tipo_cons 1 "diario-cajetilla" 2 "diario-suelto" ///
-	3 "esporádico-cajetilla" 4 "esporádico-suelto"
+	3 "ocasional-cajetilla" 4 "ocasional-suelto"
 label values tipo_cons tipo_cons
 
 // transformación de la variable dependiente para logaritmos
