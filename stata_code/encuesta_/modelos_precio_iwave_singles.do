@@ -4,10 +4,10 @@ set more off
 
 do stata_code/encuesta_/dir_encuesta.do
 
-//global mod = "ppu_singles"
-global mod = "log_ppu_singles"
-//global depvar "ppu"
-global depvar "log_ppu"
+global mod = "ppu_singles"
+//global mod = "log_ppu_singles"
+global depvar "ppu"
+//global depvar "log_ppu"
 
 capture log close
 log using "resultados/encuesta/mods_$depvar$mod.log", replace

@@ -28,7 +28,7 @@ drop merge_cons_precio
 gen ppu_imp = q029/cantidad_cigarros
 replace ppu_imp = precioSingles if ppu_imp== .
 
-label variable ppu_imp "precio por unidad, separa cantidad por cajetilla a partir de datos INEGI"
+label variable ppu_imp "ppu (corte INEGI)"
 
 label data "cantidad y precio waves 1 a la 8"
 //"$datos/c_pw4_w5_w6unbalanc.dta"

@@ -16,6 +16,7 @@ global v_tab "sexo edad_gr3 educ_gr3 ingr_gr patron single tipo"
 
 	use "$datos/cp_w8.dta", clear
 	
+	keep if singles == 0
 	graph box ppu_i ppu_c
 	graph save "$graficos\comparacion_ppu_w8.gph", replace
 	graph export "$graficos\comparacion_ppu_w8.png", as(png) replace

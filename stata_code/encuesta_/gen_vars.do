@@ -61,9 +61,9 @@ label values educ_gr2  educ_gr2
 gen educ_gr3 = educ_gr2
 // posgrado se une a Licenciatura completa
 recode educ_gr3  (1 = 2) (7 = 6)
-label define educ_gr3  2 "Hasta Secundaria completa" ///
-	3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
-	6 "Licenciatura completa y posgrado" 9 "Otro", modify
+label define educ_gr3  2 "<= Sec comp" ///
+	3 "Técnica" 4 "Prepa" 5 "Lic incomp" /// 
+	6 "Lic comp y posgrado" 9 "Otro", modify
 label values educ_gr3  educ_gr3
  
 
