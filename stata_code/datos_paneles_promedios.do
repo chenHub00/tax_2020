@@ -9,7 +9,7 @@ capture log close
 log using resultados/paneles_promedio.log, replace
 
 global varskeep jan jan20 jan21 INPPsec_nopetro INPCgen m_df_p ppu pp ///
-	pp_lt_cerveza tipo month year nov19_jan20 nov20_jan21
+	pp_lt_cerveza tipo month year nov19_jan20 nov20_jan21 nov19_dic19 nov20_dic20
 
 	
 use datos/prelim/de_inpc/tpCiudad2.dta, clear 

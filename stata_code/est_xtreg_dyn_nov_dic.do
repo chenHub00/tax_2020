@@ -12,11 +12,11 @@ global tax_def "_nov_dic"
 //global vardep "ppu100"
 global vardep "ppu"
 // global varsRegStatic "jan20 jan21 jan ym"
-global varsRegStatic "nov19_jan20 nov20_jan21 jan ym"
+global varsRegStatic "nov19_dic19 jan20 nov20_dic20 jan21 jan ym"
 //global varsReg_notrend "jan20 jan21 jan"
-global varsReg_notrend "nov19_jan20 nov20_jan21 jan"
+global varsReg_notrend "nov19_dic19 jan2020 nov20_dic20 jan2021 jan"
 //global varsRegLag "jan20 jan21 jan ym L.ppu"
-global varsRegLag "nov19_jan20 nov20_jan21 jan ym L.ppu"
+global varsRegLag "nov19_dic19 jan20 nov20_dic20 jan21 jan ym L.ppu"
 
 /* Resultados de las estimaciones
 putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn, replace) modify

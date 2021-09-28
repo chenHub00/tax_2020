@@ -1,7 +1,8 @@
 
 
-# transformaciones iniciales de los datos
 inicial.do 
+# transformaciones iniciales de los datos
+# genera variables indicadoras para periodos del impuesto
 usa:
 < precios_indices.xlsx 
 < table11_principales7.csv
