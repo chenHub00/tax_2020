@@ -282,6 +282,20 @@ The table \ref{tab:XtregMarcas_dyn} shows the estimated coefficients by brand in
 		\input{est_xtreg_dyn_marca_mod.tex}
 	\end{table}
 \end{landscape}
+
+\subsubsection{Test for different time windows in tax definition}
+To test if there are any price adjustment due to the announcement of the tax implementation at the end of october, the next table (\ref{tab:XtregMarcas_wind}) shows estimation results with dummy variables for november and december 2019 and 2020, to consider earlier effect on price for tax adjustment on 2020 and 2021,respectively.
+ 
+Estimates these wider tax effect show are negative or not statistically significant, this implies that the impact of the tax adjustment occurs in january. 
+
+\begin{landscape}
+ 	\begin{table}[ht]
+ 	\centering
+ 	% To place a caption above a table
+ 	\caption{Wide Time window for tax adjustment \label{tab:XtregMarcas_wind}}
+ 	\input{est_xtreg_dyn_marca_nov_dic.tex}
+ \end{table}
+\end{landscape}
  
 \section{Consistent estimation for Variable Intercept}
 This models are based on Andrews, et al. (2006). The initial model comes from the transformation of:

@@ -43,6 +43,13 @@ datos_paneles_promedios.do >
 
 # estimaciones
 est_ 
+
+est_xtreg_dyn_full_int_nov_dic.do
+: est_xtreg_stat_marca_nov_dic.tex
+: est_xtreg_dyn_marca_nov_dic.tex
+xtreg_dyn_nov_dic.do
+: xtreg_dif_nov_dic.xlsx
+
  03/17 (no 'llama' la funci'on, s'i funcionaba la semana pasada) xtsur > seemingly unrelated regressions en panel
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
  areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
