@@ -1,57 +1,44 @@
+// cd al directorio raiz
 
 set more off
 
-capture log close
-log using "resultados/encuesta/modelos_cons_patron_singles.log", replace
-
 do stata_code/encuesta_/dir_encuesta.do
 
-global mod = "cons_patron"
-global depvar "consumo_semanal"
+global mod = "ppu_patron"
+//global mod = "log_ppu_patron"
+global depvar "ppu"
+//global depvar "log_ppu"
 
-//global mod = "log_cons_patron"
-//global depvar "log_cons_sem"
-
-//global depvar "cons_por_dia"
-//global mod = "log_cons_patron"
-//global depvar "log_cons_x_dia"
+capture log close
+log using "resultados/encuesta/mods_$mod.log", replace
 
 // regresiones
-global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
-global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
-
-// impuestos
+//global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
+global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
+// global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 // impuestos
 global vars_txc "tax2020 tax2021 " 
-// interacciones
-global v_patron "sexo#patron i.edad_gr3#patron i.educ_gr3#patron i.ingr_gr#patron patron"
-global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles singles"
-global v_txc_singles "tax2020#singles tax2021#singles"
-global v_txc_patron "tax2020#patron tax2021#patron"
-global v_covid19 "covid19#singles covid19#patron"
 
-
-use "$datos/cons_w_1to8.dta", clear
+use "$datos/cp_w1a8.dta", clear
 
 foreach value of numlist 0/1 {
 preserve
-keep if patron == `value'
+// only change names, variables, and outreg
+keep if singles == `value'
 //keep if patron == 1
 	/***************************************************************************/
 	// 1.3 MODELOS por tipo de compra: cajetilla o no
 	// 1.3a MODELOS interacciones, patron * tax
 
 	// modelo
-	regress  $depvar $vars_txc $vars_regpatron 
-	outreg2 using resultados/encuesta/$mod`value', word excel replace
-
-	
-//	outreg2 using "resultados/encuesta/cons_patron1", word excel replace
+	regress  $depvar $vars_txc $vars_reg
+// second change resp "patron"
+	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
+	outreg2 using "resultados/encuesta/$mod`value'", word excel replace
 
 	// estimación panel
-	xtreg $depvar $vars_txc $vars_regpatron, fe
-//	outreg2 using resultados/encuesta/cons_$mod`value', word excel append
-outreg2 using "resultados/encuesta/$mod`value'", word excel append
+	xtreg $depvar $vars_txc $vars_reg , fe
+	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
 	*xttest2
@@ -62,8 +49,8 @@ outreg2 using "resultados/encuesta/$mod`value'", word excel append
 	end of do-file
 	*/
 
-	xtreg $depvar $vars_txc $vars_regpatron, re
-	outreg2 using resultados/encuesta/$mod`value', word excel append
+	xtreg $depvar $vars_txc $vars_reg , re
+	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store random
 	xttest0 
@@ -77,12 +64,13 @@ outreg2 using "resultados/encuesta/$mod`value'", word excel append
 restore
 }
 
-// singles
-global mod = "cons_singles"
-//global mod = "log_cons_singles"
 
-
+global mod = "ppu_singles"
+//global mod = "log_ppu_singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
+
+capture log close
+log using "resultados/encuesta/mods_$mod.log", replace
 
 foreach value of numlist 0/1 {
 preserve
@@ -97,7 +85,7 @@ keep if singles == `value'
 	regress  $depvar $vars_txc $vars_regsingles  
 // second change resp "patron"
 	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
-	outreg2 using resultados/encuesta/$mod`value', word excel replace
+	outreg2 using "resultados/encuesta/$mod`value'", word excel replace
 
 	// estimación panel
 	xtreg $depvar $vars_txc $vars_regsingles , fe
@@ -113,7 +101,7 @@ keep if singles == `value'
 	*/
 
 	xtreg $depvar $vars_txc $vars_regsingles , re
-	outreg2 using resultados/encuesta/$mod`value', word excel append
+	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store random
 	xttest0 
@@ -126,4 +114,5 @@ keep if singles == `value'
 	
 restore
 }
+
 log close
