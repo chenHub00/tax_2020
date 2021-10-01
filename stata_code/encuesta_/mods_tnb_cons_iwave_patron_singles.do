@@ -9,7 +9,7 @@ do stata_code/encuesta_/dir_encuesta.do
 //global mod = "w1a8_iwave_patron_singles"
 //global depvar "cons_por_dia"
 global mod = "tnbreg_patron"
-global depvar "cons_por_dia"
+global depvar "consumo_semanal"
 
 // regresiones
 global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
