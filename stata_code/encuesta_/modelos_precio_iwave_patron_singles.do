@@ -4,10 +4,10 @@ set more off
 
 do stata_code/encuesta_/dir_encuesta.do
 
-global mod = "ppu_patron"
-//global mod = "log_ppu_patron"
-global depvar "ppu"
-//global depvar "log_ppu"
+//global mod = "ppu_patron"
+global mod = "log_ppu_patron"
+//global depvar "ppu"
+global depvar "log_ppu"
 
 capture log close
 log using "resultados/encuesta/mods_$mod.log", replace
@@ -24,7 +24,7 @@ use "$datos/cp_w1a8.dta", clear
 foreach value of numlist 0/1 {
 preserve
 // only change names, variables, and outreg
-keep if singles == `value'
+keep if patron == `value'
 //keep if patron == 1
 	/***************************************************************************/
 	// 1.3 MODELOS por tipo de compra: cajetilla o no
@@ -65,8 +65,8 @@ restore
 }
 
 
-global mod = "ppu_singles"
-//global mod = "log_ppu_singles"
+//global mod = "ppu_singles"
+global mod = "log_ppu_singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 
 capture log close
