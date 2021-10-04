@@ -6,12 +6,17 @@ log using "resultados/encuesta/modelos_cons_patron_singles.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
-global mod = "cons_patron"
-global depvar "consumo_semanal"
+global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
-//global mod = "log_cons_patron"
-//global depvar "log_cons_sem"
+// lineal: comentar si logaritmos
+// global mod = "cons_patron"
+// global depvar "consumo_semanal"
 
+// logaritmos: comentar si lineal
+global mod = "log_cons_patron"
+global depvar "log_cons_sem"
+
+// por dia
 //global depvar "cons_por_dia"
 //global mod = "log_cons_patron"
 //global depvar "log_cons_x_dia"
@@ -42,14 +47,14 @@ keep if patron == `value'
 	// 1.3a MODELOS interacciones, patron * tax
 
 	// modelo
-	regress  $depvar $vars_txc $vars_regpatron 
+	regress  $depvar $vars_txc $vars_regpatron if $seleccion
 	outreg2 using resultados/encuesta/$mod`value', word excel replace
 
 	
 //	outreg2 using "resultados/encuesta/cons_patron1", word excel replace
 
 	// estimación panel
-	xtreg $depvar $vars_txc $vars_regpatron, fe
+	xtreg $depvar $vars_txc $vars_regpatron if $seleccion, fe
 //	outreg2 using resultados/encuesta/cons_$mod`value', word excel append
 outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
@@ -62,7 +67,7 @@ outreg2 using "resultados/encuesta/$mod`value'", word excel append
 	end of do-file
 	*/
 
-	xtreg $depvar $vars_txc $vars_regpatron, re
+	xtreg $depvar $vars_txc $vars_regpatron if $seleccion, re
 	outreg2 using resultados/encuesta/$mod`value', word excel append
 
 	estimates store random
@@ -78,8 +83,10 @@ restore
 }
 
 // singles
-global mod = "cons_singles"
-//global mod = "log_cons_singles"
+// lineal:
+//global mod = "cons_singles"
+// logaritmos
+global mod = "log_cons_singles"
 
 
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
@@ -94,13 +101,13 @@ keep if singles == `value'
 	// 1.3a MODELOS interacciones, patron * tax
 
 	// modelo
-	regress  $depvar $vars_txc $vars_regsingles  
+	regress  $depvar $vars_txc $vars_regsingles if $seleccion 
 // second change resp "patron"
 	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
 	outreg2 using resultados/encuesta/$mod`value', word excel replace
 
 	// estimación panel
-	xtreg $depvar $vars_txc $vars_regsingles , fe
+	xtreg $depvar $vars_txc $vars_regsingles if $seleccion, fe
 	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
@@ -112,7 +119,7 @@ keep if singles == `value'
 	end of do-file
 	*/
 
-	xtreg $depvar $vars_txc $vars_regsingles , re
+	xtreg $depvar $vars_txc $vars_regsingles if $seleccion, re
 	outreg2 using resultados/encuesta/$mod`value', word excel append
 
 	estimates store random

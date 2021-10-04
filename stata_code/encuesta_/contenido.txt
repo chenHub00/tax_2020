@@ -94,6 +94,7 @@ con variable transformada en logaritmos
 
 modelos_consumo.do (modelos_consumo_w4a6.do)
 * regresion lineal, fe, re y panel balanceado (waves 4 a 6)
+* 
 ? nocons no funciona
 + agregar indicador para waves anteriores y posteriores
 usa: cons_w_1to8.dta

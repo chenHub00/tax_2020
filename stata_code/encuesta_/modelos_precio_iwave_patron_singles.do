@@ -2,42 +2,41 @@
 
 set more off
 
+capture log close
+log using "resultados/encuesta/mods_ppu_patron_singles.log", replace
+
 do stata_code/encuesta_/dir_encuesta.do
 
-//global mod = "ppu_patron"
-global mod = "log_ppu_patron"
-//global depvar "ppu"
-global depvar "log_ppu"
 
-capture log close
-log using "resultados/encuesta/mods_$mod.log", replace
+// lineal
+global mod "ppu_patron"
+global depvar "ppu"
+
+// logaritmos
+//global mod = "log_ppu_patron"
+//global depvar "log_ppu"
 
 // regresiones
-//global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
-global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
-// global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
+global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
+
 // impuestos
 global vars_txc "tax2020 tax2021 " 
 
 use "$datos/cp_w1a8.dta", clear
 
 foreach value of numlist 0/1 {
-preserve
-// only change names, variables, and outreg
-keep if patron == `value'
-//keep if patron == 1
+
+//local value "1"
 	/***************************************************************************/
 	// 1.3 MODELOS por tipo de compra: cajetilla o no
 	// 1.3a MODELOS interacciones, patron * tax
 
 	// modelo
-	regress  $depvar $vars_txc $vars_reg
-// second change resp "patron"
-	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
+	regress  $depvar $vars_txc $vars_regpatron if $seleccion & patron == `value'
 	outreg2 using "resultados/encuesta/$mod`value'", word excel replace
 
 	// estimación panel
-	xtreg $depvar $vars_txc $vars_reg , fe
+	xtreg $depvar $vars_txc $vars_regpatron if $seleccion & patron == `value', fe
 	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
@@ -49,7 +48,7 @@ keep if patron == `value'
 	end of do-file
 	*/
 
-	xtreg $depvar $vars_txc $vars_reg , re
+	xtreg $depvar $vars_txc $vars_regpatron if $seleccion & patron == `value', re
 	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store random
@@ -61,34 +60,27 @@ keep if patron == `value'
 	hausman fixed random , sigmamore
 	// Rechazo Efectos aleatorios
 	
-restore
+
 }
 
 
-//global mod = "ppu_singles"
-global mod = "log_ppu_singles"
+global mod = "ppu_singles"
+// logaritmos
+//global mod = "log_ppu_singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 
-capture log close
-log using "resultados/encuesta/mods_$mod.log", replace
 
 foreach value of numlist 0/1 {
-preserve
-// only change names, variables, and outreg
-keep if singles == `value'
-//keep if patron == 1
 	/***************************************************************************/
 	// 1.3 MODELOS por tipo de compra: cajetilla o no
 	// 1.3a MODELOS interacciones, patron * tax
 
 	// modelo
-	regress  $depvar $vars_txc $vars_regsingles  
-// second change resp "patron"
-	//	outreg2 using resultados/encuesta/cons_patron`value', word excel replace
+	regress  $depvar $vars_txc $vars_regsingles  if $seleccion & singles == `value'
 	outreg2 using "resultados/encuesta/$mod`value'", word excel replace
 
 	// estimación panel
-	xtreg $depvar $vars_txc $vars_regsingles , fe
+	xtreg $depvar $vars_txc $vars_regsingles if $seleccion & singles == `value', fe
 	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store fixed
@@ -100,7 +92,7 @@ keep if singles == `value'
 	end of do-file
 	*/
 
-	xtreg $depvar $vars_txc $vars_regsingles , re
+	xtreg $depvar $vars_txc $vars_regsingles if $seleccion & singles == `value', re
 	outreg2 using "resultados/encuesta/$mod`value'", word excel append
 
 	estimates store random
@@ -112,7 +104,6 @@ keep if singles == `value'
 	hausman fixed random , sigmamore
 	// Rechazo Efectos aleatorios
 	
-restore
 }
 
 log close
