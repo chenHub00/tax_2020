@@ -15,7 +15,7 @@ log using "$resultados/para_consumo.log", replace
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
 keep id wave has_fumado_1mes /// 
-	q001 escolaridad ingreso patron q028 /// 
+	q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
 		sexo q009 q010 q012 q028 q030 q029a 
 // para generar variables de 
 // grupos de edad y educación
@@ -31,6 +31,7 @@ gen covid19 = wave >= 6
 do $codigo/recodificar_.do
 do $codigo/gen_vars.do
 do $codigo/gen_interacciones.do
+do $codigo/etiquetas_marcas.do
 
 
 // septiembre: Todos los periodos
