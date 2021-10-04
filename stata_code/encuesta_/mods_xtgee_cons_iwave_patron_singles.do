@@ -30,6 +30,8 @@ global vars_txc "tax2020 tax2021 "
 
 use "$datos/cons_w_1to8.dta", clear
 
+gee  $depvar $vars_txc $vars_regpatron if $seleccion, family(nbinomial) link(nbinomial) corr(exchangeable) i(id_num) robust eform
+
 xtgee  $depvar $vars_txc $vars_regpatron if $seleccion, family(nbinomial) link(nbinomial) corr(exchangeable) i(id_num) robust eform
 
 /*
