@@ -78,7 +78,13 @@ foreach value of numlist 0/1 {
 
 log close
 
-
+/***************************************************************************/
+**	              Precio                                                   **
+**	                                                                      **
+**	                                                                      **
+**	                                                                      **
+**	                                                                      **
+/***************************************************************************/
 capture log close
 log using "resultados/encuesta/mods_xtqreg_ppu_patron_singles.log", replace
 

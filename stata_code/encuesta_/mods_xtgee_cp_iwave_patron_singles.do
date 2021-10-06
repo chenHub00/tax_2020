@@ -96,7 +96,7 @@ foreach value of numlist 0/1 {
 
 /************************************************************************************/
 /* Singles (1= sueltos, 0 = cajetilla) INTERACCIONES*/
-
+global patsing = "singles"
 xtgee $depvar $v_txc_singles $v_singles if $seleccion, family(gaussian)  corr(independent)  nmp
 // mismo que regress
 outreg2 using resultados/encuesta/$mod$patsing$inter, word excel replace
@@ -108,7 +108,7 @@ outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
 xtgee $depvar $v_txc_singles $v_singles if $seleccion, family(nbinomial) link(nbinomial) corr(exchangeable) i(id_num) robust eform
 outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
 
-global patsing = "singles"
+
 /************************************************************************************/
 /* SUBMUESTRAS PATRON (1= diario, 0 = ocasional) */
 
@@ -128,8 +128,14 @@ foreach value of numlist 0/1 {
 }
 log close
 
+/************************************************************************************/
 /* Precios con gaussian */
-
+**																					**
+**																					**
+**																					**
+**																					**
+**																					**
+/************************************************************************************/
 capture log close
 log using "resultados/encuesta/mods_xtgee_ppu_patron_singles.log", replace
 
@@ -148,15 +154,15 @@ xtgee qalead `confusores1' if sampleqa==1, family(binomial) link(logit) corr(exc
 /* SIN INTERACCIONES*/
 xtgee  $depvar $vars_txc $vars_reg if $seleccion, family(gaussian)  corr(independent)  nmp
 // mismo que regress
-outreg2 using resultados/encuesta/$mod, word excel replace
+outreg2 using resultados/encuesta/$mod$depvar, word excel replace
 
 xtgee  $depvar $vars_txc $vars_reg if $seleccion, family(gaussian) corr(exchangeable) i(id_num) robust eform
 // equivalente a Random Effects
 * Link:   Identity 
-outreg2 using resultados/encuesta/$mod, word excel append
+outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 xtgee  $depvar $vars_txc $vars_reg if $seleccion, family(gaussian) link(log) corr(exchangeable) i(id_num) robust eform
-outreg2 using resultados/encuesta/$mod, word excel append
+outreg2 using resultados/encuesta/$mod$depvar, word excel append
 // ¿equivalente a transformación log?
 
 /* Otras transformaciones posibles
@@ -169,14 +175,14 @@ outreg2 using resultados/encuesta/$mod, word excel append
 
 xtgee  $depvar $v_txc_patron $v_patron if $seleccion, family(gaussian)  corr(independent)  nmp
 // mismo que regress
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel replace
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel replace
 
 xtgee  $depvar $v_txc_patron $v_patron if $seleccion, family(gaussian) corr(exchangeable) i(id_num) robust eform
 * Link:   Identity
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel append
 
 xtgee  $depvar $v_txc_patron $v_patron if $seleccion, family(gaussian) link(log) corr(exchangeable) i(id_num) robust eform
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel append
 
 /************************************************************************************/
 /* SUBMUESTRAS PATRON (1= diario, 0 = ocasional) */
@@ -185,32 +191,34 @@ foreach value of numlist 0/1 {
 
 	xtgee  $depvar $v_txc_patron $v_patron if $seleccion & patron == `value', family(gaussian)  corr(independent)  nmp
 	// mismo que regress
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel replace
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel replace
 
 	xtgee  $depvar $v_txc_patron $v_patron if $seleccion & patron == `value', family(gaussian) corr(exchangeable) i(id_num) robust eform
 	* Link:   Identity 
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel append
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel append
 
 	xtgee  $depvar $v_txc_patron $v_patron if $seleccion & patron == `value', family(gaussian) link(log) corr(exchangeable) i(id_num) robust eform
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel append
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel append
 
 }
 
+
 /************************************************************************************/
 /* Singles (1= sueltos, 0 = cajetilla) INTERACCIONES*/
+global patsing = "singles"
 
 xtgee $depvar $v_txc_singles $v_singles if $seleccion, family(gaussian)  corr(independent)  nmp
 // mismo que regress
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel replace
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel replace
 
 xtgee  $depvar $v_txc_singles $v_singles if $seleccion, family(gaussian) corr(exchangeable) i(id_num) robust eform
 * Link:   Identity 
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel append
 
 xtgee $depvar $v_txc_singles $v_singles if $seleccion, family(gaussian) link(log) corr(exchangeable) i(id_num) robust eform
-outreg2 using resultados/encuesta/$mod$patsing$inter, word excel append
+outreg2 using resultados/encuesta/$mod$depvar$patsing$inter, word excel append
 
-global patsing = "singles"
+
 /************************************************************************************/
 /* SUBMUESTRAS PATRON (1= diario, 0 = ocasional) */
 
@@ -218,14 +226,14 @@ foreach value of numlist 0/1 {
 
 	xtgee  $depvar $v_txc_singles $v_singles if $seleccion & singles == `value', family(gaussian)  corr(independent)  nmp
 	// mismo que regress
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel replace
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel replace
 
 	xtgee  $depvar $v_txc_singles  $v_singles if $seleccion & singles == `value', family(gaussian) corr(exchangeable) i(id_num) robust eform
 	* Link:   Identity 
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel append
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel append
 
 	xtgee  $depvar $v_txc_singles  $v_singles if $seleccion & singles == `value', family(gaussian) link(log) corr(exchangeable) i(id_num) robust eform
-	outreg2 using resultados/encuesta/$mod$patsing`value', word excel append
+	outreg2 using resultados/encuesta/$mod$depvar$patsing`value', word excel append
 
 }
 log close
