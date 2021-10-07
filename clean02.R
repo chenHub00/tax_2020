@@ -116,5 +116,5 @@ pdf('resultados/doc/Otras_prom_ppu_marcas.pdf', height=11,width=8.5)
 dfplot3 
 dev.off() 
 
-#rm(list=ls())
+rm(list=ls())
 
