@@ -39,6 +39,8 @@ fecha_marca_sum <- por_fecha_marca2 %>% dplyr::summarise(
                       unique = n_distinct(cve_ciudad),
                       prom_ppu = mean(ppu), sd_ppu = sd(ppu) )
 
+save(fecha_marca_sum, file = "datos/prelim/de_inpc/fecha_marca_sum.RData")
+
 # agrupar las que tienen menor presencia en una misma categoria
 # o categorias relacionadas con su precio 
 # (respecto a las que tienen menos presencia)
