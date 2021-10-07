@@ -89,7 +89,7 @@ write.csv(table11_Otras,"datos/prelim/de_inpc/table11_Otras.csv", row.names = FA
 
 # Saving on object in RData format
 save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
-save(menores, file = "datos/prelim/de_inpc/menores.RData")
+#save(menores, file = "datos/prelim/de_inpc/menores.RData")
 save(OtrasMarcas, file = "datos/prelim/de_inpc/OtrasMarcas.RData")
 
 dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
