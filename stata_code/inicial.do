@@ -34,15 +34,16 @@ label variable jan "jan"
 label variable jan20 "jan20"
 label variable jan21 "jan21"
 
-// impuesto desde anuncio 2020
-gen nov19_dic19 = ((month == 11 | month == 12) & year == 2019) | jan20
-// impuesto desde anuncio 2021
-gen nov20_dic20 = ((month == 11 | month == 12) & year == 2020) | jan21
+// // impuesto desde anuncio 2020
+// gen nov19_jan20 = ((month == 11 | month == 12) & year == 2019) | jan20
+// // impuesto desde anuncio 2021
+// gen nov20_jan21 = ((month == 11 | month == 12) & year == 2020) | jan21
 
 // impuesto desde anuncio 2020
-gen nov19_jan20 = ((month == 11 | month == 12) & year == 2019) | jan20
+gen nov19_dic19 = ((month == 11 | month == 12) & year == 2019) 
 // impuesto desde anuncio 2021
-gen nov20_jan21 = ((month == 11 | month == 12) & year == 2020) | jan21
+gen nov20_dic20 = ((month == 11 | month == 12) & year == 2020)
+
 
 save datos/prelim/de_inpc/precios_indices.dta, replace
 

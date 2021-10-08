@@ -18,6 +18,15 @@ global varsReg_notrend "nov19_dic19 jan2020 nov20_dic20 jan2021 jan"
 //global varsRegLag "jan20 jan21 jan ym L.ppu"
 global varsRegLag "nov19_dic19 jan20 nov20_dic20 jan21 jan ym L.ppu"
 
+*------- interacciones:
+*global tipo_tax "i.tipo#nov19_jan20 i.tipo#nov20_jan21"
+*------- interacciones:
+global int_tax "i.marca#nov19_dic19 i.marca#jan20 i.marca#nov20_dic20 i.marca#jan21"
+**global int_tax "i.marca#nov19_ i.marca#nov20_jan21"
+*------- interacciones:
+global tipo_tax "i.tipo#nov19_dic19 i.tipo#jan20 i.tipo#nov20_dic20 i.tipo#jan21"
+*global tipo_tax "i.tipo#nov19_jan20 i.tipo#nov20_jan21"
+
 /* Resultados de las estimaciones
 putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn, replace) modify
 putexcel (C1) = "gl Denominator"
@@ -108,7 +117,9 @@ test ppu_marcas_sq
 */
 *xtreg ppu $varsRegStatic L.ppu, fe
 
-global int_tax "i.marca#nov19_jan20 i.marca#nov20_jan21"
+*------- interacciones:
+*global int_tax "i.marca#nov19_dic19 i.marca#jan20 i.marca#nov20_dic20 i.marca#jan21"
+**global int_tax "i.marca#nov19_ i.marca#nov20_jan21"
 
 xtreg $vardep $varsRegStatic $int_tax L.ppu, fe
 estimates store fixed
@@ -174,7 +185,8 @@ outreg2 using "resultados\doc/est_xtreg_dif$tax_def" ///
 			, keep($varsRegStatic L.ppu  $int_tax ) bdec(3) tex(fragment) append
 			
 *------- interacciones:
-global tipo_tax "i.tipo#nov19_jan20 i.tipo#nov20_jan21"
+*global tipo_tax "i.tipo#nov19_dic19 i.tipo#jan20 i.tipo#nov20_dic20 i.tipo#jan21"
+*global tipo_tax "i.tipo#nov19_jan20 i.tipo#nov20_jan21"
 
 xtreg $vardep $varsRegStatic $tipo_tax L.ppu, fe
 // F test that all u_i=0: F(261, 23345) = 1.61                  Prob > F = 0.0000

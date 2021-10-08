@@ -45,6 +45,13 @@ global int_tax "i.marca#nov19_jan20 i.marca#nov20_jan21"
 global int_fixed "i.marca#jan i.marca#c.ym"
 
 global vars_tax "nov19_dic19 jan20 nov20_dic20 jan21 "
+*------- interacciones:
+global int_tax "i.marca#nov19_dic19 i.marca#jan20 i.marca#nov20_dic20 i.marca#jan21"
+**global int_tax "i.marca#nov19_ i.marca#nov20_jan21"
+*------- interacciones:
+global tipo_tax "i.tipo#nov19_dic19 i.tipo#jan20 i.tipo#nov20_dic20 i.tipo#jan21"
+*global tipo_tax "i.tipo#nov19_jan20 i.tipo#nov20_jan21"
+
 
 /*-----------------------------------------------------
 RESULTADOS CON INTERACCIONES EN L.ppu, tendencia y enero
@@ -87,9 +94,9 @@ testparm c.L.ppu#i.marca
 putexcel (AA1) = "Rezago por marcas"
 putexcel (AA11) = rscalars, colwise overwritefmt
 */
-testparm nov19_jan20#i.marca
+*testparm nov19_jan20#i.marca
 // rechazo igualdad de coeficiente por marca
-testparm nov20_jan21#i.marca
+*testparm nov20_jan21#i.marca
 // rechazo igualdad de coeficiente por marca
 
 /*-----------------------------------------------------
