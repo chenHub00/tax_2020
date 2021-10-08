@@ -54,6 +54,13 @@ import delimited datos/prelim/de_inpc/table11_principales7.csv, clear
 save datos/prelim/de_inpc/table11_principales7.dta, replace
 
 /* 
+precios de las otras marcas
+*/
+import delimited datos/prelim/de_inpc/table11_Otras.csv, clear 
+
+save datos/prelim/de_inpc/table11_Otras.dta, replace
+
+/* 
 promedios marca y ciudad
 > tpCiudad2.dta
 */
