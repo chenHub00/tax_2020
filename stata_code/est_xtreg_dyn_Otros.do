@@ -156,7 +156,7 @@ putexcel (E3) = rscalars
 putexcel set "resultados\doc\f_tests_xtreg_dyn.xlsx", sheet(xtreg_dyn) modify
 */
 
-xtreg $vardep $varsRegStatic $tipo_tax L.ppu, fe
+*xtreg $vardep $varsRegStatic $tipo_tax L.ppu, fe
 // testparm i.tipo
 /* Prueba F
 putexcel (A10) = "Diferencias entre tipos: con interacción marca e impuestos"
@@ -178,7 +178,7 @@ putexcel (N10) = rscalars, colwise overwritefmt
 xtreg $vardep $varsRegStatic L.ppu $tipo_tax , fe
 
 outreg2 using "resultados/doc/est_xtreg_dif$tax_def" ///
-			, keep($tipo_tax jan ym L.ppu) bdec(3)  tex(fragment) append
+			, keep($tipo_tax jan ym L.ppu) bdec(3)  tex(fragment) replace
 			
 *----------------- mismo efecto por tipo:
 * Reference:
@@ -256,6 +256,24 @@ outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
 // */
 // outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
 // 			, keep($int_tax $varsRegStatic  L.ppu) bdec(3) tex(fragment) append
+
+// REPLICAR SOLO MARCAS PRINCIPALES
+xtreg $vardep $varsRegStatic L.ppu if tipo == 1 & marca <= 7, fe
+* testparm i.marca
+/* Prueba F
+* F test that all u_i=0: F(124, 13125) = 0.59                  Prob > F = 0.9999
+* No efectos fijos!
+putexcel (A4) = "Alto"
+//putexcel (B4) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+putexcel (C4) =  `e(df_r)' // =  13266
+putexcel (D4) =  `e(F_f)' // =  22.31938299622964
+putexcel (E4) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F4) = F_ui
+*/
+outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 			
 *-------------------------------------------------------
 // MEDIO
@@ -326,6 +344,23 @@ outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
 // outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
 // 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 //			
+// PARA COMPARACION CON MARCAS PRINCIPALES
+xtreg $vardep $varsRegStatic L.ppu if tipo == 2 & marca <= 7, fe
+// testparm i.marca
+/* Prueba F
+putexcel (A6) = "Medio"
+// putexcel (B6) = rscalars, colwise overwritefmt
+// H0: igualdad de parametros 
+putexcel (C6) =  `e(df_r)' // =  13266
+putexcel (D6) =  `e(F_f)' // =  22.31938299622964
+putexcel (E6) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F6) = F_ui
+*/
+outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
+
+
 *-------------------------------------------------------
 // BAJO
 /* FE-RE :*/
@@ -397,6 +432,33 @@ outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
 // outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///			
 // 			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
 
+// PARA COMPARACION CON -SOLO- MARCAS PRINCIPALES
+xtreg $vardep $varsRegStatic L.ppu if tipo == 3 & marca <= 7, fe
+//testparm i.marca
+/* Prueba F
+putexcel (A8) = "Bajo"
+//putexcel (B8) = rscalars, colwise overwritefmt
+putexcel (C8) =  `e(df_r)' // =  13266
+putexcel (D8) =  `e(F_f)' // =  22.31938299622964
+putexcel (E8) = `e(df_a)' // =  125
+scalar F_ui = Ftail(e(df_a),e(df_r),e(F_f))
+putexcel (F8) = F_ui
+*/
+
+outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
+
+// TIPO OTRAS
+// PARA COMPARACION CON -SOLO- MARCAS PRINCIPALES
+xtreg $vardep $varsRegStatic L.ppu if tipo == 4, fe
+
+outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append
+
+xtreg $vardep $varsRegStatic L.ppu if tipo == 4 | tipo == 3, fe
+
+outreg2 using "resultados\doc/est_xtreg_dif_tipo$tax_def" ///
+			, keep($varsRegStatic L.ppu) bdec(3) tex(fragment) append			
 log close
 /*-----------------------------------------------------
 
