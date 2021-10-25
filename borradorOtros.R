@@ -54,11 +54,82 @@ OtrasMarcas <- fecha_marca_sum  %>%
   filter(marca %in% marcas_2011_2018_OtrosNombres)
 
 
-# Graficas para comparar
+# Names Otras: principales
+marcas_tipo4 =  c("BAHREIN", "BARONET", "BOHEMIOS", "DALTON", "DONTABAKO","GARAÑON",
+                  "L&M","LAREDO","LM BARONET","RGD", "RODEO", "ROMA","SCENIC 101", "SENECA")
+marcas_tipo1 = c("DUNHILL BLONDE","SALEM","VICEROY")
+marcas_tipo2 = c("FAROS", "FIESTA","KENT")
+marcas_tipo3 = c("ALAS","FORTUNA","MURATTI","WINSTON")
+
+
+
+
+# Graficas para comparar:
+# por tipos
+names_prin7_otros_tipo4 <- c(marcasPrincipales_Nombres, marcas_tipo4)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo4)
+tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+  geom_point()
+pdf('resultados/doc/ppu_prin7_otros4.pdf', height=8,width=12)
+# gr'afico con las otras marcas
+tipo4_ppu_plot
+dev.off() 
+
+jpeg('resultados/doc/ppu_prin7_otros4.jpg', height=480,width=600)
+tipo4_ppu_plot
+dev.off() 
+
+
+# por tipos: 3
+names_prin7_otros_tipo3 <- c(marcasPrincipales_Nombres, marcas_tipo3)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo3)
+tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+  geom_point()
+pdf('resultados/doc/ppu_prin7_otros3.pdf', height=12,width=8)
+# gr'afico con las otras marcas
+tipo3_ppu_plot
+dev.off() 
+
+jpeg('resultados/doc/ppu_prin7_otros3.jpg', height=480,width=600)
+tipo3_ppu_plot
+dev.off() 
+
+# por tipos: 2
+names_prin7_otros_tipo2 <- c(marcasPrincipales_Nombres, marcas_tipo2)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo2)
+tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+  geom_point()
+pdf('resultados/doc/ppu_prin7_otros2.pdf', height=12,width=8)
+# gr'afico con las otras marcas
+tipo2_ppu_plot
+dev.off() 
+
+jpeg('resultados/doc/ppu_prin7_otros2.jpg', height=480,width=600)
+tipo2_ppu_plot
+dev.off() 
+
+
+# por tipos: 1
+names_prin7_otros_tipo1 <- c(marcasPrincipales_Nombres, marcas_tipo1)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
+tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+  geom_point()
+pdf('resultados/doc/ppu_prin7_otros1.pdf', height=12,width=8)
+# gr'afico con las otras marcas
+tipo1_ppu_plot
+dev.off() 
+
+jpeg('resultados/doc/ppu_prin7_otros1.jpg', height=480,width=600)
+tipo1_ppu_plot
+dev.off() 
+
+
+# por marca
 names7_1otro <- c(marcasPrincipales_Nombres, "ALAS")
 to_graph <- filter(fecha_marca_sum,marca %in% names7_1otro)
 ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
   geom_point()
+
 
 #names7_1otro <- c(marcasPrincipales_Nombres,"ALAS")
 names7_1otro <- c(marcasPrincipales_Nombres,"BAHREIN")
