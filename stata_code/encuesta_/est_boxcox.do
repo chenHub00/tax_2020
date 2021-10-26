@@ -21,7 +21,7 @@ global mod = "boxcox"
 global depvar "consumo_semanal"
 
 // regresiones
-global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
+global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron singles"
 global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 // impuestos
@@ -45,46 +45,46 @@ xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
 * 4 models, most general is theta
 regress $depvar $vars_txc $vars_reg if $seleccion
 
-regress $depvar $vars_txc vr_* singles patron if $seleccion
+regress $depvar $vars_txc sexo vr_* singles patron if $seleccion
 outreg2 using resultados/encuesta/$mod$depvar, word excel replace
 
 * default is left-hand-side
 * lrtest para "significancia" de las variables independientes
-boxcox $depvar $vars_txc vr_* singles patron if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles patron if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * interacciones por patron 
 // global v_patron "sexo#patron i.edad_gr3#patron i.educ_gr3#patron i.ingr_gr#patron patron"
 // global v_txc_patron "tax2020#patron tax2021#patron"
 xi i.edad_gr3*i.patron i.educ_gr3*i.patron i.ingr_gr*i.patron i.wave*i.patron, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * solo patron == 1 
 xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles  if $seleccion & patron == 1, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles  if $seleccion & patron == 1, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * solo patron == 0
 xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles  if $seleccion & patron == 0, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles  if $seleccion & patron == 0, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * interacciones por singles
 // global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles singles"
 // global v_txc_singles "tax2020#singles tax2021#singles"
 xi i.edad_gr3*i.singles i.educ_gr3*i.singles i.ingr_gr*i.singles i.wave*i.singles, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* patron if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
-* solo patron == 1 
-xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron  if $seleccion & singles == 1, lrtest
+* solo singles == 1 
+xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+boxcox $depvar $vars_txc sexo vr_* patron  if $seleccion & singles == 1, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
-* solo patron == 0
-xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron if $seleccion & singles == 0, lrtest
+* solo singles == 0
+*xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+boxcox $depvar $vars_txc sexo vr_* patron if $seleccion & singles == 0, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * only transform to the indepvars only
@@ -95,57 +95,56 @@ outreg2 using resultados/encuesta/$mod$depvar, word excel append
 * both las variables dependientes deber'ian ser s'olo positivas en este caso
 *boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest model(theta)
 
+
 /*--------------------------------------------------------------*/
 /// precios
 use "$datos/cp_w1a8.dta", clear
 global depvar "ppu"
 
-xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-
 //regress
-regress $depvar $vars_txc $vars_regpatron if $seleccion
+regress $depvar $vars_txc $vars_reg if $seleccion
 
-regress $depvar $vars_txc vr_* singles if $seleccion
-
-boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest
+xi i.sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+regress $depvar $vars_txc sexo vr_* singles patron if $seleccion
+outreg2 using resultados/encuesta/$mod$depvar, word excel replace
 
 * default is left-hand-side
 * lrtest para "significancia" de las variables independientes
-boxcox $depvar $vars_txc vr_* singles patron if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles patron if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * interacciones por patron 
 // global v_patron "sexo#patron i.edad_gr3#patron i.educ_gr3#patron i.ingr_gr#patron patron"
 // global v_txc_patron "tax2020#patron tax2021#patron"
 xi i.edad_gr3*i.patron i.educ_gr3*i.patron i.ingr_gr*i.patron i.wave*i.patron, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * solo patron == 1 
 xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles  if $seleccion & patron == 1, lrtest
+boxcox $depvar $vars_txc sexo vr_* singles  if $seleccion & patron == 1, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * solo patron == 0
-xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* singles  if $seleccion & patron == 0, lrtest
+*xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+boxcox $depvar $vars_txc sexo vr_* singles  if $seleccion & patron == 0, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 * interacciones por singles
 // global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles singles"
 // global v_txc_singles "tax2020#singles tax2021#singles"
 xi i.edad_gr3*i.singles i.educ_gr3*i.singles i.ingr_gr*i.singles i.wave*i.singles, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron if $seleccion, lrtest
+boxcox $depvar $vars_txc sexo vr_* patron if $seleccion, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
-* solo patron == 1 
-xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron  if $seleccion & singles == 1, lrtest
+* solo singles == 1 
+xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+boxcox $depvar $vars_txc sexo vr_* patron  if $seleccion & singles == 1, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
-* solo patron == 0
-xi i.edad_gr3*i.patron i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
-boxcox $depvar $vars_txc vr_* patron if $seleccion & singles == 0, lrtest
+* solo singles == 0
+*xi i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave, prefix(vr_)
+boxcox $depvar $vars_txc sexo vr_* patron if $seleccion & singles == 0, lrtest
 outreg2 using resultados/encuesta/$mod$depvar, word excel append
 
 log close

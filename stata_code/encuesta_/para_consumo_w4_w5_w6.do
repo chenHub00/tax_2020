@@ -14,6 +14,11 @@ global resultados = "resultados\encuesta\"
 
 use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
 
+* variables
+keep id wave has_fumado_1mes /// 
+	q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
+		sexo q009 q010 q012 q028 q030 q029a 
+
 // solo los periodos más cercanos al cambio de impuestos
 keep if wave == 4 | wave == 5 | wave == 6
 
@@ -24,11 +29,12 @@ keep if wave == 4 | wave == 5 | wave == 6
 // impuesto2020
 gen tax2020 = wave == 5
 // pandemia
-gen covid19 = wave >= 6
+*gen covid19 = wave >= 6
 
 do $codigo/recodificar_.do
 do $codigo/gen_vars.do
-do $codigo/gen_interacciones.do
+*do $codigo/gen_interacciones.do
+do $codigo/etiquetas_marcas.do
 
 
 /*. list id wave q009 if id == "40309"
@@ -57,13 +63,13 @@ ta has_fumado_1mes wave
 ta has_fumado_1mes wave, m
 ta has_fumado_1mes wave, sum(consumo_semanal)
 
-keep if has_fumado_1mes == 1
-
 duplicates report id wave
 
 // id como numero para establecer el panel
 destring id, gen(id_num)
 xtset id_num wave
+
+keep if has_fumado_1mes == 1
 
 // patrones
 xtdescribe 

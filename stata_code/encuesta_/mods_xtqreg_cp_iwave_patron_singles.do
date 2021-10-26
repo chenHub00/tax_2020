@@ -2,7 +2,12 @@
 set more off
 
 capture log close
-log using "resultados/encuesta/mods_xtqreg_cons_patron_singles.log", replace
+// CHANGES FOR FULL SAMPLE
+*log using "resultados/encuesta/mods_xtqreg_cons_patron_singles.log", replace
+*use "$datos/cp_w1a8.dta", clear
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+log using "resultados/encuesta/xtqreg_cons_balanc.log", replace
+use "$datos/cp_w456balanc.dta", clear
 
 do stata_code/encuesta_/dir_encuesta.do
 
@@ -19,19 +24,28 @@ global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 // impuestos
-global vars_txc "tax2020 tax2021 " 
+// CHANGES FOR FULL SAMPLE
+*global vars_txc "tax2020 tax2021 " 
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+global vars_txc "tax2020 " 
 // // interacciones
 global v_patron "sexo##patron i.edad_gr3##patron i.educ_gr3##patron i.ingr_gr##patron i.wave##patron singles##patron "
 global v_singles "sexo##singles i.edad_gr3##singles i.educ_gr3##singles i.ingr_gr##singles i.wave##singles patron##singles "
-global v_txc_singles "tax2020##singles tax2021##singles"
-global v_txc_patron "tax2020##patron tax2021##patron"
-global v_txc_tipo "tax2020##i.tipo tax2021##i.tipo"
+// CHANGES FOR FULL SAMPLE
+*global v_txc_singles "tax2020##singles tax2021##singles"
+*global v_txc_patron "tax2020##patron tax2021##patron"
+*global v_txc_tipo "tax2020##i.tipo tax2021##i.tipo"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+global v_txc_singles "tax2020##singles "
+global v_txc_patron "tax2020##patron "
+global v_txc_tipo "tax2020##i.tipo "
 /************************************************************************************/
 
-use "$datos/cons_w_1to8.dta", clear
-
 * secci'on patron
-global mod = "xtqreg_patron"
+// CHANGES FOR FULL SAMPLE
+*global mod = "xtqreg_patron"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+global mod = "xtqreg_balanc_patron"
 
 *xtqreg $depvar $vars_txc $vars_regpatron if $seleccion 
 *xtqreg $depvar $v_txc_patron $v_patron if $seleccion 
@@ -58,7 +72,10 @@ foreach value of numlist 0/1 {
 }
 
 * secci'on singles
-global mod = "xtqreg_singles"
+// CHANGES FOR FULL SAMPLE
+*global mod = "xtqreg_singles"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+global mod = "xtqreg_balanc_singles"
 
 // diario
 //global depvar "cons_por_dia"
@@ -86,14 +103,18 @@ log close
 **	                                                                      **
 /***************************************************************************/
 capture log close
-log using "resultados/encuesta/mods_xtqreg_ppu_patron_singles.log", replace
+// CHANGES FOR FULL SAMPLE
+*log using "resultados/encuesta/mods_xtqreg_ppu_patron_singles.log", replace
+* use "$datos/cp_w1a8.dta", clear
+*global mod = "xtqreg_"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+log using "resultados/encuesta/xtqreg_ppu_balanc.log", replace
+use "$datos/cp_w456balanc.dta", clear
+global mod = "xtqreg_balanc"
 
 global depvar "ppu"
 
-use "$datos/cp_w1a8.dta", clear
-
 * secci'on patron
-global mod = "xtqreg_"
 global patsing= "patron"
 
 *xtqreg $depvar $vars_txc $vars_regpatron if $seleccion 
@@ -121,7 +142,6 @@ foreach value of numlist 0/1 {
 }
 
 * secci'on singles
-global mod = "xtqreg_"
 global patsing= "singles"
 
 // diario

@@ -25,8 +25,18 @@ ta merge_cons_precio
 drop if merge_cons_precio != 3
 drop merge_cons_precio
 
-gen ppu = q029/cantidad_
-replace ppu = precioSingles if ppu == .
+gen ppu_imp = q029/cantidad_cigarros
+replace ppu_imp = precioSingles if ppu_imp== .
+
+label variable ppu_imp "ppu (corte INEGI)"
+
+*gen ppu = ppu_cuest if wave == 8
+gen ppu = ppu_imp if wave <= 7
+*replace ppu = q030 if wave == 8 & singles == 1
+
+// ppu
+gen log_ppu = log(ppu)
+label variable log_ppu "log ppu"
 
 label data "cantidad y precio waves 4, 5 y 6"
 //"$datos/c_pw4_w5_w6unbalanc.dta"
@@ -46,8 +56,22 @@ ta merge_cons_precio
 drop if merge_cons_precio != 3
 drop merge_cons_precio
 
-gen ppu = q029/cantidad_
-replace ppu = precioSingles if ppu == .
+gen ppu_imp = q029/cantidad_cigarros
+replace ppu_imp = precioSingles if ppu_imp== .
+
+label variable ppu_imp "ppu (corte INEGI)"
+
+label data "cantidad y precio waves 1 a la 8"
+//"$datos/c_pw4_w5_w6unbalanc.dta"
+
+*gen ppu = ppu_cuest if wave == 8
+gen ppu = ppu_imp if wave <= 7
+*replace ppu = q030 if wave == 8 & singles == 1
+
+// ppu
+gen log_ppu = log(ppu)
+label variable log_ppu "log ppu"
+
 
 label data "panel balanceado cantidad y precio waves 4, 5 y 6"
 // save "$datos/c_pw4_w5_balanc.dta", replace
