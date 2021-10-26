@@ -1,14 +1,16 @@
 // cd al directorio raiz
-
 set more off
 
+// CHANGES FOR FULL SAMPLE
+*global mod = "_iwave"
+global mod = "balanc_iwave"
 
 capture log close
-log using "resultados/encuesta/modelos_cons_iwave.log", replace
+log using "resultados/encuesta/modelos_cons$mod.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
-global mod = "_lineal_iwave"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
 global depvar "consumo_semanal"
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
@@ -25,8 +27,12 @@ global v_txc_patron "tax2020#patron tax2021#patron"
 global v_txc_tipo "tax2020#i.tipo tax2021#i.tipo"
 *global v_covid19 "covid19#singles covid19#patron"
 
+// CHANGES FOR FULL SAMPLE
 //use "$datos/wave4_5unbalanced.dta", clear
-use "$datos/cons_w_1to8.dta", clear
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+use "$datos/cons_w456_balanc.dta", replace
+
+*use "$datos/cons_w_1to8.dta", clear
 /***************************************************************************/
 // 1.0 MODELOS
 // 1.2 MODELOS ajustes variables agrupadas

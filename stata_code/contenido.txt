@@ -1,6 +1,7 @@
 
-
-inicial.do 
+#----------------------------------------------------
+# DATOS
+=inicial.do 
 # transformaciones iniciales de los datos
 # genera variables indicadoras para periodos del impuesto
 usa:
@@ -27,10 +28,14 @@ usa:
 salva:
 > tpCiudad2.dta/tpCiudad2.xlsx
 
-marcas2.do 
+= marcas2.do 
+= marca_marca2.do
+= encode_marca2_otras.do
+# tipo 2: 
+= tipo_marca_otras.do
 
-datos_paneles_promedios.do >
-= s'olo datos de 46 ciudades, presentes en la muestra anterior a 2018.
+= datos_paneles_promedios.do >
+#s'olo datos de 46 ciudades, presentes en la muestra anterior a 2018.
  usa: 
 < tpCiudad2.dta
  resultados:
@@ -41,7 +46,8 @@ datos_paneles_promedios.do >
 = promedios sobre el grupo marca-ciudad
 > datos/wide_complete_panel.dta
 
-# estimaciones
+#----------------------------------------------------
+# Estimaciones
 est_ 
 
 est_xtreg_dyn_full_int_nov_dic.do

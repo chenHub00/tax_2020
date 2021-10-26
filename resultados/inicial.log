@@ -1,15 +1,16 @@
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\i
-> nicial.log
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\resulta
+> dos\inicial.log
   log type:  text
- opened on:  10 Sep 2021, 11:06:31
+ opened on:   8 Oct 2021, 13:46:33
 
 . 
 . /*
 > Otros precios
 > */
 . import excel "datos/iniciales/precios_indices.xlsx", firstrow clear
+(3 vars, 124 obs)
 
 . * Agregar informacion de periodo
 . gen year= real(substr(Periodo,1,4))
@@ -38,12 +39,18 @@
 . label variable jan21 "jan21"
 
 . 
+. // // impuesto desde anuncio 2020
+. // gen nov19_jan20 = ((month == 11 | month == 12) & year == 2019) | jan20
+. // // impuesto desde anuncio 2021
+. // gen nov20_jan21 = ((month == 11 | month == 12) & year == 2020) | jan21
+. 
 . // impuesto desde anuncio 2020
-. gen nov19_jan20 = ((month == 11 | month == 12) & year == 2019) | jan20
+. gen nov19_dic19 = ((month == 11 | month == 12) & year == 2019) 
 
 . // impuesto desde anuncio 2021
-. gen nov20_jan21 = ((month == 11 | month == 12) & year == 2019) | jan20
+. gen nov20_dic20 = ((month == 11 | month == 12) & year == 2020)
 
+. 
 . 
 . save datos/prelim/de_inpc/precios_indices.dta, replace
 file datos/prelim/de_inpc/precios_indices.dta saved
@@ -53,6 +60,7 @@ file datos/prelim/de_inpc/precios_indices.dta saved
 > precios de las marcas principales
 > */
 . import delimited datos/prelim/de_inpc/table11_principales7.csv, clear 
+(encoding automatically selected: ISO-8859-1)
 (13 vars, 32,574 obs)
 
 . 
@@ -61,27 +69,41 @@ file datos/prelim/de_inpc/table11_principales7.dta saved
 
 . 
 . /* 
+> precios de las otras marcas
+> */
+. import delimited datos/prelim/de_inpc/table11_Otras.csv, clear 
+(encoding automatically selected: ISO-8859-1)
+(13 vars, 2,489 obs)
+
+. 
+. save datos/prelim/de_inpc/table11_Otras.dta, replace
+file datos/prelim/de_inpc/table11_Otras.dta saved
+
+. 
+. /* 
 > promedios marca y ciudad
 > > tpCiudad2.dta
 > */
 . do stata_code/inicial_marcas2.do
 
+. set more off
+
 . // se basa en inicial_marcas.do
 . // las diferencias est'an respecto a la definici'on de la 
 . // variable marca2, 
 . // la intenci'on era mantener los dos tipos de clasificaci'on
-. // para comparar resultados, sin embargo, es aparente que algunas marcas coincid
-> en 
-. // por lo que ser'ia necesario hacer un criterio para separar las clasificacione
-> s
+. // para comparar resultados, sin embargo, es aparente que algunas marcas coinc
+> iden 
+. // por lo que ser'ia necesario hacer un criterio para separar las clasificacio
+> nes
 . // 
 . capture log close
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\i
-> nicial.log
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\resulta
+> dos\inicial.log
   log type:  text
- opened on:  10 Sep 2021, 11:06:56
+ opened on:   8 Oct 2021, 13:46:50
 
 . 
 . /* 
@@ -102,17 +124,19 @@ file datos/prelim/de_inpc/table11_principales7.dta saved
 
 . 
 . xtset marca ym
-       panel variable:  marca (strongly balanced)
-        time variable:  ym, 2011m1 to 2021m4
-                delta:  1 month
+
+Panel variable: marca (strongly balanced)
+ Time variable: ym, 2011m1 to 2021m4
+         Delta: 1 month
 
 . 
-. merge m:1 year month using datos/prelim/de_inpc/precios_indices.dta, gen(m_df_p)
+. merge m:1 year month using datos/prelim/de_inpc/precios_indices.dta, gen(m_df_
+> p)
 
-    Result                           # of obs.
+    Result                      Number of obs
     -----------------------------------------
-    not matched                             0
-    matched                               868  (m_df_p==3)
+    Not matched                             0
+    Matched                               868  (m_df_p==3)
     -----------------------------------------
 
 . keep if m_ == 3
@@ -132,16 +156,17 @@ file datos/prelim/de_inpc/df_x.dta saved
 . use datos/prelim/de_inpc/tpCiudad2.dta, clear
 
 . collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu  ///
->                 (count) n_pzas = pzas n_pp=pp n_ppu=ppu , by(year month cve_ciud
-> ad)
+>                 (count) n_pzas = pzas n_pp=pp n_ppu=ppu , by(year month cve_ci
+> udad)
 
 . 
-. merge m:1 year month using datos/prelim/de_inpc/precios_indices.dta, gen(m_df_p)
+. merge m:1 year month using datos/prelim/de_inpc/precios_indices.dta, gen(m_df_
+> p)
 
-    Result                           # of obs.
+    Result                      Number of obs
     -----------------------------------------
-    not matched                             0
-    matched                             5,995  (m_df_p==3)
+    Not matched                             0
+    Matched                             5,995  (m_df_p==3)
     -----------------------------------------
 
 . keep if m_ == 3

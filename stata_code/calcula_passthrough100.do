@@ -2,7 +2,7 @@
 capture log close
 log using resultados/logs/para_passthrough100.log, replace
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
-keep ppu marca ym cve_
+keep ppu marca ym cve_ tipo
 keep if ym >= ym(2019,12) & ym <= ym(2020,1)
 
 save "datos/finales/datos_pass_through100_2020.data", replace
@@ -75,8 +75,10 @@ gen pt100_jan2020= p1[_n-1]
 * ? en la tabla de ejemplo se consideran los promedios de todo el año para todas las ciudades?
 * ? o es sólo el periodo de diciembre 2019?
 
-keep p pt100_jan2020 marca ym cve_
+
+keep p pt100_jan2020 marca ym cve_ tipo
 keep if ym == ym(2020,1)
+
 
 save "datos/finales/pass_through100_jan2020.data", replace
 
@@ -101,9 +103,10 @@ pt1~2020 |     175    58.05605    .4343867    5.746396    57.19871     58.9134
  es decir, el pass-through al 100 por ciento sería mayor a lo observado
 */
  
+
 // 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
-keep ppu marca ym cve_
+keep ppu marca ym cve_ tipo
 keep if ym >= ym(2020,12) & ym <= ym(2021,1)
 
 save "datos/finales/datos_pass_through100_2021.data", replace
@@ -162,9 +165,9 @@ gen  p1 = taxbase1+sc_iepsf1+iepsav1+ret1+vat1
 su p1 taxbase1 iepsav1 ret1 vat1
 
 *replace varlist = p1
-gen pt100_jan2020= p1[_n-1]
+gen pt100_jan2021= p1[_n-1]
 
-keep p pt100_jan2020 marca ym cve_
+keep p pt100_jan2021 marca ym cve_ tipo
 keep if ym == ym(2021,1)
 
 save "datos/finales/pass_through100_jan2021.data", replace

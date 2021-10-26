@@ -1,11 +1,11 @@
 
-======================= c'odigos modelos de precios --------------------
+======================= modelos de precios --------------------
 modelos_precio[,3]
 usa:
 < cp_w456unbalanc.dta
 < cp_w456balanc.dta
 
-======================= c'odigos de precios (definición) --------------------
+======================= definición de precios --------------------
 
 descr_precio_w1a8.do // sucede a descr_precio_w04_w05.do (pero sin balanceado)
 * descriptivos de la definici'on de precios w1 a w8 // , w4 y w5
@@ -78,6 +78,7 @@ usa:
 resultado:
 > cons_w_1to8.dta
 
+======================= modelos de precios --------------------
 modelos_consumo_w4a6.do
 
 modelos_consumo_tnb.do
@@ -99,9 +100,17 @@ modelos_consumo.do (modelos_consumo_w4a6.do)
 + agregar indicador para waves anteriores y posteriores
 usa: cons_w_1to8.dta
 
-modelos_consumo_iwave.do
+modelos_consumo_iwave.do 
 * con indicadora de levantamiento
 usa: cons_w_1to8.dta
+
+mods_cons_balanc_iwave.do 
+// modelos_consumo_iwave.do 
+// modelos_consumo_tnb_iwave.do?
+// modelos_consumo_tnb.do?
+// mods_tnb_cons_iwave_patron_singles.do : $seleccion, tax2020_sexo
+// modelos_consumo_log.do
+
 
 to_project.do
 - llama otro c'odigo para hacer definiciones y salvar 
