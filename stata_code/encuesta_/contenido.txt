@@ -1,4 +1,21 @@
 
+======================= descriptivos --------------------
+descr_cp_w1a8_marca.do
+* modificar para obtener los descriptivos de:
+- precio, 
+- consumo o 
+- consumo por dia
+
+descr_cons_w1a8.do
+* descriptivos de consumo
+
+descr_precio_w1a8.do // sucede a descr_precio_w04_w05.do (pero sin balanceado)
+* descriptivos de la definici'on de precios w1 a w8 // , w4 y w5
+// do $codigo/descr_precio_w04_w05.do
+usa: cp_w1a8.dta // c_pw4_w5_`balanced_unbalanced'.dta
+* descriptivos de 
+
+
 ======================= modelos de precios --------------------
 modelos_precio[,3]
 usa:
@@ -6,11 +23,6 @@ usa:
 < cp_w456balanc.dta
 
 ======================= definición de precios --------------------
-
-descr_precio_w1a8.do // sucede a descr_precio_w04_w05.do (pero sin balanceado)
-* descriptivos de la definici'on de precios w1 a w8 // , w4 y w5
-// do $codigo/descr_precio_w04_w05.do
-usa: cp_w1a8.dta // c_pw4_w5_`balanced_unbalanced'.dta
 
 gr_ppu_w04_w05.do
 * gr'afico para comparar w8 con w4 y w8
