@@ -5,7 +5,7 @@ set more off
 *cd "C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
 //  
 capture log close
-log using "resultados\encuesta\/descr_cons_w1a8.log", replace
+log using "resultados\encuesta\/descr_cp_w1a8_marca_dual.log", replace
 
 global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
@@ -26,7 +26,7 @@ foreach var_sum of varlist consumo_semanal cons_por_dia {
 		di "Levantamiento " `vartab'
 
 	preserve 
-		keep if dual_use100cig == 1
+		keep if dual_use == 1
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' marca wave )
 				sort wave `vartab'
@@ -36,7 +36,7 @@ foreach var_sum of varlist consumo_semanal cons_por_dia {
 	restore
 	
 	preserve 
-		keep if dual_use100cig == 0
+		keep if dual_use == 0
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' wave )
 				sort wave `vartab'
@@ -57,7 +57,7 @@ local var_sum "ppu"
 		di "variable " "`vartab'"
 
 	preserve 
-		keep if dual_use100cig == 1
+		keep if dual_use == 1
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' marca wave )
 				sort wave `vartab'
@@ -67,7 +67,7 @@ local var_sum "ppu"
 	restore
 	
 	preserve 
-		keep if dual_use100cig == 0
+		keep if dual_use == 0
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' wave )
 				sort wave `vartab'
@@ -84,7 +84,7 @@ local var_sum "ppu"
 		di "variable " "`vartab'"
 
 	preserve 
-		keep if dual_use100cig == 1
+		keep if dual_use == 1
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' marca wave )
 				sort wave `vartab'
@@ -94,7 +94,7 @@ local var_sum "ppu"
 	restore
 	
 	preserve 
-		keep if dual_use100cig == 0
+		keep if dual_use == 0
 				collapse (mean) mean_`var_sum' = `var_sum' (sd) sd_  = `var_sum' ///
 					(count) N_ = `var_sum', by(`vartab' marca wave )
 				sort wave `vartab'

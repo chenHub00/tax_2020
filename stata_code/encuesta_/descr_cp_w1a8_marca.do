@@ -11,10 +11,6 @@ global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 global resultados = "resultados\encuesta\"
 
-//
-*local var_sum "cons_por_dia"
-*local var_sum "consumo_semanal"
-local var_sum "ppu"
 
 global v_tab "sexo edad_gr3 educ_gr3 ingr_gr patron single tipo"
 // global v_tab "sexo gr_edad edad_gr3 gr_educ educ_gr3 ingr_gr patron single tipo"
@@ -22,9 +18,13 @@ global v_tab "sexo edad_gr3 educ_gr3 ingr_gr patron single tipo"
 //*--------------------------------------->>>>>>>>>>>>>>>>>>>>>>>
 // para consumo
 *	use "$datos/cons_w_1to8.dta", clear
+//
+*local var_sum "cons_por_dia"
+*local var_sum "consumo_semanal"
 //*--------------------------------------->>>>>>>>>>>>>>>>>>>>>>>
 // para precio
-	use "$datos/cp_w1a8.dta", clear
+use "$datos/cp_w1a8.dta", clear
+local var_sum "ppu"
 
 // cambiar para wave 1 a 8
 foreach w of numlist 1/8 {
