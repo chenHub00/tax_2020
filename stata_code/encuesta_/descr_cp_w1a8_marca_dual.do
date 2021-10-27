@@ -28,10 +28,10 @@ foreach var_sum of varlist consumo_semanal cons_por_dia {
 	preserve 
 		keep if dual_use == 1
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
-					(count) N_ = `var_sum', by(`vartab' marca wave )
+					(count) N_ = `var_sum', by(`vartab' wave ) 
 				sort wave `vartab'
 				export excel using "$resultados/descriptivos/`var_sum'_dual1.xlsx", ///
-					sheet(`vartab', modify) firstrow(variables) 
+					sheet(`vartab', modify) firstrow(variables)  
 
 	restore
 	
@@ -59,7 +59,7 @@ local var_sum "ppu"
 	preserve 
 		keep if dual_use == 1
 				collapse (mean) mean_`var_sum' =`var_sum' (sd) sd_  = `var_sum' ///
-					(count) N_ = `var_sum', by(`vartab' marca wave )
+					(count) N_ = `var_sum', by(`vartab' wave )
 				sort wave `vartab'
 				export excel using "$resultados/descriptivos/`var_sum'_dual1.xlsx", ///
 					sheet(`vartab', modify) firstrow(variables) 
@@ -77,7 +77,7 @@ local var_sum "ppu"
 	restore
 }
 
-/***************************************************************************/
+/***************************************************************************
 ** RESULTADOS CON TODAS LAS WAVES EN UNA MISMA HOJA
 	// use "$datos/c_pw4_w5_"`balanced_unbalanced'".dta", clear
 	foreach vartab of varlist $v_tab {
