@@ -41,7 +41,6 @@ replace ppu = q030 if wave == 8 & singles == 1
 gen log_ppu = log(ppu)
 label variable log_ppu "log ppu"
 
-
 save "$datos/cp_w1a8.dta", replace
 
 keep if wave == 8

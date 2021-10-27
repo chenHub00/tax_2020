@@ -24,7 +24,7 @@ merge 1:1 wave id using "$datos/cantidades_cigarros_w8_sin_inegi.dta"
 rename _m merge_ppu_cuestionario
 
 
-keep wave id q029 q019 marca cantidad_cigarros 
+keep wave id q029 q019 marca cantidad_cigarros ppu*
 
 save "$datos/cant_cig_caj_w1_a_w8.dta", replace
 

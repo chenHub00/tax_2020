@@ -16,7 +16,7 @@ use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weig
 
 keep id wave has_fumado_1mes /// 
 	q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
-		sexo q009 q010 q012 q028 q030 q029a 
+		sexo q009 q010 q012 q028 q030 q029a dual_use100cig dual_use
 // para generar variables de 
 // grupos de edad y educación
 // recodificar 
