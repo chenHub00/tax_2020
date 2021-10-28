@@ -3,7 +3,7 @@
        log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_cons
 > umo.log
   log type:  text
- opened on:   4 Oct 2021, 11:50:54
+ opened on:  27 Oct 2021, 10:29:23
 
 . 
 . use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
@@ -11,7 +11,7 @@
 . 
 . keep id wave has_fumado_1mes /// 
 >         q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
->                 sexo q009 q010 q012 q028 q030 q029a 
+>                 sexo q009 q010 q012 q028 q030 q029a dual_use100cig dual_use
 
 . // para generar variables de 
 . // grupos de edad y educación
@@ -421,7 +421,7 @@ end of do-file
 . // Raleigh : Lucky
 . // ajustar manual q019r30oe.xls
 . // 
-. // wave 8
+. // wave 8 > 7
 . replace marca = 1 if q019r30oe =="Benson cristal"
 (2 real changes made)
 
@@ -444,107 +444,40 @@ end of do-file
 (1 real change made)
 
 . 
-. 
-. replace marca = 5 if q019r30oe =="Malboro rubi"
-(1 real change made)
-
-. replace marca = 5 if q019r30oe =="marlboro ice"
-(1 real change made)
-
-. replace marca = 5 if q019r30oe =="Marlboro Sandía"
-(1 real change made)
-
-. replace marca = 5 if q019r30oe =="Marlboro"
-(0 real changes made)
-
-. replace marca = 7 if q019r30oe =="Pall mall"
-(6 real changes made)
-
-. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
-(1 real change made)
-
-. replace marca = 1 if q019r30oe =="Benson violeta"
-(1 real change made)
-
-. replace marca = 1 if q019r30oe =="Benson cristal"
-(0 real changes made)
-
-. replace marca = 1 if q019r30oe =="Benson cristal"
-(0 real changes made)
-
-. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="Pallmall"
-(2 real changes made)
-
-. replace marca = 7 if q019r30oe =="Pall mall"
-(0 real changes made)
-
-. replace marca = 4 if q019r30oe =="lucky strike"
-(1 real change made)
-
-. replace marca = 5 if q019r30oe =="Marlboro"
-(0 real changes made)
-
-. replace marca = 7 if q019r30oe =="PALL MALL"
-(2 real changes made)
-
+. // wave 4 > 8
 . replace marca = 3 if q019r30oe =="chesterfield"
 (1 real change made)
 
-. replace marca = 7 if q019r30oe =="Pollmol"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="pallmall"
-(1 real change made)
-
-. replace marca = 6 if q019r30oe =="Shots"
-(1 real change made)
-
-. replace marca = 3 if q019r30oe =="Chesterfield"
-(2 real changes made)
-
 . replace marca = 7 if q019r30oe =="Pall Mall"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="pall mol"
 (1 real change made)
 
 . replace marca = 7 if q019r30oe =="PALL MAL"
 (1 real change made)
 
-. replace marca = 3 if q019r30oe =="delicados sin filtro"
+. replace marca = 7 if q019r30oe =="Palo Mall"
 (1 real change made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(2 real changes made)
 
 . replace marca = 7 if q019r30oe =="pall mall"
 (2 real changes made)
 
-. replace marca = 5 if q019r30oe =="malvoro"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="Palo Mall"
-(1 real change made)
-
-. replace marca = 4 if q019r30oe =="raleigt"
-(1 real change made)
-
-. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
-(1 real change made)
-
-. replace marca = 4 if q019r30oe =="Lucky strike"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="PALL MALL"
-(0 real changes made)
-
-. replace marca = 1 if q019r30oe =="Benson mentolado"
-(1 real change made)
-
-. replace marca = 7 if q019r30oe =="pall mall"
-(0 real changes made)
-
 . replace marca = 7 if q019r30oe =="Palmall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(6 real changes made)
+
+. 
+. // wave 5 > 6
+. replace marca = 5 if q019r30oe =="Malboro rubi"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson violeta"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pallmall"
 (1 real change made)
 
 . replace marca = 7 if q019r30oe =="Palmall doble clik"
@@ -556,11 +489,16 @@ end of do-file
 . replace marca = 7 if q019r30oe =="Pall mall"
 (0 real changes made)
 
-. replace marca = 1 if q019r30oe =="Marlboro rubi"
+. 
+. // wave 6 > 8
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucky strike"
 (1 real change made)
 
-. replace marca = 7 if q019r30oe =="Pall mall"
-(0 real changes made)
+. replace marca = 1 if q019r30oe =="Marlboro rubi"
+(1 real change made)
 
 . replace marca = 7 if q019r30oe =="Pollman"
 (1 real change made)
@@ -572,10 +510,15 @@ end of do-file
 (1 real change made)
 
 . replace marca = 7 if q019r30oe =="Pallmall"
-(0 real changes made)
+(2 real changes made)
 
 . replace marca = 7 if q019r30oe =="Palo mall"
 (1 real change made)
+
+. 
+. // wave 7 > 6
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
 
 . replace marca = 5 if q019r30oe =="marlboro"
 (0 real changes made)
@@ -587,34 +530,138 @@ end of do-file
 (1 real change made)
 
 . replace marca = 3 if q019r30oe =="Chesterfield"
-(0 real changes made)
-
-. replace marca = 7 if q019r30oe =="Pall mart"
-(0 real changes made)
+(2 real changes made)
 
 . replace marca = 6 if q019r30oe =="Montana"
 (1 real change made)
 
-. replace marca = 7 if q019r30oe =="Pallman"
-(0 real changes made)
+. 
+. // wave 1 > 4
+. replace marca = 5 if q019r30oe =="Marlboro Sandía"
+(1 real change made)
 
 . replace marca = 5 if q019r30oe =="Marlboro"
 (0 real changes made)
 
-. replace marca = 6 if q019r30oe =="Shot"
+. replace marca = 7 if q019r30oe =="Pall mall"
 (0 real changes made)
 
-. replace marca = 5 if q019r30oe =="marlboro"
-(0 real changes made)
-
-. replace marca = 7 if q019r30oe =="Poll moll"
+. replace marca = 7 if q019r30oe =="Pall mall"
 (0 real changes made)
 
 . 
-. // 
-. replace marca = 7 if q019r30oe =="Poll moll"
+. // wave 2 > 12
+. replace marca = 5 if q019r30oe =="marlboro ice"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+(1 real change made)
+
+. replace marca = 4 if q019r30oe =="lucky strike"
+(1 real change made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
 (0 real changes made)
 
+. replace marca = 7 if q019r30oe =="Pollmol"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pall mol"
+(1 real change made)
+
+. replace marca = 3 if q019r30oe =="delicados sin filtro"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="malvoro"
+(1 real change made)
+
+. replace marca = 4 if q019r30oe =="raleigt"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+(1 real change made)
+
+. 
+. // wave 3 > 4
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shots"
+(1 real change made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson mentolado"
+(1 real change made)
+
+. 
+. 
+. /*
+> replace marca = 5 if q019r30oe =="Malboro rubi"
+> replace marca = 5 if q019r30oe =="marlboro ice"
+> replace marca = 5 if q019r30oe =="Marlboro Sandía"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+> replace marca = 1 if q019r30oe =="Benson violeta"
+> replace marca = 1 if q019r30oe =="Benson cristal"
+> replace marca = 1 if q019r30oe =="Benson cristal"
+> replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+> replace marca = 7 if q019r30oe =="Pallmall"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 4 if q019r30oe =="lucky strike"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 7 if q019r30oe =="PALL MALL"
+> replace marca = 3 if q019r30oe =="chesterfield"
+> replace marca = 7 if q019r30oe =="Pollmol"
+> replace marca = 7 if q019r30oe =="pallmall"
+> replace marca = 6 if q019r30oe =="Shots"
+> replace marca = 3 if q019r30oe =="Chesterfield"
+> replace marca = 7 if q019r30oe =="Pall Mall"
+> replace marca = 7 if q019r30oe =="pall mol"
+> replace marca = 7 if q019r30oe =="PALL MAL"
+> replace marca = 3 if q019r30oe =="delicados sin filtro"
+> replace marca = 7 if q019r30oe =="pall mall"
+> replace marca = 5 if q019r30oe =="malvoro"
+> replace marca = 7 if q019r30oe =="Palo Mall"
+> replace marca = 4 if q019r30oe =="raleigt"
+> replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+> replace marca = 4 if q019r30oe =="Lucky strike"
+> replace marca = 7 if q019r30oe =="PALL MALL"
+> replace marca = 1 if q019r30oe =="Benson mentolado"
+> replace marca = 7 if q019r30oe =="pall mall"
+> replace marca = 7 if q019r30oe =="Palmall"
+> replace marca = 7 if q019r30oe =="Palmall doble clik"
+> replace marca = 7 if q019r30oe =="paull mool"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 1 if q019r30oe =="Marlboro rubi"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 7 if q019r30oe =="Pollman"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 2 if q019r30oe =="Camel mentolados"
+> replace marca = 7 if q019r30oe =="Pallmall"
+> replace marca = 7 if q019r30oe =="Palo mall"
+> replace marca = 5 if q019r30oe =="marlboro"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 4 if q019r30oe =="Lucy strigth"
+> replace marca = 3 if q019r30oe =="Chesterfield"
+> replace marca = 7 if q019r30oe =="Pall mart"
+> replace marca = 6 if q019r30oe =="Montana"
+> replace marca = 7 if q019r30oe =="Pallman"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 6 if q019r30oe =="Shot"
+> replace marca = 5 if q019r30oe =="marlboro"
+> replace marca = 7 if q019r30oe =="Poll moll"
+> // 
+> replace marca = 7 if q019r30oe =="Poll moll"
+> */
 . 
 . /*
 > [IF 018=1] ¿Qué marca es?
@@ -1060,5 +1107,5 @@ file datos/encuesta//cons_w_1to8.dta saved
        log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_cons
 > umo.log
   log type:  text
- closed on:   4 Oct 2021, 11:50:55
+ closed on:  27 Oct 2021, 10:29:26
 ----------------------------------------------------------------------------------------------------
