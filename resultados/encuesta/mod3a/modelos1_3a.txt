@@ -1,0 +1,61 @@
+	(1)
+VARIABLES	consumo_semanal
+	
+tax2020	-0.546
+	(1.436)
+sexo	1.427
+	(11.08)
+2.edad_gr2	-7.234
+	(13.46)
+3.edad_gr2	24.29
+	(20.36)
+4.edad_gr2	29.71
+	(20.50)
+5.edad_gr2	24.93
+	(26.08)
+6.edad_gr2	31.31
+	(38.27)
+7.edad_gr2	31.97
+	(40.72)
+8.edad_gr2	31.42
+	(48.49)
+2.educ_gr2	-1.504
+	(15.97)
+3.educ_gr2	-25.25
+	(18.76)
+4.educ_gr2	-8.636
+	(18.33)
+5.educ_gr2	-16.71
+	(18.91)
+6.educ_gr2	-13.59
+	(19.02)
+7.educ_gr2	-14.48
+	(23.58)
+9o.educ_gr2	-
+	
+2.gr_ingr	-15.33
+	(11.18)
+3.gr_ingr	4.980
+	(10.41)
+4.gr_ingr	11.01
+	(10.51)
+5.gr_ingr	10.97
+	(10.41)
+6.gr_ingr	17.80*
+	(10.68)
+7.gr_ingr	16.57
+	(10.73)
+8.gr_ingr	22.19*
+	(12.47)
+99.gr_ingr	11.60
+	(11.86)
+singles	-1.166
+	(6.629)
+Constant	35.25
+	(29.47)
+	
+Observations	1,341
+Number of id_num	974
+R-squared	0.088
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

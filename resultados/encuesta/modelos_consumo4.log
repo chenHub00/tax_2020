@@ -1,0 +1,659 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/modelos_consumo4.log
+  log type:  text
+ opened on:   9 Sep 2021, 18:36:06
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+. global vars_txc "tax2020 covid19" 
+
+. // modelos_consumo3:
+. // global v_txc_singles "tax2020#i.singles tax2020_sexo#i.singles tax2020#i.patron tax2020_sexo#i.patron"
+. global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles i.singles  i.patron"
+
+. 
+. //use "$datos/wave4_5unbalanced.dta", clear
+. use "$datos/cons_w456_unbalanc.dta", clear
+
+. /***************************************************************************/
+. // 1.4 MODELOS interacturados con pandemia, pandemia_sexo: patron, singles
+. global v_covid19 "covid19#i.singles covid19_sexo#i.singles covid19#i.patron covid19_sexo#i.patron"
+
+. 
+. // modelo
+. //regress consumo_semanal $vars_txc $v_tipo_int $v_tipo if has_fumado_1mes
+. regress consumo_semanal $vars_txc $v_covid19 $v_singles if has_fumado_1mes
+note: 1.covid19#1.singles omitted because of collinearity
+note: 1.covid19#1.patron omitted because of collinearity
+note: 1.covid19_sexo#1.patron omitted because of collinearity
+
+      Source |       SS           df       MS      Number of obs   =     4,073
+-------------+----------------------------------   F(41, 4031)     =     57.03
+       Model |  2395879.18        41  58436.0775   Prob > F        =    0.0000
+    Residual |  4130671.27     4,031  1024.72619   R-squared       =    0.3671
+-------------+----------------------------------   Adj R-squared   =    0.3607
+       Total |  6526550.44     4,072  1602.78744   Root MSE        =    32.011
+
+----------------------------------------------------------------------------------------------------
+                   consumo_semanal |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------+----------------------------------------------------------------
+                           tax2020 |  -2.287431   1.228285    -1.86   0.063    -4.695549    .1206866
+                           covid19 |  -3.927997   4.198262    -0.94   0.350    -12.15891    4.302917
+                                   |
+                   covid19#singles |
+                      1#cajetilla  |   3.158794   4.000157     0.79   0.430    -4.683724    11.00131
+                       1#sueltos   |          0  (omitted)
+                                   |
+              covid19_sexo#singles |
+                      1#cajetilla  |   -5.81201   2.919083    -1.99   0.047    -11.53503   -.0889938
+                       1#sueltos   |   -1.95071   5.895117    -0.33   0.741     -13.5084    9.606977
+                                   |
+                    covid19#patron |
+                       1#nondaily  |  -1.127331   2.816146    -0.40   0.689    -6.648534    4.393873
+                          1#daily  |          0  (omitted)
+                                   |
+               covid19_sexo#patron |
+                       1#nondaily  |   7.818238   3.672803     2.13   0.033     .6175146    15.01896
+                          1#daily  |          0  (omitted)
+                                   |
+                      sexo#singles |
+               Femenino#cajetilla  |  -3.058488   1.382201    -2.21   0.027    -5.768366    -.348609
+                Femenino#sueltos   |  -2.664755   2.870853    -0.93   0.353    -8.293213    2.963702
+                                   |
+                  edad_gr3#singles |
+                  25-29#cajetilla  |  -1.875969    2.25513    -0.83   0.406    -6.297271    2.545333
+                   25-29#sueltos   |  -.9037004   3.529136    -0.26   0.798    -7.822758    6.015357
+                  30-34#cajetilla  |  -2.970418   2.223971    -1.34   0.182    -7.330629    1.389794
+                   30-34#sueltos   |   1.624477   3.704241     0.44   0.661    -5.637883    8.886836
+                  35-39#cajetilla  |  -.5476449   2.280898    -0.24   0.810    -5.019466    3.924176
+                   35-39#sueltos   |  -1.675136   4.299791    -0.39   0.697     -10.1051    6.754832
+                  40-44#cajetilla  |   1.262716   2.433483     0.52   0.604    -3.508256    6.033687
+                   40-44#sueltos   |  -2.806679    5.31362    -0.53   0.597    -13.22431    7.610953
+                  45-54#cajetilla  |   2.759823   2.170686     1.27   0.204    -1.495922    7.015567
+                   45-54#sueltos   |   3.020882   4.441547     0.68   0.496    -5.687006    11.72877
+                    55+#cajetilla  |   13.10014   2.412442     5.43   0.000     8.370423    17.82986
+                     55+#sueltos   |   1.094421   5.776262     0.19   0.850    -10.23024    12.41909
+                                   |
+                  educ_gr3#singles |
+                Técnica#cajetilla  |  -5.721361   2.581679    -2.22   0.027    -10.78288    -.659843
+                 Técnica#sueltos   |  -.7242343   4.598892    -0.16   0.875    -9.740605    8.292137
+           Preparatoria#cajetilla  |  -6.406626   2.222331    -2.88   0.004    -10.76362   -2.049629
+            Preparatoria#sueltos   |  -.9813929   3.733553    -0.26   0.793     -8.30122    6.338434
+Licenciatura incompleta#cajetilla  |  -6.350248   2.382348    -2.67   0.008    -11.02097   -1.679528
+ Licenciatura incompleta#sueltos   |   1.407339   4.007486     0.35   0.725    -6.449549    9.264227
+  Licenciatura completa#cajetilla  |  -2.019231   2.278909    -0.89   0.376    -6.487152     2.44869
+   Licenciatura completa#sueltos   |   .9756051   4.433386     0.22   0.826    -7.716282    9.667492
+                   Otro#cajetilla  |   2.020886   3.313695     0.61   0.542    -4.475787    8.517558
+                    Otro#sueltos   |   .3751156   7.291033     0.05   0.959    -13.91934    14.66957
+                                   |
+                   ingr_gr#singles |
+         8,001 a 15 mil#cajetilla  |   .0306983   1.691469     0.02   0.986    -3.285516    3.346912
+          8,001 a 15 mil#sueltos   |   .2550275   2.925274     0.09   0.931    -5.480126    5.990181
+        15,001 a 20 mil#cajetilla  |   .1619542   1.920815     0.08   0.933    -3.603905    3.927813
+         15,001 a 20 mil#sueltos   |   1.300202   3.861565     0.34   0.736    -6.270599    8.871004
+                20 mil+#cajetilla  |   3.898534   1.847452     2.11   0.035     .2765067    7.520561
+                 20 mil+#sueltos   |   .6254051   4.260252     0.15   0.883    -7.727044    8.977854
+                  No sé#cajetilla  |  -9.548564   3.032098    -3.15   0.002    -15.49315   -3.603977
+                   No sé#sueltos   |   .4610547     4.6617     0.10   0.921    -8.678455    9.600564
+                                   |
+                           singles |
+                         sueltos   |  -13.54997   5.061515    -2.68   0.007    -23.47334   -3.626603
+                                   |
+                            patron |
+                            daily  |    42.6036   1.300793    32.75   0.000     40.05333    45.15387
+                             _cons |   18.61753   2.817546     6.61   0.000     13.09359    24.14148
+----------------------------------------------------------------------------------------------------
+
+. outreg2 using resultados/encuesta/modelos1_4, word excel replace
+resultados/encuesta/modelos1_4.rtf
+resultados/encuesta/modelos1_4.xml
+dir : seeout
+
+. 
+. // pruebas
+. testparm covid19#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.singles = 0
+
+       F(  1,  4031) =    0.62
+            Prob > F =    0.4298
+
+. testparm covid19_sexo#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.singles = 0
+ ( 2)  1.covid19_sexo#1.singles = 0
+
+       F(  2,  4031) =    2.02
+            Prob > F =    0.1330
+
+. testparm covid19#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.patron = 0
+
+       F(  1,  4031) =    0.16
+            Prob > F =    0.6889
+
+. testparm covid19_sexo#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.patron = 0
+
+       F(  1,  4031) =    4.53
+            Prob > F =    0.0333
+
+. 
+. // estimación panel
+. //xtreg consumo_semanal $v_tipo_int $v_tipo if has_fumado_1mes, fe
+. xtreg consumo_semanal $vars_txc $v_covid19 $v_singles if has_fumado_1mes, fe
+note: 1.covid19#1.singles omitted because of collinearity
+note: 1.covid19#1.patron omitted because of collinearity
+note: 1.covid19_sexo#1.patron omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,073
+Group variable: id_num                          Number of groups  =      2,631
+
+R-sq:                                           Obs per group:
+     within  = 0.1517                                         min =          1
+     between = 0.2898                                         avg =        1.5
+     overall = 0.2718                                         max =          3
+
+                                                F(41,1401)        =       6.11
+corr(u_i, Xb)  = 0.2611                         Prob > F          =     0.0000
+
+----------------------------------------------------------------------------------------------------
+                   consumo_semanal |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------+----------------------------------------------------------------
+                           tax2020 |  -.5493801   .7461306    -0.74   0.462    -2.013034    .9142735
+                           covid19 |   .7416545   3.437754     0.22   0.829    -6.002046    7.485355
+                                   |
+                   covid19#singles |
+                      1#cajetilla  |   3.689847    3.35293     1.10   0.271    -2.887458    10.26715
+                       1#sueltos   |          0  (omitted)
+                                   |
+              covid19_sexo#singles |
+                      1#cajetilla  |  -5.487638   1.920986    -2.86   0.004    -9.255957   -1.719319
+                       1#sueltos   |  -4.659266   4.998167    -0.93   0.351    -14.46396    5.145432
+                                   |
+                    covid19#patron |
+                       1#nondaily  |  -4.698497   2.158496    -2.18   0.030    -8.932729   -.4642641
+                          1#daily  |          0  (omitted)
+                                   |
+               covid19_sexo#patron |
+                       1#nondaily  |   8.946129   3.075406     2.91   0.004     2.913233    14.97903
+                          1#daily  |          0  (omitted)
+                                   |
+                      sexo#singles |
+               Femenino#cajetilla  |   6.848851   4.058061     1.69   0.092     -1.11168    14.80938
+                Femenino#sueltos   |   .9455075   5.060074     0.19   0.852     -8.98063    10.87164
+                                   |
+                  edad_gr3#singles |
+                  25-29#cajetilla  |  -7.493099   4.839052    -1.55   0.122    -16.98567     1.99947
+                   25-29#sueltos   |  -5.111781   7.089504    -0.72   0.471    -19.01897    8.795406
+                  30-34#cajetilla  |   .6464266   5.748222     0.11   0.910    -10.62962    11.92248
+                   30-34#sueltos   |   3.052803   7.865792     0.39   0.698     -12.3772     18.4828
+                  35-39#cajetilla  |   2.870092   6.831063     0.42   0.674    -10.53012    16.27031
+                   35-39#sueltos   |  -.5610901   8.758074    -0.06   0.949    -17.74144    16.61926
+                  40-44#cajetilla  |  -7.516327   7.811218    -0.96   0.336    -22.83927    7.806616
+                   40-44#sueltos   |  -6.914162   10.11787    -0.68   0.494    -26.76197    12.93365
+                  45-54#cajetilla  |   2.095048   9.686814     0.22   0.829    -16.90717    21.09727
+                   45-54#sueltos   |   1.099167   11.03048     0.10   0.921    -20.53886     22.7372
+                    55+#cajetilla  |   -.696136   10.95502    -0.06   0.949    -22.18615    20.79388
+                     55+#sueltos   |   1.815968   12.95562     0.14   0.889    -23.59855    27.23048
+                                   |
+                  educ_gr3#singles |
+                Técnica#cajetilla  |  -1.997848   4.223567    -0.47   0.636    -10.28305    6.287349
+                 Técnica#sueltos   |   3.819904   6.121442     0.62   0.533    -8.188276    15.82808
+           Preparatoria#cajetilla  |  -.7325445   3.980401    -0.18   0.854    -8.540733    7.075644
+            Preparatoria#sueltos   |   .5939809   5.423358     0.11   0.913     -10.0448    11.23276
+Licenciatura incompleta#cajetilla  |   .5909933   4.533451     0.13   0.896    -8.302091    9.484078
+ Licenciatura incompleta#sueltos   |  -.9530586   6.622836    -0.14   0.886     -13.9448    12.03869
+  Licenciatura completa#cajetilla  |   1.960398   4.563587     0.43   0.668    -6.991803     10.9126
+   Licenciatura completa#sueltos   |     3.4873   6.423146     0.54   0.587    -9.112721    16.08732
+                   Otro#cajetilla  |  -.7420872   5.248211    -0.14   0.888    -11.03729    9.553111
+                    Otro#sueltos   |   2.574341   8.121009     0.32   0.751    -13.35631    18.50499
+                                   |
+                   ingr_gr#singles |
+         8,001 a 15 mil#cajetilla  |   4.181399   1.829511     2.29   0.022     .5925228    7.770276
+          8,001 a 15 mil#sueltos   |   1.650697   3.305976     0.50   0.618      -4.8345    8.135895
+        15,001 a 20 mil#cajetilla  |    6.45313   2.163165     2.98   0.003     2.209738    10.69652
+         15,001 a 20 mil#sueltos   |   5.244298   4.528242     1.16   0.247    -3.638568    14.12716
+                20 mil+#cajetilla  |   6.510975   2.496112     2.61   0.009     1.614454     11.4075
+                 20 mil+#sueltos   |   3.332522   4.790754     0.70   0.487    -6.065302    12.73035
+                  No sé#cajetilla  |   4.995879   3.699539     1.35   0.177    -2.261354    12.25311
+                   No sé#sueltos   |   1.013022   5.013705     0.20   0.840    -8.822155     10.8482
+                                   |
+                           singles |
+                         sueltos   |    1.02744   6.510264     0.16   0.875    -11.74348    13.79836
+                                   |
+                            patron |
+                            daily  |   19.55543   1.509318    12.96   0.000     16.59466     22.5162
+                             _cons |   16.64178   6.829726     2.44   0.015     3.244188    30.03937
+-----------------------------------+----------------------------------------------------------------
+                           sigma_u |   33.25989
+                           sigma_e |  14.628892
+                               rho |  .83790299   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------------------------
+F test that all u_i=0: F(2630, 1401) = 6.81                  Prob > F = 0.0000
+
+. outreg2 using resultados/encuesta/modelos1_4, word excel append
+resultados/encuesta/modelos1_4.rtf
+resultados/encuesta/modelos1_4.xml
+dir : seeout
+
+. 
+. estimates store fixed
+
+. *xttest2
+. /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+. // pruebas
+. testparm covid19#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.singles = 0
+
+       F(  1,  1401) =    1.21
+            Prob > F =    0.2713
+
+. testparm covid19_sexo#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.singles = 0
+ ( 2)  1.covid19_sexo#1.singles = 0
+
+       F(  2,  1401) =    4.10
+            Prob > F =    0.0167
+
+. testparm covid19#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.patron = 0
+
+       F(  1,  1401) =    4.74
+            Prob > F =    0.0297
+
+. testparm covid19_sexo#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.patron = 0
+
+       F(  1,  1401) =    8.46
+            Prob > F =    0.0037
+
+. 
+. xtreg consumo_semanal $vars_txc $v_covid19 $v_singles if has_fumado_1mes, re
+note: 1.covid19#1.singles omitted because of collinearity
+note: 1.covid19#1.patron omitted because of collinearity
+note: 1.covid19_sexo#1.patron omitted because of collinearity
+
+Random-effects GLS regression                   Number of obs     =      4,073
+Group variable: id_num                          Number of groups  =      2,631
+
+R-sq:                                           Obs per group:
+     within  = 0.1317                                         min =          1
+     between = 0.3911                                         avg =        1.5
+     overall = 0.3607                                         max =          3
+
+                                                Wald chi2(41)     =    1669.56
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+----------------------------------------------------------------------------------------------------
+                   consumo_semanal |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-----------------------------------+----------------------------------------------------------------
+                           tax2020 |  -1.439322   .7033347    -2.05   0.041    -2.817833   -.0608115
+                           covid19 |  -.0866876   2.907464    -0.03   0.976    -5.785213    5.611838
+                                   |
+                   covid19#singles |
+                      1#cajetilla  |   2.810537   2.811321     1.00   0.317    -2.699552    8.320625
+                       1#sueltos   |          0  (omitted)
+                                   |
+              covid19_sexo#singles |
+                      1#cajetilla  |  -6.337113   1.782484    -3.56   0.000    -9.830717   -2.843508
+                       1#sueltos   |  -4.467942   4.164678    -1.07   0.283    -12.63056    3.694677
+                                   |
+                    covid19#patron |
+                       1#nondaily  |  -4.977326   1.879131    -2.65   0.008    -8.660355   -1.294298
+                          1#daily  |          0  (omitted)
+                                   |
+               covid19_sexo#patron |
+                       1#nondaily  |   9.653177   2.596864     3.72   0.000     4.563418    14.74294
+                          1#daily  |          0  (omitted)
+                                   |
+                      sexo#singles |
+               Femenino#cajetilla  |  -2.686949   1.347927    -1.99   0.046    -5.328837   -.0450613
+                Femenino#sueltos   |  -4.962036   2.431443    -2.04   0.041    -9.727577   -.1964951
+                                   |
+                  edad_gr3#singles |
+                  25-29#cajetilla  |  -1.998825   2.167489    -0.92   0.356    -6.247026    2.249376
+                   25-29#sueltos   |  -.4261735   3.191208    -0.13   0.894    -6.680826    5.828479
+                  30-34#cajetilla  |   .8473698   2.202712     0.38   0.700    -3.469866    5.164605
+                   30-34#sueltos   |   3.736973   3.361735     1.11   0.266    -2.851906    10.32585
+                  35-39#cajetilla  |   3.216997   2.319628     1.39   0.165     -1.32939    7.763384
+                   35-39#sueltos   |   .7389403   3.815804     0.19   0.846    -6.739899    8.217779
+                  40-44#cajetilla  |   4.036822   2.500495     1.61   0.106    -.8640584    8.937703
+                   40-44#sueltos   |    3.11844   4.628388     0.67   0.500    -5.953034    12.18991
+                  45-54#cajetilla  |   6.896223   2.261542     3.05   0.002     2.463682    11.32876
+                   45-54#sueltos   |   7.449323   3.879885     1.92   0.055    -.1551112    15.05376
+                    55+#cajetilla  |   14.60278    2.57403     5.67   0.000     9.557771    19.64778
+                     55+#sueltos   |   5.799876   5.160845     1.12   0.261    -4.315194    15.91495
+                                   |
+                  educ_gr3#singles |
+                Técnica#cajetilla  |  -6.137889   2.485397    -2.47   0.014    -11.00918   -1.266601
+                 Técnica#sueltos   |   1.244842   3.968624     0.31   0.754    -6.533517    9.023202
+           Preparatoria#cajetilla  |  -5.524634   2.174333    -2.54   0.011    -9.786248    -1.26302
+            Preparatoria#sueltos   |  -2.326189   3.240895    -0.72   0.473    -8.678226    4.025849
+Licenciatura incompleta#cajetilla  |   -5.42042   2.339759    -2.32   0.021    -10.00626   -.8345765
+ Licenciatura incompleta#sueltos   |  -1.354452   3.604722    -0.38   0.707    -8.419577    5.710673
+  Licenciatura completa#cajetilla  |  -2.143054   2.273144    -0.94   0.346    -6.598334    2.312226
+   Licenciatura completa#sueltos   |   1.506436   3.824037     0.39   0.694    -5.988539     9.00141
+                   Otro#cajetilla  |  -.8131068   3.137061    -0.26   0.795    -6.961633     5.33542
+                    Otro#sueltos   |   2.966033    5.82276     0.51   0.610    -8.446367    14.37843
+                                   |
+                   ingr_gr#singles |
+         8,001 a 15 mil#cajetilla  |   2.012775    1.37813     1.46   0.144    -.6883109    4.713861
+          8,001 a 15 mil#sueltos   |   .5166747   2.385583     0.22   0.829    -4.158982    5.192332
+        15,001 a 20 mil#cajetilla  |   3.565011   1.592345     2.24   0.025     .4440726    6.685949
+         15,001 a 20 mil#sueltos   |   2.614577   3.148317     0.83   0.406     -3.55601    8.785165
+                20 mil+#cajetilla  |   5.470881   1.660263     3.30   0.001     2.216825    8.724938
+                 20 mil+#sueltos   |    2.02839   3.412662     0.59   0.552    -4.660305    8.717085
+                  No sé#cajetilla  |  -2.541767   2.662641    -0.95   0.340    -7.760447    2.676913
+                   No sé#sueltos   |  -.3890509   3.761544    -0.10   0.918    -7.761542     6.98344
+                                   |
+                           singles |
+                         sueltos   |  -7.932325   4.265462    -1.86   0.063    -16.29248    .4278271
+                                   |
+                            patron |
+                            daily  |    33.2353   1.080725    30.75   0.000     31.11712    35.35348
+                             _cons |    17.2798   2.693639     6.42   0.000     12.00036    22.55923
+-----------------------------------+----------------------------------------------------------------
+                           sigma_u |  26.660878
+                           sigma_e |  14.628892
+                               rho |  .76859549   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------------------------
+
+. outreg2 using resultados/encuesta/modelos1_4, word excel append
+resultados/encuesta/modelos1_4.rtf
+resultados/encuesta/modelos1_4.xml
+dir : seeout
+
+. 
+. estimates store random
+
+. xttest0 
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        consumo_semanal[id_num,t] = Xb + u[id_num] + e[id_num,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+               consumo~l |   1602.787       40.03483
+                       e |   214.0045       14.62889
+                       u |   710.8024       26.66088
+
+        Test:   Var(u) = 0
+                             chibar2(01) =  1640.30
+                          Prob > chibar2 =   0.0000
+
+. * rechazo Pooled 
+. * significance of random effects
+. * Hausmann Test
+. // hausman consistent efficient
+. hausman fixed random , sigmamore
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference          S.E.
+-------------+----------------------------------------------------------------
+     tax2020 |   -.5493801    -1.439322         .889942        .3069528
+     covid19 |    .7416545    -.0866876        .8283422        2.011995
+     covid19#|
+     singles |
+        1 0  |    3.689847     2.810537        .8793102        1.997155
+covid19_sexo#|
+     singles |
+        1 0  |   -5.487638    -6.337113        .8494745        .8522336
+        1 1  |   -4.659266    -4.467942       -.1913243        3.013563
+     covid19#|
+      patron |
+        1 0  |   -4.698497    -4.977326        .2788298          1.1821
+covid19_sexo#|
+      patron |
+        1 0  |    8.946129     9.653177       -.7070481        1.805902
+sexo#singles |
+        1 0  |    6.848851    -2.686949          9.5358        3.950078
+        1 1  |    .9455075    -4.962036        5.907544        4.601398
+    edad_gr3#|
+     singles |
+        2 0  |   -7.493099    -1.998825       -5.494273        4.480217
+        2 1  |   -5.111781    -.4261735       -4.685607        6.556167
+        3 0  |    .6464266     .8473698       -.2009431        5.486401
+        3 1  |    3.052803     3.736973       -.6841702        7.358447
+        4 0  |    2.870092     3.216997       -.3469057        6.631803
+        4 1  |   -.5610901     .7389403        -1.30003        8.159564
+        5 0  |   -7.516327     4.036822       -11.55315        7.634822
+        5 1  |   -6.914162      3.11844        -10.0326        9.320322
+        6 0  |    2.095048     6.896223       -4.801175        9.702847
+        6 1  |    1.099167     7.449323       -6.350156        10.66081
+        7 0  |    -.696136     14.60278       -15.29891        10.96932
+        7 1  |    1.815968     5.799876       -3.983909         12.2849
+    educ_gr3#|
+     singles |
+        3 0  |   -1.997848    -6.137889        4.140041        3.562687
+        3 1  |    3.819904     1.244842        2.575062        4.887606
+        4 0  |   -.7325445    -5.524634        4.792089        3.468709
+        4 1  |    .5939809    -2.326189         2.92017        4.539829
+        5 0  |    .5909933     -5.42042        6.011413        4.033116
+        5 1  |   -.9530586    -1.354452        .4013933        5.779621
+        6 0  |    1.960398    -2.143054        4.103452        4.106497
+        6 1  |      3.4873     1.506436        1.980864        5.386928
+        9 0  |   -.7420872    -.8131068        .0710197        4.392622
+        9 1  |    2.574341     2.966033       -.3916916         5.98828
+     ingr_gr#|
+     singles |
+        5 0  |    4.181399     2.012775        2.168624         1.28117
+        5 1  |    1.650697     .5166747        1.134023        2.422893
+        6 0  |     6.45313     3.565011         2.88812        1.553794
+        6 1  |    5.244298     2.614577        2.629721        3.432006
+        7 0  |    6.510975     5.470881        1.040093         1.95815
+        7 1  |    3.332522      2.02839        1.304132        3.554166
+       99 0  |    4.995879    -2.541767        7.537646         2.71814
+       99 1  |    1.013022    -.3890509        1.402073        3.527242
+   1.singles |     1.02744    -7.932325        8.959765        5.161392
+    1.patron |    19.55543      33.2353       -13.67987        1.114357
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                 chi2(41) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =      225.86
+                Prob>chi2 =      0.0000
+
+. // Rechazo Efectos aleatorios
+. 
+. // // pruebas
+. testparm covid19#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.singles = 0
+
+           chi2(  1) =    1.00
+         Prob > chi2 =    0.3174
+
+. testparm covid19_sexo#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.singles = 0
+ ( 2)  1.covid19_sexo#1.singles = 0
+
+           chi2(  2) =   12.66
+         Prob > chi2 =    0.0018
+
+. testparm covid19#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.patron = 0
+
+           chi2(  1) =    7.02
+         Prob > chi2 =    0.0081
+
+. testparm covid19_sexo#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.patron = 0
+
+           chi2(  1) =   13.82
+         Prob > chi2 =    0.0002
+
+. 
+. //use "$datos/wave4_5balanc.dta", clear
+. use "$datos/cons_w456_balanc.dta", clear
+
+. xtreg consumo_semanal $vars_txc $v_covid19 $v_singles if has_fumado_1mes, fe
+note: 1.covid19#1.singles omitted because of collinearity
+note: 1.covid19#1.patron omitted because of collinearity
+note: 1.covid19_sexo#1.patron omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      1,350
+Group variable: id_num                          Number of groups  =        450
+
+R-sq:                                           Obs per group:
+     within  = 0.1420                                         min =          3
+     between = 0.2272                                         avg =        3.0
+     overall = 0.2091                                         max =          3
+
+                                                F(41,859)         =       3.47
+corr(u_i, Xb)  = 0.2278                         Prob > F          =     0.0000
+
+----------------------------------------------------------------------------------------------------
+                   consumo_semanal |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------+----------------------------------------------------------------
+                           tax2020 |  -.8204014   1.061369    -0.77   0.440    -2.903582    1.262779
+                           covid19 |  -.3427182   4.609967    -0.07   0.941    -9.390836      8.7054
+                                   |
+                   covid19#singles |
+                      1#cajetilla  |   3.366718   4.554411     0.74   0.460     -5.57236    12.30579
+                       1#sueltos   |          0  (omitted)
+                                   |
+              covid19_sexo#singles |
+                      1#cajetilla  |   -4.89701      2.342    -2.09   0.037    -9.493722   -.3002967
+                       1#sueltos   |  -5.097973   7.093743    -0.72   0.473    -19.02107    8.825125
+                                   |
+                    covid19#patron |
+                       1#nondaily  |  -3.420102   2.801887    -1.22   0.223    -8.919447    2.079243
+                          1#daily  |          0  (omitted)
+                                   |
+               covid19_sexo#patron |
+                       1#nondaily  |   10.01879   4.017963     2.49   0.013     2.132612    17.90496
+                          1#daily  |          0  (omitted)
+                                   |
+                      sexo#singles |
+               Femenino#cajetilla  |   5.826296   5.298828     1.10   0.272     -4.57387    16.22646
+                Femenino#sueltos   |  -1.089037   7.136066    -0.15   0.879     -15.0952    12.91713
+                                   |
+                  edad_gr3#singles |
+                  25-29#cajetilla  |  -12.14944   7.730726    -1.57   0.116    -27.32276    3.023886
+                   25-29#sueltos   |   -11.3397   11.07238    -1.02   0.306    -33.07179     10.3924
+                  30-34#cajetilla  |   -6.60017   8.775053    -0.75   0.452    -23.82323    10.62289
+                   30-34#sueltos   |  -6.953121   12.42274    -0.56   0.576     -31.3356    17.42936
+                  35-39#cajetilla  |  -.4636485   10.65725    -0.04   0.965    -21.38095    20.45365
+                   35-39#sueltos   |  -4.099346   13.70303    -0.30   0.765    -30.99469      22.796
+                  40-44#cajetilla  |  -11.12677   11.22428    -0.99   0.322      -33.157    10.90346
+                   40-44#sueltos   |  -11.95318   15.53174    -0.77   0.442    -42.43778    18.53142
+                  45-54#cajetilla  |  -4.654326   13.48866    -0.35   0.730    -31.12891    21.82026
+                   45-54#sueltos   |  -3.549803   15.76753    -0.23   0.822    -34.49719    27.39758
+                    55+#cajetilla  |  -7.797895   15.22152    -0.51   0.609    -37.67362    22.07783
+                     55+#sueltos   |   -9.26084    18.8867    -0.49   0.624    -46.33033    27.80865
+                                   |
+                  educ_gr3#singles |
+                Técnica#cajetilla  |  -4.887315   6.095276    -0.80   0.423    -16.85069    7.076064
+                 Técnica#sueltos   |  -2.623716   12.25208    -0.21   0.830    -26.67124    21.42381
+           Preparatoria#cajetilla  |  -3.083824   6.024326    -0.51   0.609    -14.90794    8.740298
+            Preparatoria#sueltos   |  -2.895275    10.1149    -0.29   0.775    -22.74809    16.95754
+Licenciatura incompleta#cajetilla  |   .2576428   6.491445     0.04   0.968    -12.48331    12.99859
+ Licenciatura incompleta#sueltos   |  -6.275143   11.62409    -0.54   0.589    -29.09008    16.53979
+  Licenciatura completa#cajetilla  |   -2.05693   6.708251    -0.31   0.759    -15.22341    11.10955
+   Licenciatura completa#sueltos   |   -3.68331   11.57316    -0.32   0.750    -26.39829    19.03167
+                   Otro#cajetilla  |  -4.207919   7.507988    -0.56   0.575    -18.94407    10.52823
+                    Otro#sueltos   |  -4.979504   15.38532    -0.32   0.746    -35.17673    25.21773
+                                   |
+                   ingr_gr#singles |
+         8,001 a 15 mil#cajetilla  |   5.506293   2.498745     2.20   0.028     .6019329    10.41065
+          8,001 a 15 mil#sueltos   |   5.574658   5.428529     1.03   0.305    -5.080075    16.22939
+        15,001 a 20 mil#cajetilla  |   7.181208   2.966437     2.42   0.016     1.358895    13.00352
+         15,001 a 20 mil#sueltos   |   5.951301   6.783445     0.88   0.381    -7.362766    19.26537
+                20 mil+#cajetilla  |   5.631755   3.432417     1.64   0.101    -1.105152    12.36866
+                 20 mil+#sueltos   |   .7186839     8.0851     0.09   0.929    -15.15018    16.58755
+                  No sé#cajetilla  |   5.207398   4.912778     1.06   0.289    -4.435056    14.84985
+                   No sé#sueltos   |   3.575795   7.087512     0.50   0.614    -10.33507    17.48666
+                                   |
+                           singles |
+                         sueltos   |   2.079144   12.49262     0.17   0.868    -22.44049    26.59878
+                                   |
+                            patron |
+                            daily  |   19.52808   2.037452     9.58   0.000     15.52911    23.52705
+                             _cons |   28.27462   11.15863     2.53   0.011     6.373237      50.176
+-----------------------------------+----------------------------------------------------------------
+                           sigma_u |  37.415775
+                           sigma_e |  15.626082
+                               rho |  .85148576   (fraction of variance due to u_i)
+----------------------------------------------------------------------------------------------------
+F test that all u_i=0: F(449, 859) = 13.99                   Prob > F = 0.0000
+
+. outreg2 using resultados/encuesta/modelos1_4, word excel append
+resultados/encuesta/modelos1_4.rtf
+resultados/encuesta/modelos1_4.xml
+dir : seeout
+
+. 
+. estimates store fixed
+
+. *xttest2
+. /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+. // // pruebas
+. testparm covid19#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.singles = 0
+
+       F(  1,   859) =    0.55
+            Prob > F =    0.4600
+
+. testparm covid19_sexo#i.singles // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.singles = 0
+ ( 2)  1.covid19_sexo#1.singles = 0
+
+       F(  2,   859) =    2.23
+            Prob > F =    0.1080
+
+. testparm covid19#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19#0b.patron = 0
+
+       F(  1,   859) =    1.49
+            Prob > F =    0.2226
+
+. testparm covid19_sexo#i.patron // no se rechaza igualdad
+
+ ( 1)  1.covid19_sexo#0b.patron = 0
+
+       F(  1,   859) =    6.22
+            Prob > F =    0.0128
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/modelos_consumo4.log
+  log type:  text
+ closed on:   9 Sep 2021, 18:36:09
+--------------------------------------------------------------------------------------------------------------------------------------------------------

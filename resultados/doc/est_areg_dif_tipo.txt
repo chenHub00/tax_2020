@@ -1,0 +1,21 @@
+	(1)
+VARIABLES	ppu100
+	
+m1_20	20.974***
+	(0.316)
+m1_21	5.700***
+	(0.320)
+m1	2.960***
+	(0.104)
+ym	0.044***
+	(0.003)
+L.ppu	96.071***
+	(0.245)
+Constant	-19.521***
+	(1.204)
+	
+Observations	13,255
+Number of gr_marca_ciudad	125
+R-squared	0.994
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

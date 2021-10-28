@@ -1,0 +1,193 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons1_tnbreg.log
+  log type:  text
+ opened on:  20 Aug 2021, 14:29:19
+
+. 
+. use "$datos/wave4_5unbalanced.dta", clear
+
+. /***************************************************************************/
+. // 1.1 MODELOS
+. global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
+
+. 
+. // modelo
+. tnbreg $depvar tax2020 $vars_reg if has_fumado_1mes
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -7618.5262  
+Iteration 1:   log likelihood = -7618.3954  
+Iteration 2:   log likelihood = -7618.3954  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -4617.0492  
+Iteration 1:   log likelihood = -4610.5947  
+Iteration 2:   log likelihood = -4610.5164  
+Iteration 3:   log likelihood = -4610.5164  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -4507.3647  
+Iteration 1:   log likelihood = -4491.5337  
+Iteration 2:   log likelihood = -4490.4384  
+Iteration 3:   log likelihood = -4490.4364  
+Iteration 4:   log likelihood = -4490.4364  
+
+Truncated negative binomial regression          Number of obs     =      1,400
+Truncation point: 0                             LR chi2(19)       =     240.16
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -4490.4364                     Pseudo R2         =     0.0260
+
+------------------------------------------------------------------------------------------
+                cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+                 tax2020 |  -.0445513   .0519381    -0.86   0.391    -.1463481    .0572455
+                    sexo |  -.3043035   .0523809    -5.81   0.000    -.4069681   -.2016389
+                         |
+                 gr_edad |
+                  25-44  |   .1735401   .0698472     2.48   0.013     .0366421    .3104381
+                  45-64  |   .2758641   .0829454     3.33   0.001      .113294    .4384342
+                    65+  |   .3622096   .3377142     1.07   0.283    -.2996981    1.024117
+                         |
+                 gr_educ |
+    Secundaria completa  |   .5539968   .3319666     1.67   0.095    -.0966459    1.204639
+ Técnica o Preparatoria  |   .4892668   .3223351     1.52   0.129    -.1424984    1.121032
+Universidad o posterior  |   .6009613   .3232663     1.86   0.063    -.0326291    1.234552
+                   Otro  |   .4575486   .4724661     0.97   0.333     -.468468    1.383565
+                         |
+           ingreso_hogar |
+     De $1,501 a $3,000  |   .4390689    .236122     1.86   0.063    -.0237217    .9018596
+    De $3,001 a $5,000   |   .6836379   .2230849     3.06   0.002     .2463995    1.120876
+    De $5,001 a $8,000   |   .4053861   .2162825     1.87   0.061    -.0185198     .829292
+   De $8,001 a $10,000   |   .3503955   .2131665     1.64   0.100    -.0674031    .7681941
+   De $10,001 a $15,000  |   .5322294   .2124864     2.50   0.012     .1157637    .9486951
+   De $15,001 a $20,000  |   .4603815   .2122866     2.17   0.030     .0443074    .8764556
+   De $20,001 a $49,999  |   .4099886   .2119422     1.93   0.053    -.0054105    .8253877
+          $50,000 o más  |   .6167094    .242142     2.55   0.011     .1421199    1.091299
+                  No se  |   .1407754    .232608     0.61   0.545     -.315128    .5966787
+                         |
+               tipo_cons |
+      esporádico-suelto  |  -.7625751   .0595614   -12.80   0.000    -.8793133   -.6458369
+                   _cons |   1.439935   .3838364     3.75   0.000      .687629     2.19224
+-------------------------+----------------------------------------------------------------
+                /lnalpha |  -.2436268   .0590546                     -.3593718   -.1278819
+-------------------------+----------------------------------------------------------------
+                   alpha |   .7837801   .0462858                      .6981148    .8799573
+------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 6255.92              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_1$mod, word excel replace
+resultados/encuesta/modelos1_1_tnbreg.rtf
+resultados/encuesta/modelos1_1_tnbreg.xml
+dir : seeout
+
+. 
+. /*
+> // estimación panel
+> xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
+> 
+> estimates store fixed
+> *xttest2
+> /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+> 
+> xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, re
+> outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
+> 
+> estimates store random
+> xttest0 
+> * rechazo Pooled 
+> * significance of random effects
+> * Hausmann Test
+> // hausman consistent efficient
+> hausman fixed random , sigmamore
+> // Rechazo Efectos aleatorios
+> 
+> use "$datos/wave4_5balanc.dta", clear
+> xtreg $depvar tax2020 $vars_reg if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
+> */
+. use "$datos/wave4_5balanc.dta", clear
+
+. tnbreg $depvar tax2020 $vars_reg if has_fumado_1mes
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -3370.7279  
+Iteration 1:   log likelihood = -3370.3872  
+Iteration 2:   log likelihood = -3370.3869  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2186.2854  
+Iteration 1:   log likelihood = -2183.4499  
+Iteration 2:   log likelihood = -2183.4042  
+Iteration 3:   log likelihood = -2183.4042  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2114.0514  
+Iteration 1:   log likelihood = -2100.2329  
+Iteration 2:   log likelihood = -2097.6106  
+Iteration 3:   log likelihood = -2097.6069  
+Iteration 4:   log likelihood = -2097.6069  
+
+Truncated negative binomial regression          Number of obs     =        654
+Truncation point: 0                             LR chi2(19)       =     171.59
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -2097.6069                     Pseudo R2         =     0.0393
+
+------------------------------------------------------------------------------------------
+                cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+                 tax2020 |  -.0380682   .0688473    -0.55   0.580    -.1730065      .09687
+                    sexo |  -.1667014   .0709775    -2.35   0.019    -.3058148    -.027588
+                         |
+                 gr_edad |
+                  25-44  |   .3783411   .1198851     3.16   0.002     .1433706    .6133117
+                  45-64  |   .4870358   .1294759     3.76   0.000     .2332677    .7408039
+                    65+  |   .4191363   .4487156     0.93   0.350    -.4603301    1.298603
+                         |
+                 gr_educ |
+    Secundaria completa  |   .2742746   .4594169     0.60   0.551    -.6261661    1.174715
+ Técnica o Preparatoria  |   .0956834   .4456068     0.21   0.830    -.7776899    .9690567
+Universidad o posterior  |     .28462   .4467132     0.64   0.524    -.5909218    1.160162
+                   Otro  |   -.454145   .7321021    -0.62   0.535    -1.889039    .9807487
+                         |
+           ingreso_hogar |
+     De $1,501 a $3,000  |   .6783925   .4289445     1.58   0.114    -.1623232    1.519108
+    De $3,001 a $5,000   |   1.251021   .4115156     3.04   0.002     .4444654    2.057577
+    De $5,001 a $8,000   |   .3499479   .4052237     0.86   0.388     -.444276    1.144172
+   De $8,001 a $10,000   |   .4536465   .3999362     1.13   0.257    -.3302141    1.237507
+   De $10,001 a $15,000  |   .7816494   .3965849     1.97   0.049     .0043572    1.558942
+   De $15,001 a $20,000  |   .8327738   .3966117     2.10   0.036     .0554292    1.610118
+   De $20,001 a $49,999  |   .7476868   .3962832     1.89   0.059     -.029014    1.524388
+          $50,000 o más  |   .9370437    .424989     2.20   0.027     .1040806    1.770007
+                  No se  |   .4885099   .4210147     1.16   0.246    -.3366637    1.313684
+                         |
+               tipo_cons |
+      esporádico-suelto  |   -.825251   .0867061    -9.52   0.000    -.9951919   -.6553101
+                   _cons |   1.257242    .595387     2.11   0.035      .090305    2.424179
+-------------------------+----------------------------------------------------------------
+                /lnalpha |  -.4654245   .0821004                     -.6263384   -.3045106
+-------------------------+----------------------------------------------------------------
+                   alpha |   .6278685   .0515483                      .5345455    .7374842
+------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 2545.56              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_1$mod, word excel append
+resultados/encuesta/modelos1_1_tnbreg.rtf
+resultados/encuesta/modelos1_1_tnbreg.xml
+dir : seeout
+
+. 
+. capture log close

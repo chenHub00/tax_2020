@@ -1,0 +1,362 @@
+--------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xt_wide_marca
+> s.log
+  log type:  text
+ opened on:   4 May 2021, 15:58:28
+
+. 
+. use datos/wide_complete_medium_smp.dta, clear
+
+. 
+. gen ym2 = ym^2
+
+. 
+. // Medias
+. ***************** marca 4
+. // 
+. xtreg ppu4 m1 m1_20 ym 
+
+Random-effects GLS regression                   Number of obs     =      1,837
+Group variable: cve_ciudad                      Number of groups  =         36
+
+R-sq:                                           Obs per group:
+     within  = 0.7255                                         min =          3
+     between = 0.5951                                         avg =       51.0
+     overall = 0.6446                                         max =         99
+
+                                                Wald chi2(3)      =    4802.68
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        ppu4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0416796   .0123846    -3.37   0.001     -.065953   -.0174061
+       m1_20 |   .1533604    .031281     4.90   0.000     .0920507    .2146701
+          ym |   .0104319   .0001542    67.65   0.000     .0101297    .0107341
+       _cons |  -4.938418   .1087159   -45.42   0.000    -5.151497   -4.725338
+-------------+----------------------------------------------------------------
+     sigma_u |  .12043249
+     sigma_e |  .13053809
+         rho |  .45979908   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. //xtreg ppu4 m1 m1_20 ym ym2
+. estimates store random_effects
+
+. 
+. outreg2 using est_xt_medium ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+est_xt_medium.tex
+dir : seeout
+
+.                         
+. // ajuste en la muestra
+. xtreg ppu4 m1 m1_20 ym if smp_xtsur_medium 
+
+Random-effects GLS regression                   Number of obs     =      1,356
+Group variable: cve_ciudad                      Number of groups  =         29
+
+R-sq:                                           Obs per group:
+     within  = 0.6882                                         min =          3
+     between = 0.6498                                         avg =       46.8
+     overall = 0.6394                                         max =         99
+
+                                                Wald chi2(3)      =    2972.90
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        ppu4 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0481105   .0149353    -3.22   0.001     -.077383   -.0188379
+       m1_20 |   .1544709    .036977     4.18   0.000     .0819972    .2269446
+          ym |   .0098048   .0001841    53.25   0.000     .0094439    .0101657
+       _cons |  -4.489622   .1299664   -34.54   0.000    -4.744352   -4.234893
+-------------+----------------------------------------------------------------
+     sigma_u |  .12263382
+     sigma_e |  .13412934
+         rho |  .45531865   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. outreg2 using est_xt_medium ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+est_xt_medium.tex
+dir : seeout
+
+. 
+. // https://stats.stackexchange.com/questions/105416/is-it-possible-to-use-the-breusch-pagan-lagr
+> ange-multiplier-test-xttest0-in-st
+. // at pooled OLS might not be the appropriate model given 
+. // that it assumes an error structure
+. xttest0
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu4[cve_ciudad,t] = Xb + u[cve_ciudad] + e[cve_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                    ppu4 |   .0827339        .287635
+                       e |   .0179907       .1341293
+                       u |   .0150391       .1226338
+
+        Test:   Var(u) = 0
+                             chibar2(01) =  5314.64
+                          Prob > chibar2 =   0.0000
+
+. // is it balanced?
+. xttest1
+
+Tests for the error component model:
+
+        ppu4[cve_ciudad,t] = Xb + u[cve_ciudad] + v[cve_ciudad,t]
+           v[cve_ciudad,t] = lambda v[cve_ciudad,(t-1)] + e[cve_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                    ppu4 |   .0827339        .287635
+                       e |   .0179907      .13412934
+                       u |   .0150391      .12263382
+
+        Tests:
+           Random Effects, Two Sided:
+           ALM(Var(u)=0)         = 4570.99 Pr>chi2(1) =  0.0000
+
+           Random Effects, One Sided:
+           ALM(Var(u)=0)         =   67.61 Pr>N(0,1)  =  0.0000
+
+           Serial Correlation:
+           ALM(lambda=0)         =  475.06 Pr>chi2(1) =  0.0000
+
+           Joint Test:
+           LM(Var(u)=0,lambda=0) = 5789.70 Pr>chi2(2) =  0.0000
+
+
+. 
+. xtreg ppu4 m1 m1_20 ym, fe
+
+Fixed-effects (within) regression               Number of obs     =      1,837
+Group variable: cve_ciudad                      Number of groups  =         36
+
+R-sq:                                           Obs per group:
+     within  = 0.7255                                         min =          3
+     between = 0.5951                                         avg =       51.0
+     overall = 0.6446                                         max =         99
+
+                                                F(3,1798)         =    1583.96
+corr(u_i, Xb)  = -0.0986                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+        ppu4 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0415949   .0123917    -3.36   0.001    -.0658985   -.0172913
+       m1_20 |   .1534564   .0312991     4.90   0.000     .0920699     .214843
+          ym |   .0104372   .0001551    67.30   0.000     .0101331    .0107414
+       _cons |  -4.942133   .1073709   -46.03   0.000    -5.152718   -4.731549
+-------------+----------------------------------------------------------------
+     sigma_u |  .12095771
+     sigma_e |  .13053809
+         rho |   .4619616   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(35, 1798) = 38.53                   Prob > F = 0.0000
+
+. //xtreg ppu4 m1 m1_20 ym ym2, fe
+. hausman . random_effects
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |       .       random_eff~s    Difference          S.E.
+-------------+----------------------------------------------------------------
+          m1 |   -.0415949    -.0416796        .0000847        .0004173
+       m1_20 |    .1534564     .1533604         .000096        .0010644
+          ym |    .0104372     .0104319        5.35e-06        .0000166
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(3) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =        0.18
+                Prob>chi2 =      0.9802
+
+. * Ho: diferencia no sistematica (fixed effects) de ciudad
+. * ym: no se rechaza
+. * ym ym2: efectos aleatorios
+. ***************** marca 7
+. //
+. xtreg ppu7 m1 m1_20 ym
+
+Random-effects GLS regression                   Number of obs     =      3,157
+Group variable: cve_ciudad                      Number of groups  =         41
+
+R-sq:                                           Obs per group:
+     within  = 0.8668                                         min =          2
+     between = 0.8470                                         avg =       77.0
+     overall = 0.8240                                         max =        120
+
+                                                Wald chi2(3)      =   20416.10
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        ppu7 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0434528   .0087087    -4.99   0.000    -.0605216   -.0263841
+       m1_20 |   .1930079   .0227911     8.47   0.000     .1483381    .2376777
+          ym |   .0099661   .0000713   139.84   0.000     .0098264    .0101058
+       _cons |  -4.702986   .0513566   -91.58   0.000    -4.803643   -4.602328
+-------------+----------------------------------------------------------------
+     sigma_u |  .09905058
+     sigma_e |  .12327563
+         rho |  .39231678   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. //xtreg ppu7 m1 m1_20 ym ym2
+. estimates store random_effects
+
+. // that it assumes an error structure
+. xttest0
+
+Breusch and Pagan Lagrangian multiplier test for random effects
+
+        ppu7[cve_ciudad,t] = Xb + u[cve_ciudad] + e[cve_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                    ppu7 |   .1562782       .3953204
+                       e |   .0151969       .1232756
+                       u |    .009811       .0990506
+
+        Test:   Var(u) = 0
+                             chibar2(01) = 33944.70
+                          Prob > chibar2 =   0.0000
+
+. // is it balanced?
+. xttest1
+
+Tests for the error component model:
+
+        ppu7[cve_ciudad,t] = Xb + u[cve_ciudad] + v[cve_ciudad,t]
+           v[cve_ciudad,t] = lambda v[cve_ciudad,(t-1)] + e[cve_ciudad,t]
+
+        Estimated results:
+                         |       Var     sd = sqrt(Var)
+                ---------+-----------------------------
+                    ppu7 |   .1562782       .3953204
+                       e |   .0151969      .12327563
+                       u |    .009811      .09905058
+
+        Tests:
+           Random Effects, Two Sided:
+           ALM(Var(u)=0)         =31819.29 Pr>chi2(1) =  0.0000
+
+           Random Effects, One Sided:
+           ALM(Var(u)=0)         =  178.38 Pr>N(0,1)  =  0.0000
+
+           Serial Correlation:
+           ALM(lambda=0)         =  786.33 Pr>chi2(1) =  0.0000
+
+           Joint Test:
+           LM(Var(u)=0,lambda=0) =34731.03 Pr>chi2(2) =  0.0000
+
+
+. 
+. outreg2 using est_xt_medium ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+est_xt_medium.tex
+dir : seeout
+
+. 
+. // ajuste en la muestra
+. xtreg ppu7 m1 m1_20 ym if smp_xtsur_medium 
+
+Random-effects GLS regression                   Number of obs     =      1,356
+Group variable: cve_ciudad                      Number of groups  =         29
+
+R-sq:                                           Obs per group:
+     within  = 0.8081                                         min =          3
+     between = 0.8207                                         avg =       46.8
+     overall = 0.7684                                         max =         99
+
+                                                Wald chi2(3)      =    5648.74
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        ppu7 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0385408   .0123974    -3.11   0.002    -.0628392   -.0142425
+       m1_20 |   .1624482   .0306939     5.29   0.000     .1022894    .2226071
+          ym |   .0112631   .0001531    73.57   0.000      .010963    .0115632
+       _cons |  -5.634585   .1086912   -51.84   0.000    -5.847616   -5.421554
+-------------+----------------------------------------------------------------
+     sigma_u |  .11908809
+     sigma_e |  .11098127
+         rho |  .53519273   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. outreg2 using est_xt_medium ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+est_xt_medium.tex
+dir : seeout
+
+. 
+. xtreg ppu7 m1 m1_20 ym, fe
+
+Fixed-effects (within) regression               Number of obs     =      3,157
+Group variable: cve_ciudad                      Number of groups  =         41
+
+R-sq:                                           Obs per group:
+     within  = 0.8668                                         min =          2
+     between = 0.8470                                         avg =       77.0
+     overall = 0.8240                                         max =        120
+
+                                                F(3,3113)         =    6750.87
+corr(u_i, Xb)  = 0.1499                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+        ppu7 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |  -.0438273    .008692    -5.04   0.000    -.0608699   -.0267847
+       m1_20 |   .1931549   .0227411     8.49   0.000     .1485658    .2377439
+          ym |    .009947   .0000714   139.30   0.000      .009807    .0100871
+       _cons |  -4.712083   .0485693   -97.02   0.000    -4.807314   -4.616851
+-------------+----------------------------------------------------------------
+     sigma_u |  .12222294
+     sigma_e |  .12327563
+         rho |  .49571214   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(40, 3113) = 64.99                   Prob > F = 0.0000
+
+. //xtreg ppu7 m1 m1_20 ym ym2, fe
+. hausman . random_effects
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |       .       random_eff~s    Difference          S.E.
+-------------+----------------------------------------------------------------
+          m1 |   -.0438273    -.0434528       -.0003744               .
+       m1_20 |    .1931549     .1930079        .0001469               .
+          ym |     .009947     .0099661       -.0000191        4.45e-06
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(3) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =       14.16
+                Prob>chi2 =      0.0027
+                (V_b-V_B is not positive definite)
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xt_wide_marca
+> s.log
+  log type:  text
+ closed on:   4 May 2021, 15:58:29
+--------------------------------------------------------------------------------------------------

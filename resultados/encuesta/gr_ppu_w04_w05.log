@@ -1,0 +1,76 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/gr_ppu_w04_w05.log
+  log type:  text
+ opened on:   8 Sep 2021, 12:37:10
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code/encuesta_/"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+. use "$datos/c_pw4_w5_w8_caj.dta", clear
+
+. // a partir de qué precio por cajetilla
+. // se observa una mayor proporción de cajetillas en cada grupo?
+.  
+. keep if q028 == 1
+(0 observations deleted)
+
+. // 525 obs deleted
+. 
+. /*
+> ta precio cantidad if marca == 3, row col
+> 
+> ta precio cantidad if marca == 6, row col
+> 
+> 
+> histogram q029 if marca == 99, normal kdensity
+> graph save Graph "graficos\exploratorios\precio_caja_m99_w8.gph", replace
+> */
+. 
+. graph hbox ppu, over(marca)
+
+. graph hbox ppu, over(wave) over(marca)
+
+. graph save Graph "graficos\exploratorios\box_ppu_w4_w5_w8.gph", replace
+(file graficos\exploratorios\box_ppu_w4_w5_w8.gph saved)
+
+. 
+. graph export "graficos\exploratorios\box_ppu_w4_w5_w8.pdf", as(pdf) replace
+(file graficos\exploratorios\box_ppu_w4_w5_w8.pdf written in PDF format)
+
+. 
+. 
+. recode cantidad_cigarros . = 14 if wave == 8 & cantidad_cajetilla  == 1
+(cantidad_cigarros: 160 changes made)
+
+. recode cantidad_cigarros . = 20 if wave == 8 & cantidad_cajetilla  == 2
+(cantidad_cigarros: 861 changes made)
+
+. recode cantidad_cigarros . = 25 if wave == 8 & cantidad_cajetilla  == 3
+(cantidad_cigarros: 110 changes made)
+
+. 
+. ta cantidad_cigarros wave
+
+cantidad_c |               wave
+   igarros |         4          5          8 |     Total
+-----------+---------------------------------+----------
+        14 |       305        181        160 |       646 
+        20 |       744        755        861 |     2,360 
+        25 |        80        151        110 |       341 
+-----------+---------------------------------+----------
+     Total |     1,129      1,087      1,131 |     3,347 
+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/gr_ppu_w04_w05.log
+  log type:  text
+ closed on:   8 Sep 2021, 12:37:15
+--------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -39,6 +39,8 @@ fecha_marca_sum <- por_fecha_marca2 %>% dplyr::summarise(
                       unique = n_distinct(cve_ciudad),
                       prom_ppu = mean(ppu), sd_ppu = sd(ppu) )
 
+save(fecha_marca_sum, file = "datos/prelim/de_inpc/fecha_marca_sum.RData")
+
 # agrupar las que tienen menor presencia en una misma categoria
 # o categorias relacionadas con su precio 
 # (respecto a las que tienen menos presencia)
@@ -61,6 +63,17 @@ menores <- fecha_marca_sum  %>%
 
 # como etiquetar el resto de las marcas?
 # agrupar el resto de las marcas?
+
+# brand names:
+marcasPrincipales_Nombres <- marcas_10mas$marca
+marcas_2011_2018_Nombres <- marcas_2011_2018$marca
+marcas_2011_2018_OtrosNombres <- marcas_2011_2018_Nombres[!(marcas_2011_2018_Nombres %in% marcasPrincipales_Nombres)]
+marcas_2011_2018_OtrosNombres
+
+OtrasMarcas <- fecha_marca_sum  %>% 
+  filter(marca %in% marcas_2011_2018_OtrosNombres)
+
+# 7 marcas principales
 table11_principales7 <- table11_ %>% 
   filter(marca %in% as.vector(t(marcas_10mas)))
 #setwd("C:/Users/vicen/Documents/R/tax_ene2020/tax_2020/")
@@ -68,9 +81,16 @@ save(table11_principales7, file = "datos/prelim/de_inpc/table11_principales7.RDa
 # load("~/R/tax_ene2020/table11_principales7.RData")
 write.csv(table11_principales7,"datos/prelim/de_inpc/table11_principales7.csv", row.names = FALSE)
 
+# Otras marcas
+table11_Otras <- table11_ %>% 
+  filter(marca %in% marcas_2011_2018_OtrosNombres)
+save(table11_Otras, file = "datos/prelim/de_inpc/table11_Otras.RData")
+write.csv(table11_Otras,"datos/prelim/de_inpc/table11_Otras.csv", row.names = FALSE)
+
 # Saving on object in RData format
 save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
-save(menores, file = "datos/prelim/de_inpc/menores.RData")
+#save(menores, file = "datos/prelim/de_inpc/menores.RData")
+save(OtrasMarcas, file = "datos/prelim/de_inpc/OtrasMarcas.RData")
 
 dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
   labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
@@ -85,6 +105,16 @@ pdf('resultados/doc/prin7_prom_ppu_marcas.pdf', height=11,width=8.5)
 dfplot2 
 dev.off() 
 
+# Otras
+dfplot3 = ggplot(OtrasMarcas, aes(fecha, prom_ppu, colour = marca )) + 
+  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  geom_point()
+dfplot3 
 
-#rm(list=ls())
+pdf('resultados/doc/Otras_prom_ppu_marcas.pdf', height=11,width=8.5)
+# gr'afico con las otras marcas
+dfplot3 
+dev.off() 
+
+rm(list=ls())
 

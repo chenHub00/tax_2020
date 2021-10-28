@@ -1,0 +1,45 @@
+{\rtf1\ansi\deff0 {\fonttbl{\f0\fnil Garamond;}}
+{\info {\author .}{\company .}{\title .}}
+\deflang1033\plain\fs20
+{\footer\pard\qc\plain\f0\fs20\chpgn\par}
+{
+{\fs20\b\qc\line Summary statistics:  mean sd count  by(sexo ) }{\par}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx1100
+\fs20\pard\intbl\qr {sexo }\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx2320
+\fs20\pard\intbl\qr {{ mean}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx3540
+\fs20\pard\intbl\qr {{ sd}}\cell
+\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs  \cellx4760
+\fs20\pard\intbl\qr {{ N}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ Femenino}}\cell
+\cellx2320
+\qr {{28.659}}\cell
+\cellx3540
+\qr {{36.31}}\cell
+\cellx4760
+\qr {{733}}\cell
+\row}
+
+
+{\trowd\trgaph108\trleft-108
+\cellx1100
+\fs20\pard\intbl\ql {{ Masculino}}\cell
+\cellx2320
+\qr {{35.392}}\cell
+\cellx3540
+\qr {{38.332}}\cell
+\cellx4760
+\qr {{653}}\cell
+\row}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx4760{}\cell
+\row}
+
+
+\writepositionforappend
+}}

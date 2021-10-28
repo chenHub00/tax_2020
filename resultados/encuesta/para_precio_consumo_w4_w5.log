@@ -1,0 +1,163 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_precio_consumo_w4_w5.log
+  log type:  text
+ opened on:  25 Oct 2021, 18:46:21
+
+. 
+. // MACROS
+. do stata_code/encuesta_/dir_encuesta.do
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+end of do-file
+
+. 
+. //use "$datos/wave4_5unbalanced.dta", replace
+. use "$datos/cons_w456_unbalanc.dta", replace
+
+. 
+. //merge 1:1 id wave using "$datos/cant_cigarros_w4_w5.dta", gen(merge_cons_precio)
+. merge 1:1 id wave using "$datos/cant_cig_caj_w4_w5_w6.dta", gen(merge_cons_precio)
+(label marca already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           431
+        from master                         0  (merge_cons_precio==1)
+        from using                        431  (merge_cons_precio==2)
+
+    matched                             4,073  (merge_cons_precio==3)
+    -----------------------------------------
+
+. 
+. ta merge_cons_precio
+
+      merge_cons_precio |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+         using only (2) |        431        9.57        9.57
+            matched (3) |      4,073       90.43      100.00
+------------------------+-----------------------------------
+                  Total |      4,504      100.00
+
+. 
+. /* Desde consumo
+> 177 no consumieron en el último mes 
+> 85 dejaron de fumar o nunca han fumado  
+> */
+. drop if merge_cons_precio != 3
+(431 observations deleted)
+
+. drop merge_cons_precio
+
+. 
+. gen ppu_imp = q029/cantidad_cigarros
+(763 missing values generated)
+
+. replace ppu_imp = precioSingles if ppu_imp== .
+(763 real changes made)
+
+. 
+. label variable ppu_imp "ppu (corte INEGI)"
+
+. 
+. *gen ppu = ppu_cuest if wave == 8
+. gen ppu = ppu_imp if wave <= 7
+
+. *replace ppu = q030 if wave == 8 & singles == 1
+. 
+. // ppu
+. gen log_ppu = log(ppu)
+
+. label variable log_ppu "log ppu"
+
+. 
+. label data "cantidad y precio waves 4, 5 y 6"
+
+. //"$datos/c_pw4_w5_w6unbalanc.dta"
+. save "$datos/cp_w456unbalanc.dta", replace
+file datos/encuesta//cp_w456unbalanc.dta saved
+
+. 
+. 
+. /// balanceado
+> use "$datos/cons_w456_balanc.dta", replace
+
+. 
+. merge 1:1 id wave using "$datos/cant_cig_caj_w4_w5_w6.dta", gen(merge_cons_precio)
+(label marca already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                         3,154
+        from master                         0  (merge_cons_precio==1)
+        from using                      3,154  (merge_cons_precio==2)
+
+    matched                             1,350  (merge_cons_precio==3)
+    -----------------------------------------
+
+. ta merge_cons_precio
+
+      merge_cons_precio |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+         using only (2) |      3,154       70.03       70.03
+            matched (3) |      1,350       29.97      100.00
+------------------------+-----------------------------------
+                  Total |      4,504      100.00
+
+. 
+. /* Desde consumo
+> 177 no consumieron en el último mes 
+> 85 dejaron de fumar o nunca han fumado  
+> */
+. drop if merge_cons_precio != 3
+(3,154 observations deleted)
+
+. drop merge_cons_precio
+
+. 
+. gen ppu_imp = q029/cantidad_cigarros
+(155 missing values generated)
+
+. replace ppu_imp = precioSingles if ppu_imp== .
+(155 real changes made)
+
+. 
+. label variable ppu_imp "ppu (corte INEGI)"
+
+. 
+. label data "cantidad y precio waves 1 a la 8"
+
+. //"$datos/c_pw4_w5_w6unbalanc.dta"
+. 
+. *gen ppu = ppu_cuest if wave == 8
+. gen ppu = ppu_imp if wave <= 7
+
+. *replace ppu = q030 if wave == 8 & singles == 1
+. 
+. // ppu
+. gen log_ppu = log(ppu)
+
+. label variable log_ppu "log ppu"
+
+. 
+. 
+. label data "panel balanceado cantidad y precio waves 4, 5 y 6"
+
+. // save "$datos/c_pw4_w5_balanc.dta", replace
+. save "$datos/cp_w456balanc.dta", replace
+file datos/encuesta//cp_w456balanc.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/para_precio_consumo_w4_w5.log
+  log type:  text
+ closed on:  25 Oct 2021, 18:46:21
+--------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,13 @@
+	(1)
+VARIABLES	D.ppu
+	
+m1	0.026***
+	(0.002)
+m1_20	0.186***
+	(0.005)
+	
+Observations	5,428
+Number of cve_ciudad	46
+R-squared	0.322
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

@@ -1,0 +1,301 @@
+--------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg_pooled_c
+> ity.log
+  log type:  text
+ opened on:   4 May 2021, 15:37:17
+
+. 
+. use datos\panel_marca_ciudad.dta, clear
+
+. 
+. // ver est_areg_pooled.do
+. 
+. // por marca
+. use datos\panel_marca_ciudad.dta if cve_ciudad == 1, clear
+
+. 
+. xtset marca ym 
+       panel variable:  marca (unbalanced)
+        time variable:  ym, 2011m1 to 2020m12, but with a gap
+                delta:  1 month
+
+. 
+. xtreg ppu m1_20 m1 ym, fe
+
+Fixed-effects (within) regression               Number of obs     =        809
+Group variable: marca                           Number of groups  =          7
+
+R-sq:                                           Obs per group:
+     within  = 0.8700                                         min =         89
+     between = 0.3468                                         avg =      115.6
+     overall = 0.5704                                         max =        120
+
+                                                F(3,799)          =    1783.08
+corr(u_i, Xb)  = 0.0562                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2042154   .0488967     4.18   0.000     .1082343    .3001964
+          m1 |  -.0203604   .0150131    -1.36   0.175    -.0498301    .0091093
+          ym |   .0085085   .0001189    71.58   0.000     .0082752    .0087418
+       _cons |  -3.559216    .079791   -44.61   0.000    -3.715841   -3.402591
+-------------+----------------------------------------------------------------
+     sigma_u |  .26321575
+     sigma_e |   .1131198
+         rho |  .84409961   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(6, 799) = 615.57                    Prob > F = 0.0000
+
+. *estimates store fixed
+. outreg2 using resultados/doc/est_xt_ciudades ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+resultados/doc/est_xt_ciudades.tex
+dir : seeout
+
+. 
+. xtunitroot fisher ppu, dfuller lags(4)
+
+Fisher-type unit-root test for ppu
+Based on augmented Dickey-Fuller tests
+--------------------------------------
+Ho: All panels contain unit roots           Number of panels       =      7
+Ha: At least one panel is stationary        Avg. number of periods = 115.57
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(14)   P         0.2502       1.0000
+ Inverse normal            Z         6.1209       1.0000
+ Inverse logit t(39)       L*        6.8272       1.0000
+ Modified inv. chi-squared Pm       -2.5985       0.9953
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. 
+. foreach number of numlist 2/4 {
+  2. di "`number'"
+  3. 
+. use datos\panel_marca_ciudad.dta if cve_ciudad == `number', clear
+  4. 
+. xtset marca ym 
+  5. gen dif_ppu = d.ppu
+  6. 
+. xtreg ppu m1_20 m1 ym, fe
+  7. *estimates store fixed
+. outreg2 using resultados/doc/est_xt_ciudades ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+  8. 
+. xtunitroot fisher ppu, dfuller lags(4)
+  9. }
+2
+       panel variable:  marca (unbalanced)
+        time variable:  ym, 2011m1 to 2020m12
+                delta:  1 month
+(7 missing values generated)
+
+Fixed-effects (within) regression               Number of obs     =        574
+Group variable: marca                           Number of groups  =          7
+
+R-sq:                                           Obs per group:
+     within  = 0.9028                                         min =         15
+     between = 0.5129                                         avg =       82.0
+     overall = 0.6376                                         max =        120
+
+                                                F(3,564)          =    1746.89
+corr(u_i, Xb)  = -0.1112                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2360222   .0512084     4.61   0.000     .1354397    .3366046
+          m1 |  -.0283482   .0152824    -1.85   0.064    -.0583657    .0016692
+          ym |   .0096103   .0001353    71.01   0.000     .0093445    .0098761
+       _cons |  -4.229324   .0909415   -46.51   0.000    -4.407949   -4.050699
+-------------+----------------------------------------------------------------
+     sigma_u |  .22012574
+     sigma_e |  .09698138
+         rho |  .83744782   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(6, 564) = 434.91                    Prob > F = 0.0000
+resultados/doc/est_xt_ciudades.tex
+dir : seeout
+
+Fisher-type unit-root test for ppu
+Based on augmented Dickey-Fuller tests
+--------------------------------------
+Ho: All panels contain unit roots           Number of panels       =      7
+Ha: At least one panel is stationary        Avg. number of periods =  82.00
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(14)   P         0.3569       1.0000
+ Inverse normal            Z         5.9186       1.0000
+ Inverse logit t(39)       L*        6.6264       1.0000
+ Modified inv. chi-squared Pm       -2.5783       0.9950
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+3
+       panel variable:  marca (unbalanced)
+        time variable:  ym, 2011m1 to 2020m12, but with gaps
+                delta:  1 month
+(9 missing values generated)
+
+Fixed-effects (within) regression               Number of obs     =        612
+Group variable: marca                           Number of groups  =          7
+
+R-sq:                                           Obs per group:
+     within  = 0.7678                                         min =         26
+     between = 0.7148                                         avg =       87.4
+     overall = 0.6717                                         max =        120
+
+                                                F(3,602)          =     663.72
+corr(u_i, Xb)  = 0.2196                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2729383   .0755824     3.61   0.000     .1245011    .4213755
+          m1 |  -.0182161   .0220374    -0.83   0.409    -.0614958    .0250635
+          ym |   .0084764   .0001937    43.76   0.000      .008096    .0088568
+       _cons |  -3.476015   .1292425   -26.90   0.000    -3.729836   -3.222194
+-------------+----------------------------------------------------------------
+     sigma_u |  .19957674
+     sigma_e |  .14330987
+         rho |  .65979466   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(6, 602) = 163.00                    Prob > F = 0.0000
+resultados/doc/est_xt_ciudades.tex
+dir : seeout
+
+Fisher-type unit-root test for ppu
+Based on augmented Dickey-Fuller tests
+--------------------------------------
+Ho: All panels contain unit roots           Number of panels       =      7
+Ha: At least one panel is stationary        Avg. number of periods =  87.43
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(14)   P         2.8074       0.9994
+ Inverse normal            Z         4.0293       1.0000
+ Inverse logit t(39)       L*        4.3521       1.0000
+ Modified inv. chi-squared Pm       -2.1152       0.9828
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+4
+       panel variable:  marca (unbalanced)
+        time variable:  ym, 2011m1 to 2020m12
+                delta:  1 month
+(7 missing values generated)
+
+Fixed-effects (within) regression               Number of obs     =        676
+Group variable: marca                           Number of groups  =          7
+
+R-sq:                                           Obs per group:
+     within  = 0.8994                                         min =          5
+     between = 0.5984                                         avg =       96.6
+     overall = 0.7215                                         max =        120
+
+                                                F(3,666)          =    1984.89
+corr(u_i, Xb)  = 0.0840                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       m1_20 |   .2541131   .0502876     5.05   0.000     .1553718    .3528545
+          m1 |  -.0252818   .0155249    -1.63   0.104    -.0557654    .0052017
+          ym |   .0095269   .0001263    75.42   0.000     .0092789     .009775
+       _cons |  -4.158888   .0849083   -48.98   0.000    -4.325608   -3.992168
+-------------+----------------------------------------------------------------
+     sigma_u |  .20629122
+     sigma_e |  .10614436
+         rho |  .79067148   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(6, 666) = 326.66                    Prob > F = 0.0000
+resultados/doc/est_xt_ciudades.tex
+dir : seeout
+could not compute test for panel 6
+
+Fisher-type unit-root test for ppu
+Based on augmented Dickey-Fuller tests
+--------------------------------------
+Ho: All panels contain unit roots           Number of panels       =      7
+Ha: At least one panel is stationary        Avg. number of periods =  96.57
+
+AR parameter: Panel-specific                Asymptotics: T -> Infinity
+Panel means:  Included
+Time trend:   Not included
+Drift term:   Not included                  ADF regressions: 4 lags
+------------------------------------------------------------------------------
+                                  Statistic      p-value
+------------------------------------------------------------------------------
+ Inverse chi-squared(12)   P         0.2171       1.0000
+ Inverse normal            Z         5.8148       1.0000
+ Inverse logit t(34)       L*        6.5863       1.0000
+ Modified inv. chi-squared Pm       -2.4052       0.9919
+------------------------------------------------------------------------------
+ P statistic requires number of panels to be finite.
+ Other statistics are suitable for finite or infinite number of panels.
+------------------------------------------------------------------------------
+
+. /*
+> local number = 5 
+> di "`number'"
+> 
+> use datos\panel_marca_ciudad.dta if cve_ciudad == `number', clear
+> 
+> xtset cve_ciudad ym 
+> gen dif_ppu = d.ppu
+> 
+> xtreg ppu m1_20 m1 ym, fe
+> *estimates store fixed
+> outreg2 using resultados/doc/est_xt_marcas_p2 ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+> 
+> xtunitroot fisher ppu, dfuller lags(4)
+> 
+> foreach number of numlist 5 6 7 {
+> di "`number'"
+> 
+> use datos\panel_marca_ciudad.dta if marca == `number', clear
+> 
+> xtset cve_ciudad ym 
+> // gen dif_ppu = d.ppu
+> 
+> xtreg ppu m1_20 m1 ym, fe
+> *estimates store fixed
+> outreg2 using resultados/doc/est_xt_marcas_p2 ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) append
+> 
+> xtunitroot fisher ppu, dfuller lags(4)
+> }
+> */
+.                                         
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_areg_pooled_c
+> ity.log
+  log type:  text
+ closed on:   4 May 2021, 15:37:19
+--------------------------------------------------------------------------------------------------

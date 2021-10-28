@@ -1,19 +1,61 @@
 
+#----------------------------------------------------
+# DATOS
+=inicial.do 
 # transformaciones iniciales de los datos
-inicial.do 
+# genera variables indicadoras para periodos del impuesto
+usa:
+< precios_indices.xlsx 
+< table11_principales7.csv
+< inicial_marcas2.do
+inicial_marcas2.do < tpCiudad2.dta
+salva:
+> precios_indices.dta
+> table11_principales7.dta
 - limita total de ciudades
 - promedios por marca/ciudad> 
-- promedios por marca
-- promedio por ciudades
+- promedios por marca> df_x.dta
+- promedio por ciudades> df_m.dta
 usa: inicial_marcas2.do / marcas2.do
 
-datos_paneles_promedios.do >
- usa: 
- resultados:
-   - datos/wide_complete_panel.dta
+inicial_marcas2.do 
+usa:
+< table11_principales7.dta
+< marca2.do
+< precios_indices.dta
+< pp_lt_cerveza11_.dta
+< marca_marca2.do
+salva:
+> tpCiudad2.dta/tpCiudad2.xlsx
 
-# estimaciones
+= marcas2.do 
+= marca_marca2.do
+= encode_marca2_otras.do
+# tipo 2: 
+= tipo_marca_otras.do
+
+= datos_paneles_promedios.do >
+#s'olo datos de 46 ciudades, presentes en la muestra anterior a 2018.
+ usa: 
+< tpCiudad2.dta
+ resultados:
+> xt_marca.dta
+> xt_ciudad.dta
+> panel_marca2_ciudad.dta
+> panel_marca_ciudad.dta / panel_marca_ciudad.xlsx 
+= promedios sobre el grupo marca-ciudad
+> datos/wide_complete_panel.dta
+
+#----------------------------------------------------
+# Estimaciones
 est_ 
+
+est_xtreg_dyn_full_int_nov_dic.do
+: est_xtreg_stat_marca_nov_dic.tex
+: est_xtreg_dyn_marca_nov_dic.tex
+xtreg_dyn_nov_dic.do
+: xtreg_dif_nov_dic.xlsx
+
  03/17 (no 'llama' la funci'on, s'i funcionaba la semana pasada) xtsur > seemingly unrelated regressions en panel
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
  areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
@@ -43,3 +85,6 @@ xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es,
 para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex > Section 4
 // resta la cuesti'on de los coeficientes de tiempo, 
 // usar multiplicacion por 100 para analizar el cambio en terminos de centavos
+
+# graficos (gr_)
+xtreg_dyn > din'amicos con xtreg

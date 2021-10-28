@@ -1,0 +1,1096 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/para_consumo_w4_w5_w6.log
+  log type:  text
+ opened on:  25 Oct 2021, 18:45:58
+
+. 
+. global datos = "datos/encuesta/"
+
+. global codigo = "stata_code\encuesta_\"
+
+. global resultados = "resultados\encuesta\"
+
+. 
+. use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+
+. 
+. * variables
+. keep id wave has_fumado_1mes /// 
+>         q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
+>                 sexo q009 q010 q012 q028 q030 q029a 
+
+. 
+. // solo los periodos más cercanos al cambio de impuestos
+. keep if wave == 4 | wave == 5 | wave == 6
+(7,504 observations deleted)
+
+. 
+. // para generar variables de 
+. // grupos de edad y educación
+. // recodificar 
+. 
+. // impuesto2020
+. gen tax2020 = wave == 5
+
+. // pandemia
+. *gen covid19 = wave >= 6
+. 
+. do $codigo/recodificar_.do
+
+. 
+. // largo de nombre en variables
+. // orden de las etiquetas
+. // vars:
+. // sexo tipo_fumador_diario/ocasional/dejo/nunca_cigarro cigarros_diarios cigarros_semanales
+. // compra_sueltos precio_sueltos numero_cigarros_cajetilla (num_caj)
+. // sexo q009 q010 q012 q028 q030 q029a 
+. 
+. recode sexo (2 = 1) (1 = 0)
+(sexo: 4504 changes made)
+
+. label define sexo 1 "Femenino" 0 "Masculino", modify
+
+. 
+. // consumo
+. * Se colecta para que sean excluyentes
+. gen cons_dia7 = q010*7 if q009 == 1
+(2,519 missing values generated)
+
+. gen cons_sem = q012 if q009 == 2
+(2,313 missing values generated)
+
+. egen consumo_semanal = rowtotal(cons_dia7 cons_sem), missing
+(328 missing values generated)
+
+. egen cons_1 = rowtotal(q010 cons_sem), missing
+(328 missing values generated)
+
+. gen cons_por_dia = consumo_semanal/7
+(328 missing values generated)
+
+. 
+. label variable cons_dia7 "consumo semanal, 7x, con reporte diario (solo reporte diario)"
+
+. label variable cons_sem "consumo semanal, con reporte semanal (solo reporte semanal/ocasional)"
+
+. label variable consumo_semanal "consumo semanal, suma 2 tipos de reportes (diario y ocasional)"
+
+. label variable cons_por_dia "consumo semanal / 7, suma 2 tipos de reportes (diario y ocasional)"
+
+. 
+. 
+. // precio
+. label define singles 1 "sueltos " 0 "cajetilla"
+
+. gen singles = q028 == 2
+
+. label variable singles "sueltos"
+
+. label values singles singles
+
+. //label values singles singles_cajetilla 
+. gen precioSingles = q030 
+(3,704 missing values generated)
+
+. recode precioSingles . = 0 if singles == 1
+(precioSingles: 0 changes made)
+
+. 
+. 
+. label define numcaj 1 "14 cigarros" 2 "20 cigarros" 3 "25 cigarros" ///
+>         4 "Otro" 5 "No sé"
+
+. label variable q029a numcaj
+
+. 
+. /*
+> NUMCAJ  [IF 028=1]
+> ¿Cuántos cigarros tenía la cajetilla?
+> 1.      14 cigarros
+> 2.      20 cigarros 
+> 3.      25 cigarros 
+> 4.      Otro [Especificar] ___________ 
+> 5.      No sé 
+> */
+. 
+. 
+end of do-file
+
+. do $codigo/gen_vars.do
+
+. // agrupar categorias
+. // interacciones con impuestos
+. // vars: 
+. // edad escolaridad ingreso patron cajetilla/suelto
+. // q001 escolaridad ingreso patron q028
+. 
+. // grupo de edad como en GATS 2015
+. gen gr_edad = 1 if (q001 >= 18 & q001 <= 24)
+(3,874 missing values generated)
+
+. replace gr_edad = 2 if (q001 >= 25 & q001 <= 44)
+(2,540 real changes made)
+
+. replace gr_edad = 3 if (q001 >= 45 & q001 <= 64)
+(1,283 real changes made)
+
+. replace gr_edad = 4 if (q001 >= 65)
+(51 real changes made)
+
+. label variable gr_edad "grupos de edad"
+
+. label define gr_edad 1 "18-24" 2 "25-44" 3 "45-64" 4 "65+"
+
+. label values gr_edad gr_edad 
+
+. 
+. gen edad_gr2 = 1 if (q001 >= 18 & q001 <= 25)
+(3,711 missing values generated)
+
+. replace edad_gr2 = 2 if (q001 >= 25 & q001 <= 29)
+(727 real changes made)
+
+. replace edad_gr2 = 3 if (q001 >= 30 & q001 <= 34)
+(717 real changes made)
+
+. replace edad_gr2 = 4 if (q001 >= 35 & q001 <= 39)
+(646 real changes made)
+
+. replace edad_gr2 = 5 if (q001 >= 40 & q001 <= 44)
+(450 real changes made)
+
+. replace edad_gr2 = 6 if (q001 >= 45 & q001 <= 54)
+(814 real changes made)
+
+. replace edad_gr2 = 7 if (q001 >= 55 & q001 <= 64)
+(469 real changes made)
+
+. replace edad_gr2 = 8 if (q001 >= 65)
+(51 real changes made)
+
+. label variable edad_gr2 "grupos de edad"
+
+. label define edad_gr2 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" /// 
+>         5 "40-44" 6 "45-54" 7 "55-64" 8 "65+", modify
+
+. label values edad_gr2 edad_gr2 
+
+. 
+. gen edad_gr3 = edad_gr2
+
+. recode edad_gr3 (8 = 7)
+(edad_gr3: 51 changes made)
+
+. 
+. label define edad_gr3 1 "18-24" 2 "25-29" 3 "30-34" 4 "35-39" /// 
+>         5 "40-44" 6 "45-54" 7 "55+", modify
+
+. label values edad_gr3 edad_gr3
+
+.         
+. // grupos de escolaridades
+. gen gr_educ = 1 if (escolaridad >= 1 & escolaridad <= 2)
+(4,472 missing values generated)
+
+. replace gr_educ = 2 if (escolaridad == 3)
+(416 real changes made)
+
+. replace gr_educ = 3 if (escolaridad >= 4 & escolaridad <= 5)
+(1,693 real changes made)
+
+. replace gr_educ = 4 if (escolaridad >= 6 & escolaridad <= 8)
+(2,333 real changes made)
+
+. replace gr_educ = 5 if (escolaridad == 9)
+(30 real changes made)
+
+. label variable gr_educ "grupos de escolaridad"
+
+. label define gr_educ 1 "Hasta Primaria completa" 2 "Secundaria completa" ///
+>         3 "Técnica o Preparatoria" 4 "Universidad o posterior" 5 "Otro"
+
+. label values gr_educ gr_educ
+
+. 
+. gen educ_gr2 = 1 if (escolaridad >= 1 & escolaridad <= 2)
+(4,472 missing values generated)
+
+. replace educ_gr2 = 2 if (escolaridad == 3)
+(416 real changes made)
+
+. replace educ_gr2 = 3 if (escolaridad == 4) 
+(514 real changes made)
+
+. replace educ_gr2 = 4 if (escolaridad == 5) 
+(1,179 real changes made)
+
+. replace educ_gr2 = 5 if (escolaridad == 6) 
+(835 real changes made)
+
+. replace educ_gr2 = 6 if (escolaridad == 7) 
+(1,328 real changes made)
+
+. replace educ_gr2 = 7 if (escolaridad == 8)
+(170 real changes made)
+
+. replace educ_gr2 = 9 if (escolaridad == 9)
+(30 real changes made)
+
+. label variable educ_gr2 "grupos de escolaridad"
+
+. label define educ_gr2  1 "Hasta primaria completa" 2 "Secundaria completa" ///
+>         3 "Técnica" 4 "Preparatoria" 5 "Licenciatura incompleta" /// 
+>         6 "Licenciatura completa" 7 "Posgrado" 9 "Otro", modify
+
+. label values educ_gr2  educ_gr2
+
+. 
+. gen educ_gr3 = educ_gr2
+
+. // posgrado se une a Licenciatura completa
+. recode educ_gr3  (1 = 2) (7 = 6)
+(educ_gr3: 202 changes made)
+
+. label define educ_gr3  2 "<= Sec comp" ///
+>         3 "Técnica" 4 "Prepa" 5 "Lic incomp" /// 
+>         6 "Lic comp y posgrado" 9 "Otro", modify
+
+. label values educ_gr3  educ_gr3
+
+.  
+. 
+. // grupos de ingreso
+. gen gr_ingr = 1 if (ingreso >= 1 & ingreso <= 2)
+(4,248 missing values generated)
+
+. replace gr_ingr = 2 if (ingreso == 3)
+(288 real changes made)
+
+. replace gr_ingr = 3 if (ingreso == 4)
+(474 real changes made)
+
+. replace gr_ingr = 4 if (ingreso == 5)
+(571 real changes made)
+
+. replace gr_ingr = 5 if (ingreso == 6)
+(764 real changes made)
+
+. replace gr_ingr = 6 if (ingreso == 7)
+(773 real changes made)
+
+. replace gr_ingr = 7 if (ingreso == 8)
+(936 real changes made)
+
+. replace gr_ingr = 8 if (ingreso == 9)
+(205 real changes made)
+
+. replace gr_ingr = 99 if (ingreso == 99)
+(237 real changes made)
+
+. 
+. label variable gr_ingr "grupos de ingreso (pesos)"
+
+. label define gr_ingr 1 "<3 mil pesos" 2 "3,001 a 5 mil" 3 "5,001 a 8 mil" ///
+>         4 "8,001 a 10 mil" 5 "10,001 a 15 mil" 6 "15,001 a 20 mil" /// 
+>         7 "20,001 a 49,999" 8 "50 mil+" 99 "No sé", modify
+
+. label values gr_ingr gr_ingr
+
+. 
+. gen ingr_gr = gr_ingr
+
+. recode ingr_gr (1 = 3) (2 = 3) (4 = 5) (8 = 7)
+(ingr_gr: 1320 changes made)
+
+. label define ingr_gr 3 "< 8 mil" ///
+>         5 "8,001 a 15 mil" 6 "15,001 a 20 mil" /// 
+>         7 "20 mil+" 99 "No sé", modify
+
+. label values ingr_gr ingr_gr
+
+. 
+. // tipo de consumidor
+. // diario-esporádico (patron, 1 =: daily) y cajetilla/suelto (q028, 1 =: cajetilla)
+. gen tipo_cons = 1 if patron == 1 & q028 == 1
+(2,673 missing values generated)
+
+. replace tipo_cons = 2 if patron == 1 & q028 == 2
+(154 real changes made)
+
+. replace tipo_cons = 3 if patron == 0 & q028 == 1
+(1,545 real changes made)
+
+. replace tipo_cons = 4 if patron == 0 & q028 == 2
+(646 real changes made)
+
+. label variable tipo_cons "tipo de consumo"
+
+. label define tipo_cons 1 "diario-cajetilla" 2 "diario-suelto" ///
+>         3 "ocasional-cajetilla" 4 "ocasional-suelto"
+
+. label values tipo_cons tipo_cons
+
+. 
+. // transformación de la variable dependiente para logaritmos
+. gen log_cons_sem = log(consumo_semanal)
+(328 missing values generated)
+
+. label variable log_cons_sem "logaritmo consumo semanal"
+
+. 
+. gen log_cons_x_dia = log(cons_por_dia)
+(328 missing values generated)
+
+. label variable log_cons_x_dia "log consumo diario"
+
+. 
+end of do-file
+
+. *do $codigo/gen_interacciones.do
+. do $codigo/etiquetas_marcas.do
+
+. /*
+> etiquetas_marcas.do
+> usado: recodificar.do
+> Etiquetar e identificar las marcas más relevantes para el análisis
+> 2.      Benson y Hedges o B&H
+> 4.      Camel
+> 5.      Chesterfield
+> 7.      Delicados > 5
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 19.     Pall Mall
+> 22.     Raleigh[021] > 15 
+> * también está la marca q026, último consumo, pero se reporta menos
+> */
+. 
+. gen marca = .
+(4,504 missing values generated)
+
+. replace marca = 1 if q019 == 2
+(520 real changes made)
+
+. replace marca = 2 if q019 == 4
+(215 real changes made)
+
+. replace marca = 3 if q019 == 5
+(98 real changes made)
+
+. replace marca = 3 if q019 == 7 // Delicados por Chesterfield
+(81 real changes made)
+
+. replace marca = 4 if q019 == 15
+(181 real changes made)
+
+. replace marca = 4 if q019 == 22 // Raleigh a Lucky
+(15 real changes made)
+
+. replace marca = 5 if q019 == 16
+(1,845 real changes made)
+
+. replace marca = 6 if q019 == 17
+(188 real changes made)
+
+. replace marca = 7 if q019 == 19
+(823 real changes made)
+
+. recode marca . = 99
+(marca: 538 changes made)
+
+. 
+. do $codigo/marcas_w8_q019r30oe.do
+
+. 
+. // Juntar Chesterfield y Delicados
+. // Raleigh : Lucky
+. // ajustar manual q019r30oe.xls
+. // 
+. // wave 8 > 7
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mart"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pallman"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shot"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Poll moll"
+(0 real changes made)
+
+. 
+. // wave 4 > 8
+. replace marca = 3 if q019r30oe =="chesterfield"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall Mall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="PALL MAL"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Palo Mall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Palmall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(3 real changes made)
+
+. 
+. // wave 5 > 6
+. replace marca = 5 if q019r30oe =="Malboro rubi"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Benson violeta"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="pallmall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Palmall doble clik"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="paull mool"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. 
+. // wave 6 > 8
+. replace marca = 1 if q019r30oe =="Benson cristal"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucky strike"
+(1 real change made)
+
+. replace marca = 1 if q019r30oe =="Marlboro rubi"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pollman"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 2 if q019r30oe =="Camel mentolados"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Pallmall"
+(1 real change made)
+
+. replace marca = 7 if q019r30oe =="Palo mall"
+(1 real change made)
+
+. 
+. // wave 7 > 6
+. replace marca = 7 if q019r30oe =="Pallmall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="Lucy strigth"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Montana"
+(0 real changes made)
+
+. 
+. // wave 1 > 4
+. replace marca = 5 if q019r30oe =="Marlboro Sandía"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pall mall"
+(0 real changes made)
+
+. 
+. // wave 2 > 12
+. replace marca = 5 if q019r30oe =="marlboro ice"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="lucky strike"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="Marlboro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="Pollmol"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mol"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="delicados sin filtro"
+(0 real changes made)
+
+. replace marca = 7 if q019r30oe =="pall mall"
+(0 real changes made)
+
+. replace marca = 5 if q019r30oe =="malvoro"
+(0 real changes made)
+
+. replace marca = 4 if q019r30oe =="raleigt"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+(0 real changes made)
+
+. 
+. // wave 3 > 4
+. replace marca = 7 if q019r30oe =="PALL MALL"
+(0 real changes made)
+
+. replace marca = 6 if q019r30oe =="Shots"
+(0 real changes made)
+
+. replace marca = 3 if q019r30oe =="Chesterfield"
+(0 real changes made)
+
+. replace marca = 1 if q019r30oe =="Benson mentolado"
+(0 real changes made)
+
+. 
+. 
+. /*
+> replace marca = 5 if q019r30oe =="Malboro rubi"
+> replace marca = 5 if q019r30oe =="marlboro ice"
+> replace marca = 5 if q019r30oe =="Marlboro Sandía"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 1 if q019r30oe =="Benson & Hedges Violeta"
+> replace marca = 1 if q019r30oe =="Benson violeta"
+> replace marca = 1 if q019r30oe =="Benson cristal"
+> replace marca = 1 if q019r30oe =="Benson cristal"
+> replace marca = 5 if q019r30oe =="ICE EXPRESS DE MARLBORO"
+> replace marca = 7 if q019r30oe =="Pallmall"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 4 if q019r30oe =="lucky strike"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 7 if q019r30oe =="PALL MALL"
+> replace marca = 3 if q019r30oe =="chesterfield"
+> replace marca = 7 if q019r30oe =="Pollmol"
+> replace marca = 7 if q019r30oe =="pallmall"
+> replace marca = 6 if q019r30oe =="Shots"
+> replace marca = 3 if q019r30oe =="Chesterfield"
+> replace marca = 7 if q019r30oe =="Pall Mall"
+> replace marca = 7 if q019r30oe =="pall mol"
+> replace marca = 7 if q019r30oe =="PALL MAL"
+> replace marca = 3 if q019r30oe =="delicados sin filtro"
+> replace marca = 7 if q019r30oe =="pall mall"
+> replace marca = 5 if q019r30oe =="malvoro"
+> replace marca = 7 if q019r30oe =="Palo Mall"
+> replace marca = 4 if q019r30oe =="raleigt"
+> replace marca = 1 if q019r30oe =="BENSON DORADOS LIGHT"
+> replace marca = 4 if q019r30oe =="Lucky strike"
+> replace marca = 7 if q019r30oe =="PALL MALL"
+> replace marca = 1 if q019r30oe =="Benson mentolado"
+> replace marca = 7 if q019r30oe =="pall mall"
+> replace marca = 7 if q019r30oe =="Palmall"
+> replace marca = 7 if q019r30oe =="Palmall doble clik"
+> replace marca = 7 if q019r30oe =="paull mool"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 1 if q019r30oe =="Marlboro rubi"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 7 if q019r30oe =="Pollman"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 2 if q019r30oe =="Camel mentolados"
+> replace marca = 7 if q019r30oe =="Pallmall"
+> replace marca = 7 if q019r30oe =="Palo mall"
+> replace marca = 5 if q019r30oe =="marlboro"
+> replace marca = 7 if q019r30oe =="Pall mall"
+> replace marca = 4 if q019r30oe =="Lucy strigth"
+> replace marca = 3 if q019r30oe =="Chesterfield"
+> replace marca = 7 if q019r30oe =="Pall mart"
+> replace marca = 6 if q019r30oe =="Montana"
+> replace marca = 7 if q019r30oe =="Pallman"
+> replace marca = 5 if q019r30oe =="Marlboro"
+> replace marca = 6 if q019r30oe =="Shot"
+> replace marca = 5 if q019r30oe =="marlboro"
+> replace marca = 7 if q019r30oe =="Poll moll"
+> // 
+> replace marca = 7 if q019r30oe =="Poll moll"
+> */
+. 
+. /*
+> [IF 018=1] ¿Qué marca es?
+> [IF 018=2] ¿Qué marca estás fumando actualmente o fumaste más recientemente?
+> 1.      Alas[023]
+> 2.      Benson y Hedges o B&H
+> 3.      Broadway[023]
+> 4.      Camel
+> 5.      Chesterfield
+> 6.      Cohiba[021]
+> 7.      Delicados
+> 8.      Dunhill
+> 9.      Faros
+> 10.     Fiesta[021]
+> 11.     Fortuna
+> 12.     Garañon[021]
+> 13.     Joe’s
+> 14.     Kent
+> 15.     Lucky Strike
+> 16.     Marlboro
+> 17.     Montana
+> 18.     Murattimar
+> 19.     Pall Mall
+> 20.     Popular 
+> 21.     RGD
+> 22.     Raleigh[021]
+> 23.     Salem[021]
+> 24.     Seneca
+> 25.     Viceroy[021]
+> 26.     West[021]
+> 27.     Winston
+> 28.     L & M Baronet 
+> 29.     Link Ice Fusion 
+> 30.     Otro [Especificar] ___________ [021]
+> 99      No sé[021]
+> */
+. 
+. 
+end of do-file
+
+. 
+. #delimit ;
+delimiter now ;
+. label define marca 1 "Benson y Hedges" 
+>                                 2 "Camel"
+>                                 3 "Chesterfield"
+>                                 4 "Lucky Strike"
+>                                 5 "Marlboro"
+>                                 6 "Montana"
+>                                 7 "Pall Mall"
+>                                 99 "Otras"
+>                 ;
+
+. #delimit cr
+delimiter now cr
+. 
+. label values marca marca
+
+. 
+. // tipo_marca
+. gen tipo = 1 if marca == 1 | marca == 2 | marca == 5
+(1,919 missing values generated)
+
+. replace tipo = 2 if marca == 4 | marca == 7
+(1,035 real changes made)
+
+. replace tipo = 3 if marca == 3 | marca == 6
+(368 real changes made)
+
+. 
+. label define tipo 1 "premium" 2 "medio" 3 "bajo"
+
+. label values tipo tipo
+
+. 
+. 
+end of do-file
+
+. 
+. 
+. /*. list id wave q009 if id == "40309"
+> 
+>       +---------------------+
+>       |    id   wave   q009 |
+>       |---------------------|
+> 2314. | 40309      6      2 |
+> 2315. | 40309      4      3 |
+> 2316. | 40309      5      3 |
+>       +---------------------+
+> */
+. 
+. 
+. // personas que no han fumado en el último mes
+. // salen de la muestra
+. ta has_fumado_1mes wave
+
+has_fumado |               wave
+     _1mes |         4          5          6 |     Total
+-----------+---------------------------------+----------
+        No |        73        104        143 |       320 
+        Si |     1,431      1,395      1,358 |     4,184 
+-----------+---------------------------------+----------
+     Total |     1,504      1,499      1,501 |     4,504 
+
+
+. 
+. // para generar variables de 
+. // grupos de edad y educación
+. // recodificar 
+. //do $codigo/recodificar_.do
+. //do $codigo/gen_vars.do
+. 
+. // muestra:
+. ta has_fumado_1mes wave, m
+
+has_fumado |               wave
+     _1mes |         4          5          6 |     Total
+-----------+---------------------------------+----------
+        No |        73        104        143 |       320 
+        Si |     1,431      1,395      1,358 |     4,184 
+-----------+---------------------------------+----------
+     Total |     1,504      1,499      1,501 |     4,504 
+
+
+. ta has_fumado_1mes wave, sum(consumo_semanal)
+
+                Means, Standard Deviations and Frequencies
+     of consumo semanal, suma 2 tipos de reportes (diario y ocasional)
+
+has_fumado |             wave
+     _1mes |         4          5          6 |     Total
+-----------+---------------------------------+----------
+        No | 14.391304  4.9090909  10.191489 | 9.4368932
+           | 31.356802  5.9074298   19.48203 | 20.164845
+           |        23         33         47 |       103
+-----------+---------------------------------+----------
+        Si | 35.082014  31.374537  31.488739 | 32.677142
+           | 43.516476  38.035758  38.088639 | 40.034828
+           |      1390       1351       1332 |      4073
+-----------+---------------------------------+----------
+     Total | 34.745223  30.743497  30.762872 | 32.103927
+           | 43.416785  37.806352  37.800479 | 39.826825
+           |      1413       1384       1379 |      4176
+
+. 
+. duplicates report id wave
+
+Duplicates in terms of id wave
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |         4504             0
+--------------------------------------
+
+. 
+. // id como numero para establecer el panel
+. destring id, gen(id_num)
+id: all characters numeric; id_num generated as long
+
+. xtset id_num wave
+       panel variable:  id_num (unbalanced)
+        time variable:  wave, 4 to 6
+                delta:  1 unit
+
+. 
+. keep if has_fumado_1mes == 1
+(320 observations deleted)
+
+. 
+. // patrones
+. xtdescribe 
+
+  id_num:  10011, 10020, ..., 60667                          n =       2697
+    wave:  4, 5, ..., 6                                      T =          3
+           Delta(wave) = 1 unit
+           Span(wave)  = 3 periods
+           (id_num*wave uniquely identifies each observation)
+
+Distribution of T_i:   min      5%     25%       50%       75%     95%     max
+                         1       1       1         1         2       3       3
+
+     Freq.  Percent    Cum. |  Pattern
+ ---------------------------+---------
+      646     23.95   23.95 |  1..
+      644     23.88   47.83 |  ..1
+      466     17.28   65.11 |  111
+      386     14.31   79.42 |  .1.
+      307     11.38   90.80 |  11.
+      236      8.75   99.56 |  .11
+       12      0.44  100.00 |  1.1
+ ---------------------------+---------
+     2697    100.00         |  XXX
+
+. 
+. // 466 en los3 levantamientos
+. //
+. egen sum_nId = total(1), by(id)
+
+. label variable sum_nId "mismo id en la tabla"
+
+. ta sum_nId
+
+mismo id en |
+   la tabla |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,676       40.06       40.06
+          2 |      1,110       26.53       66.59
+          3 |      1,398       33.41      100.00
+------------+-----------------------------------
+      Total |      4,184      100.00
+
+. 
+. /***************************************************************************/
+. // DESCRIPTIVOS
+. // frecuencia de consumo: diario, ocasional, dejó de fumar, nunca ha fumado cigarros
+. ta q009 
+
+       q009 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,978       47.28       47.28
+          2 |      2,095       50.07       97.35
+          3 |        106        2.53       99.88
+          4 |          5        0.12      100.00
+------------+-----------------------------------
+      Total |      4,184      100.00
+
+. 
+. //  ¿Cuántos cigarros fumas al día?
+. su q010
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        q010 |      1,978    8.050051    6.530658          1         80
+
+. // hist q010
+. 
+. // ¿cuántos cigarros fumas cada semana?
+. su q012
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        q012 |      2,095    10.32601    10.70237          1        100
+
+. // hist q012
+. 
+. // dos definiciones de consumo semanal
+. ta q009, su(consumo_semanal)
+
+            | Summary of consumo semanal, suma 2
+            |     tipos de reportes (diario y
+            |             ocasional)
+       q009 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+          1 |   56.350354   45.714605       1,978
+          2 |   10.326014   10.702371       2,095
+------------+------------------------------------
+      Total |   32.677142   40.034828       4,073
+
+. ta q009, su(cons_1)
+
+            |          Summary of cons_1
+       q009 |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+          1 |   8.0500506   6.5306578       1,978
+          2 |   10.326014   10.702371       2,095
+------------+------------------------------------
+      Total |   9.2207218   8.9946034       4,073
+
+. // cada cuándo compra?
+. ta patron if has_fumado_1mes, sum(consumo_semanal )
+
+            | Summary of consumo semanal, suma 2
+  RECODE of |     tipos de reportes (diario y
+smoking_pat |             ocasional)
+       tern |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+   nondaily |   10.326014   10.702371       2,095
+      daily |   56.350354   45.714605       1,978
+------------+------------------------------------
+      Total |   32.677142   40.034828       4,073
+
+. 
+. // hist consumo_semanal
+. ta q009 sum_nId
+
+           |       mismo id en la tabla
+      q009 |         1          2          3 |     Total
+-----------+---------------------------------+----------
+         1 |       636        520        822 |     1,978 
+         2 |       978        562        555 |     2,095 
+         3 |        59         26         21 |       106 
+         4 |         3          2          0 |         5 
+-----------+---------------------------------+----------
+     Total |     1,676      1,110      1,398 |     4,184 
+
+
+. 
+. // frecuencia de consumo, q009 = 3: dejo de fumar
+. // para 2 waves:
+. gen s2_idN_q3_009 = q009 == 3 & sum_nId == 2
+
+. // para 3 waves:
+. gen s3_idN_q3_009 = q009 == 3 & sum_nId == 3
+
+. // 21 observaciones sin fumar en los 3 levantamientos
+. 
+. /***************************************************************************/
+. // busqueda de algún patrón entre los que dejaron de fumar
+. preserve 
+
+. 
+. keep id s2_idN_q3_009 s3_idN_q3_009
+
+. // 2 waves
+. //keep if s2_idN_q3_009  == 1
+. // sin fumar en 2 o 3 waves:
+. //keep if s3_idN_q3_009  == 1 | s2_idN_q3_009  == 1
+. // sin fumar en 3 waves:
+. keep if s3_idN_q3_009  == 1
+(4,163 observations deleted)
+
+. 
+. // identificar los 
+. // que reportan no fumar en algún periodo
+. duplicates report id
+
+Duplicates in terms of id
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |           13             0
+        2 |            2             1
+        3 |            6             4
+--------------------------------------
+
+. duplicates tag id, generate(dup_id)
+
+Duplicates in terms of id
+
+. keep if dup_id == 0
+(8 observations deleted)
+
+. // solo aquellos que fumaron en los 3 periodos
+. 
+. save "$datos/s2_idN_q3_009_w6.dta", replace
+file datos/encuesta//s2_idN_q3_009_w6.dta saved
+
+. 
+. restore 
+
+. 
+. merge n:1 id using "$datos/s2_idN_q3_009_w6.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                         4,145
+        from master                     4,145  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                39  (_merge==3)
+    -----------------------------------------
+
+.  
+. rename _merge cambios_q009_3 
+
+. label variable cambios_q009_3 "dejaron de fumar o volvieron a fumar"
+
+. 
+. // panel No balanceado
+. // solo los que fuman diario y ocasional
+. preserve 
+
+. keep if q009 <= 2
+(111 observations deleted)
+
+. save "$datos/cons_w456_unbalanc.dta", replace
+file datos/encuesta//cons_w456_unbalanc.dta saved
+
+. 
+. restore
+
+. 
+. // 
+. use "$datos/cons_w456_unbalanc.dta", clear
+
+. 
+. // panel balanceado
+. // id en ambas encuestas: w4 y w5
+. // keep if sum_nId == 2
+. // w4, w5, w6
+. keep if sum_nId == 3
+(2,696 observations deleted)
+
+. // no dejo de fumar en una ocasion
+. keep if cambios_q009_3 != 3
+(26 observations deleted)
+
+. // 13 reportaron dejar de fumar en algun periodo
+. // reportó consumo
+. keep if q009 <= 2
+(0 observations deleted)
+
+. 
+. // hay una observación que cambio el q009
+. // de dejo de fumar a fumar ocasionalmente
+. // entre encuestas, 
+. duplicates report id
+
+Duplicates in terms of id
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |            1             0
+        3 |         1350           900
+--------------------------------------
+
+. duplicates tag id, generate(dup_id2)
+
+Duplicates in terms of id
+
+. /*
+> . list id q009 if dup_id2 == 0
+> 
+>       +--------------+
+>       |    id   q009 |
+>       |--------------|
+> 1183. | 40309      2 |
+> 
+> */ 
+. drop if dup_id2 == 0
+(1 observation deleted)
+
+. 
+. save "$datos/cons_w456_balanc.dta", replace
+file datos/encuesta//cons_w456_balanc.dta saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/encuesta/para_consumo_w4_w5_w6.log
+  log type:  text
+ closed on:  25 Oct 2021, 18:45:59
+--------------------------------------------------------------------------------------------------------------------------------------------------------

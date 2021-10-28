@@ -1,0 +1,193 @@
+--------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xt_means_marc
+> as.log
+  log type:  text
+ opened on:   4 May 2021, 15:57:44
+
+. 
+. // panel: ciudad promedios
+. use datos\xt_ciudad.dta, clear
+
+. 
+. xtreg ppu m1 m1_20 L.ppu, fe
+
+Fixed-effects (within) regression               Number of obs     =      5,474
+Group variable: cve_ciudad                      Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9930                                         min =        119
+     between = 0.9998                                         avg =      119.0
+     overall = 0.9933                                         max =        119
+
+                                                F(3,5425)         =  255006.11
+corr(u_i, Xb)  = 0.0645                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+         ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |   .0236905   .0015678    15.11   0.000      .020617     .026764
+       m1_20 |   .1862966   .0045696    40.77   0.000     .1773384    .1952549
+             |
+         ppu |
+         L1. |    1.00117   .0011651   859.31   0.000     .9988864    1.003454
+             |
+       _cons |   .0042174   .0026255     1.61   0.108    -.0009296    .0093644
+-------------+----------------------------------------------------------------
+     sigma_u |  .00105505
+     sigma_e |  .02893094
+         rho |  .00132813   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5425) = 0.16                    Prob > F = 1.0000
+
+. 
+. outreg2 m1 m1_20 ym using est_xt_means_marcas ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+keep( ) supersedes varlist when both specified
+est_xt_means_marcas.tex
+dir : seeout
+
+. 
+. predict resid_marcas, resid
+(46 missing values generated)
+
+. *xtline resid_marcas
+. 
+. predict ppu_marcas
+(option xb assumed; fitted values)
+(46 missing values generated)
+
+. gen ppu_marcas_sq = ppu_marcas^2
+(46 missing values generated)
+
+. 
+. xtreg ppu ppu_marcas ppu_marcas_sq
+
+Random-effects GLS regression                   Number of obs     =      5,474
+Group variable: cve_ciudad                      Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.9930                                         min =        119
+     between = 0.9998                                         avg =      119.0
+     overall = 0.9933                                         max =        119
+
+                                                Wald chi2(2)      =  808529.62
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+-------------------------------------------------------------------------------
+          ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+   ppu_marcas |   1.015609   .0127604    79.59   0.000     .9905988    1.040618
+ppu_marcas_sq |  -.0032783   .0027032    -1.21   0.225    -.0085765    .0020198
+        _cons |  -.0181046   .0147897    -1.22   0.221    -.0470919    .0108828
+--------------+----------------------------------------------------------------
+      sigma_u |          0
+      sigma_e |  .02892193
+          rho |          0   (fraction of variance due to u_i)
+-------------------------------------------------------------------------------
+
+. test ppu_marcas_sq
+
+ ( 1)  ppu_marcas_sq = 0
+
+           chi2(  1) =    1.47
+         Prob > chi2 =    0.2252
+
+. * prueba no significativa:
+. * se rechaza misespecificación
+. 
+. // 
+. xtreg d.ppu m1 m1_20 L.d.ppu, fe
+
+Fixed-effects (within) regression               Number of obs     =      5,428
+Group variable: cve_ciudad                      Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.3358                                         min =        118
+     between = 0.9666                                         avg =      118.0
+     overall = 0.3357                                         max =        118
+
+                                                F(3,5379)         =     906.47
+corr(u_i, Xb)  = 0.0055                         Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+       D.ppu |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          m1 |     .02456   .0015581    15.76   0.000     .0215055    .0276144
+       m1_20 |   .1867408   .0045016    41.48   0.000      .177916    .1955657
+             |
+         ppu |
+         LD. |   .1035348   .0111433     9.29   0.000     .0816894    .1253802
+             |
+       _cons |    .005651   .0004244    13.31   0.000      .004819    .0064831
+-------------+----------------------------------------------------------------
+     sigma_u |  .00096636
+     sigma_e |   .0287846
+         rho |  .00112582   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(45, 5379) = 0.13                    Prob > F = 1.0000
+
+. 
+. outreg2 m1 m1_20 ym using est_xt_marcas_diff ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+keep( ) supersedes varlist when both specified
+est_xt_marcas_diff.tex
+dir : seeout
+
+. 
+. predict resid_d_marcas, resid
+(92 missing values generated)
+
+. 
+. *xtline resid_d_marcas
+. 
+. predict d_ppu_marcas
+(option xb assumed; fitted values)
+(92 missing values generated)
+
+. gen d_ppu_marcas_sq = d_ppu_marcas^2
+(92 missing values generated)
+
+. 
+. xtreg d.ppu d_ppu_marcas d_ppu_marcas_sq
+
+Random-effects GLS regression                   Number of obs     =      5,428
+Group variable: cve_ciudad                      Number of groups  =         46
+
+R-sq:                                           Obs per group:
+     within  = 0.3358                                         min =        118
+     between = 0.9666                                         avg =      118.0
+     overall = 0.3357                                         max =        118
+
+                                                Wald chi2(2)      =    2741.15
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+---------------------------------------------------------------------------------
+          D.ppu |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+   d_ppu_marcas |   .9896977   .0654004    15.13   0.000     .8615154     1.11788
+d_ppu_marcas_sq |   .0520078   .3080584     0.17   0.866    -.5517756    .6557912
+          _cons |   .0000778   .0006451     0.12   0.904    -.0011865    .0013421
+----------------+----------------------------------------------------------------
+        sigma_u |          0
+        sigma_e |  .02878181
+            rho |          0   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+
+. test d_ppu_marcas_sq
+
+ ( 1)  d_ppu_marcas_sq = 0
+
+           chi2(  1) =    0.03
+         Prob > chi2 =    0.8659
+
+. * prueba no significativa:
+. * se rechaza misespecificación
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/est_xt_means_marc
+> as.log
+  log type:  text
+ closed on:   4 May 2021, 15:57:46
+--------------------------------------------------------------------------------------------------

@@ -1,0 +1,210 @@
+------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\resultados/est_xtsur_segmento_medio.log
+  log type:  text
+ opened on:  18 Mar 2021, 15:43:29
+
+. 
+. use datos/wide_complete_panel.dta, clear
+
+. 
+. su ppu4 ppu7 
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,837    2.277109    .2866655       1.76        3.2
+        ppu7 |      3,157    2.040986    .3953204       1.28   3.140357
+
+. // tiempo
+. // medio  
+. * program: 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
+
+. // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+. 
+. putexcel set "resultados\sample_changes\marcas_medias.xlsx", replace
+Note: file will be replaced when the first putexcel command is issued
+
+.  
+. putexcel (B2) = matrix( e(b) ), names
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. *file C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\resultados\sample_changes\marcas_medias.xlsx saved
+. putexcel (A4) = "muestra completa:"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. 
+. putexcel (B2) = matrix( e(b) ), names
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. 
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,356    2.298862     .287635     1.7904        3.2
+        ppu7 |      1,356    2.159245    .3264765       1.44          3
+
+. 
+. // minimo 2 anios, se agrega un anio cada vez
+. // quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2019,1)
+. // CONVERGE?
+. // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+. 
+. //putexcel (C5) = matrix( e(b) )
+. //putexcel (A5) = "muestra minima: ene2019-dic2020"
+. 
+. // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2018,1)
+
+. // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+. 
+. putexcel (C6) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. putexcel (A6) = "muestra: ene2018-dic2020"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |        619    2.521319    .2580906       2.02        3.2
+        ppu7 |        619     2.41993    .2603794   1.714286          3
+
+. 
+. // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2017,1)
+
+. // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+. 
+. putexcel (C7) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. putexcel (A7) = "muestra: ene2017-dic2020"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |        852    2.431197    .2751928       1.94        3.2
+        ppu7 |        852    2.323361    .2795805   1.677083          3
+
+. 
+. 
+. // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2016,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+. 
+.         putexcel (C8) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A8) = "muestra: ene2016-dic2020"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,088    2.359822    .2842767     1.7904        3.2
+        ppu7 |      1,088    2.239398    .3035549     1.5336          3
+
+. 
+.         // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2015,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+.         putexcel (C9) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A9) = "`e(cmdline)'"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,269    2.319016    .2859429     1.7904        3.2
+        ppu7 |      1,269    2.190927    .3100997       1.52          3
+
+. 
+.                 // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2014,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+.         putexcel (C10) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A10) = "`e(cmdline)'"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,323    2.306732    .2864964     1.7904        3.2
+        ppu7 |      1,323    2.175461    .3136135       1.48          3
+
+. 
+.                 // 
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2013,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+.         putexcel (C11) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A11) = "`e(cmdline)'"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,332    2.305279    .2860762     1.7904        3.2
+        ppu7 |      1,332    2.171411    .3163905       1.48          3
+
+. 
+. //
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2012,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+.         putexcel (C12) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A12) = "`e(cmdline)'"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,344    2.302498    .2863068     1.7904        3.2
+        ppu7 |      1,344    2.165667    .3207424     1.4775          3
+
+. 
+. //
+. quietly xtsur (ppu4 m1 m1_20 ym) (ppu7 m1 m1_20 ym) if  ym >= ym(2011,1)
+
+.         // despu'es de ejecutar xtreg xtsur tiene problemas para "cargar".
+.         putexcel (C13) = matrix( e(b) )
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+.         putexcel (A13) = "`e(cmdline)'"
+file resultados\sample_changes\marcas_medias.xlsx saved
+
+. su ppu4 ppu7 if e(sample)==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu4 |      1,356    2.298862     .287635     1.7904        3.2
+        ppu7 |      1,356    2.159245    .3264765       1.44          3
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\vicen\Documents\R\tax_ene2020\tax_2020\resultados/est_xtsur_segmento_medio.log
+  log type:  text
+ closed on:  18 Mar 2021, 15:43:51
+------------------------------------------------------------------------------------------------------------

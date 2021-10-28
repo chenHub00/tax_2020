@@ -1,0 +1,235 @@
+------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\
+> encuesta\/descr_w04_w05.log
+  log type:  text
+ opened on:   2 Sep 2021, 09:54:45
+
+. 
+. global v_tab "sexo edad_gr2 educ_gr2 gr_ingr patron single tipo"
+
+. 
+. // cambiar para wave 1 a 8
+. foreach w of numlist 4 5 {
+  2. di "Levantamiento " `w'
+  3.  /***************************************************************************/
+.          // UNBALANCED
+.          // cambiar para wave 1 a 8
+.         use "$datos/wave4_5unbalanced.dta", clear
+  4. 
+.         keep if wave == `w'
+  5. * prueba:
+. *       keep if wave == 4
+. 
+.         // sexo
+.         tab1 $v_tab if has_fumado_1mes, sum(consumo_semanal) 
+  6. }
+Levantamiento 4
+(1,351 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Masculino |   37.428571   44.083202         756
+   Femenino |   32.283912    42.69712         634
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of edad_gr2 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+      18-24 |   19.886905   31.622289         168
+      25-29 |   26.722727   34.228088         220
+      30-34 |   34.330275   38.187762         218
+      35-39 |   32.684729    37.31322         203
+      40-44 |   41.006757   56.960124         148
+      45-54 |   40.205426   41.216809         258
+      55-64 |   49.670886   58.964357         158
+        65+ |   66.764706   44.416395          17
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of educ_gr2 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Hasta pri |        76.5   79.044866          12
+  Secundari |      36.848   40.701719         125
+    Técnica |   34.453947   34.864323         152
+  Preparato |   30.887363     37.1935         364
+  Licenciat |   28.562738   35.398533         263
+  Licenciat |   39.806373   51.971352         408
+   Posgrado |   43.814815   51.879423          54
+       Otro |   53.416667   63.484369          12
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   23.318841   36.975545          69
+  3,001 a 5 |   33.073171   38.045061          82
+  5,001 a 8 |   31.230769   35.812937         130
+  8,001 a 1 |   30.088235   38.420723         170
+  10,001 a  |   35.853448   40.362267         232
+  15,001 a  |   34.992647   41.864127         272
+  20,001 a  |   39.313725   47.913237         306
+    50 mil+ |        58.7   74.951804          60
+      No sé |   27.246377    30.41691          69
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+   nondaily |   10.876081    10.72181         694
+      daily |   59.218391    50.01529         696
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  cajetilla |   40.161205     45.9282       1,129
+   sueltos  |   13.111111   19.196131         261
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  diario-ca |   61.448113   51.070236         636
+  diario-su |   35.583333    27.83017          60
+  esporádic |   12.699797    11.33718         493
+  esporádic |   6.4029851   7.3370151         201
+------------+------------------------------------
+      Total |   35.082014   43.516476       1,390
+Levantamiento 5
+(1,390 observations deleted)
+
+-> tabulation of sexo if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+       sexo |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Masculino |   35.095101   41.865098         694
+   Femenino |   27.444444   33.099633         657
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of edad_gr2 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+       edad |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+      18-24 |   17.494624   24.998648         186
+      25-29 |   21.821429    26.16341         224
+      30-34 |    24.90708   27.414923         226
+      35-39 |   34.513089    37.87665         191
+      40-44 |   35.007874    34.80524         127
+      45-54 |        37.3   37.582172         250
+      55-64 |   55.744361   64.137005         133
+        65+ |   59.928571   45.856741          14
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of educ_gr2 if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+  grupos de |          tipos de reportes
+escolaridad |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  Hasta pri |   35.555556   46.303648           9
+  Secundari |   36.751773   36.195137         141
+    Técnica |    33.44186    37.10428         172
+  Preparato |   26.927114   31.782299         343
+  Licenciat |   23.598253   29.706388         229
+  Licenciat |   35.497512   42.303926         402
+   Posgrado |   41.882353   64.994045          51
+       Otro |       21.75   32.335481           4
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of gr_ingr if has_fumado_1mes 
+
+  grupos de | Summary of consumo semanal, suma 2
+    ingreso |          tipos de reportes
+    (pesos) |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  <3 mil pe |   21.671233   28.969838          73
+  3,001 a 5 |   24.089888   32.063729          89
+  5,001 a 8 |   25.267606   29.984137         142
+  8,001 a 1 |   29.620112   34.824292         179
+  10,001 a  |   29.954338   30.574585         219
+  15,001 a  |   34.171296   39.456462         216
+  20,001 a  |   35.324415   34.784453         299
+    50 mil+ |   59.092308   83.255203          65
+      No sé |   20.681159   22.619937          69
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of patron if has_fumado_1mes 
+
+  RECODE of | Summary of consumo semanal, suma 2
+smoking_pat |          tipos de reportes
+       tern |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+   nondaily |   9.9575071   10.924936         706
+      daily |   54.817054   42.997732         645
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of singles if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+            |          tipos de reportes
+    sueltos |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  cajetilla |   36.350506   40.215184       1,087
+   sueltos  |   10.886364   14.976863         264
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+-> tabulation of tipo_cons if has_fumado_1mes 
+
+            | Summary of consumo semanal, suma 2
+    tipo de |          tipos de reportes
+    consumo |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+  diario-ca |   56.469012   43.894525         597
+  diario-su |   34.270833   20.837507          48
+  esporádic |   11.838776   12.131881         490
+  esporádic |   5.6898148   5.5001977         216
+------------+------------------------------------
+      Total |   31.374537   38.035758       1,351
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\USUARIO\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\
+> encuesta\/descr_w04_w05.log
+  log type:  text
+ closed on:   2 Sep 2021, 09:54:45
+------------------------------------------------------------------------------------

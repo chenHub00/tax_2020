@@ -1,0 +1,209 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons2_tnbreg.log
+  log type:  text
+ opened on:  20 Aug 2021, 15:08:21
+
+. use "$datos/wave4_5unbalanced.dta", clear
+
+. /***************************************************************************/
+. // 1.2 MODELOS ajustes variables agrupadas
+. global vreg "sexo i.edad_gr2 i.educ_gr2 i.gr_ingr i.tipo"
+
+. global v_int "tax2020 tax2020_sexo "
+
+. // sólo interacción de impuesto con sexo
+. 
+. // modelo
+. tnbreg $depvar  $v_int $vreg if has_fumado_1mes
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -7549.1981  
+Iteration 1:   log likelihood = -7549.0935  
+Iteration 2:   log likelihood = -7549.0934  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -4617.0492  
+Iteration 1:   log likelihood = -4610.5947  
+Iteration 2:   log likelihood = -4610.5164  
+Iteration 3:   log likelihood = -4610.5164  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -4503.0479  
+Iteration 1:   log likelihood = -4485.4254  
+Iteration 2:   log likelihood = -4483.8264  
+Iteration 3:   log likelihood =  -4483.822  
+Iteration 4:   log likelihood =  -4483.822  
+
+Truncated negative binomial regression          Number of obs     =      1,400
+Truncation point: 0                             LR chi2(26)       =     253.39
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood =  -4483.822                     Pseudo R2         =     0.0275
+
+------------------------------------------------------------------------------------------
+                cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+                 tax2020 |  -.0960514   .0724091    -1.33   0.185    -.2379707    .0458678
+            tax2020_sexo |   .0887639   .1033434     0.86   0.390    -.1137854    .2913131
+                    sexo |  -.3542185   .0734758    -4.82   0.000    -.4982284   -.2102086
+                         |
+                edad_gr2 |
+                  25-29  |   .0980948   .0851763     1.15   0.249    -.0688476    .2650372
+                  30-34  |   .3045279   .0889573     3.42   0.001     .1301748    .4788809
+                  35-39  |   .0836824   .0960067     0.87   0.383    -.1044874    .2718521
+                  40-44  |   .0145334   .1101394     0.13   0.895    -.2013359    .2304027
+                  45-54  |   .2504009   .0919199     2.72   0.006     .0702411    .4305606
+                  55-64  |   .2732552   .1187865     2.30   0.021     .0404378    .5060725
+                    65+  |   .3203622   .3371084     0.95   0.342    -.3403581    .9810826
+                         |
+                educ_gr2 |
+    Secundaria completa  |   .5569517   .3297399     1.69   0.091    -.0893267     1.20323
+                Técnica  |   .4502413   .3264063     1.38   0.168    -.1895034    1.089986
+           Preparatoria  |   .5336456   .3218261     1.66   0.097    -.0971221    1.164413
+Licenciatura incompleta  |   .5351952   .3232859     1.66   0.098    -.0984336    1.168824
+  Licenciatura completa  |   .6662763   .3238498     2.06   0.040     .0315423     1.30101
+               Posgrado  |   .9209651   .3507709     2.63   0.009     .2334667    1.608464
+                   Otro  |   .4582741   .4685536     0.98   0.328     -.460074    1.376622
+                         |
+                 gr_ingr |
+          3,001 a 5 mil  |   .3697553   .1421619     2.60   0.009      .091123    .6483875
+          5,001 a 8 mil  |   .1036632   .1307016     0.79   0.428    -.1525072    .3598336
+         8,001 a 10 mil  |   .0409877   .1271196     0.32   0.747     -.208162    .2901375
+        10,001 a 15 mil  |   .2188613   .1254339     1.74   0.081    -.0269845    .4647072
+        15,001 a 20 mil  |   .1402386    .125492     1.12   0.264    -.1057211    .3861984
+        20,001 a 49,999  |   .0775732   .1271394     0.61   0.542    -.1716155    .3267619
+                50 mil+  |   .2378392    .175288     1.36   0.175     -.105719    .5813974
+                  No sé  |  -.1163676   .1582113    -0.74   0.462    -.4264561    .1937208
+                         |
+               tipo_cons |
+      esporádico-suelto  |  -.7600595   .0599678   -12.67   0.000    -.8775942   -.6425249
+                   _cons |   1.781007   .3297188     5.40   0.000      1.13477    2.427244
+-------------------------+----------------------------------------------------------------
+                /lnalpha |  -.2608613   .0589414                     -.3763843   -.1453383
+-------------------------+----------------------------------------------------------------
+                   alpha |   .7703877   .0454077                      .6863385    .8647297
+------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 6130.54              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_2$mod, word excel replace
+resultados/encuesta/modelos1_2_tnbreg.rtf
+resultados/encuesta/modelos1_2_tnbreg.xml
+dir : seeout
+
+. 
+. /*  
+> // estimación panel
+> xtreg $depvar $v_int $vreg if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
+> 
+> estimates store fixed
+> *xttest2
+> /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+> 
+> xtreg $depvar  $v_int $vreg if has_fumado_1mes, re
+> outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
+> 
+> estimates store random
+> xttest0 
+> * rechazo Pooled 
+> * significance of random effects
+> * Hausmann Test
+> // hausman consistent efficient
+> hausman fixed random , sigmamore
+> // Rechazo Efectos aleatorios
+> 
+> use "$datos/wave4_5balanc.dta", clear
+> xtreg $depvar  $v_int $vreg if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
+> */
+. use "$datos/wave4_5balanc.dta", clear
+
+. tnbreg $depvar  $v_int $vreg if has_fumado_1mes
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -3251.9446  
+Iteration 1:   log likelihood = -3251.7074  
+Iteration 2:   log likelihood = -3251.7074  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2186.2854  
+Iteration 1:   log likelihood = -2183.4499  
+Iteration 2:   log likelihood = -2183.4042  
+Iteration 3:   log likelihood = -2183.4042  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2105.9233  
+Iteration 1:   log likelihood =  -2089.565  
+Iteration 2:   log likelihood = -2084.3231  
+Iteration 3:   log likelihood = -2084.3174  
+Iteration 4:   log likelihood = -2084.3174  
+
+Truncated negative binomial regression          Number of obs     =        654
+Truncation point: 0                             LR chi2(26)       =     198.17
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -2084.3174                     Pseudo R2         =     0.0454
+
+------------------------------------------------------------------------------------------
+                cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+                 tax2020 |  -.1063701   .0947358    -1.12   0.262    -.2920488    .0793086
+            tax2020_sexo |   .1124644    .135357     0.83   0.406    -.1528304    .3777593
+                    sexo |  -.2366457   .0960747    -2.46   0.014    -.4249486   -.0483428
+                         |
+                edad_gr2 |
+                  25-29  |   .1782424   .1408771     1.27   0.206    -.0978717    .4543565
+                  30-34  |   .4825927   .1384221     3.49   0.000     .2112903    .7538951
+                  35-39  |   .2451068   .1402622     1.75   0.081    -.0298021    .5200157
+                  40-44  |   .1082198   .1534552     0.71   0.481    -.1925468    .4089864
+                  45-54  |   .4710884    .135181     3.48   0.000     .2061385    .7360383
+                  55-64  |   .2489367   .1655858     1.50   0.133    -.0756056    .5734789
+                    65+  |   .2991419   .4372223     0.68   0.494     -.557798    1.156082
+                         |
+                educ_gr2 |
+    Secundaria completa  |   .1426372   .4480349     0.32   0.750    -.7354951    1.020769
+                Técnica  |  -.0390793   .4410959    -0.09   0.929    -.9036115    .8254529
+           Preparatoria  |   .0195127   .4358299     0.04   0.964    -.8346981    .8737235
+Licenciatura incompleta  |  -.0761597   .4389807    -0.17   0.862    -.9365461    .7842267
+  Licenciatura completa  |   .3039592   .4371952     0.70   0.487    -.5529277    1.160846
+               Posgrado  |   .6446773   .4612375     1.40   0.162    -.2593317    1.548686
+                   Otro  |    -.51647   .7099574    -0.73   0.467    -1.907961     .875021
+                         |
+                 gr_ingr |
+          3,001 a 5 mil  |   .6506852   .2133483     3.05   0.002     .2325302     1.06884
+          5,001 a 8 mil  |  -.1716737   .2014685    -0.85   0.394    -.5665446    .2231973
+         8,001 a 10 mil  |  -.0927602   .1924877    -0.48   0.630    -.4700292    .2845087
+        10,001 a 15 mil  |    .218199    .184819     1.18   0.238    -.1440396    .5804375
+        15,001 a 20 mil  |    .273401   .1865643     1.47   0.143    -.0922583    .6390604
+        20,001 a 49,999  |   .1441942   .1891855     0.76   0.446    -.2266027     .514991
+                50 mil+  |   .2551422   .2445713     1.04   0.297    -.2242088    .7344931
+                  No sé  |   .0041769   .2329151     0.02   0.986    -.4523284    .4606821
+                         |
+               tipo_cons |
+      esporádico-suelto  |  -.8228919   .0852442    -9.65   0.000    -.9899675   -.6558164
+                   _cons |   2.030501    .450298     4.51   0.000     1.147933    2.913069
+-------------------------+----------------------------------------------------------------
+                /lnalpha |  -.5336752   .0819913                     -.6943753   -.3729751
+-------------------------+----------------------------------------------------------------
+                   alpha |   .5864457   .0480835                      .4993863    .6886824
+------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 2334.78              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_2$mod, word excel append
+resultados/encuesta/modelos1_2_tnbreg.rtf
+resultados/encuesta/modelos1_2_tnbreg.xml
+dir : seeout
+
+. 
+. capture log close

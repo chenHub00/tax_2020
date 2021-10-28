@@ -1,0 +1,17 @@
+	(1)	(2)
+VARIABLES	dm_ppu_cm	dm_ppu_cm
+		
+dm_m1_20_cm	0.202***	0.230***
+	(0.010)	(0.021)
+dm_m1_21_cm	0.232***	0.275***
+	(0.010)	(0.021)
+dm_m1_cm	-0.023***	-0.023***
+	(0.003)	(0.003)
+ym	0.009***	0.009***
+	(0.000)	(0.000)
+		
+Observations	23,926	23,926
+R-squared	0.865	0.866
+Number of gr_marca_ciudad	263	263
+Standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

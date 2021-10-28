@@ -169,6 +169,11 @@ revalue(df$marca, c("DELICADOS" = "CHESTERFIELD")) -> df$marca
 revalue(df$marca, c("RALEIGH" = "LUCKY STRIKE")) -> df$marca
 revalue(df$marca, c("SHOTS" = "MONTANA")) -> df$marca
 
+
+# OTROS
+revalue(df$marca, c("LM BARONET" = "BARONET")) -> df$marca
+revalue(df$marca, c("L&M" = "BARONET")) -> df$marca
+
 # plot2
 ggplot(df, aes(fecha, ppu, colour = marca)) + 
   geom_point()
@@ -237,7 +242,7 @@ ggplot(df_review, aes(fecha, ppu, colour = marca)) +
 # Saving on object in RData format
 save(df_review, file = "datos/prelim/de_inpc/df_review.RData")
 
-#rm(list=ls())
+rm(list=ls())
 
 # notar que se puede agrupar por ciudad
 # 

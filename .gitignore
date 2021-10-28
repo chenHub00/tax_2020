@@ -5,12 +5,11 @@
 *.csv
 *.jpg
 *.png
-*.txt
 /resultados/doc/*.aux
 *.xlsx
 /datos/*
-/resultados/*.log
 /resultados/*.xlsx
+/resultados/encuesta/*
 /resultados/doc/*.log
 /resultados/doc/*.gz
 /stata_code/elasticidad/

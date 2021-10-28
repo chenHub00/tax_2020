@@ -1,0 +1,156 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/logs/gr_xtreg_dyn.log
+  log type:  text
+ opened on:  31 Aug 2021, 13:01:31
+
+. 
+. /* PARA FINAL DE> est_one_panel_dyn.do
+> despu'es de 
+> - est_one_panel_dyn.do
+>         */
+. global varsRegStatic "jan20 jan21 jan ym"
+
+. // omitidos por colinealidad
+. // global v_taxTrend "jan20 jan21 ym"
+. /*
+> * model with interactions:
+> *use datos/prelim/de_inpc/df_x.dta, clear
+> use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+> 
+> gen xb_ppu_2019 = .
+> gen xb_ppu_nodyn = .
+> gen xb_ppu_dyn = .
+> foreach n_marca of numlist 1/7 {
+>     
+> di `n_marca'
+>         // modelo hasta enero 2020 (sin efecto del impuesto)
+>         // xtreg ppu $v_taxTrend  if ym<ym(2020,1), fe
+>         xtreg ppu $varsRegStatic if ym<ym(2020,1) & marca == `n_marca', fe
+> 
+>         predict xb_ppu_2019_`n_marca' if marca == `n_marca'
+>         replace xb_ppu_2019 = xb_ppu_2019_`n_marca' if marca == `n_marca'
+>         // hace la proyecci'on sin necesidad de re-ajustar la muestra?
+>         
+>         // modelo interactuado, sin dinámica
+>         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 if marca == `n_marca', fe
+>         predict xb_ppu_nodyn_`n_marca' if ym>=ym(2020,1)  & marca == `n_marca'
+>         replace xb_ppu_nodyn = xb_ppu_nodyn_`n_marca' if marca == `n_marca'
+> 
+>         // modelo interactuado, con dinámica
+>         xtreg ppu $varsRegStatic i.marca##jan20 i.marca##jan21 L.ppu if marca == `n_marca', fe
+>         predict xb_ppu_dyn_`n_marca' if ym>=ym(2020,1) & marca == `n_marca'
+>         replace xb_ppu_dyn = xb_ppu_dyn_`n_marca' if marca == `n_marca'
+> }
+> 
+> gen trend = ym[_n]
+> 
+> export excel using "datos\finales\pred_xtreg_dyn.xlsx", firstrow(variables) replace
+> save "datos\finales\pred_xtreg_dyn.dta", replace
+> */
+. use "datos\finales\pred_xtreg_dyn.dta", clear
+
+. 
+. // promedios para gráficar
+. collapse (mean) xb_ppu_nodyn  xb_ppu_dyn xb_ppu_2019 ppu , by(marca ym )
+
+. 
+. // etiquetas para gr'aficas
+. * label variable xb_ppu_2019 "Estático sin efecto impuestos"
+. * label variable xb_ppu_nodyn "Estático con interacciones"
+. * label variable xb_ppu_dyn "Dinámico con interacciones"
+. label variable xb_ppu_2019 "Tendencia previa al impuesto"
+
+. label variable xb_ppu_dyn "Estimación con impuesto"
+
+. 
+. label variable ppu "promedio entre ciudades del precio" 
+
+. label variable ym "periodo"     
+
+. xtset marca ym 
+       panel variable:  marca (strongly balanced)
+        time variable:  ym, 2011m1 to 2021m4
+                delta:  1 month
+
+. 
+. export excel using "datos\finales\predprom_xtreg_dyn.xlsx", firstrow(variables) replace
+file datos\finales\predprom_xtreg_dyn.xlsx saved
+
+. save "datos\finales\predprom_xtreg_dyn.dta", replace
+file datos\finales\predprom_xtreg_dyn.dta saved
+
+. 
+. // GRAFICOS
+. 
+. use "datos\finales\predprom_xtreg_dyn.dta", clear
+
+. *xtline xb_ppu_nodyn xb_ppu_2019 if ym > ym(2019,1)
+. 
+. xtline ppu, overlay
+
+. graph save Graph "graficos\promedios_por_ciudad.gph",  replace
+(file graficos\promedios_por_ciudad.gph saved)
+
+. graph export "graficos\promedios_por_ciudad.pdf", as(pdf) replace
+(file graficos\promedios_por_ciudad.pdf written in PDF format)
+
+. graph export "graficos\promedios_por_ciudad.png", as(png) replace
+(file graficos\promedios_por_ciudad.png written in PNG format)
+
+. 
+. xtline ppu if ym > ym(2018,1), overlay
+
+. graph save Graph "graficos\prom_por_ciudad_2018_.gph",  replace
+(file graficos\prom_por_ciudad_2018_.gph saved)
+
+. 
+. graph export "graficos\prom_por_ciudad_2018_.pdf", as(pdf) replace
+(file graficos\prom_por_ciudad_2018_.pdf written in PDF format)
+
+. graph export "graficos\prom_por_ciudad_2018_.png", as(png) replace
+(file graficos\prom_por_ciudad_2018_.png written in PNG format)
+
+. 
+. /*
+> xtline xb_ppu_nodyn , overlay
+> xtline xb_ppu_dyn , overlay
+> xtline xb_ppu_2019, overlay
+> */
+. 
+. xtline xb_ppu_nodyn xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1)
+
+. graph save Graph "graficos\pred_dyn_stat.gph",  replace
+(file graficos\pred_dyn_stat.gph saved)
+
+. 
+. graph export "graficos\pred_dyn_stat.pdf", as(pdf) replace
+(file graficos\pred_dyn_stat.pdf written in PDF format)
+
+. graph export "graficos\pred_dyn_stat.png", as(png) replace
+(file graficos\pred_dyn_stat.png written in PNG format)
+
+. 
+. // solo din'amico y tendencia
+. // graficos 2 marcas: Marlboro y Montana
+. xtline xb_ppu_dyn xb_ppu_2019  if ym > ym(2019,1) & (marca == 5 | marca == 6) 
+
+. //      , xline(2019m1)
+. 
+. graph save Graph "graficos\pred_dyn_2marcas.gph",  replace
+(file graficos\pred_dyn_2marcas.gph saved)
+
+. 
+. graph export "graficos\pred_dyn_2marcas.pdf", as(pdf) replace
+(file graficos\pred_dyn_2marcas.pdf written in PDF format)
+
+. graph export "graficos\pred_dyn_2marcas.png", as(png) replace
+(file graficos\pred_dyn_2marcas.png written in PNG format)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/logs/gr_xtreg_dyn.log
+  log type:  text
+ closed on:  31 Aug 2021, 13:01:43
+--------------------------------------------------------------------------------------------------------------------------------------------------------

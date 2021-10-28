@@ -159,15 +159,15 @@ Next table present the results by brand type: premium, columns 1 and 2; medium, 
 
 \input{est_xtreg_tipo_mod.tex}
 
-By brand type, for premium(1) and low(3) brand types the Hausman test rejects the alternative of random effects in favour of fixed individual effects. The test for type 1 and 3 are Chi2(4) =  0.60,
+By brand type, for premium(1) and low(3) brand types the Hausman test (see  Table \ref{tab:AppHausmanStatic}) rejects the alternative of random effects in favour of fixed individual effects. The test for type 1 and 3 are Chi2(4) =  0.60,
 $Prob \geq chi2 =    0.9628$ and Chi2(4) =  0.60,
-$Prob \geq chi2 =    0.9628$, respectively.
+$Prob \geq chi2 =    0.9628$, respectively. 
 
 Similarly the Breusch-Pagan test for random effects does rule out the alternative of OLS : chibar2(01) =  7.5e+05,
 $Prob \geq chibar2 =    0.0000$
 
 The test of unit root, using the Fischer type estimation from Choi (2001): 
-Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel.
+Inverse chi-squared(500) = 1112.8056 , $Prob \geq chi2 =    0.0000$, does not rule out the presence of unit root for any panel (defined as a combination of city and brand), except for the model that includes a drift. The result suggests to consider different trends for each brand or city, there is an estimation by brand to test for unit roots by specifications of the panel. See Table \ref{tab:AppUnitRoots}.
 
 The next table presents F or Chi-squared tests for equality of coeficients, F corresponds to models by fixed effects, Chi-squared corresponds to models estimated by random effects.
 
@@ -216,7 +216,9 @@ Similar to the previous section, estimations include interactions, to consider t
 \end{equation*}
 $i  = 1,\ldots,N;  t=1,\ldots,T; m=1,\ldots,M. $
 
-Table \ref{tab:dynXtreg} shows the results prefered by the Hausman test, in this case fixed effects. It  also shows the estimates by type. The first two columns correspond to the model estimation without interactions. Third and fourth columns include interactions by brand. Fifth and sixth columns consider interactions by brand type.
+
+
+Table \ref{tab:dynXtreg} shows the results prefered by the Hausman test (see: Table \ref{tab:AppendixHausman}), in this case fixed effects. It  also shows the estimates by type. The first two columns correspond to the model estimation without interactions. Third and fourth columns include interactions by brand. Fifth and sixth columns consider interactions by brand type.
 Columns 2, 4 and 6 present, for reference, an estimation without lagged dependent variable. 
 
 	\begin{table}[ht]
@@ -258,6 +260,56 @@ The results show that exception of premium brands, brand type or segment is rele
 	\caption{F tests by brand type, interacted \label{tab:FtestsDyn}} 
 	\input{testparam_xtreg_dyn.tex}
 \end{table}
+\end{landscape}
+ 
+The dynamic model with full interactions, i.e. also january, trend and lag, returns F tests that show significant different results for each brand. See Table \ref{tab:FtestsDynFullInt} 
+
+\begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{F tests by brand type, Fully interacted \label{tab:FtestsDynFullInt}} 
+HERE THE TABLE WITH F TESTS FOR DIFFERENCE BY BRAND OF JAN, Trend and Lag 	\end{table}
+\end{landscape}
+
+The table \ref{tab:XtregMarcas_dyn} shows the estimated coefficients by brand in columns.
+
+\begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Fixed/Random individual effects for each brand \label{tab:XtregMarcas_dyn}}
+		\input{est_xtreg_dyn_marca_mod.tex}
+	\end{table}
+\end{landscape}
+
+\subsubsection{Test for different time windows in tax definition}
+To test if there are any price adjustment due to the announcement of the tax implementation at the end of october, the next table (\ref{tab:XtregMarcas_wind}) shows estimation results with dummy variables for november and december 2019 and 2020, to consider earlier effect on price for tax adjustment on 2020 and 2021,respectively.
+ 
+Estimates these wider tax effect show are negative or not statistically significant, this implies that the impact of the tax adjustment occurs in january. 
+
+\begin{landscape}
+ 	\begin{table}[ht]
+ 	\centering
+ 	% To place a caption above a table
+ 	\caption{Wide Time window for tax adjustment \label{tab:XtregMarcas_wind}}
+ 	\input{est_xtreg_dyn_marca_nov_dic.tex}
+ \end{table}
+\end{landscape}
+
+\subsubsection{Effects Includying Other brands}
+Shown in the next table (\ref{tab:XtregOtras_tipo}) are models of price adjustment includying data from brands with fewer observations. Instead of getting an estimation by brand, the estimates are by type includying the seven brands with more observations. 
+
+Columns 1, 3, 5 and 7 present the estimates for each brand type (premium, medium, low and other, respectively). Columns 2, 4, 6 show the estimates considering only the 7 principal brands by brand type (premium, medium and low). Column 8 presents the estimates for brand type low and other, to consider differences between the cheapest brands.
+
+
+\begin{landscape}
+	\begin{table}[ht]
+		\centering
+		% To place a caption above a table
+		\caption{Includes data for other brands \label{tab:XtregOtras_tipo}}
+		\input{est_xtreg_dif_tipo_con_otras.tex}
+	\end{table}
 \end{landscape}
  
 \section{Consistent estimation for Variable Intercept}
@@ -308,5 +360,46 @@ Results for lower segment brands
 Results for mid-range segment brands
 
 \input{est_xtsur_medio.tex}
+
+
+\appendix
+\section{\\Appendix A: Tests tables}
+% the \\ insures the section title is centered below the phrase: AppendixA
+
+Results for static models Hausman tests
+
+\begin{table}[ht]
+	\centering
+	
+	\caption{Hausman tests static models \label{tab:AppHausmanStatic}} 
+	\input{hausman_tests_static.tex}
+	
+\end{table}
+
+Results for Unit Root tests
+\begin{landscape}
+\begin{table}[ht]
+	\centering
+	
+	\caption{Unit Root tests \label{tab:AppUnitRoots}} 
+	\input{unitroot_tests.tex}
+	
+\end{table}
+\end{landscape}
+
+
+
+
+Results for dynamic models Hausman tests
+
+\begin{table}[ht]
+	\centering
+
+\caption{Hausman tests dynamic models \label{tab:AppendixHausman}} 
+\input{hausman_tests_dyn.tex}
+
+\end{table}
+
+
 
 \end{document}

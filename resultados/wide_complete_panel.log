@@ -1,0 +1,313 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/wide_complete
+> _panel.log
+  log type:  text
+ opened on:  12 May 2021, 10:00:33
+
+. 
+. use datos/wide_complete_panel.dta, clear
+
+. 
+. ta cve_ciudad
+
+ cve_ciudad |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        120        2.17        2.17
+          2 |        120        2.17        4.35
+          3 |        120        2.17        6.52
+          4 |        120        2.17        8.70
+          5 |        120        2.17       10.87
+          6 |        120        2.17       13.04
+          7 |        120        2.17       15.22
+          8 |        120        2.17       17.39
+          9 |        120        2.17       19.57
+         10 |        120        2.17       21.74
+         11 |        120        2.17       23.91
+         12 |        120        2.17       26.09
+         13 |        120        2.17       28.26
+         14 |        120        2.17       30.43
+         15 |        120        2.17       32.61
+         16 |        120        2.17       34.78
+         17 |        120        2.17       36.96
+         18 |        120        2.17       39.13
+         19 |        120        2.17       41.30
+         20 |        120        2.17       43.48
+         21 |        120        2.17       45.65
+         22 |        120        2.17       47.83
+         23 |        120        2.17       50.00
+         24 |        120        2.17       52.17
+         25 |        120        2.17       54.35
+         26 |        120        2.17       56.52
+         27 |        120        2.17       58.70
+         28 |        120        2.17       60.87
+         29 |        120        2.17       63.04
+         30 |        120        2.17       65.22
+         31 |        120        2.17       67.39
+         32 |        120        2.17       69.57
+         33 |        120        2.17       71.74
+         34 |        120        2.17       73.91
+         35 |        120        2.17       76.09
+         36 |        120        2.17       78.26
+         37 |        120        2.17       80.43
+         38 |        120        2.17       82.61
+         39 |        120        2.17       84.78
+         40 |        120        2.17       86.96
+         41 |        120        2.17       89.13
+         42 |        120        2.17       91.30
+         43 |        120        2.17       93.48
+         44 |        120        2.17       95.65
+         45 |        120        2.17       97.83
+         46 |        120        2.17      100.00
+------------+-----------------------------------
+      Total |      5,520      100.00
+
+. 
+. su ppu*
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        ppu1 |      4,513    2.407717    .3550894       1.75      3.421
+        ppu2 |      3,134    2.349925    .3307855       1.05   3.428571
+        ppu3 |      2,650    1.755042    .2997089       1.12   2.996667
+        ppu4 |      3,128    2.122061    .3002218     1.4875        3.2
+        ppu5 |      5,366    2.416465    .3716929       1.75    3.71631
+-------------+---------------------------------------------------------
+        ppu6 |      1,185    1.790669    .2390306       1.28   2.642857
+        ppu7 |      3,267    2.030362    .3931396       1.28   3.140357
+
+. 
+. /*xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) /// 
+>                 (ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym) 
+> NOT RUNNING...          
+> classdef _b_stat() in use
+> (nothing dropped)
+> (327 lines skipped)
+> (error occurred while loading xtsur.ado)
+> * how long does it take for the entire panel?
+> * is it just the computer
+> // xtsur (ppu1 m1 m1_20 ym) (ppu2 m1 m1_20 ym) (ppu3 m1 m1_20 ym) (ppu4 m1 m1_20 ym) ///    
+>     
+> //               (ppu5 m1 m1_20 ym) (ppu6 m1 m1_20 ym) (ppu7 m1 m1_20 ym), 
+> // if ym >= ym[43]
+>                  
+> // en primer instancia sólo se tienen algunas marcas
+> /// (ppu6 m1 m1_20 ym) 
+> ///      (ppu2 m1 m1_20 ym) 
+>  */
+. // premium  
+. xtsur (ppu1 m1 m1_20 ym) ///
+>                         (ppu2 m1 m1_20 ym) ///
+>                 (ppu5 m1 m1_20 ym) 
+(running multi-step estimates...)
+
+Calculating multi-step estimates...
+Iteration   1 : relative difference =  .35312309
+Iteration   2 : relative difference =  .00013921
+Iteration   3 : relative difference =  .00013919
+Iteration   4 : relative difference =  .00013921
+Iteration   5 : relative difference =  .00013919
+Iteration   6 : relative difference =  .00013921
+Iteration   7 : relative difference =  .00013919
+Iteration   8 : relative difference =  4.573e-11
+
+
+Seemingly unrelated regression (SUR) in panel data set
+
+One-way random effect estimation:
+------------------------------------------------------------------------------
+Number of Group variable:   23                  Number of obs      =      2488
+Panel variable: cve_ciudad                      Number of eqn      =         3
+Time variable : ym                              Number of panels   =        23
+
+Random effects u_i ~ Gaussian
+corr(u_i, e_it)    = 0 (assumed)
+Panel type         : strongly balanced
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ppu1         |
+          m1 |  -.0014141   .0032948    -0.43   0.668    -.0078717    .0050435
+       m1_20 |   .2818736   .0171865    16.40   0.000     .2481887    .3155585
+          ym |   .0091583   .0000375   244.14   0.000     .0090848    .0092318
+-------------+----------------------------------------------------------------
+ppu2         |
+          m1 |  -.0002595   .0033599    -0.08   0.938    -.0068447    .0063257
+       m1_20 |   .1061028   .0175511     6.05   0.000     .0717032    .1405024
+          ym |   .0091657   .0000377   242.92   0.000     .0090917    .0092396
+-------------+----------------------------------------------------------------
+ppu5         |
+          m1 |  -.0313224   .0046775    -6.70   0.000    -.0404902   -.0221547
+       m1_20 |   .0468087   .0247735     1.89   0.059    -.0017464    .0953639
+          ym |   .0091733   .0000378   242.38   0.000     .0090992    .0092475
+-------------+----------------------------------------------------------------
+     sigma_u |   see e(sigma_u)
+     sigma_e |   see e(sigma_e)
+------------------------------------------------------------------------------
+Dependent variables:   ppu1 ppu2 ppu5 
+Independent variables: m1 m1_20 ym 
+------------------------------------------------------------------------------
+
+. 
+.     outreg2 m1 m1_20 ym using resultados/doc/est_xtsur_premium ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+keep( ) supersedes varlist when both specified
+resultados/doc/est_xtsur_premium.tex
+dir : seeout
+
+. 
+.                 test [ppu5]m1_20=[ppu1]m1_20=[ppu2]m1_20
+
+ ( 1)  - [ppu1]m1_20 + [ppu5]m1_20 = 0
+ ( 2)  - [ppu2]m1_20 + [ppu5]m1_20 = 0
+
+           chi2(  2) =   63.97
+         Prob > chi2 =    0.0000
+
+.                 // rejects equality
+.                 
+.                 test [ppu5]m1_20=[ppu1]m1_20
+
+ ( 1)  - [ppu1]m1_20 + [ppu5]m1_20 = 0
+
+           chi2(  1) =   62.26
+         Prob > chi2 =    0.0000
+
+.                 // rejects equality
+. 
+.                 test [ppu5]m1_20=[ppu2]m1_20
+
+ ( 1)  - [ppu2]m1_20 + [ppu5]m1_20 = 0
+
+           chi2(  1) =   13.56
+         Prob > chi2 =    0.0002
+
+.                 // rejects equality
+.                 
+. // bajo  
+. xtsur (ppu3 m1 m1_20 ym) ///
+>                         (ppu6 m1 m1_20 ym) 
+(running multi-step estimates...)
+
+Calculating multi-step estimates...
+Iteration   1 : relative difference =  .28134692
+Iteration   2 : relative difference =  1.242e-08
+
+
+Seemingly unrelated regression (SUR) in panel data set
+
+One-way random effect estimation:
+------------------------------------------------------------------------------
+Number of Group variable:   11                  Number of obs      =       605
+Panel variable: cve_ciudad                      Number of eqn      =         2
+Time variable : ym                              Number of panels   =        11
+
+Random effects u_i ~ Gaussian
+corr(u_i, e_it)    = 0 (assumed)
+Panel type         : strongly balanced
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ppu3         |
+          m1 |   .0129693   .0091987     1.41   0.159    -.0050598    .0309983
+       m1_20 |   .2754294   .0281116     9.80   0.000     .2203317     .330527
+          ym |   .0071506   .0000697   102.65   0.000      .007014    .0072871
+-------------+----------------------------------------------------------------
+ppu6         |
+          m1 |  -.0554404   .0125491    -4.42   0.000    -.0800362   -.0308446
+       m1_20 |   .0976343   .0384138     2.54   0.011     .0223445     .172924
+          ym |   .0049323    .000095    51.92   0.000     .0047462    .0051185
+-------------+----------------------------------------------------------------
+     sigma_u |   see e(sigma_u)
+     sigma_e |   see e(sigma_e)
+------------------------------------------------------------------------------
+Dependent variables:   ppu3 ppu6 
+Independent variables: m1 m1_20 ym 
+------------------------------------------------------------------------------
+
+. 
+.                 outreg2 using resultados/doc/est_xtsur_bajo ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace
+resultados/doc/est_xtsur_bajo.tex
+dir : seeout
+
+. 
+.                         
+.                 test [ppu6]m1_20=[ppu3]m1_20
+
+ ( 1)  - [ppu3]m1_20 + [ppu6]m1_20 = 0
+
+           chi2(  1) =   13.82
+         Prob > chi2 =    0.0002
+
+.                 // No se rechaza igualdad 
+. 
+. // medio  
+. xtsur (ppu4 m1 m1_20 ym) ///
+>                         (ppu7 m1 m1_20 ym) 
+(running multi-step estimates...)
+
+Calculating multi-step estimates...
+Iteration   1 : relative difference =  .28081535
+Iteration   2 : relative difference =  8.465e-08
+
+
+Seemingly unrelated regression (SUR) in panel data set
+
+One-way random effect estimation:
+------------------------------------------------------------------------------
+Number of Group variable:   25                  Number of obs      =      2048
+Panel variable: cve_ciudad                      Number of eqn      =         2
+Time variable : ym                              Number of panels   =        25
+
+Random effects u_i ~ Gaussian
+corr(u_i, e_it)    = 0 (assumed)
+Panel type         : strongly balanced
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ppu4         |
+          m1 |  -.0030456   .0054714    -0.56   0.578    -.0137693     .007678
+       m1_20 |    .122382   .0190349     6.43   0.000     .0850742    .1596898
+          ym |   .0100944   .0000294   343.25   0.000     .0100368     .010152
+-------------+----------------------------------------------------------------
+ppu7         |
+          m1 |  -.0447494   .0045886    -9.75   0.000    -.0537429   -.0357559
+       m1_20 |   .1703209   .0159768    10.66   0.000     .1390069    .2016348
+          ym |   .0100517   .0000301   334.31   0.000     .0099928    .0101107
+-------------+----------------------------------------------------------------
+     sigma_u |   see e(sigma_u)
+     sigma_e |   see e(sigma_e)
+------------------------------------------------------------------------------
+Dependent variables:   ppu4 ppu7 
+Independent variables: m1 m1_20 ym 
+------------------------------------------------------------------------------
+
+. 
+.                 outreg2 using resultados/doc/est_xtsur_medio ///
+>                         , keep(m1 m1_20 ym) bdec(3) nocons  tex(fragment) replace  
+resultados/doc/est_xtsur_medio.tex
+dir : seeout
+
+. 
+.                         
+.                 test [ppu4]m1_20=[ppu7]m1_20
+
+ ( 1)  [ppu4]m1_20 - [ppu7]m1_20 = 0
+
+           chi2(  1) =    4.04
+         Prob > chi2 =    0.0445
+
+.                 // it has no Std. Err. Estimations!! "sign is changed"
+.                 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados/wide_complete
+> _panel.log
+  log type:  text
+ closed on:  12 May 2021, 10:01:09
+----------------------------------------------------------------------------------------------

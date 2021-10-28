@@ -1,0 +1,414 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons3_tnbreg.log
+  log type:  text
+ opened on:  20 Aug 2021, 14:27:53
+
+. use "$datos/wave4_5unbalanced.dta", clear
+
+. /***************************************************************************/
+. // 1.3 MODELOS tipo
+. global v_tipo "sexo#i.tipo_cons i.edad_gr2#i.tipo_cons i.educ_gr2#i.tipo_cons i.gr_ingr#i.ti
+> po_cons i.tipo"
+
+. global v_tipo_int "tax2020 tax2020#i.tipo_cons tax2020_sexo#i.tipo_cons "
+
+. 
+. // modelo
+. tnbreg $depvar  $v_tipo_int $v_tipo if has_fumado_1mes
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+
+Fitting truncated Poisson model:
+
+Iteration 0:   log likelihood = -7437.7408  
+Iteration 1:   log likelihood = -7436.3205  
+Iteration 2:   log likelihood = -7435.9799  
+Iteration 3:   log likelihood = -7435.9363  
+Iteration 4:   log likelihood = -7435.9287  
+Iteration 5:   log likelihood = -7435.9274  
+Iteration 6:   log likelihood = -7435.9271  
+Iteration 7:   log likelihood =  -7435.927  
+Iteration 8:   log likelihood =  -7435.927  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -4617.0492  
+Iteration 1:   log likelihood = -4610.5947  
+Iteration 2:   log likelihood = -4610.5164  
+Iteration 3:   log likelihood = -4610.5164  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -4488.5508  
+Iteration 1:   log likelihood = -4465.9654  
+Iteration 2:   log likelihood = -4463.2915  
+Iteration 3:   log likelihood = -4463.2827  
+Iteration 4:   log likelihood = -4463.2827  
+
+Truncated negative binomial regression          Number of obs     =      1,400
+Truncation point: 0                             LR chi2(51)       =     294.47
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -4463.2827                     Pseudo R2         =     0.0319
+
+---------------------------------------------------------------------------------------------
+                   cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |  -.1859032   .1406134    -1.32   0.186    -.4615003    .0896939
+                            |
+          tax2020#tipo_cons |
+    1#esporádico-cajetilla  |   .1020954    .163833     0.62   0.533    -.2190114    .4232023
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+    1#esporádico-cajetilla  |   .0718534   .1190165     0.60   0.546    -.1614147    .3051216
+       1#esporádico-suelto  |   .1966462   .2052623     0.96   0.338    -.2056606    .5989529
+                            |
+             sexo#tipo_cons |
+                  Femenino #|
+      esporádico-cajetilla  |  -.3134551   .0839803    -3.73   0.000    -.4780534   -.1488568
+Femenino#esporádico-suelto  |  -.5781285   .1478565    -3.91   0.000    -.8679218   -.2883351
+                            |
+         edad_gr2#tipo_cons |
+25-29#esporádico-cajetilla  |   .1621498   .1036639     1.56   0.118    -.0410277    .3653274
+   25-29#esporádico-suelto  |  -.1302084   .1491888    -0.87   0.383    -.4226131    .1621964
+30-34#esporádico-cajetilla  |   .2770798   .1065808     2.60   0.009     .0681852    .4859744
+   30-34#esporádico-suelto  |   .3046556   .1584555     1.92   0.055    -.0059116    .6152227
+35-39#esporádico-cajetilla  |   .1309533   .1104049     1.19   0.236    -.0854363    .3473429
+   35-39#esporádico-suelto  |  -.1770866    .191738    -0.92   0.356    -.5528861     .198713
+40-44#esporádico-cajetilla  |   .0062354    .122898     0.05   0.960    -.2346403    .2471111
+   40-44#esporádico-suelto  |   .1700931   .2495628     0.68   0.496    -.3190409    .6592272
+45-54#esporádico-cajetilla  |   .2840652   .1054135     2.69   0.007     .0774585    .4906718
+   45-54#esporádico-suelto  |    .031836   .1916401     0.17   0.868    -.3437717    .4074436
+55-64#esporádico-cajetilla  |   .2769654    .132603     2.09   0.037     .0170683    .5368625
+   55-64#esporádico-suelto  |   .3388142    .280747     1.21   0.227    -.2114399    .8890682
+  65+#esporádico-cajetilla  |   .4837176   .3534342     1.37   0.171    -.2090008    1.176436
+     65+#esporádico-suelto  |   -19.0915    6192.57    -0.00   0.998    -12156.31    12118.12
+                            |
+         educ_gr2#tipo_cons |
+       Secundaria completa #|
+      esporádico-cajetilla  |    .563947   .3830053     1.47   0.141    -.1867297    1.314624
+       Secundaria completa #|
+         esporádico-suelto  |   .7796811   .6327676     1.23   0.218    -.4605206    2.019883
+                   Técnica #|
+      esporádico-cajetilla  |    .301845   .3742897     0.81   0.420    -.4317494    1.035439
+ Técnica#esporádico-suelto  |   .9920679   .6402788     1.55   0.121    -.2628554    2.246991
+              Preparatoria #|
+      esporádico-cajetilla  |   .5417978   .3700467     1.46   0.143    -.1834803    1.267076
+              Preparatoria #|
+         esporádico-suelto  |   .6664615   .6264995     1.06   0.287     -.561455    1.894378
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |   .3782318    .372355     1.02   0.310    -.3515706    1.108034
+   Licenciatura incompleta #|
+         esporádico-suelto  |   1.013862   .6279259     1.61   0.106    -.2168499    2.244574
+     Licenciatura completa #|
+      esporádico-cajetilla  |   .5907446   .3712194     1.59   0.112     -.136832    1.318321
+     Licenciatura completa #|
+         esporádico-suelto  |   1.009438   .6350229     1.59   0.112    -.2351844     2.25406
+                  Posgrado #|
+      esporádico-cajetilla  |   .9189554   .3992396     2.30   0.021     .1364601    1.701451
+Posgrado#esporádico-suelto  |   .9130113   .7243515     1.26   0.208    -.5066915    2.332714
+ Otro#esporádico-cajetilla  |   .5902405   .5500724     1.07   0.283    -.4878816    1.668363
+    Otro#esporádico-suelto  |   .3123061   .9031287     0.35   0.729    -1.457794    2.082406
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .5490623   .1831434     3.00   0.003     .1901078    .9080167
+             3,001 a 5 mil #|
+         esporádico-suelto  |  -.0061157   .2246239    -0.03   0.978    -.4463705     .434139
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |   .2815027   .1623722     1.73   0.083    -.0367409    .5997463
+             5,001 a 8 mil #|
+         esporádico-suelto  |   -.284382   .2143747    -1.33   0.185    -.7045487    .1357846
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |   .0952904   .1554157     0.61   0.540    -.2093188    .3998997
+            8,001 a 10 mil #|
+         esporádico-suelto  |  -.1135099   .2161957    -0.53   0.600    -.5372457    .3102258
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .2565849   .1547218     1.66   0.097    -.0466642    .5598341
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .0656617   .2073766     0.32   0.752     -.340789    .4721124
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |   .2386776   .1507298     1.58   0.113    -.0567473    .5341026
+           15,001 a 20 mil #|
+         esporádico-suelto  |  -.0970117    .225486    -0.43   0.667    -.5389562    .3449327
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .1732091   .1525172     1.14   0.256    -.1257192    .4721373
+           20,001 a 49,999 #|
+         esporádico-suelto  |  -.0592915   .2345996    -0.25   0.800    -.5190982    .4005152
+                   50 mil+ #|
+      esporádico-cajetilla  |   .2992686   .1971976     1.52   0.129    -.0872316    .6857689
+ 50 mil+#esporádico-suelto  |    .243121   .4476509     0.54   0.587    -.6342586    1.120501
+No sé#esporádico-cajetilla  |  -.1462668   .1954946    -0.75   0.454    -.5294292    .2368956
+   No sé#esporádico-suelto  |  -.0317538   .2591182    -0.12   0.902    -.5396161    .4761084
+                            |
+                  tipo_cons |
+         esporádico-suelto  |  -.6073148   .7320089    -0.83   0.407    -2.042026    .8273962
+                      _cons |      1.727   .3839243     4.50   0.000     .9745217    2.479477
+----------------------------+----------------------------------------------------------------
+                   /lnalpha |  -.3029654   .0584887                      -.417601   -.1883297
+----------------------------+----------------------------------------------------------------
+                      alpha |   .7386247   .0432012                      .6586249    .8283416
+---------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 5945.29              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel replace
+resultados/encuesta/modelos1_3_tnbreg.rtf
+resultados/encuesta/modelos1_3_tnbreg.xml
+dir : seeout
+
+. 
+. // pruebas
+. testparm i.tipo // se rechaza igualdad
+
+ ( 1)  [cons_sem]4.tipo_cons = 0
+
+           chi2(  1) =    0.69
+         Prob > chi2 =    0.4067
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  [cons_sem]1.tax2020#3b.tipo_cons = 0
+
+           chi2(  1) =    0.39
+         Prob > chi2 =    0.5332
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  [cons_sem]1.tax2020_sexo#3b.tipo_cons = 0
+ ( 2)  [cons_sem]1.tax2020_sexo#4.tipo_cons = 0
+
+           chi2(  2) =    1.28
+         Prob > chi2 =    0.5267
+
+. 
+. /*
+> // estimación panel
+> xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+> 
+> estimates store fixed
+> *xttest2
+> /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+> // pruebas
+> testparm i.tipo // se rechaza igualdad
+> testparm tax2020#i.tipo // no se rechaza igualdad
+> testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+> 
+> xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, re 
+> outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+> 
+> estimates store random
+> xttest0 
+> * rechazo Pooled 
+> * significance of random effects
+> * Hausmann Test
+> // hausman consistent efficient
+> hausman fixed random , sigmamore
+> // Rechazo Efectos aleatorios
+> 
+> // pruebas
+> testparm i.tipo // se rechaza igualdad
+> testparm tax2020#i.tipo // no se rechaza igualdad
+> testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+> 
+> use "$datos/wave4_5balanc.dta", clear
+> xtreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes, fe
+> outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+> 
+> estimates store fixed
+> *xttest2
+> /*
+> insufficient observations
+> r(2001);
+> 
+> end of do-file
+> */
+> // pruebas
+> testparm i.tipo // NO se rechaza igualdad
+> testparm tax2020#i.tipo // no se rechaza igualdad
+> testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+> */
+. use "$datos/wave4_5balanc.dta", clear
+
+. tnbreg $depvar $v_tipo_int $v_tipo if has_fumado_1mes
+note: 1.tax2020#4.tipo_cons omitted because of collinearity
+note: 1.educ_gr2#4.tipo_cons identifies no observations in the sample
+note: 9.educ_gr2#4.tipo_cons omitted because of collinearity
+
+Fitting truncated Poisson model:
+note: 1.educ_gr2#4.tipo_cons identifies no observations in the sample
+
+Iteration 0:   log likelihood = -3173.3913  
+Iteration 1:   log likelihood = -3171.8917  
+Iteration 2:   log likelihood = -3171.5487  
+Iteration 3:   log likelihood = -3171.5112  
+Iteration 4:   log likelihood = -3171.5036  
+Iteration 5:   log likelihood = -3171.5023  
+Iteration 6:   log likelihood = -3171.5021  
+Iteration 7:   log likelihood = -3171.5021  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2186.2854  
+Iteration 1:   log likelihood = -2183.4499  
+Iteration 2:   log likelihood = -2183.4042  
+Iteration 3:   log likelihood = -2183.4042  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2096.3419  
+Iteration 1:   log likelihood = -2080.2021  
+Iteration 2:   log likelihood = -2066.4754  
+Iteration 3:   log likelihood = -2066.4033  
+Iteration 4:   log likelihood = -2066.4033  
+
+Truncated negative binomial regression          Number of obs     =        654
+Truncation point: 0                             LR chi2(50)       =     234.00
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood = -2066.4033                     Pseudo R2         =     0.0536
+
+---------------------------------------------------------------------------------------------
+                   cons_sem |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+----------------------------+----------------------------------------------------------------
+                    tax2020 |  -.3032282   .2050336    -1.48   0.139    -.7050866    .0986302
+                            |
+          tax2020#tipo_cons |
+    1#esporádico-cajetilla  |   .2203842   .2305638     0.96   0.339    -.2315124    .6722809
+       1#esporádico-suelto  |          0  (omitted)
+                            |
+     tax2020_sexo#tipo_cons |
+    1#esporádico-cajetilla  |   .0814762   .1487539     0.55   0.584    -.2100761    .3730284
+       1#esporádico-suelto  |   .3543612   .3156951     1.12   0.262    -.2643898    .9731122
+                            |
+             sexo#tipo_cons |
+                  Femenino #|
+      esporádico-cajetilla  |  -.2391312   .1042243    -2.29   0.022     -.443407   -.0348554
+Femenino#esporádico-suelto  |  -.3080603   .2485968    -1.24   0.215    -.7953011    .1791806
+                            |
+         edad_gr2#tipo_cons |
+25-29#esporádico-cajetilla  |    .262052   .1590288     1.65   0.099    -.0496388    .5737428
+   25-29#esporádico-suelto  |   -.154304   .2852491    -0.54   0.589     -.713382    .4047739
+30-34#esporádico-cajetilla  |   .5697398   .1551696     3.67   0.000     .2656129    .8738667
+   30-34#esporádico-suelto  |   .0781659   .2861102     0.27   0.785    -.4825997    .6389315
+35-39#esporádico-cajetilla  |   .3046176   .1542943     1.97   0.048     .0022063     .607029
+   35-39#esporádico-suelto  |  -.0113628   .3026317    -0.04   0.970    -.6045101    .5817846
+40-44#esporádico-cajetilla  |   .1196134   .1670481     0.72   0.474    -.2077948    .4470217
+   40-44#esporádico-suelto  |   .2680916   .3484543     0.77   0.442    -.4148663    .9510494
+45-54#esporádico-cajetilla  |   .5016734   .1494929     3.36   0.001     .2086727     .794674
+   45-54#esporádico-suelto  |   .3063817   .3049401     1.00   0.315      -.29129    .9040534
+55-64#esporádico-cajetilla  |   .3426476   .1763151     1.94   0.052    -.0029236    .6882188
+   55-64#esporádico-suelto  |  -.0437257    .526472    -0.08   0.934    -1.075592    .9881404
+  65+#esporádico-cajetilla  |   .7154744   .4811727     1.49   0.137    -.2276068    1.658556
+     65+#esporádico-suelto  |  -16.78322   2078.676    -0.01   0.994    -4090.913    4057.346
+                            |
+         educ_gr2#tipo_cons |
+   Hasta primaria completa #|
+         esporádico-suelto  |          0  (empty)
+       Secundaria completa #|
+      esporádico-cajetilla  |   .1054299   .4456829     0.24   0.813    -.7680926    .9789524
+       Secundaria completa #|
+         esporádico-suelto  |     1.3775    1.11779     1.23   0.218     -.813329    3.568329
+                   Técnica #|
+      esporádico-cajetilla  |  -.1994711   .4341778    -0.46   0.646    -1.050444    .6515017
+ Técnica#esporádico-suelto  |    1.28527   1.096026     1.17   0.241    -.8629012     3.43344
+              Preparatoria #|
+      esporádico-cajetilla  |   .0682648   .4275444     0.16   0.873    -.7697069    .9062365
+              Preparatoria #|
+         esporádico-suelto  |   .9478457   1.095785     0.86   0.387    -1.199853    3.095545
+   Licenciatura incompleta #|
+      esporádico-cajetilla  |   -.016913   .4311995    -0.04   0.969    -.8620484    .8282224
+   Licenciatura incompleta #|
+         esporádico-suelto  |    .843849   1.108177     0.76   0.446    -1.328139    3.015837
+     Licenciatura completa #|
+      esporádico-cajetilla  |   .3661416   .4289143     0.85   0.393    -.4745149    1.206798
+     Licenciatura completa #|
+         esporádico-suelto  |   1.164409   1.107008     1.05   0.293    -1.005287    3.334106
+                  Posgrado #|
+      esporádico-cajetilla  |   .7687101    .457458     1.68   0.093     -.127891    1.665311
+Posgrado#esporádico-suelto  |   1.062489   1.174283     0.90   0.366    -1.239064    3.364041
+ Otro#esporádico-cajetilla  |  -.2532058   .7721025    -0.33   0.743    -1.766499    1.260087
+    Otro#esporádico-suelto  |          0  (omitted)
+                            |
+          gr_ingr#tipo_cons |
+             3,001 a 5 mil #|
+      esporádico-cajetilla  |   .6218138   .2453958     2.53   0.011     .1408468    1.102781
+             3,001 a 5 mil #|
+         esporádico-suelto  |   .5862409   .4267153     1.37   0.169    -.2501058    1.422588
+             5,001 a 8 mil #|
+      esporádico-cajetilla  |  -.0496135   .2329479    -0.21   0.831     -.506183     .406956
+             5,001 a 8 mil #|
+         esporádico-suelto  |  -.3705771   .3950288    -0.94   0.348    -1.144819    .4036651
+            8,001 a 10 mil #|
+      esporádico-cajetilla  |  -.0319404   .2193231    -0.15   0.884    -.4618057     .397925
+            8,001 a 10 mil #|
+         esporádico-suelto  |  -.0425217   .3863157    -0.11   0.912    -.7996866    .7146431
+           10,001 a 15 mil #|
+      esporádico-cajetilla  |   .2905755   .2118167     1.37   0.170    -.1245775    .7057286
+           10,001 a 15 mil #|
+         esporádico-suelto  |   .0283434   .3541641     0.08   0.936    -.6658055    .7224923
+           15,001 a 20 mil #|
+      esporádico-cajetilla  |   .3427472   .2096732     1.63   0.102    -.0682047    .7536992
+           15,001 a 20 mil #|
+         esporádico-suelto  |   .0268131   .3924601     0.07   0.946    -.7423946    .7960208
+           20,001 a 49,999 #|
+      esporádico-cajetilla  |   .1581571   .2123565     0.74   0.456    -.2580539    .5743682
+           20,001 a 49,999 #|
+         esporádico-suelto  |   .1450848   .4033284     0.36   0.719    -.6454245     .935594
+                   50 mil+ #|
+      esporádico-cajetilla  |   .0949078   .2666948     0.36   0.722    -.4278044    .6176201
+ 50 mil+#esporádico-suelto  |   1.369702   .6733024     2.03   0.042     .0500536     2.68935
+No sé#esporádico-cajetilla  |  -.2073791   .2761389    -0.75   0.453    -.7486014    .3338432
+   No sé#esporádico-suelto  |   .2945652   .4069262     0.72   0.469    -.5029955    1.092126
+                            |
+                  tipo_cons |
+         esporádico-suelto  |  -1.360814   1.280052    -1.06   0.288     -3.86967    1.148042
+                      _cons |   1.915392   .4447437     4.31   0.000     1.043711    2.787074
+----------------------------+----------------------------------------------------------------
+                   /lnalpha |  -.6047986   .0815304                     -.7645951    -.445002
+----------------------------+----------------------------------------------------------------
+                      alpha |   .5461844   .0445306                      .4655224     .640823
+---------------------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 2210.20              Prob >= chibar2 = 0.000
+
+. outreg2 using resultados/encuesta/modelos1_3$mod, word excel append
+resultados/encuesta/modelos1_3_tnbreg.rtf
+resultados/encuesta/modelos1_3_tnbreg.xml
+dir : seeout
+
+. 
+. testparm i.tipo // NO se rechaza igualdad
+
+ ( 1)  [cons_sem]4.tipo_cons = 0
+
+           chi2(  1) =    1.13
+         Prob > chi2 =    0.2877
+
+. testparm tax2020#i.tipo // no se rechaza igualdad
+
+ ( 1)  [cons_sem]1.tax2020#3b.tipo_cons = 0
+
+           chi2(  1) =    0.91
+         Prob > chi2 =    0.3391
+
+. testparm tax2020_sexo#i.tipo_cons // no se rechaza igualdad
+
+ ( 1)  [cons_sem]1.tax2020_sexo#3b.tipo_cons = 0
+ ( 2)  [cons_sem]1.tax2020_sexo#4.tipo_cons = 0
+
+           chi2(  2) =    1.56
+         Prob > chi2 =    0.4584
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\chen\OneDrive\Documentos\R\tax_ene2020\tax_2020\resultados\encuesta\/mod
+> elos_cons3_tnbreg.log
+  log type:  text
+ closed on:  20 Aug 2021, 14:28:27
+----------------------------------------------------------------------------------------------

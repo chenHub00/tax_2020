@@ -1,0 +1,226 @@
+
+======================= descriptivos --------------------
+descr_cp_w1a8_marca.do
+* modificar para obtener los descriptivos de:
+- precio, 
+- consumo o 
+- consumo por dia
+
+descr_cons_w1a8.do
+* descriptivos de consumo
+
+descr_precio_w1a8.do // sucede a descr_precio_w04_w05.do (pero sin balanceado)
+* descriptivos de la definici'on de precios w1 a w8 // , w4 y w5
+// do $codigo/descr_precio_w04_w05.do
+usa: cp_w1a8.dta // c_pw4_w5_`balanced_unbalanced'.dta
+* descriptivos de 
+
+
+======================= modelos de precios --------------------
+modelos_precio[,3]
+usa:
+< cp_w456unbalanc.dta
+< cp_w456balanc.dta
+
+======================= definición de precios --------------------
+
+gr_ppu_w04_w05.do
+* gr'afico para comparar w8 con w4 y w8
+
+para_precio_consumo_w1_a_w8.do
+* tabla con precios (y consumo) desde wave 1 hasta 8.
+usa: cant_cig_caj_w1_a_w8.dta
+cons_w_1to8.dta
+tabla> cp_w1a8.dta
+
+cant_cig_caj_w1_a_w8.do // antes cant_cig_caj_w4_w5_w6.do // sigue a para_precio_w1.do hasta para_precio_w8.do
+* unir las estimaciones de cantidades de cigarros por cajetilla 
+: cant_cig_caj_w1_a_w8.dta
+
+para_precio_w1.do hasta para_precio_w8.do con para_precio_w4_w5_prom_minmax.do (para 4 y 5)
+* ppu para comparar con w4 y w5 generados
+(descriptivos)
+para_precio_w6.do 
+- usar datos de INPC de INEGI para definir los puntos de corte
+
+para_precio_w8_sin_inegi.do
+*ppu_cuest variable obtenida del cuestionario
+
+para_precio_consumo_w4_w5_w6.do  // ANTES: para_precio_consumo_w4_w5.do 
+* cantidades por cajetilla, ppu y consumo wave 4 y 5
+* une las tablas de consumo y precios para wave 4 y wave 5.
+-usa:
+< cons_w456_unbalanc.dta  // use "$datos/wave4_5unbalanced.dta", replace
+< cant_cig_caj_w4_w5_w6.dta // "$datos/cant_cigarros_w4_w5.dta",
+< cons_w456_balanc // use "$datos/wave4_5balanc.dta", replace
+- resultados:
+> cp_w456unbalanc.dta // "$datos/c_pw4_w5_w6unbalanc.dta"
+> cp_w456balanc.dta // "$datos/c_pw4_w5_w6balanc.dta"
+
+para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
+- A partir de los datos de INEGI
+> cant_cigarros_w4_w5.dta
+
+
+
+======================= c'odigos de consumo --------------------
+do_modelos_consumo.do
+- llama otro c'odigo para ejecutar generacion de variables
+do "$codigo/para_consumo.do"
+- llama otro código de los modelos
+*do "$codigo/modelos_consumo.do"
+do "$codigo/modelos_consumo_log.do"
+
+para_consumo_w4_w5_w6.do
+usa:
+do $codigo/recodificar_.do
+do $codigo/gen_vars.do
+< "$datos/cons_w456_unbalanc.dta"
+< "$datos/cons_w456_unbalanc.dta"
+> save "$datos/cons_w456_balanc.dta", replace
+> save "$datos/cons_w456_unbalanc.dta", replace
+
+
+
+para_consumo.do
+usa:
+< 91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
+- $codigo/recodificar_.do
+- $codigo/gen_vars.do
+resultado:
+> cons_w_1to8.dta
+
+======================= modelos de precios --------------------
+modelos_consumo_w4a6.do
+
+modelos_consumo_tnb.do
+* estimación tnb: tobit negative binomial
+usa: cons_w_1to8.dta
+
+modelos_consumo_tnb_iwave.do
+* con indicadora de levantamiento
+usa: cons_w_1to8.dta
+
+modelos_consumo_log.do
+- modelos regresion lineal, fe, re y panel balanceado, 
+con variable transformada en logaritmos
+
+modelos_consumo.do (modelos_consumo_w4a6.do)
+* regresion lineal, fe, re y panel balanceado (waves 4 a 6)
+* 
+? nocons no funciona
++ agregar indicador para waves anteriores y posteriores
+usa: cons_w_1to8.dta
+
+modelos_consumo_iwave.do 
+* con indicadora de levantamiento
+usa: cons_w_1to8.dta
+
+mods_cons_balanc_iwave.do 
+// modelos_consumo_iwave.do 
+// modelos_consumo_tnb_iwave.do?
+// modelos_consumo_tnb.do?
+// mods_tnb_cons_iwave_patron_singles.do : $seleccion, tax2020_sexo
+// modelos_consumo_log.do
+
+
+to_project.do
+- llama otro c'odigo para hacer definiciones y salvar 
+
+gen_vars.do
+- variables para tabla descriptiva
+- genera variables para modelos
+
+pre_panel.do
+- definici'on del panel (completo, 8 waves)
+- identificar los individuos con varias respuestas en varios levantamientos
+
+descriptivos.do
+- comprobaci'on de variables por "wave" y etiquetas.
+* sin considerar el ajuste en los precios? 
+* sin asignar un precio por unidad, dado un precio por cajetilla
+* 
+- w01_w05_: wave 1 a 4
+- age, gender, education > (q001, q002, q003)
+- consumo (semanal)> q012
+- marca favorita > q019 (q018, tiene marca favorita)
+- 'ultima marca > q026
+- pagado por la cajetilla > q029 [q028 = 1, compro cajetilla]
+- pagado por cigarro suelto > q030 [q028 = 2, compro cigarro suelto]
+
+etiquetas_marcas.do
+- para identificar marcas 
+> con mayor preferencia
+> de 'ultima compra
+
+para_muestra_analitica.do
+* procedimiento y descriptivos para definir las observaciones a usar en el análisis 
+  de las encuestas 4 y 5.
+
+quit_smoking_analysis.do
+- apartir del ejemplo de an'alisis previo
+. islead? 2617 (antes 2588)
+. 
+
+recodificar_.do
+* definir variables para tener categorias con total de observaciones más representativo
+
+reshape_wide_consumo.do
+* transformar las tablas de datos para estimación de modelos de consumo en formato amplio (wide)
+para estimar modelos SUR
+
+
+solo_wave8_excel.do
+* descriptivos de wave 8 para comparar con encuesta nacional.
+- 
+
+=============================== ejemplos_previos ----------------------------------
+descriptivos_wave_precio_inpc.do
+- datos de inpc de inegi para identificar puntos de corte entre marcas
+
+descriptivos_recodificar.do
+* descriptivos de variables definidas y para recodificar
+log using resultados/encuesta/descriptivos_recod.log, replace
+use "$datos/otras_etiquetas.dta", clear
+
+
+descriptivos_recodificar_precio.do
+- pruebas de recodificación de precios
+
+do_encuesta.do
+- llama el resto del codigo
+
+
+exploracion_.do
+- para crear variables de 
+> consumo
+> precios
+
+otras_etiquetas.do
+- identificar las variables de la tabla 
+
+
+precios_por_consumo.do
+
+draft_diferencia_precios_enero21.do
+
+quit_smoking_analysis.do (referencia)
+
+to_project.do // sin seguimiento en git
+- crear un proyecto en Stata, que lleve el código.
+
+vars_wave8.do
+* variables para análisis desde wave 8 (cantidad en cajetilla)
+
+
+weights_.do
+- explora el uso de los pesos para el an'alisis
+> no se tiene una explicaci'on del origen del mismo 
+(se puede preguntar a quien'es levantaron el cuestionario)?
+
+
+= separar las secciones
+=  
+- etiquetas_marcas.do
+
+- 
