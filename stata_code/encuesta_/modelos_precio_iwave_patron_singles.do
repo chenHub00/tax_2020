@@ -2,27 +2,29 @@
 
 set more off
 
+
+global depvar "ppu" <<<<<<<<<------------------------------------------
+
+//global depvar "log_ppu" <<<<<<<<<------------------------------------------
+
 capture log close
-log using "resultados/encuesta/mods_ppu_patron_singles.log", replace
+log using "resultados/encuesta/xtreg_patron_singles_$depvar.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
-
-// lineal
-global mod "ppu_patron"
-global depvar "ppu"
-
-// logaritmos
-//global mod = "log_ppu_patron"
-//global depvar "log_ppu"
-
 // regresiones
 global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
+global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
 // impuestos
 global vars_txc "tax2020 tax2021 " 
 
 use "$datos/cp_w1a8.dta", clear
+
+// lineal <<<<<<<<<------------------------------------------
+global mod "ppu_patron"
+// logaritmos <<<<<<<<<------------------------------------------
+//global mod = "log_ppu_patron"
 
 foreach value of numlist 0/1 {
 
@@ -63,10 +65,10 @@ foreach value of numlist 0/1 {
 
 }
 
-
-global mod = "ppu_singles"
+// lineal
+global mod = "ppu_singles" <<<<<<<<<------------------------------------------
 // logaritmos
-//global mod = "log_ppu_singles"
+//global mod = "log_ppu_singles" <<<<<<<<<------------------------------------------
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 
 

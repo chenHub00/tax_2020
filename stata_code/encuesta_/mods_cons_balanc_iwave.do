@@ -2,16 +2,26 @@
 set more off
 
 // CHANGES FOR FULL SAMPLE
-*global mod = "_iwave"
+*global mod = "mods_cons_iwave"
+* log:
+*global mod = "log_"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-global mod = "_balanc_iwave"
+global mod = "mods_cons_balanc_iwave"
+* log:
+*global mod = "log_cons_sem"
 
 capture log close
-log using "resultados/encuesta/mods_cons$mod.log", replace
+*log using "resultados/encuesta/mods_cons$mod.log", replace
+*log:
+log using "resultados/encuesta/$mod.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
+* modelo en niveles
 global depvar "consumo_semanal"
+* modelo log
+*global depvar "log_cons_sem"
+
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
 // regresiones
@@ -53,16 +63,16 @@ use "$datos/cons_w456_balanc.dta", replace
 // global vars_reg "sexo i.gr_edad i.gr_educ i.ingreso_hogar i.tipo_cons"
 
 // regress
-regress consumo_semanal $vars_reg i.wave if $seleccion
+regress $depvar $vars_reg i.wave if $seleccion
 // FE:
-xtreg consumo_semanal $vars_reg i.wave if $seleccion, fe
+xtreg $dep_var $vars_reg i.wave if $seleccion, fe
 estimates store fixed
 *xttest2
 /*Error: too few common observations across panel.
 no observations
 r(2000);*/
 // RE:
-xtreg consumo_semanal $vars_reg i.wave if $seleccion, re
+xtreg $depvar $vars_reg i.wave if $seleccion, re
 estimates store random
 xttest0 
 * significance of random effects
@@ -77,12 +87,12 @@ hausman fixed random , sigmamore
 // 1.2 MODELOS ajustes variables agrupadas
 
 // modelo
-regress consumo_semanal $vars_txc $vars_reg i.wave if $seleccion
-outreg2 using resultados/encuesta/mods_consumo$mod, word excel replace
+regress $depvar $vars_txc $vars_reg i.wave if $seleccion
+outreg2 using resultados/encuesta/$mod, word excel replace
 
 // estimación panel
-xtreg consumo_semanal $vars_txc $vars_reg i.wave if $seleccion, fe
-outreg2 using resultados/encuesta/mods_consumo$mod, word excel append
+xtreg $depvar $vars_txc $vars_reg i.wave if $seleccion, fe
+outreg2 using resultados/encuesta/$mod, word excel append
 
 estimates store fixed
 *xttest2
@@ -93,8 +103,8 @@ r(2001);
 end of do-file
 */
 
-xtreg consumo_semanal $vars_txc $vars_reg i.wave if $seleccion, re
-outreg2 using resultados/encuesta/mods_consumo$mod, word excel append
+xtreg $depvar $vars_txc $vars_reg i.wave if $seleccion, re
+outreg2 using resultados/encuesta/$mod, word excel append
 
 estimates store random
 xttest0 
@@ -112,14 +122,14 @@ hausman fixed random , sigmamore
 
 // modelo
 regress  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion
-outreg2 using resultados/encuesta/mods_consumo_tipo$mod, word excel replace
+outreg2 using resultados/encuesta/tipo$mod, word excel replace
 
 // pruebas
 *testparm $v_txc_patron // no se rechaza igualdad
 
 // estimación panel
 xtreg  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion, fe
-outreg2 using resultados/encuesta/mods_consumo_tipo$mod, word excel append
+outreg2 using resultados/encuesta/tipo$mod, word excel append
 
 estimates store fixed
 *xttest2
@@ -133,7 +143,7 @@ end of do-file
 *testparm $v_txc_patron // no se rechaza igualdad
 
 xtreg  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion, re
-outreg2 using resultados/encuesta/mods_consumo_tipo$mod, word excel append
+outreg2 using resultados/encuesta/tipo$mod, word excel append
 
 estimates store random
 xttest0 
@@ -150,7 +160,7 @@ hausman fixed random , sigmamore
 /*---------------------------------------------------------*/
 // 1.3b MODELOS interacciones, patron * vars
 regress $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion
-outreg2 using resultados/encuesta/mods_cons_patron$mod, word excel replace
+outreg2 using resultados/encuesta/patron$mod, word excel replace
 
 // pruebas
 //testparm i.tipo // se rechaza igualdad
@@ -161,7 +171,7 @@ outreg2 using resultados/encuesta/mods_cons_patron$mod, word excel replace
 
 // estimación panel
 xtreg $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion, fe
-outreg2 using resultados/encuesta/mods_cons_patron$mod, word excel append
+outreg2 using resultados/encuesta/patron$mod, word excel append
 
 estimates store fixed
 *xttest2
@@ -175,7 +185,7 @@ end of do-file
 
 * Aleatorios
 xtreg $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion, re
-outreg2 using resultados/encuesta/mods_cons_patron$mod, word excel append
+outreg2 using resultados/encuesta/patron$mod, word excel append
 
 estimates store random
 xttest0 
@@ -191,7 +201,7 @@ hausman fixed random , sigmamore
 /*---------------------------------------------------------*/
 // 1.3c MODELOS interacciones, singles * tax
 regress $depvar $v_txc_singles $v_singles i.wave##singles if $seleccion
-outreg2 using resultados/encuesta/mods_cons_singles$mod, word excel replace
+outreg2 using resultados/encuesta/singles$mod, word excel replace
 
 // pruebas
 // singles
@@ -199,7 +209,7 @@ outreg2 using resultados/encuesta/mods_cons_singles$mod, word excel replace
 
 // estimación panel
 xtreg $depvar $v_txc_singles $v_singles i.wave##singles if $seleccion, fe
-outreg2 using resultados/encuesta/mods_cons_singles$mod, word excel append
+outreg2 using resultados/encuesta/singles$mod, word excel append
 
 estimates store fixed
 *xttest2
@@ -212,7 +222,7 @@ end of do-file
 *testparm $v_txc_singles // no se rechaza igualdad
 
 xtreg $depvar $v_txc_singles $v_singles i.wave##singles if $seleccion, re
-outreg2 using resultados/encuesta/mods_cons_singles$mod, word excel append
+outreg2 using resultados/encuesta/singles$mod, word excel append
 
 estimates store random
 xttest0 
