@@ -2,26 +2,36 @@
 set more off
 
 // previos: do_encuesta.do
-global datos = "datos/encuesta/"
-global codigo = "stata_code\encuesta_\"
-global resultados = "resultados\encuesta\"
+// global datos = "datos/encuesta/"
+// global codigo = "stata_code\encuesta_\"
+// global resultados = "resultados\encuesta\"
 
+do stata_code/encuesta_/dir_encuesta.do
 
 global depvar "ppu"
 
-use "$datos/cp_w1a8.dta", clear
-
 capture log close
-log using "$resultados/mods_$depvar_patron_singles.log", replace
+* FULL SAMPLE ---------------------------------------------
+*log using "resultados/encuesta/ppu_tobit_patron_singles.log", replace
+*use "$datos/cp_w1a8.dta", clear
+// impuestos
+*global vars_txc "tax2020 tax2021 " 
+*global mod = "ppu_tobit_patron"
 
-global mod = "tobit_patron"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ---------------------------------------------
+log using "resultados/encuesta/ppu_balanc_tobit.log", replace
+use datos/encuesta//cp_w456balanc.dta, clear
+// impuestos
+global vars_txc "tax2020 " 
+
+global mod = "ppu_tobit_balanc_patron"
+
+/* MACROS ---------------------------------------------*/
 
 // regresiones
 global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
-// impuestos
-global vars_txc "tax2020 tax2021 " 
 
 foreach value of numlist 0/1 {
 /***************************************************************************
@@ -57,7 +67,9 @@ outreg2 using "resultados/encuesta/mods_$depvar$mod`value'", word excel append
 
 }
 
-global mod = "tobit_singles"
+*global mod = "ppu_tobit_singles"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ---------------------------------------------
+global mod = "ppu_tobit_balanc_singles"
 
 foreach value of numlist 0/1 {
 /***************************************************************************

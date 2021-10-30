@@ -23,6 +23,8 @@ global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 *global mod = "xtgee_"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
 global mod = "xtgee_balanc"
+
+
 global patsing = "patron_"
 global inter = "01"
 global depvar "consumo_semanal"

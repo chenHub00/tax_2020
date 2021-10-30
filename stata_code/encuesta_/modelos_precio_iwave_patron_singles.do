@@ -2,29 +2,47 @@
 
 set more off
 
-
-global depvar "ppu" <<<<<<<<<------------------------------------------
-
-//global depvar "log_ppu" <<<<<<<<<------------------------------------------
+// lineal <<<<<<<<<------------------------------------------ lineal 
+*global depvar "ppu" 
+// logaritmos <<<<<<<<<------------------------------------------ logaritmos 
+global depvar "log_ppu" 
 
 capture log close
-log using "resultados/encuesta/xtreg_patron_singles_$depvar.log", replace
+// CHANGES FOR FULL SAMPLE
+*log using "resultados/encuesta/xtreg_patron_singles_$depvar.log", replace
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+log using "resultados/encuesta/xtreg_balan_$depvar.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
-// regresiones
-global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
-// impuestos
-global vars_txc "tax2020 tax2021 " 
+// regresiones
+global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 
-use "$datos/cp_w1a8.dta", clear
 
+// CHANGES FOR FULL SAMPLE *--------------------------
+// impuestos <<<<<<<<<------------------------------------------
+// global vars_txc "tax2020 tax2021 "  
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+// impuestos <<<<<<<<<------------------------------------------
+global vars_txc "tax2020 " 
+*--------------------------
+
+// CHANGES FOR FULL SAMPLE <<<<<<<<<------------------------------------------
+*use "$datos/cp_w1a8.dta", clear
 // lineal <<<<<<<<<------------------------------------------
-global mod "ppu_patron"
+*global mod "ppu_patron"
 // logaritmos <<<<<<<<<------------------------------------------
 //global mod = "log_ppu_patron"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+use "$datos/cp_w456balanc.dta", clear
+// lineal <<<<<<<<<------------------------------------------
+*global mod = "ppu_balanc_patron"
+// logaritmos <<<<<<<<<------------------------------------------ logaritmos 
+global mod = "log_ppu_balanc_patron"
+
+global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 
 foreach value of numlist 0/1 {
 
@@ -65,12 +83,17 @@ foreach value of numlist 0/1 {
 
 }
 
-// lineal
-global mod = "ppu_singles" <<<<<<<<<------------------------------------------
-// logaritmos
-//global mod = "log_ppu_singles" <<<<<<<<<------------------------------------------
-global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
+// lineal <<<<<<<<<------------------------------------------
+*global mod = "ppu_singles" <<<<<<<<<------------------------------------------
+// logaritmos <<<<<<<<<------------------------------------------ logaritmos 
+//global mod = "log_ppu_singles" 
+* Lineal: <<<<<<<<<------------------------------------------
+* global mod = "ppu_balanc_singles"
+* log: <<<<<<<<<------------------------------------------ logaritmos
+global mod = "log_ppu_balanc_singles"
 
+
+global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 
 foreach value of numlist 0/1 {
 	/***************************************************************************/

@@ -6,7 +6,12 @@ xtgee qalead `confusores1' if sampleqa==1, family(binomial) link(logit) corr(exc
 set more off
 
 capture log close
-log using "resultados/encuesta/est_boxcox.log", replace
+// CHANGES FOR FULL SAMPLE
+*log using "resultados/encuesta/est_boxcox_cons.log", replace
+*use "$datos/cons_w_1to8.dta", clear
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+log using "resultados/encuesta/boxcox_cons_balanc.log", replace
+use "$datos/cp_w456balanc.dta", clear
 
 do stata_code/encuesta_/dir_encuesta.do
 
@@ -16,7 +21,10 @@ global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 //global mod = "w1a8_iwave_patron_singles"
 //global depvar "cons_por_dia"
 // semanal
-global mod = "boxcox"
+// total
+//global mod = "boxcox"
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+global mod = "boxcox_balanc"
 global depvar "consumo_semanal"
 
 // regresiones
@@ -24,15 +32,12 @@ global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron singles"
 global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 // impuestos
-global vars_txc "tax2020 tax2021 " 
-// // interacciones
-// global v_patron "sexo#patron i.edad_gr3#patron i.educ_gr3#patron i.ingr_gr#patron patron"
-// global v_singles "sexo#singles i.edad_gr3#singles i.educ_gr3#singles i.ingr_gr#singles singles"
-// global v_txc_singles "tax2020#singles tax2021#singles"
-// global v_txc_patron "tax2020#patron tax2021#patron"
-// global v_covid19 "covid19#singles covid19#patron"
+// CHANGES FOR FULL SAMPLE ------------------------------------------;
+*global vars_txc "tax2020 tax2021 " 
 
-use "$datos/cons_w_1to8.dta", clear
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ------------------------------------------
+global vars_txc "tax2020 " 
+
 
 *boxcox $depvar $vars_txc $vars_regpatron if $seleccion
 * factor variables not allowed
@@ -94,10 +99,17 @@ outreg2 using resultados/encuesta/$mod$depvar, word excel append
 * both las variables dependientes deber'ian ser s'olo positivas en este caso
 *boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest model(theta)
 
-
+log close
 /*--------------------------------------------------------------*/
 /// precios
-use "$datos/cp_w1a8.dta", clear
+*use "$datos/cp_w1a8.dta", clear
+// CHANGES FOR FULL SAMPLE
+*log using "resultados/encuesta/est_boxcox_ppu.log", replace
+*use "$datos/cp_w1a8.dta", clear
+// CHANGES FOR BALANCED SAMPLE IN 4 TO 6
+log using "resultados/encuesta/xtgee_ppu_balanc.log", replace
+use "$datos/cp_w456balanc.dta", clear
+
 global depvar "ppu"
 
 //regress
