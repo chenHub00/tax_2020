@@ -1,0 +1,35 @@
+
+# Orden
+0. Directorios de trabajo
+dirEnsanut.do
+
+
+1. Importar datos
+import_data.do
+
+2. Tablas con variables para análisis
+(variables en ambas tablas) vars_adoles_adult.do 
+tabla_adolescentes.do
+tabla_adultos.do
+
+3. Unir tablas // Preparar para el análisis
+tabla_adol_adul.do
+* rename_vars.do: homologar variables 2020 para reusar código 2018 in 2020 
+
+4. Descriptivos
+
+2020
+?- Factor: ponde_g o ponde_g20? (actualizado a 2020)
+-g upm_dis=Upm
+- g est_dis=est_sel
+
+2018
+// DUDAS
+nse?
+? sexo como 0, 1?
+tabout: invalid syntax
+?
+
+// hay más variedad respecto a la otras encuesta:
+// además de fumador_d, fumador_o:
+- No fumador
