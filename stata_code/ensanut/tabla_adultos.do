@@ -23,13 +23,21 @@ g factor=ponde_g
 g factormiles=factor/1000
 
 *Se homologa el nombre de las variables (adultos y adolescentes)
-*g upm_dis=UPM_DIS
-*g est_dis=EST_DIS
+g upm_dis=Upm
+g est_dis=est_sel
 
 *Se homologa el nombre de la variable de nivel socioeconómico (quintiles)
 *g nse5F=SOCIO_nse5F
 // DISPONIBLE EN:?
 rename H0302 sexo
+
+/* code to reuse the code for 2018 */
+*do $codigo/rename_vars.do
+rename H0303 edad
+rename ENTIDAD entidad
+destring entidad, replace
+gen dominio = estrato == 2 |  estrato == 3 
+replace dominio = 2 if estrato == 1
 
 *do "$codigo/vars_adoles_adult.do"
 
@@ -78,12 +86,17 @@ rename ADUL1A03 p13_6_1
 
 *Promedio de cigarros fumados al día //Se construye a partir de el reporte "por día" y "por semana"
 	*Número de cigarros por día
-	g cant_cig=p13_6 if (p13_6>0 & p13_6<888) 
+g cant_cig=p13_6 if (p13_6>0 & p13_6<888) 
 	*Número de cigarros por semana // se dividen entre 7 para obtener el diario
 	replace cant_cig=p13_6_1/7 if cant_cig==. & (p13_6_1>0 & p13_6_1<888)
 	*Etiquetado de la variable
 	label var cant_cig "Número de cigarros fumados al día. Adultos"
 
+keep smoking fumador cant_cig p13_6 p13_6_1 ///
+	p13_2 p13_3 p13_4 ///
+	adulto factor sexo upm_ est_dis ///
+	edad entidad dominio FOLIO_I ID_INT
+	
 *Guardado de la base de datos
 save "$datos\2020\tabla_adultos.dta", replace
 

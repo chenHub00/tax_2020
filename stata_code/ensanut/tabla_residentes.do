@@ -16,6 +16,9 @@ do stata_code/ensanut/dirEnsanut.do
 *Uso de la base de datos de adultos
 use "$datos\2020\integrantes_ensanut2020_w.dta", clear
 
+keep FOLIO_I ID_INT H0317A H0317G
+rename H0317A nivel
+rename H0317G grado
 /*FOLIO_I
 ID_INT
 FOLIO_INT
@@ -24,8 +27,11 @@ DESC_ENT
 VIVO*/
 
 // grupos de escolaridades
+* hasta primaria completa
 gen gr_educ = 1 if (nivel <= 2 & grado <= 6)
+* secundaria
 recode gr_educ (.= 2) if (nivel == 3 & grado <= 3)
+* preparatoria o tecnica
 recode gr_educ (. = 3) if (nivel <= 8 & nivel >= 4)
 recode gr_educ (.= 4) if (nivel >= 9 & nivel<= 10)
 recode gr_educ (.= 5) if (nivel >= 11) & !missing(nivel)
@@ -34,6 +40,7 @@ label define gr_educ 1 "Hasta Primaria completa" 2 "Secundaria completa" ///
 	3 "Técnica o Preparatoria" 4 "Universidad o posterior" 5 "Otro"
 label values gr_educ gr_educ
 
+* hasta primaria completa
 gen educ_gr2 = 1 if  (nivel <= 2 & grado <= 6)
 replace educ_gr2 = 2 if (nivel == 3 )
 replace educ_gr2 = 3 if (nivel == 6 | nivel == 7 | nivel == 8) /*Técnica*/ 
@@ -57,21 +64,14 @@ label define educ_gr3  2 "<= Sec comp" ///
 	6 "Lic comp y posgrado" 9 "Otro", modify
 label values educ_gr3  educ_gr3
 
-* UPM VIV_SEL HOGAR NUMREN
-keep upm viv_sel hogar numren educ_gr3 nivel grado
-
 save "$datos\2020\vars_educ.dta", replace
  
 use "$datos\2020\hogar_ensanut2020_ww.dta", clear
 
 /*FOLIO_I
-ID_INT
-FOLIO_INT
-ENTIDAD
-DESC_ENT
-VIVO*/
+*/
 
-keep Upm viv_sel hogar H0326
+keep FOLIO_I H0326
 ta H0326
 
 label copy H0326 ingr_gr 
@@ -104,6 +104,11 @@ save "$datos\2020\vars_ingr_gr.dta", replace
 
 *Uso de la base de datos de adultos
 use "$datos\2018\CS_RESIDENTES.dta", clear
+
+
+* UPM VIV_SEL HOGAR NUMREN
+keep upm viv_sel hogar numren nivel grado
+
 /* nivel y grado: : residentes	*/
 
 // grupos de escolaridades
@@ -140,9 +145,6 @@ label define educ_gr3  2 "<= Sec comp" ///
 	6 "Lic comp y posgrado" 9 "Otro", modify
 label values educ_gr3  educ_gr3
 
-* UPM VIV_SEL HOGAR NUMREN
-keep upm viv_sel hogar numren educ_gr3 nivel grado
-
 save "$datos\2018\vars_educ.dta", replace
  
 use "$datos\2018\CS_RESIDENTES.dta", clear
@@ -175,7 +177,7 @@ label define gr_ingr 1 "<6 mil pesos" 2 "6,000 a 9,999" 3 "10,000 a 13,999" ///
 	4 "14,000 a 21,999" 5 "22,000 o más" 99 "No sé", modify
 label values gr_ingr gr_ingr
 
-renae gr_ingr ingr_gr 
+rename gr_ingr ingr_gr 
 
 /* Ingresos por trabajo p3_26_2 : residentes 
 // grupos de ingreso
