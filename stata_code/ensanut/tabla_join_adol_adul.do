@@ -12,6 +12,9 @@ use "$datos/2020/tabla_adolescentes.dta", clear
 *Se une con la base de datos de adultos (append)
 append using "$datos/2020/tabla_adultos.dta"
 
+merge 1:1 
+
+merge m:1 $
 /* code to reuse the code for 2018 */
 *do $codigo/rename_vars.do
 rename H0303 edad
@@ -19,6 +22,9 @@ rename ENTIDAD entidad
 destring entidad, replace
 gen dominio = estrato == 2 |  estrato == 3 
 replace dominio = 2 if estrato == 1
+
+/**/
+do $codigo/do_edad_gr.do
 
 *Guardado de la base de datos unida (base general)
 
@@ -132,6 +138,8 @@ label def pobla 1"Rural" 2"Urbano"
 label var poblacion2 pobla
 label var poblacion2 "tipo de poblacion"
 
+
+
 save "$datos/2020/tabla_adol_adul.dta", replace
 
 *****************************************************UNIÓN DE BASES DE DATOS*************************
@@ -140,6 +148,11 @@ use "$datos/2018/tabla_adolescentes.dta", clear
 *Se une con la base de datos de adultos (append)
 append using "$datos/2018/tabla_adultos.dta"
 
+do $codigo/do_edad_gr.do
+
+merge 1:1 upm viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_educ)
+
+merge m:1 upm viv_sel hogar using $datos/2018/vars_ingr_gr.dta, gen(m_ingr) 
 
 *Guardado de la base de datos unida (base general)
 

@@ -11,6 +11,10 @@ import_data.do
 (variables en ambas tablas) vars_adoles_adult.do 
 tabla_adolescentes.do
 tabla_adultos.do
+tabla_residentes.do // vars_descriptivos.do
+* variables categoricas para tabulados: ingreso del hogar, educación,
+do_edad_gr.do 
+* grupos de edad
 
 3. Unir tablas // Preparar para el análisis
 tabla_adol_adul.do
@@ -18,13 +22,21 @@ tabla_adol_adul.do
 
 4. Descriptivos
 
+// DUDAS
+? por qué adolescentes? tomar desde 18 años
+variables: sexo, edad (grupos), escolaridad (grupos),ingreso (grupos), diario, sueltos
+? Ingresos laborales: para aproximar el ingreso laboral al ingreso del hogar,
+agregar por hogar y unir por indicador del hogar. 
+Solo se utiliza el indicador del grupo al que pertenece por ingreso del hogar
+ 
 2020
 ?- Factor: ponde_g o ponde_g20? (actualizado a 2020)
 -g upm_dis=Upm
 - g est_dis=est_sel
+? vivienda seleccionada=est_sel?
 
 2018
-// DUDAS
+
 nse?
 ? sexo como 0, 1?
 tabout: invalid syntax
@@ -33,3 +45,17 @@ tabout: invalid syntax
 // hay más variedad respecto a la otras encuesta:
 // además de fumador_d, fumador_o:
 - No fumador
+
+// comparación de resultados: presentación
+Porcentaje de población de 10 a 19 años de edad que consume tabaco, 
+por entidad federativa, Nacional 7.9%?
+
+total: 1,303,859 vs 1304 mil (escrito con ceros)
+
+
+Notar:
+para 2020 salen muy bajos los porcentajes de fumadores, 
+puede deberse al cambio en la definición de la variable?
+
+
+
