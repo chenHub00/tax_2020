@@ -1,5 +1,18 @@
 
 #----------------------------------------------------
+# Passthrough
+calcula_passthrough100.do
+* tabla de datos
+
+desc_passthrough100.do
+* descripcion variables de datos
+
+modelo_passthrough100.do
+
+?valor de passthrough100 previo?
+
+
+#----------------------------------------------------
 # DATOS
 =inicial.do 
 # transformaciones iniciales de los datos
@@ -11,7 +24,7 @@ usa:
 inicial_marcas2.do < tpCiudad2.dta
 salva:
 > precios_indices.dta
-> table11_principales7.dta
+> table11_principales7.dtaCo
 - limita total de ciudades
 - promedios por marca/ciudad> 
 - promedios por marca> df_x.dta
