@@ -1,11 +1,29 @@
 
 capture log close
-log using resultados/logs/para_passthrough100.log, replace
+log using resultados/logs/calcula_passthrough100.log, replace
+
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
+
 keep ppu marca ym cve_ tipo
-keep if ym >= ym(2019,12) & ym <= ym(2020,1)
+keep if ym >= ym(2019,12) & ym <= ym(2020,1) 
 
 save "datos/finales/datos_pass_through100_2020.data", replace
+
+use "datos/finales/datos_pass_through100_2020.data", clear
+
+tempfile file1 file2
+preserve 
+/* VALOR ESPERADO A CONTRASTAR*/
+keep if ym == ym(2020,1)
+
+save `file2'
+restore
+
+/* VALOR inicial*/
+keep if ym == ym(2019,12)  
+save `file1'
+
+/* GENERAR EL VALOR ESPERADO */
 
 *### ParÃ¡metros
 scalar sc_vat = .16
@@ -28,7 +46,7 @@ su p
 // periodo 
 gen vat0 = p-(p/(1+sc_vat)) if  ym == ym(2019,12)
 su vat0
-histogram vat0
+*histogram vat0
 
 /*
 // Prueba orden de operaciones:
@@ -39,15 +57,15 @@ compare vat0 vat_test
 */
 gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
 su taxbase0
-histogram taxbase0
+*histogram taxbase0
 
 gen ret0 = sc_ret*taxbase0
 su ret0 
-histogram ret0 
+*histogram ret0 
 
 gen iepsav0 = sc_iepsav*taxbase0
 su iepsav0
-histogram iepsav0
+*histogram iepsav0
 //  solo se define pero no se encuentra su uso: iepsf0 = iepsf 
   
 *   # 2020
@@ -61,9 +79,7 @@ gen  p1 = taxbase1+sc_iepsf1+iepsav1+ret1+vat1
 su p1 taxbase1 iepsav1 ret1 vat1
 
 *replace varlist = p1
-gen pt100_jan2020= p1[_n-1]
-
-
+gen pt100_jan2020= p1
 
 * Seguimiento de versiones del programa:
 * 0. el programa hace el cálculo para todas las observaciones
@@ -75,14 +91,20 @@ gen pt100_jan2020= p1[_n-1]
 * ? en la tabla de ejemplo se consideran los promedios de todo el año para todas las ciudades?
 * ? o es sólo el periodo de diciembre 2019?
 
-
+/**/
 keep p pt100_jan2020 marca ym cve_ tipo
-keep if ym == ym(2020,1)
 
+merge 1:1 cve_ciudad marca using `file2'
+ta _
+drop _
+
+gen pobs_jan2020 = ppu*20
+rename p pobs_dic2019
+drop ppu
 
 save "datos/finales/pass_through100_jan2020.data", replace
 
-ttest p == pt100_
+ttest pobs_jan2020 == pt100_
 /*
 Paired t test
 ------------------------------------------------------------------------------
@@ -102,7 +124,8 @@ pt1~2020 |     175    58.05605    .4343867    5.746396    57.19871     58.9134
  la diferencia del observado y el estimado es significativamente menor a cero
  es decir, el pass-through al 100 por ciento sería mayor a lo observado
 */
- 
+su pobs_* pt100_
+*table marca, su(pobs_* pt100_)
 
 // 
 use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
@@ -110,6 +133,22 @@ keep ppu marca ym cve_ tipo
 keep if ym >= ym(2020,12) & ym <= ym(2021,1)
 
 save "datos/finales/datos_pass_through100_2021.data", replace
+
+use "datos/finales/datos_pass_through100_2021.data", clear
+
+tempfile file1 file2
+preserve 
+/* VALOR ESPERADO A CONTRASTAR*/
+keep if ym == ym(2021,1)
+
+save `file2'
+restore
+
+/* VALOR inicial*/
+keep if ym == ym(2020,12)  
+save `file1'
+
+/* GENERAR EL VALOR ESPERADO */
 
 *### ParÃ¡metros
 scalar sc_vat = .16
@@ -132,7 +171,7 @@ su p
 // periodo 
 gen vat0 = p-(p/(1+sc_vat)) if  ym == ym(2020,12)
 su vat0
-histogram vat0
+*histogram vat0
 
 /*
 // Prueba orden de operaciones:
@@ -143,15 +182,15 @@ compare vat0 vat_test
 */
 gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
 su taxbase0
-histogram taxbase0
+*histogram taxbase0
 
 gen ret0 = sc_ret*taxbase0
 su ret0 
-histogram ret0 
+*histogram ret0 
 
 gen iepsav0 = sc_iepsav*taxbase0
 su iepsav0
-histogram iepsav0
+*histogram iepsav0
 //  solo se define pero no se encuentra su uso: iepsf0 = iepsf 
   
 *   # 2021
@@ -165,14 +204,24 @@ gen  p1 = taxbase1+sc_iepsf1+iepsav1+ret1+vat1
 su p1 taxbase1 iepsav1 ret1 vat1
 
 *replace varlist = p1
-gen pt100_jan2021= p1[_n-1]
+*gen pt100_jan2021= p1[_n-1]
+gen pt100_jan2021= p1
 
 keep p pt100_jan2021 marca ym cve_ tipo
-keep if ym == ym(2021,1)
+
+/**/
+
+merge 1:1 cve_ciudad marca using `file2'
+ta _
+drop _
+
+gen pobs_jan2021 = ppu*20
+rename p pobs_dic2020
+drop ppu
 
 save "datos/finales/pass_through100_jan2021.data", replace
 
-ttest p == pt100_
+ttest pobs_jan2021 == pt100_
 
 /*
 
