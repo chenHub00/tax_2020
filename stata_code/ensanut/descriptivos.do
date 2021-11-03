@@ -47,6 +47,16 @@ tabulate sex if `var_sum'==1 [w=factor], sum(fumador_diario) nofreq nost noobs
 
 tabulate sex if `var_sum'==1 [w=factor], sum(fumador_ocasional) nofreq nost noobs
 
+local var_sum = "adulto"
+
+	foreach vartab of varlist sexo edad_gr3 ingr_gr educ_gr3 {
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador) nofreq nost noobs
+
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador_diario) nofreq nost noobs
+
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador_ocasional) nofreq nost noobs
+	}
+
 *exfumador
 local var_sum = "adulto"
 svy: mean exfumador if `var_sum' == 1 
@@ -85,12 +95,13 @@ foreach var_sum of varlist adolescente adulto {
 
 	tabulate sex if `var_sum'==1 [w=factor], sum(fumador_ocasional) nofreq nost noobs
 
-	tabulate sex if `var_sum'==1 [w=factor], sum(fumador) nofreq nost noobs
+	foreach vartab of varlist sexo edad_gr3 ingr_gr educ_gr3 {
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador) nofreq nost noobs
 
-	tabulate sex if `var_sum'==1 [w=factor], sum(fumador_diario) nofreq nost noobs
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador_diario) nofreq nost noobs
 
-	tabulate sex if `var_sum'==1 [w=factor], sum(fumador_ocasional) nofreq nost noobs
-
+		tabulate `vartab' if `var_sum'==1 [w=factor], sum(fumador_ocasional) nofreq nost noobs
+	}
 	*
 	di "ex-fumador"
 	svy: mean exfumador if `var_sum' == 1 
