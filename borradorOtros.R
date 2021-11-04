@@ -54,22 +54,34 @@ OtrasMarcas <- fecha_marca_sum  %>%
   filter(marca %in% marcas_2011_2018_OtrosNombres)
 
 
-# Names Otras: principales
+# # Names Otras: principales
 marcas_tipo4 =  c("BAHREIN", "BARONET", "BOHEMIOS", "DALTON", "DONTABAKO","GARAÑON",
-                  "L&M","LAREDO","LM BARONET","RGD", "RODEO", "ROMA","SCENIC 101", "SENECA")
+  "L&M","LAREDO","LM BARONET","RGD", "RODEO", "ROMA","SCENIC 101", "SENECA")
 marcas_tipo1 = c("DUNHILL BLONDE","SALEM","VICEROY")
 marcas_tipo2 = c("FAROS", "FIESTA","KENT")
 marcas_tipo3 = c("ALAS","FORTUNA","MURATTI","WINSTON")
 
+library(stringr)
+marcas_tipo4 = str_to_title(marcas_tipo4)
+marcas_tipo3 = str_to_title(marcas_tipo3)
+marcas_tipo2 = str_to_title(marcas_tipo2)
+marcas_tipo1 = str_to_title(marcas_tipo1)
 
-
+fecha_marca_sum$principales=ifelse(fecha_marca_sum$marca %in% marcasPrincipales_Nombres,1,0)
+fecha_marca_sum$otros=factor(ifelse(fecha_marca_sum$marca %in% marcas_2011_2018_OtrosNombres,1,0))
 
 # Graficas para comparar:
 # por tipos
+#  theme(legend.position = c(0.15, 0.75)) +
+
 names_prin7_otros_tipo4 <- c(marcasPrincipales_Nombres, marcas_tipo4)
 to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo4)
-tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_bw()+
   geom_point()
+tipo4_ppu_plot
+
 pdf('resultados/doc/ppu_prin7_otros4.pdf', height=8,width=12)
 # gr'afico con las otras marcas
 tipo4_ppu_plot
@@ -83,8 +95,20 @@ dev.off()
 # por tipos: 3
 names_prin7_otros_tipo3 <- c(marcasPrincipales_Nombres, marcas_tipo3)
 to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo3)
-tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+#  theme(legend.position = c(0.15, 0.75)) +
+#theme(legend.text = element_text(size = 8, colour = "black")) +
+tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca,shape = otros)) + 
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+    geom_point()
+tipo3_ppu_plot
+
+tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca,shape = otros)) + 
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme(legend.text = element_text(size = 8, colour = "black")) +
+  theme_bw()+
   geom_point()
+tipo3_ppu_plot
+
 pdf('resultados/doc/ppu_prin7_otros3.pdf', height=12,width=8)
 # gr'afico con las otras marcas
 tipo3_ppu_plot

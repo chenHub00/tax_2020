@@ -242,7 +242,7 @@ ggplot(df_review, aes(fecha, ppu, colour = marca)) +
 # Saving on object in RData format
 save(df_review, file = "datos/prelim/de_inpc/df_review.RData")
 
-rm(list=ls())
+#rm(list=ls())
 
 # notar que se puede agrupar por ciudad
 # 

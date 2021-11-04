@@ -12,6 +12,10 @@ library(dplyr)
 load("datos/prelim/de_inpc/df_review.RData")
 summary(df_review)
 
+# nombres en formato Titulo
+library(stringr)
+df_review$marca = str_to_title(df_review$marca)
+
 write.csv(df_review,"datos/prelim/de_inpc/df_review.csv", row.names = FALSE)
 
 # tibble format
@@ -63,6 +67,11 @@ menores <- fecha_marca_sum  %>%
 
 # como etiquetar el resto de las marcas?
 # agrupar el resto de las marcas?
+# todos los nombres de marcas:
+marcas_2011_2018 <- fecha_marca_sum %>% dplyr::summarise(
+  count = n(),
+  unique = n_distinct(marca),
+  mean_ppu = mean(prom_ppu), sd_ppu = sd(sd_ppu) )
 
 # brand names:
 marcasPrincipales_Nombres <- marcas_10mas$marca
@@ -92,11 +101,19 @@ save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
 #save(menores, file = "datos/prelim/de_inpc/menores.RData")
 save(OtrasMarcas, file = "datos/prelim/de_inpc/OtrasMarcas.RData")
 
-dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
-  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+#  INICIAL
+dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour =factor(marca) )) + 
+  labs(title = "Precios promedio por unidad entre ciudades\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
   geom_point()
 dfplot2 
 
+# sin titulo
+dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour =factor(marca)) ) + 
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme(legend.position = c(0.15, 0.75)) +
+  geom_point()
+dfplot2 
+# 
 #pdf("ppu_ciudad_7marcas2011.pdf") 
 #jpeg('rplot.jpg')
 #jpeg('resultados/doc/prin7_prom_ppu_marcas.jpg')
@@ -107,8 +124,10 @@ dev.off()
 
 # Otras
 dfplot3 = ggplot(OtrasMarcas, aes(fecha, prom_ppu, colour = marca )) + 
-  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
   geom_point()
+# sin titulo
+# title = "Precios promedio por unidad\n", 
 dfplot3 
 
 pdf('resultados/doc/Otras_prom_ppu_marcas.pdf', height=11,width=8.5)
@@ -116,5 +135,5 @@ pdf('resultados/doc/Otras_prom_ppu_marcas.pdf', height=11,width=8.5)
 dfplot3 
 dev.off() 
 
-rm(list=ls())
+#rm(list=ls())
 
