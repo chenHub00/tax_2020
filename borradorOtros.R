@@ -11,7 +11,7 @@ directorio <- "datos/iniciales/"
 # queremos las marcas o presentaciones m'as representativas
 # considerar las que tienen una presencia mayor en las ciudades
 
-#library(tidyverse)
+library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
@@ -79,7 +79,23 @@ to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo4)
 tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
   theme_bw()+
-  geom_point()
+  geom_line()+
+  geom_point(size=1)
+tipo4_ppu_plot
+
+# prueba
+lines_types=c("twodash", "dotted","twodash", "dotted","twodash", "dotted","twodash", "dotted",
+              "twodash", "dotted","twodash", "dotted","twodash", "dotted","twodash", "dotted","twodash", "dotted")
+shapes_types=c(1:18)
+color_types=c('#999999','#E69F00', '#56B4E9','#999999','#E69F00', '#56B4E9','#999999','#E69F00', '#56B4E9',
+              '#999999','#E69F00', '#56B4E9','#999999','#E69F00', '#56B4E9','#999999','#E69F00', '#56B4E9')
+tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = marca)) + 
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_bw()+
+  scale_linetype_manual(values=lines_types)+
+  scale_shape_manual(values=shapes_types)+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
 tipo4_ppu_plot
 
 pdf('resultados/doc/ppu_prin7_otros4.pdf', height=8,width=12)
