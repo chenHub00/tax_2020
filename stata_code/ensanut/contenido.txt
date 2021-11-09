@@ -30,6 +30,7 @@ agregar por hogar y unir por indicador del hogar.
 Solo se utiliza el indicador del grupo al que pertenece por ingreso del hogar
  
 2020
+> salen solo para el grupo de edad 18-24 al menos un indicador?
 ?- Factor: ponde_g o ponde_g20? (actualizado a 2020)
 -g upm_dis=Upm
 - g est_dis=est_sel
@@ -58,6 +59,4 @@ total: 1,303,859 vs 1304 mil (escrito con ceros)
 Notar:
 para 2020 salen muy bajos los porcentajes de fumadores, 
 puede deberse al cambio en la definición de la variable?
-
-
 

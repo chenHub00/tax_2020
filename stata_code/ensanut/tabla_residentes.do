@@ -107,7 +107,7 @@ use "$datos\2018\CS_RESIDENTES.dta", clear
 
 
 * UPM VIV_SEL HOGAR NUMREN
-keep upm viv_sel hogar numren nivel grado
+keep upm_dis viv_sel hogar numren nivel grado
 
 /* nivel y grado: : residentes	*/
 
@@ -149,7 +149,7 @@ save "$datos\2018\vars_educ.dta", replace
  
 use "$datos\2018\CS_RESIDENTES.dta", clear
 
-collapse (sum) p3_26_2, by(upm viv_sel hogar)
+collapse (sum) p3_26_2, by(upm_dis viv_sel hogar)
 
 /*
 3.27 Aproximadamente, ¿cuánto dinero ganan
@@ -205,7 +205,7 @@ label define ingr_gr 3 "< 8 mil" ///
 	7 "20 mil+" 99 "No sé", modify
 label values ingr_gr ingr_gr*/
 
-drop p3_26_2
+*drop p3_26_2
 
 *Guardado de la base de datos
 save "$datos\2018\vars_ingr_gr.dta", replace

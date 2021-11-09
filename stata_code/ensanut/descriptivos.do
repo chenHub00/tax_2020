@@ -72,7 +72,7 @@ svy: mean nofumador if `var_sum' == 1
 /* 2020 -------------*/
 use "$datos/2020/tabla_adol_adul.dta", clear
 
-svyset [pweight=factor], psu(upm_dis)strata (est_dis) singleunit(certainty)
+svyset [pweight=factor], psu(upm_dis)strata (est_sel) singleunit(certainty)
 
 /* adolescente y adulto*/
 foreach var_sum of varlist adolescente adulto {

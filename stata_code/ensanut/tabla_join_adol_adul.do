@@ -61,7 +61,11 @@ label def fumador_o      0 "No fumador ocasional" ///
                          1 "Fumador ocasional" 
 label val fumador_ocasional fumador_o	
 
-*Ex fumador
+*Exfumador> 4/nov/21																												
+g exfumador = 1 if smoking==4 | smoking==5
+replace exfumador = 0 if smoking==1 | smoking==2 | smoking==3 | smoking==6
+
+/*Ex fumador> anterior noviembre/2021
 g exfumador=smoking
 replace exfumador=0 if smoking==1
 replace exfumador=0 if smoking==2 
@@ -69,9 +73,11 @@ replace exfumador=0 if smoking==3
 replace exfumador=1 if smoking==4
 replace exfumador=1 if smoking==5
 replace exfumador=0 if smoking==6
+*/
 label def exfumad        0 "No exfumador" ///
                          1 "Exfumador" 
 label val exfumador exfumad	
+
 
 *No fumador
 g nofumador=smoking
@@ -140,7 +146,8 @@ label def pobla 1"Rural" 2"Urbano"
 label var poblacion2 pobla
 label var poblacion2 "tipo de poblacion"
 
-
+*keep upm est_sel factor factormiles sexo edad smoking* fumador* cant_cig* exfumador exfumtiempo entidad region_cv 
+*folio_i id_int
 
 save "$datos/2020/tabla_adol_adul.dta", replace
 
@@ -152,9 +159,9 @@ append using "$datos/2018/tabla_adultos.dta"
 
 do $codigo/do_edad_gr.do
 
-merge 1:1 upm viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_educ)
+merge 1:1 upm_dis viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_educ)
 
-merge m:1 upm viv_sel hogar using $datos/2018/vars_ingr_gr.dta, gen(m_ingr) 
+merge m:1 upm_dis viv_sel hogar using $datos/2018/vars_ingr_gr.dta, gen(m_ingr) 
 
 *Guardado de la base de datos unida (base general)
 
