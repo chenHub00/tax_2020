@@ -11,6 +11,9 @@ modelo_passthrough100.do
 
 ?valor de passthrough100 previo?
 
+datos_passthrough100.do
+pt_dic2020.do
+pt_dic2019.do
 
 #----------------------------------------------------
 # DATOS
