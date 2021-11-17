@@ -169,7 +169,7 @@ replace gr_ingr = 2 if (p3_26_2 >= 6000 & p3_26_2 < 10000)
 replace gr_ingr = 3 if (p3_26_2 >= 10000 & p3_26_2 <14000)
 replace gr_ingr = 4 if (p3_26_2 >= 14000 & p3_26_2 <22000)
 replace gr_ingr = 5 if (p3_26_2 >= 22000 & p3_26_2 < 999999 & !missing(p3_26_2))
-replace gr_ingr = 99 if (p3_26_2 ==  999999)
+replace gr_ingr = 9 if (p3_26_2 ==  999999)
 replace gr_ingr = . if missing(p3_26_2) 
 
 label variable gr_ingr "grupos de ingreso (pesos)"

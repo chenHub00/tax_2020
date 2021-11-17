@@ -3,15 +3,11 @@
 set more off
 
 capture log close
-log using resultados/ensanut/tabla_join_adol_adul.log, replace
+log using resultados/ensanut/tabla_join_adul.log, replace
 
 do stata_code/ensanut/dirEnsanut.do
 
-use "$datos/2020/tabla_adolescentes.dta", clear
-
-*Se une con la base de datos de adultos (append)
-append using "$datos/2020/tabla_adultos.dta"
-*? SIN VALORES DE upm_dis
+use "$datos/2020/tabla_adultos.dta", clear
 
 /* EDUCACION */
 merge 1:1 FOLIO_I ID_INT using "$datos\2020\vars_educ.dta", gen(m_educ)
@@ -33,13 +29,11 @@ do $codigo/do_edad_gr.do
 ******DEFINICIÓN DE VARIABLES ADICIONALES
 do $codigo/do_vars_edad_a_rural.do
 
-save "$datos/2020/tabla_adol_adul.dta", replace
+save "$datos/2020/tabla_adul_fin.dta", replace
 
 *****************************************************UNIÓN DE BASES DE DATOS*************************
-use "$datos/2018/tabla_adolescentes.dta", clear
+use "$datos/2018/tabla_adultos.dta", clear
 
-*Se une con la base de datos de adultos (append)
-append using "$datos/2018/tabla_adultos.dta"
 
 do $codigo/do_edad_gr.do
 
@@ -52,7 +46,7 @@ g entidad=ent
 ******DEFINICIÓN DE VARIABLES ADICIONALES
 do $codigo/do_vars_edad_a_rural.do
 
-save "$datos/2018/tabla_adol_adul.dta", replace
+save "$datos/2018/tabla_adul_fin.dta", replace
 
 log close
 
@@ -61,11 +55,11 @@ log close
 * 2018
 
 capture log close
-log using resultados/ensanut/tabla_join_adol_adul.log, append
+log using resultados/ensanut/tabla_join_adul.log, append
 
-use "$datos/2018/tabla_adol_adul.dta", clear
-
-drop p1_2- p1_10
+use "$datos/2018/tabla_adul_fin.dta", clear
+*p1_2- p1_10  
+drop p13_2- p13_6_1
 
 gen periodo = 2018
 
@@ -73,14 +67,15 @@ tostring upm_dis,replace
 rename est_dis est_sel
 
 
-append using "$datos/2020/tabla_adol_adul.dta", generate(ap_2018_2020) 
-drop ad1a01- ad1a05 adul1a01- adul1a05 H0326
+append using "$datos/2020/tabla_adul_fin.dta", generate(ap_2018_2020) 
+*ad1a01- ad1a05 
+drop adul1a01- adul1a05 H0326
 
 recode periodo (. = 2020) 
 
 svyset [pweight=factor], psu(upm_dis)strata (est_sel) singleunit(certainty)
 
-save "$datos/2020/adol_adul_18_20.dta", replace
+save "$datos/2020/adul_18_20.dta", replace
 
 log close
 
