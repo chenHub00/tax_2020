@@ -21,6 +21,13 @@ merge m:1  FOLIO_I using "$datos\2020\vars_ingr_gr.dta", gen(m_ingr)
 * todas las observaciones en la union de adolescentes y adultos (10,796) sí hacen match
 keep if m_ingr == 3
 
+rename FOLIO_I folio_i
+tostring entidad, replace
+merge m:1 folio_i using $datos/recibidos/economico.dta, gen(m_nse) 
+ta m_nse
+keep if m_nse == 3
+destring entidad, replace
+
 /* EDAD */
 do $codigo/do_edad_gr.do
 
@@ -40,6 +47,14 @@ do $codigo/do_edad_gr.do
 merge 1:1 upm_dis viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_educ)
 
 merge m:1 upm_dis viv_sel hogar using $datos/2018/vars_ingr_gr.dta, gen(m_ingr) 
+
+rename upm_dis upm
+merge m:1 upm viv_sel hogar using $datos/recibidos/ENSANUT2018_NSE.dta, gen(m_nse)
+ta m_nse 
+
+rename upm upm_dis 
+rename nse5F nse5f
+rename nseF nsef
 
 *Guardado de la base de datos unida (base general)
 g entidad=ent

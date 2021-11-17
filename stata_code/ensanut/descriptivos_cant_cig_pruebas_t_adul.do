@@ -20,37 +20,25 @@ use "$datos/2020/adul_18_20.dta", clear
 svyset [pweight=factor], psu(upm_dis) strata(est_sel) singleunit(certainty)
 
 /* La muestra análitica: correctamente definida? */
-keep if grupedad_comp  <6
-*keep if ingr_gr  <6
-keep if gr_educ < 5
+gen insample = (grupedad_comp  <6 & gr_educ < 5)
 
-keep if adulto == 1
 /*------------------------------------------
 sin distinguir adolescente / adulto
 ------------------------------------------*/
 global var_desc "cant_cig"
 
-
-foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
-	di "tipo de fumador: `var_fum'"
-	svy: mean $var_desc if  `var_fum' == 1, over(periodo) 
-	svy: mean $var_desc if  `var_fum' == 1, over(periodo) coeflegend
-	test _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
-}
-
 foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 	di "tipo de fumador: `var_fum'"
 	
 	foreach vartab of varlist  sexo grupedad_comp gr_educ poblacion {
-	    tabulate `vartab' periodo [w=factor], sum(`var_fum') nost 
-		su `vartab'
+	    tabulate `vartab' periodo if insample == 1  &  `var_fum' == 1 [w=factor], sum(`var_fum') nost 
+		su `vartab' if insample == 1 &  `var_fum' == 1
 		local r_max = r(max)
 		local r_min = r(min)
 		foreach value of numlist `r_min'/`r_max' {
 			di "valor de `vartab': `value'"
-			
-			svy: mean $var_desc if `vartab' == `value' &  `var_fum' == 1, over(periodo) 
-			svy: mean $var_desc if `vartab' == `value' &  `var_fum' == 1, over(periodo) coeflegend
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) 
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
 			test  _b[c.$var_desc@2018bn.periodo]=_b[c.$var_desc@2020.periodo]
 
 		}
@@ -59,5 +47,14 @@ foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 }
 log close
 
-
-use "$datos/2020/adol_18_20.dta", clear
+*use "$datos/2020/adol_18_20.dta", clear
+/*
+foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
+	di "tipo de fumador: `var_fum'"
+	svy, subpop(if insample == 1 & `var_fum' == 1): mean $var_desc, over(periodo) 
+	*svy: mean $var_desc if insample == 1 & `var_fum' == 1, over(periodo) // los errores estándar son diferentes
+	svy, subpop(if insample == 1 & `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
+*		svy: mean $var_desc if  `var_fum' == 1, over(periodo)  coeflegend // los errores estándar son diferentes
+*	svy: mean $var_desc if  `var_fum' == 1, over(periodo) coeflegend
+	test _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
+}

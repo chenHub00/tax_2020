@@ -3,7 +3,7 @@
 set more off
 
 capture log close
-log using resultados/ensanut/tabla_join_adolesc.log, replace
+log using resultados/ensanut/tabla_join_adol.log, replace
 
 do stata_code/ensanut/dirEnsanut.do
 
@@ -20,6 +20,13 @@ merge m:1  FOLIO_I using "$datos\2020\vars_ingr_gr.dta", gen(m_ingr)
 * 3,922 obs en vars_ingr_, no en adolescentes ni adultos: por qué?
 * todas las observaciones en la union de adolescentes y adultos (10,796) sí hacen match
 keep if m_ingr == 3
+
+rename FOLIO_I folio_i
+tostring entidad, replace
+merge m:1 folio_i using $datos/recibidos/economico.dta, gen(m_nse) 
+ta m_nse
+keep if m_nse == 3
+destring entidad, replace
 
 /* EDAD */
 do $codigo/do_edad_gr.do
@@ -41,6 +48,14 @@ merge 1:1 upm_dis viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_ed
 
 merge m:1 upm_dis viv_sel hogar using $datos/2018/vars_ingr_gr.dta, gen(m_ingr) 
 
+rename upm_dis upm
+merge m:1 upm viv_sel hogar using $datos/recibidos/ENSANUT2018_NSE.dta, gen(m_nse)
+ta m_nse 
+
+rename upm upm_dis 
+rename nse5F nse5f
+rename nseF nsef
+
 *Guardado de la base de datos unida (base general)
 g entidad=ent
 ******DEFINICIÓN DE VARIABLES ADICIONALES
@@ -55,7 +70,7 @@ log close
 * 2018
 
 capture log close
-log using resultados/ensanut/tabla_join_adul.log, append
+log using resultados/ensanut/tabla_join_adol.log, append
 
 use "$datos/2018/tabla_adol_fin.dta", clear
 

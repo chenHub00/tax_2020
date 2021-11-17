@@ -2,14 +2,14 @@
 do stata_code/ensanut/dirEnsanut.do
 
 capture log close
-log using $resultados/descriptivos_cant_cig_adul.log, replace
+log using $resultados/descriptivos_cant_cig_adol.log, replace
 
 global var_desc "cant_cig"
 ************************************************************DESCRIPTIVOS********************************************************
 set more off
 
 /* 2018 -------------*/
-use "$datos/2018/tabla_adul_fin.dta", clear
+use "$datos/2018/tabla_adol_fin.dta", clear
 
 svyset [pweight=factor], psu(upm_dis)strata (est_dis) singleunit(certainty)
 
@@ -29,7 +29,7 @@ foreach var_fum of varlist fumador fumador_diario  fumador_ocasional {
 }
 
 /* 2020 -------------*/
-use "$datos/2020/tabla_adul_fin.dta", clear
+use "$datos/2020/tabla_adol_fin.dta", clear
 
 svyset [pweight=factor], psu(upm_dis)strata (est_sel) singleunit(certainty)
 
