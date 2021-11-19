@@ -28,6 +28,9 @@ variables: sexo, edad (grupos), escolaridad (grupos),ingreso (grupos), diario, s
 ? Ingresos laborales: para aproximar el ingreso laboral al ingreso del hogar,
 agregar por hogar y unir por indicador del hogar. 
 Solo se utiliza el indicador del grupo al que pertenece por ingreso del hogar
+
+5. Modelos
+- modelo_lineal_cant_cig_adul.do
  
 2020
 > salen solo para el grupo de edad 18-24 al menos un indicador?

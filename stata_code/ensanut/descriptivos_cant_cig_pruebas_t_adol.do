@@ -1,12 +1,12 @@
 * sin separar adultos de adolescentes
 * con pruebas de medias:
 * https://stats.idre.ucla.edu/stata/faq/how-can-i-do-a-t-test-with-survey-data/
-
-do stata_code/ensanut/dirEnsanut.do
+version 17
 
 capture log close
-log using $resultados/pruebas_t_adol.log, replace
+log using "resultados/ensanut/pruebas_t_adol.log", replace
 
+do stata_code/ensanut/dirEnsanut.do
 
 ************************************************************DESCRIPTIVOS********************************************************
 set more off
@@ -51,6 +51,61 @@ foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 }
 
 log close
+
+
+*fumador fumador_diario fumador_ocasional 
+*foreach var_fum of varlist fumador_diario fumador_ocasional {
+	
+	local var_fum = "fumador_ocasional" 
+	di "tipo de fumador: `var_fum'"
+
+	foreach vartab of varlist sexo grupedad_comp gr_educ nse5f poblacion  {
+		putexcel set resultados\ensanut\tests_results`var_fum'.xlsx, sheet(`vartab') modify
+		putexcel (a1) = "`vartab'" 
+		putexcel (b1) = "r(drop)" 
+		putexcel (c1) = "r(df_r)" 
+		putexcel (d1) = "r(F)" 
+		putexcel (e1) = "r(df)" 
+		putexcel (f1) = "r(p)" 
+
+	    tabulate `vartab' periodo if insample == 1  &  `var_fum' == 1 [w=factor], sum(`var_fum') nost 
+		su `vartab' if insample == 1 &  `var_fum' == 1
+		local r_max = r(max)
+		local r_min = r(min)
+		foreach value of numlist `r_min'/`r_max' {
+			di "tipo de fumador: `var_fum'"
+			di "valor de `vartab': `value'"
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) 
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
+			if (colsof(e(b)) == 2) {
+				test  _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
+				local num_file = 1+`value'
+			putexcel (A`num_file') = "`value'"
+			 putexcel (B`num_file') = rscalars, colwise overwritefmt
+
+			} 
+		}
+
+	}	
+*}
+
+	/*
+	/*				putexcel (b`num_file') = r(F)
+				putexcel (c`num_file') = r(df)
+				putexcel (b`num_file') = r(p)*/
+return list
+
+
+svy, subpop(if insample == 1 & gr_educ == 1 &  fumador_diario == 1):  mean $var_desc, over(periodo)
+test  _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
+putexcel (a1) = rscalars
+
+ereturn list
+
+
+putexcel (f2) = matrix( e(b) )
+
+
 
 /*
 collect: svy, subpop(if insample == 1 & gr_educ == 1 &  fumador_diario == 1): regress cant_cig i.periodo

@@ -47,6 +47,52 @@ foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 }
 log close
 
+
+*fumador fumador_diario fumador_ocasional 
+foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
+	
+*	local var_fum = "fumador_ocasional" 
+	di "tipo de fumador: `var_fum'"
+
+	foreach vartab of varlist sexo grupedad_comp gr_educ nse5f poblacion  {
+		putexcel set resultados\ensanut\tests_adul`var_fum'.xlsx, sheet(`vartab') modify
+		putexcel (a1) = "`vartab'" 
+		putexcel (b1) = "r(drop)" 
+		putexcel (c1) = "r(df_r)" 
+		putexcel (d1) = "r(F)" 
+		putexcel (e1) = "r(df)" 
+		putexcel (f1) = "r(p)" 
+
+	    tabulate `vartab' periodo if insample == 1  &  `var_fum' == 1 [w=factor], sum(`var_fum') nost 
+		su `vartab' if insample == 1 &  `var_fum' == 1
+		local r_max = r(max)
+		local r_min = r(min)
+		foreach value of numlist `r_min'/`r_max' {
+			di "tipo de fumador: `var_fum'"
+			di "valor de `vartab': `value'"
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) 
+			svy, subpop(if insample == 1 & `vartab' == `value' &  `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
+			if (colsof(e(b)) == 2) {
+				test  _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
+				local num_file = 1+`value'
+			putexcel (A`num_file') = "`value'"
+			putexcel (B`num_file') = rscalars, colwise overwritefmt
+			if (0.05< r(p) <= .10) {
+				putexcel (G`num_file') = "*"
+			}
+			else if (.01<=r(p) <= .05) {
+				putexcel (G`num_file') = "**"
+			}
+			else if (r(p) <= .01) {
+				putexcel (G`num_file') = "***"
+			}
+
+			} 
+		}
+
+	}	
+}
+
 *use "$datos/2020/adol_18_20.dta", clear
 /*
 foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
