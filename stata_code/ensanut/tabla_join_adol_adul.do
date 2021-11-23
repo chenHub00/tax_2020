@@ -7,6 +7,18 @@ log using resultados/ensanut/tabla_join_adol_adul.log, replace
 
 do stata_code/ensanut/dirEnsanut.do
 
+use "$datos/2020/adul_18_20.dta", clear
+
+append using "$datos/2020/adol_18_20.dta", gen(ap_adol_adul)
+
+label var cant_cig "Número de cigarros fumados al día"
+
+save "$datos/2020/adol_adul_18_20.dta", replace
+
+log close
+
+/*
+
 use "$datos/2020/tabla_adolescentes.dta", clear
 
 *Se une con la base de datos de adultos (append)
@@ -80,7 +92,7 @@ recode periodo (. = 2020)
 
 svyset [pweight=factor], psu(upm_dis)strata (est_sel) singleunit(certainty)
 
-save "$datos/2020/adol_adul_18_20.dta", replace
+save "$datos/2020/adol_adul_18_20.dta", replace*/
 
-log close
+
 

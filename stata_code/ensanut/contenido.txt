@@ -19,6 +19,9 @@ do_edad_gr.do
 3. Unir tablas // Preparar para el análisis
 tabla_adol_adul.do
 * rename_vars.do: homologar variables 2020 para reusar código 2018 in 2020 
+output:
+- tests_adol_adul`var_fum'.xlsx
+- pruebas_t_adol_adul.log 
 
 4. Descriptivos
 
@@ -29,8 +32,14 @@ variables: sexo, edad (grupos), escolaridad (grupos),ingreso (grupos), diario, s
 agregar por hogar y unir por indicador del hogar. 
 Solo se utiliza el indicador del grupo al que pertenece por ingreso del hogar
 
+descr_cant_cig_pruebas_t_adol_adul.do
+
+descr_cant_cig_adol_adul.do
+> descr_cant_cig_adol_adul.log
+
 5. Modelos
-- modelo_lineal_cant_cig_adul.do
+- modelo_lineal_cant_cig_adol_adul //- modelo_lineal_cant_cig_adul.do
+* 
  
 2020
 > salen solo para el grupo de edad 18-24 al menos un indicador?
