@@ -44,6 +44,14 @@ foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 
 	}	
 }
+
+foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
+	di "tipo de fumador: `var_fum'"
+	svy, subpop(if insample == 1 &  `var_fum' == 1): mean $var_desc, over(periodo) 
+	svy, subpop(if insample == 1 &  `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
+	test  _b[c.$var_desc@2018bn.periodo]=_b[c.$var_desc@2020.periodo]
+}
+
 log close
 
 
@@ -92,14 +100,33 @@ foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
 	}	
 }
 
-*use "$datos/2020/adol_18_20.dta", clear
-/*
+/* TOTALES */
+
 foreach var_fum of varlist fumador fumador_diario fumador_ocasional {
+	putexcel set resultados\ensanut\tests_adol_adul`var_fum'.xlsx, sheet("TOTAL") modify
+	putexcel (a1) = "`vartab'" 
+	putexcel (b1) = "r(drop)" 
+	putexcel (c1) = "r(df_r)" 
+	putexcel (d1) = "r(F)" 
+	putexcel (e1) = "r(df)" 
+	putexcel (f1) = "r(p)" 
+	
 	di "tipo de fumador: `var_fum'"
-	svy, subpop(if insample == 1 & `var_fum' == 1): mean $var_desc, over(periodo) 
-	*svy: mean $var_desc if insample == 1 & `var_fum' == 1, over(periodo) // los errores estándar son diferentes
-	svy, subpop(if insample == 1 & `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
-*		svy: mean $var_desc if  `var_fum' == 1, over(periodo)  coeflegend // los errores estándar son diferentes
-*	svy: mean $var_desc if  `var_fum' == 1, over(periodo) coeflegend
-	test _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
-}
+	svy, subpop(if insample == 1 &  `var_fum' == 1): mean $var_desc, over(periodo) 
+	svy, subpop(if insample == 1 &  `var_fum' == 1): mean $var_desc, over(periodo) coeflegend
+	if (colsof(e(b)) == 2) {
+		test  _b[c.$var_desc@2018bn.periodo] = _b[c.$var_desc@2020.periodo]
+		local num_file = 1+`value'
+		putexcel (A`num_file') = "`value'"
+		putexcel (B`num_file') = rscalars, colwise overwritefmt
+		if (0.05< r(p) <= .10) {
+			putexcel (G`num_file') = "*"
+		}
+		else if (.01<=r(p) <= .05) {
+			putexcel (G`num_file') = "**"
+		}
+		else if (r(p) <= .01) {
+			putexcel (G`num_file') = "***"
+		}
+
+} 

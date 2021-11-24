@@ -19,12 +19,12 @@ gen insample = (grupedad_comp  <6 & gr_educ < 5)
 recode sexo (2=0)
 recode poblacion (2 = 0)
 recode periodo (2018 = 0) (2020= 1)
+gen log_cant_cig=log(cant_cig)
 
 /*------------------------------------------
 sin distinguir adolescente / adulto
 ------------------------------------------*/
 global depvar "cant_cig"
-
 
 svy, subpop(insample): regress $depvar i.periodo i.sexo i.grupedad_comp i.gr_educ i.poblacion 
 outreg2 using "resultados/ensanut/lineal$depvar", word excel replace
@@ -40,7 +40,6 @@ svy, subpop(insample): regress $depvar vr_*
 outreg2 using "resultados/ensanut/lineal$depvar", word excel append
 
 /* Logaritmos*/
-gen log_cant_cig=log(cant_cig)
 global depvar "log_cant_cig"
 
 svy, subpop(insample): regress $depvar i.periodo i.sexo i.grupedad_comp i.gr_educ i.poblacion 
@@ -55,5 +54,106 @@ xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
 svy, subpop(insample): regress $depvar vr_* 
 outreg2 using "resultados/ensanut/log_lineal$depvar", word excel append
 
+/* 1. FUMADORES */
+global depvar "cant_cig"
+
+svy, subpop(if insample==1 & fumador == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/lineal_fumador$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/lineal_fumador$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/lineal_fumador$depvar", word excel append
+
+/* Logaritmos*/
+global depvar "log_cant_cig"
+
+svy, subpop(if insample==1 & fumador == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/log_lin_fumador$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/log_lin_fumador$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/log_lin_fumador$depvar", word excel append
+
+/* 2. FUMADORES diarios */
+global depvar "cant_cig"
+
+svy, subpop(if insample==1 & fumador_diario == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/lineal_fum_diario$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador_diario == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/lineal_fum_diario$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador_diario == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/lineal_fum_diario$depvar", word excel append
+
+/* Logaritmos*/
+global depvar "log_cant_cig"
+
+svy, subpop(if insample==1 & fumador_diario == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/log_lin_fum_diario$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador_diario == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/log_lin_fum_diario$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador_diario == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/log_lin_fum_diario$depvar", word excel append
+
+/* 3. FUMADORES ocasionales */
+global depvar "cant_cig"
+
+svy, subpop(if insample==1 & fumador_ocasional == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/lineal_fum_ocasional$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador_ocasional == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/lineal_fum_ocasional$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador_ocasional == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/lineal_fum_ocasional$depvar", word excel append
+
+/* Logaritmos*/
+global depvar "log_cant_cig"
+
+svy, subpop(if insample==1 & fumador_ocasional == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion 
+outreg2 using "resultados/ensanut/log_lin_fum_ocasional$depvar", word excel replace
+
+svy, subpop(if insample==1 & fumador_ocasional == 1): regress $depvar i.periodo i.sexo ///
+	i.grupedad_comp i.gr_educ i.poblacion i.nse5f
+outreg2 using "resultados/ensanut/log_lin_fum_ocasional$depvar", word excel append
+
+xi i.sexo*i.periodo i.grupedad_comp*i.periodo i.gr_educ*i.periodo ///
+		i.poblacion*i.periodo i.nse5f*i.periodo ///
+		, prefix(vr_)
+svy, subpop(if insample==1 & fumador_ocasional == 1):  regress $depvar vr_* 
+outreg2 using "resultados/ensanut/log_lin_fum_ocasional$depvar", word excel append
 
 log close
