@@ -132,7 +132,7 @@ g cant_cig=p13_6 if (p13_6>0 & p13_6<888)
 	*Etiquetado de la variable
 	label var cant_cig "Número de cigarros fumados al día. Adultos"
 */
-gen cons_dual = fumador == 1 | e_cig == 1
+gen cons_dual = fumador == 1 & e_cig == 1
 
 keep adul1a02b adul1a03 adul1a04a adul1a01 adul1a05 ///
 	adulto factor factormiles sexo upm_ est_sel ///
@@ -206,7 +206,7 @@ ta fumador
 	*Etiquetado de la variable
 	label var cant_cig "Número de cigarros fumados al día. Adultos"
 
-	gen cons_dual = fumador == 1 | e_cig == 1
+	gen cons_dual = fumador == 1 & e_cig == 1
 	
 	keep p13_2 p13_3 p13_4 ///
 	p13_6 p13_6_1 ///

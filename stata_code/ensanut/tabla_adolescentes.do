@@ -120,7 +120,7 @@ rename AD1A03 p1_6_2
 	label var cant_cig "Número de cigarros fumados al día en Adolescentes"
 */
 
-gen cons_dual = fumador == 1 | e_cig == 1
+gen cons_dual = fumador == 1 & e_cig == 1
 	
 keep ad1a05 ad1a02b ad1a03 ad1a04a ad1a01 ///
 	adole factor factormiles sexo upm_ est_sel ///
@@ -186,7 +186,7 @@ ta fumador
 	*Etiquetado de la variable
 	label var cant_cig "Número de cigarros fumados al día en Adolescentes"
 
-gen cons_dual = fumador == 1 | e_cig == 1
+gen cons_dual = fumador == 1 & e_cig == 1
 	
 keep p1_2 p1_3 p1_4 p1_6_1 p1_6_2 p1_10 p1_9 ///
 	adole factor factormiles sexo est_dis ///

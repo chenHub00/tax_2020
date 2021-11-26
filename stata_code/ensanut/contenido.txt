@@ -9,19 +9,42 @@ import_data.do
 
 2. Tablas con variables para análisis
 (variables en ambas tablas) vars_adoles_adult.do 
-tabla_adolescentes.do
-tabla_adultos.do
-tabla_residentes.do // vars_descriptivos.do
+
+- tabla_adolescentes.do 
+/ + vars_adoles_adult.do : tabla_adolescentes.dta
+
+
+- tabla_adultos.do
+* consumo dual
+* 
+/ : tabla_adultos.dta
+
+- tabla_residentes.do // vars_descriptivos.do
+/2020/hogar_ensanut2020_ww.dta: vars_educ.dta, vars_ingr_gr.dta
+/2018/CS_RESIDENTES.dta: vars_educ.dta, vars_ingr_gr.dta
 * variables categoricas para tabulados: ingreso del hogar, educación,
 do_edad_gr.do 
 * grupos de edad
+? vars_adoles_adul.dta
 
 3. Unir tablas // Preparar para el análisis
-tabla_adol_adul.do
-* rename_vars.do: homologar variables 2020 para reusar código 2018 in 2020 
-output:
-- tests_adol_adul`var_fum'.xlsx
-- pruebas_t_adol_adul.log 
+
+- tabla_join_adoles.do
+
++ do_edad_gr.do
++ do_vars_edad_a_rural.do
+
+- tabla_join_adul.do
+(2018/2020)/tabla_adultos.dta> (2018/2020)/tabla_adul_fin.dta + > adul_18_20.dta
++ do_edad_gr.do
++ do_vars_edad_a_rural.do
+
+- tabla_adol_adul.do
+/2020/adul_18_20.dta + /2020/adol_18_20.dta : 2020/adol_adul_18_20.dta
+
+?* rename_vars.do: homologar variables 2020 para reusar código 2018 in 2020 
+:tests_adol_adul`var_fum'.xlsx,  pruebas_t_adol_adul.log 
+
 
 4. Descriptivos
 
@@ -40,6 +63,8 @@ descr_cant_cig_adol_adul.do
 5. Modelos
 - modelo_lineal_cant_cig_adol_adul //- modelo_lineal_cant_cig_adul.do
 * 
+
+prediccion_promedio.do
  
 2020
 > salen solo para el grupo de edad 18-24 al menos un indicador?
