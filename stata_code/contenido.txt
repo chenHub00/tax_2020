@@ -1,17 +1,27 @@
 
 #----------------------------------------------------
 # Passthrough
-calcula_passthrough100.do
+A1.- calcula_passthrough100.do
 * tabla de datos
+panel_marca_ciudad.dta: datos_pass_through100_2020.dta: pass_through100_jan2020.dta
+?panel_marca_ciudad.dta: datos_pass_through100_2021.dta: pass_through100_dec2020.dta ?
+panel_marca_ciudad.dta: datos_pass_through100_2021.dta: pass_through100_jan2021.dta
 
-desc_passthrough100.do
+2.- desc_passthrough100.do
 * descripcion variables de datos
+> desc_passthrough100.log
 
-modelo_passthrough100.do
+3.- modelo_passthrough.do
+> modelo_passthrough.log
 
 ?valor de passthrough100 previo?
 
-datos_passthrough100.do
+B1.- datos_passthrough100.do
+panel_marca_ciudad.dta: panel_marca_ciudad_2019a2021.dta
+":panel_marca_ciudad_2020.dta
+":panel_marca_ciudad_2021.dta
+
+
 pt_dic2020.do
 pt_dic2019.do
 

@@ -7,9 +7,9 @@ use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 keep ppu marca ym cve_ tipo
 keep if ym >= ym(2019,12) & ym <= ym(2020,1) 
 
-save "datos/finales/datos_pass_through100_2020.data", replace
+save "datos/finales/datos_pass_through100_2020.dta", replace
 
-use "datos/finales/datos_pass_through100_2020.data", clear
+use "datos/finales/datos_pass_through100_2020.dta", clear
 
 tempfile file1 file2
 preserve 
@@ -102,7 +102,7 @@ gen pobs_jan2020 = ppu*20
 rename p pobs_dic2019
 drop ppu
 
-save "datos/finales/pass_through100_jan2020.data", replace
+save "datos/finales/pass_through100_jan2020.dta", replace
 
 ttest pobs_jan2020 == pt100_
 /*
@@ -132,9 +132,9 @@ use datos/prelim/de_inpc/panel_marca_ciudad.dta, clear
 keep ppu marca ym cve_ tipo
 keep if ym >= ym(2020,12) & ym <= ym(2021,1)
 
-save "datos/finales/datos_pass_through100_2021.data", replace
+save "datos/finales/datos_pass_through100_2021.dta", replace
 
-use "datos/finales/datos_pass_through100_2021.data", clear
+use "datos/finales/datos_pass_through100_2021.dta", clear
 
 tempfile file1 file2
 preserve 
@@ -219,7 +219,7 @@ gen pobs_jan2021 = ppu*20
 rename p pobs_dic2020
 drop ppu
 
-save "datos/finales/pass_through100_jan2021.data", replace
+save "datos/finales/pass_through100_jan2021.dta", replace
 
 ttest pobs_jan2021 == pt100_
 
