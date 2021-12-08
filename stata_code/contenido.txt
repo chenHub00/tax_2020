@@ -50,6 +50,9 @@ salva:
 = promedios sobre el grupo marca-ciudad
 > datos/wide_complete_panel.dta
 
+Datos:
+(PMC) datos/prelim/de_inpc/panel_marca_ciudad.dta
+
 4. Descriptivos
 
 #----------------------------------------------------
@@ -68,26 +71,30 @@ xtreg_dyn_nov_dic.do
 	- c'omo probar vs aleatorios en ciudad? 
  
 5_1_xtreg_pooled.do: regresion con ciudad y marcas como un nivel, por marcas 
-* Estático:
+* Estático
 > est_xtreg_pooled.log
 > est_xtreg_total.tex
 > est_xtreg_tipo.tex
 > hausman_xtreg_pooled.xlsx
 > uroot_xtreg_pooled.xlsx
 > f_tests_xtreg_pooled.xlsx
-?> est_xt_marcas.tex, est_xt_marcas_p2.tex
+?>  est_xt_marcas_p2.tex
 
-?5_2_xtreg_pooled_city.do:
-usa: datos\panel_marca_ciudad.dta
-* por cada ciudad
-> est_xtreg_pooled_city.log
- 
- 5_2_xtreg_pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
 
- xtreg_fe_re_xtunitroot> pruebas de raiz unitaria sobre la especificacion por marca
-      _pooled_fe_re> continua areg_pooled, por marcas, pruebas de especificacion pooled, fe, re
- one_panel > group tiempo y ciudad
- one_panel_dyn > group tiempo y ciudad: lags & diff : est_xtreg_dif.tex, est_xtreg_2dif.tex
+5_2_xtreg_pooled_fe_re.do: continua xtreg_pooled.do, regresión por marca, pruebas de especificacion pooled, fe, re
+* Estático
+Usa: (PMC)
+> est_xtreg_pooled_fe_re.log
+> f_tests_xtreg_pooled_fe_re.xlsx
+> est_xt_marcas.tex
+
+ one_panel_dyn.do: group tiempo y ciudad; lags & diff;
+* Dinámico
+usa: (PMC)
+> est_one_panel_dyn.log
+> est_xtreg_dif.tex, est_xtreg_2dif.tex
+> est_xtreg_dif_tipo.tex
+
  xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex, est_xt_means_diff.tex
  xt_means_marcas > mean by marca: lags & diff > est_xt_means_marcas.tex
  xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un :
@@ -109,3 +116,22 @@ para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex > Se
 
 # graficos (gr_)
 xtreg_dyn > din'amicos con xtreg
+
+*------------------------------------------------ 
+drafts/est_areg_pooled_city.do:
+usa: datos\panel_marca_ciudad.dta
+* por cada ciudad
+> est_xtreg_pooled_city.log
+ 
+drafts/est_areg_pooled_lags.do: (section 3) restricciones sobre parametros, constantes en el tiempo?
+> est_areg_pooled_lags.log
+> est_xt_marcas_lags.tex
+
+drafts/xtreg_fe_re_xtunitroot: pruebas de raiz unitaria sobre la especificacion por marca
+!* Hasta marca = 4!
+> est_xtreg_fe_re_xtunitroot.log
+> f_tests_xtreg_fe_re_xtunitroot.xlsx
+> est_xt_marcas.tex
+
+drafts/est_one_panel > group tiempo y ciudad
+*------------------------------------------------

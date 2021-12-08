@@ -8,7 +8,7 @@ set more off
 capture log close
 log using resultados/est_xtreg_pooled_fe_re.log, replace
 
-global varsRegStatic "m1_20 m1_21 m1 ym"
+global varsRegStatic "jan20 jan21 jan ym"
 putexcel set "resultados\doc\f_tests_xtreg_pooled_fe_re.xlsx", sheet(xtreg, replace) modify
 putexcel (C1) = "gl Denominator"
 putexcel (E1) = "gl Numerator/gl_chi"
@@ -44,9 +44,8 @@ chi2<0 ==> model fitted on these
 // suest fixed1 random1, noomitted
 // xtreg is not supported by suest
 // r(322);
-// https://stats.stackexchange.com/questions/65650/hausman-test-for-panel-data-fe-and-re-error-in-the-estimation-what-to-do-sta
-// ssc install xtoverid 
-xtoverid 
+//https://stats.stackexchange.com/questions/65650/hausman-test-for-panel-data-fe-and-re-error-in-the-estimation-what-to-do-sta
+*ssc install xtoverid 
 /*
 Test of overidentifying restrictions: fixed vs random effects
 Cross-section time-series model: xtreg re   
@@ -54,7 +53,7 @@ Sargan-Hansen statistic  29.712  Chi-sq(4)    P-value = 0.0000
 */
 // Rechazo efectos aleatorios
 xtreg ppu $varsRegStatic if marca == 1, re cluster(gr_marca_ciudad)
-xtoverid 
+xtoverid
 /*
 Test of overidentifying restrictions: fixed vs random effects
 Cross-section time-series model: xtreg re  robust cluster(gr_marca_ciudad)

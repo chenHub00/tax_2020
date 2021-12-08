@@ -7,7 +7,7 @@
 *cd "C:\Users\vicen\OneDrive\Documentos\R\tax_ene2020\tax_2020\"
  
 capture log close
-log using resultados/est_areg_pooled_city.log, replace
+log using resultados/est_xtreg_pooled_city.log, replace
 
 use datos\panel_marca_ciudad.dta, clear
 
