@@ -11,7 +11,7 @@ set more off
 capture log close
 log using resultados/ensanut/tabla_adultos.log, replace
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 /* ------------------------------ 2020-------------------------------- */
 
@@ -171,7 +171,9 @@ g factormiles=factor/1000
 *g nse5F=SOCIO_nse5F
 // DISPONIBLE EN:?
 
-do "$codigo/vars_adoles_adult.do"
+label def sex 1"hombre" 2"mujer"
+label val sexo sex
+label var sexo "Sexo"
 
 *Identificador de adulto
 g adulto=1 if factor!=.
