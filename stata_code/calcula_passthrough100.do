@@ -153,7 +153,7 @@ save `file1'
 *### ParÃ¡metros
 scalar sc_vat = .16
 scalar sc_iepsf = 0.35*20
-*scalar sc_iepsf2020 = 0.4944*20 // # incremento del impuesto vigente desde 1 enero 2020
+scalar sc_iepsf2020 = 0.4944*20 // # incremento del impuesto vigente desde 1 enero 2020
 scalar sc_iepsf2021 = 0.5108*20 //# ajuste por la inflaciÃ³n vigente desde 1 enero 2021
 scalar sc_iepsav = 1.60
 scalar sc_ret = .28
@@ -180,7 +180,9 @@ gen vat_test = p*sc_vat_factor
 su vat_test
 compare vat0 vat_test
 */
-gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
+*gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
+/* ajuste 2021 */
+gen taxbase0 = (p-vat0-sc_iepsf2020)/(1+sc_ret+sc_iepsav)
 su taxbase0
 *histogram taxbase0
 
@@ -224,7 +226,29 @@ save "datos/finales/pass_through100_jan2021.dta", replace
 ttest pobs_jan2021 == pt100_
 
 /*
+30/nov/21
+sc_iepsf por 
+sc_iepsf2020
+en el c'alculo de taxbase0
 
+ ttest pobs_jan2021 == pt100_
+
+Paired t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+pob~2021 |     175    60.62629    .4702493    6.220813    59.69816    61.55441
+pt1~2021 |     175    61.30181    .4638368    6.135985    60.38634    62.21728
+---------+--------------------------------------------------------------------
+    diff |     175   -.6755258    .0942024     1.24618   -.8614522   -.4895994
+------------------------------------------------------------------------------
+     mean(diff) = mean(pobs_jan2021 - pt100_jan2021)              t =  -7.1710
+ Ho: mean(diff) = 0                              degrees of freedom =      174
+
+ Ha: mean(diff) < 0           Ha: mean(diff) != 0           Ha: mean(diff) > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+
+*------------------------------------- ANTERIOR: -----------------------------
 Paired t test
 ------------------------------------------------------------------------------
 Variable |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]

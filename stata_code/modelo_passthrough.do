@@ -1,6 +1,6 @@
 
 capture log close
-log using resultados/logs/modelo_passthrough.log, replace
+log using resultados/logs/modelo_passthrough_jan2020.log, replace
 
 use "datos/finales/pass_through100_jan2020.dta", clear
 
@@ -34,6 +34,9 @@ ttest pobs_jan2020 == pt100_ if marca == 7
 
 * equivalent to: 
 regress pobs_jan2020 pt100_ if marca == 7
+
+capture log close
+log using resultados/logs/modelo_passthrough_jan2021.log, replace
 
 use "datos/finales/pass_through100_jan2021.dta", clear
 
