@@ -6,7 +6,7 @@
 set more off
 
 capture log close
-log using resultados/logs/est_areg_pooled.log, replace
+log using resultados/logs/est_xtreg_pooled.log, replace
 
 global varsRegStatic "jan20 jan21 jan ym"
 

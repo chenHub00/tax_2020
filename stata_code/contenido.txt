@@ -1,32 +1,8 @@
 
-#----------------------------------------------------
-# Passthrough
-A1.- calcula_passthrough100.do
-* tabla de datos
-panel_marca_ciudad.dta: datos_pass_through100_2020.dta: pass_through100_jan2020.dta
-?panel_marca_ciudad.dta: datos_pass_through100_2021.dta: pass_through100_dec2020.dta ?
-panel_marca_ciudad.dta: datos_pass_through100_2021.dta: pass_through100_jan2021.dta
-
-2.- desc_passthrough100.do
-* descripcion variables de datos
-> desc_passthrough100.log
-
-3.- modelo_passthrough.do
-> modelo_passthrough.log
-
-?valor de passthrough100 previo?
-
-B1.- datos_passthrough100.do
-panel_marca_ciudad.dta: panel_marca_ciudad_2019a2021.dta
-":panel_marca_ciudad_2020.dta
-":panel_marca_ciudad_2021.dta
-
-
-pt_dic2020.do
-pt_dic2019.do
+/*-----------------------------------------*/
 
 #----------------------------------------------------
-# DATOS
+1. Carga de DATOS
 =inicial.do 
 # transformaciones iniciales de los datos
 # genera variables indicadoras para periodos del impuesto
@@ -44,6 +20,7 @@ salva:
 - promedio por ciudades> df_m.dta
 usa: inicial_marcas2.do / marcas2.do
 
+2. Transformación de DATOS
 inicial_marcas2.do 
 usa:
 < table11_principales7.dta
@@ -60,6 +37,7 @@ salva:
 # tipo 2: 
 = tipo_marca_otras.do
 
+3. Reacomodo de Datos
 = datos_paneles_promedios.do >
 #s'olo datos de 46 ciudades, presentes en la muestra anterior a 2018.
  usa: 
@@ -72,10 +50,12 @@ salva:
 = promedios sobre el grupo marca-ciudad
 > datos/wide_complete_panel.dta
 
-#----------------------------------------------------
-# Estimaciones
-est_ 
+4. Descriptivos
 
+#----------------------------------------------------
+5. Estimaciones (est_)
+
+*----------- Ampliación de la ventana de tiempo *----------------
 est_xtreg_dyn_full_int_nov_dic.do
 : est_xtreg_stat_marca_nov_dic.tex
 : est_xtreg_dyn_marca_nov_dic.tex
@@ -84,11 +64,26 @@ xtreg_dyn_nov_dic.do
 
  03/17 (no 'llama' la funci'on, s'i funcionaba la semana pasada) xtsur > seemingly unrelated regressions en panel
  03/17 (no funciona) xtgls > usar gls con transformacion de los datos
- areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
+ ?areg > estimacion "tipo" mixed, triples efectos fijos: marca, tiempo o ciudad? > Section 1
 	- c'omo probar vs aleatorios en ciudad? 
-     _pooled: regresion con ciudad y marcas como un nivel, por marcas > est_xt_marcas.tex, est_xt_marcas_p2.tex
-     _pooled_city: 
-     _pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
+ 
+5_1_xtreg_pooled.do: regresion con ciudad y marcas como un nivel, por marcas 
+* Estático:
+> est_xtreg_pooled.log
+> est_xtreg_total.tex
+> est_xtreg_tipo.tex
+> hausman_xtreg_pooled.xlsx
+> uroot_xtreg_pooled.xlsx
+> f_tests_xtreg_pooled.xlsx
+?> est_xt_marcas.tex, est_xt_marcas_p2.tex
+
+?5_2_xtreg_pooled_city.do:
+usa: datos\panel_marca_ciudad.dta
+* por cada ciudad
+> est_xtreg_pooled_city.log
+ 
+ 5_2_xtreg_pooled_lags: (section 3) restricciones sobre parametros, constantes en el tiempo?
+
  xtreg_fe_re_xtunitroot> pruebas de raiz unitaria sobre la especificacion por marca
       _pooled_fe_re> continua areg_pooled, por marcas, pruebas de especificacion pooled, fe, re
  one_panel > group tiempo y ciudad
