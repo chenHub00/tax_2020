@@ -12,7 +12,7 @@ set more off
 capture log close
 log using resultados/ensanut/tabla_adolescentes.log, replace
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 use "$datos\2020\adolescentes_vac_tab_ensanut2020_w.dta", clear
 
@@ -152,7 +152,9 @@ g factormiles=factor/1000
 *g nse5F=SOCIO_nse5F
 *g nse5F=socio_nse5f
 
-do "$codigo/vars_adoles_adult.do"
+label def sex 1"hombre" 2"mujer"
+label val sexo sex
+label var sexo "Sexo"
 
 *Identificador de adolescente
 g adolescente=1 if factor!=.
