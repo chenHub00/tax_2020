@@ -12,7 +12,8 @@ global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 global resultados = "resultados\encuesta\"
 
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/Base_original_w1_w8_conweights.dta", clear
 
 * variables
 keep id wave has_fumado_1mes /// 
@@ -31,10 +32,10 @@ gen tax2020 = wave == 5
 // pandemia
 *gen covid19 = wave >= 6
 
-do $codigo/recodificar_.do
-do $codigo/gen_vars.do
-*do $codigo/gen_interacciones.do
-do $codigo/etiquetas_marcas.do
+do $codigo/2_a_recodificar_.do
+do $codigo/2_b_gen_vars.do
+do $codigo/2_c_gen_interacciones.do
+do $codigo/2_d_etiquetas_marcas.do
 
 
 /*. list id wave q009 if id == "40309"

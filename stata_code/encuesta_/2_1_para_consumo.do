@@ -12,7 +12,8 @@ set more off
 capture log close
 log using "$resultados/para_consumo.log", replace
 
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/Base_original_w1_w8_conweights.dta", clear
 
 keep id wave has_fumado_1mes /// 
 	q001 escolaridad ingreso patron q028 q019 q019r30oe /// 
@@ -28,10 +29,10 @@ gen tax2021 = wave == 8
 // pandemia
 gen covid19 = wave >= 6
 
-do $codigo/recodificar_.do
-do $codigo/gen_vars.do
-do $codigo/gen_interacciones.do
-do $codigo/etiquetas_marcas.do
+do $codigo/2_a_recodificar_.do
+do $codigo/2_b_gen_vars.do
+do $codigo/2_c_gen_interacciones.do
+do $codigo/2_d_etiquetas_marcas.do
 
 
 // septiembre: Todos los periodos

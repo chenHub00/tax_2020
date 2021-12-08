@@ -26,7 +26,7 @@ replace marca = 6 if q019 == 17
 replace marca = 7 if q019 == 19
 recode marca . = 99
 
-do $codigo/marcas_w8_q019r30oe.do
+do $codigo/2_d_2_marcas_w8_q019r30oe.do
 
 #delimit ;
 label define marca 1 "Benson y Hedges" 
