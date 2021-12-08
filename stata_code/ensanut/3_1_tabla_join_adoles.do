@@ -5,7 +5,7 @@ set more off
 capture log close
 log using resultados/ensanut/tabla_join_adol.log, replace
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 use "$datos/2020/tabla_adolescentes.dta", clear
 
