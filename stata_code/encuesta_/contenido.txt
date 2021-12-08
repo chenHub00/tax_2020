@@ -44,16 +44,55 @@ para estimar modelos SUR
 3. Unir tablas // Preparar para el análisis
 
 4. Descriptivos
-descr_cons_w1a8.do
+4_1_descr_cons_w1a8.do
 * descriptivos de consumo
+usa: $datos/cons_w_1to8.dta
+genera: $resultados/descr_cons_w1a8.log
+- $resultados/descriptivos/cons_por_dia_.xlsx
+- "$resultados/descriptivos/cons_por_dia_1.xlsx"
 
 5. Modelos
-do_modelos_consumo.do
+5_1_modelos_consumo.do (modelos_consumo_w4a6.do)
+* regresion lineal, fe, re y panel balanceado (waves 4 a 6)
+? nocons no funciona
++ agregar indicador para waves anteriores y posteriores
+usa: cons_w_1to8.dta
+< dir_encuesta.do
+genera: modelos_cons.log
+$mod= w1a8_lineal, $depvar= "cons_sem"
+resultados/encuesta/mods_consumo_$mod
+
+modelos_consumo_tnb.do
+* estimación tnb: tobit negative binomial
+usa: cons_w_1to8.dta
+
+modelos_consumo_tnb_iwave.do
+* con indicadora de levantamiento
+usa: cons_w_1to8.dta
+
+modelos_consumo_log.do
+- modelos regresion lineal, fe, re y panel balanceado, 
+con variable transformada en logaritmos
+
+modelos_consumo_iwave.do 
+* con indicadora de levantamiento
+usa: cons_w_1to8.dta
+
+mods_cons_balanc_iwave.do 
+// modelos_consumo_iwave.do 
+// modelos_consumo_tnb_iwave.do?
+// modelos_consumo_tnb.do?
+// mods_tnb_cons_iwave_patron_singles.do : $seleccion, tax2020_sexo
+// modelos_consumo_log.do
+
+
+#do_modelos_consumo.do
 - llama otro c'odigo para ejecutar generacion de variables
 do "$codigo/para_consumo.do"
 - llama otro código de los modelos
 *do "$codigo/modelos_consumo.do"
 do "$codigo/modelos_consumo_log.do"
+
 
 ======================= c'odigos de consumo --------------------
 
@@ -118,41 +157,7 @@ para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
 - A partir de los datos de INEGI
 > cant_cigarros_w4_w5.dta
 
-
-
-
 ======================= modelos de precios --------------------
-modelos_consumo_w4a6.do
-
-modelos_consumo_tnb.do
-* estimación tnb: tobit negative binomial
-usa: cons_w_1to8.dta
-
-modelos_consumo_tnb_iwave.do
-* con indicadora de levantamiento
-usa: cons_w_1to8.dta
-
-modelos_consumo_log.do
-- modelos regresion lineal, fe, re y panel balanceado, 
-con variable transformada en logaritmos
-
-modelos_consumo.do (modelos_consumo_w4a6.do)
-* regresion lineal, fe, re y panel balanceado (waves 4 a 6)
-* 
-? nocons no funciona
-+ agregar indicador para waves anteriores y posteriores
-usa: cons_w_1to8.dta
-
-modelos_consumo_iwave.do 
-* con indicadora de levantamiento
-usa: cons_w_1to8.dta
-
-mods_cons_balanc_iwave.do 
-// modelos_consumo_iwave.do 
-// modelos_consumo_tnb_iwave.do?
-// modelos_consumo_tnb.do?
-// mods_tnb_cons_iwave_patron_singles.do : $seleccion, tax2020_sexo
-// modelos_consumo_log.do
 
 
 to_project.do

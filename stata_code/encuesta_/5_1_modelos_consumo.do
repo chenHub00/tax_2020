@@ -3,7 +3,7 @@
 set more off
 
 capture log close
-log using "resultados/encuesta/modelos_cons$mod.log", replace
+log using "resultados/encuesta/modelos_cons.log", replace
 
 do stata_code/encuesta_/dir_encuesta.do
 
