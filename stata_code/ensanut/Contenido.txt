@@ -1,0 +1,88 @@
+
+Datos:
+recibidos/economico.dta
+recibidos/ENSANUT2018_NSE.dta
+2018/
+2020/
+
+# Orden
+0. Directorios de trabajo
+dirEnsanut.do
+
+1. Importar datos
+import_data.do: 1_import_data.do
+
+2. Tablas con variables para análisis
+
+- tabla_adolescentes.do 
+/ + vars_adoles_adult.do : tabla_adolescentes.dta : 2_1_
+usa: 
+2018\CS_ADOLESCENTES.dta
+genera: 
+2020\tabla_adolescentes.dta
+
+- tabla_adultos.do
+usa:
+\2018\CS_ADULTOS.dta
+genera:
+
+* consumo dual
+* 
+/ : tabla_adultos.dta : 2_2_
+
+- tabla_residentes.do : 2_3_ // vars_descriptivos.do
+usa:
+/2020/hogar_ensanut2020_ww.dta
+genera: 
+/2020/vars_educ.dta, 
+/2020/vars_ingr_gr.dta
+usa:
+\2018\CS_RESIDENTES.dta
+genera:
+\2018\vars_educ.dta
+\2018\vars_ingr_gr.dta
+
+
+3. Unir tablas // Preparar para el análisis
+3_1_tabla_join_adoles.do
++ do_edad_gr.do
++ do_vars_edad_a_rural.do
+
+3_2_tabla_join_adul.do  (tabla_join_adul.log)
+=2020/tabla_adultos.dta + 2020\vars_educ.dta + recibidos/economico.dta
++ do_edad_gr.do + do_vars_edad_a_rural.do
+> 2020/tabla_adul_fin.dta 
+=/2018/tabla_adultos.dta + 2018/vars_educ.dta + /recibidos/ENSANUT2018_NSE.dta
++ do_edad_gr.do 
++ do_vars_edad_a_rural.do
+> 2018/tabla_adul_fin.dta
+=2018/tabla_adul_fin.dta + 2020/tabla_adul_fin.dta
+> adul_18_20.dta
+
+3_3_tabla_adol_adul.do : 
+/2020/adul_18_20.dta + /2020/adol_18_20.dta : 2020/adol_adul_18_20.dta
+
+* variables categoricas para tabulados: educación,
+do_edad_gr.do (* grupos de edad) : 3_a_
+do_vars_edad_a_rural.do : 3_b_
+
+4. Descriptivos
+4_0_descriptivos_prevalencia_comparacion.do
+*comparativos para prevalencia
+
+4_1_descr_cant_cig_adol_adul.do
+
+4_2_descr_cant_cig_pruebas_t_adol_adul.do
+* pruebas t: syntaxis se tiene que modificar para stata 14 (funciona desde 15?)
+
+4_3_descriptivos_e_cig.do
+
+5. Modelos
+- modelo_lineal_cant_cig_adol_adul //- modelo_lineal_cant_cig_adul.do :5_
+ 
+6. Análisis
+6_prediccion_promedio.do
+
+---------------- Necesario?
+?* rename_vars.do: homologar variables 2020 para reusar código 2018 in 2020 
+:tests_adol_adul`var_fum'.xlsx,  pruebas_t_adol_adul.log 

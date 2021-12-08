@@ -1,7 +1,7 @@
 * no se identifica adolescente o adulto por separado
 
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 capture log close
 log using $resultados/descriptivos_prevalencia_comparacion.log, replace
@@ -16,8 +16,10 @@ use "$datos/2020/adol_adul_18_20.dta", clear
 svyset [pweight=factor], psu(upm_dis) strata(est_sel) singleunit(certainty)
 
 /* La muestra análitica: correctamente definida? */
-keep if grupedad_comp  <6
-keep if ingr_gr  <6
+gen insample = (grupedad_comp  <6 & gr_educ < 5)
+
+*keep if grupedad_comp  <6
+*keep if ingr_gr  <6
 /*------------------------------------------
 sin distinguir adolescente / adulto
 ------------------------------------------*/

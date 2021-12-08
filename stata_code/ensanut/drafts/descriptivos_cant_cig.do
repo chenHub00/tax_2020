@@ -1,5 +1,5 @@
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 capture log close
 log using $resultados/descriptivos_cant_cig.log, replace

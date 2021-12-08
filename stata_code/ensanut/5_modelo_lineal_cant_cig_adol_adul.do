@@ -3,7 +3,7 @@
 capture log close
 log using resultados/ensanut/modelo_lineal_cant_cig_adol_adul.log, replace
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 ************************************************************DESCRIPTIVOS********************************************************
 set more off

@@ -2,7 +2,7 @@
 * con pruebas de medias:
 * https://stats.idre.ucla.edu/stata/faq/how-can-i-do-a-t-test-with-survey-data/
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 capture log close
 log using $resultados/descriptivos_cant_cig_pruebas_t.log, replace

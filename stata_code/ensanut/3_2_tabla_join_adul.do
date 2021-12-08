@@ -29,12 +29,12 @@ keep if m_nse == 3
 destring entidad, replace
 
 /* EDAD */
-do $codigo/do_edad_gr.do
+do $codigo/3_a_do_edad_gr.do
 
 *Guardado de la base de datos unida (base general)
 
 ******DEFINICIÓN DE VARIABLES ADICIONALES
-do $codigo/do_vars_edad_a_rural.do
+do $codigo/3_b_do_vars_edad_a_rural.do
 
 save "$datos/2020/tabla_adul_fin.dta", replace
 
@@ -42,7 +42,7 @@ save "$datos/2020/tabla_adul_fin.dta", replace
 use "$datos/2018/tabla_adultos.dta", clear
 
 
-do $codigo/do_edad_gr.do
+do $codigo/3_a_do_edad_gr.do
 
 merge 1:1 upm_dis viv_sel hogar numren using $datos/2018/vars_educ.dta, gen(m_educ)
 
@@ -59,7 +59,7 @@ rename nseF nsef
 *Guardado de la base de datos unida (base general)
 g entidad=ent
 ******DEFINICIÓN DE VARIABLES ADICIONALES
-do $codigo/do_vars_edad_a_rural.do
+do $codigo/3_b_do_vars_edad_a_rural.do
 
 save "$datos/2018/tabla_adul_fin.dta", replace
 

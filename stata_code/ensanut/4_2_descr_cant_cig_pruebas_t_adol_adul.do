@@ -5,7 +5,7 @@
 capture log close
 log using resultados/ensanut/pruebas_t_adol_adul.log, replace
 
-do stata_code/ensanut/dirEnsanut.do
+do stata_code/ensanut/0_dirEnsanut.do
 
 ************************************************************DESCRIPTIVOS********************************************************
 set more off
