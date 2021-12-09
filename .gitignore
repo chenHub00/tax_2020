@@ -12,5 +12,6 @@
 /resultados/encuesta/*
 /resultados/doc/*.log
 /resultados/doc/*.gz
+/resultados/logs/*
 /stata_code/elasticidad/
 
