@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.7.16)  8 DEC 2021 00:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.7.16)  18 OCT 2021 19:05
 entering extended mode
 **./modelos_panel.tex
 (modelos_panel.tex
@@ -206,6 +206,123 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 .cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-!pdfTeX error: pdflatex.exe (file ./df_review_ppu_marcas.pdf): PDF inclusion: r
-equired page does not exist <0>
- ==> Fatal error occurred, no output PDF file produced!
+<df_review_ppu_marcas.pdf, id=1, 614.295pt x 794.97pt>
+File: df_review_ppu_marcas.pdf Graphic file (type pdf)
+<use df_review_ppu_marcas.pdf>
+Package pdftex.def Info: df_review_ppu_marcas.pdf  used on input line 35.
+(pdftex.def)             Requested size: 345.0pt x 446.4781pt.
+<prin7_prom_ppu_marcas.pdf, id=2, 614.295pt x 794.97pt>
+File: prin7_prom_ppu_marcas.pdf Graphic file (type pdf)
+<use prin7_prom_ppu_marcas.pdf>
+Package pdftex.def Info: prin7_prom_ppu_marcas.pdf  used on input line 45.
+(pdftex.def)             Requested size: 345.0pt x 446.4781pt.
+ [1
+
+{C:/Users/USUARIO/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
+[2 <./df_review_ppu_marcas.pdf>] [3 <./prin7_prom_ppu_marcas.pdf>]
+(est_areg_total_mod.tex [4]) [5] (est_areg_tipo_mod.tex
+Overfull \hbox (52.08429pt too wide) in alignment at lines 1--48
+ [] [] [] [] [] [] [] 
+ []
+
+[6]) [7] (testparam_areg_total.tex) [8
+
+] (est_xtreg_total_mod.tex
+Overfull \hbox (54.28424pt too wide) in alignment at lines 2--62
+ [] [] [] [] [] [] 
+ []
+
+[9
+
+] [10]) (est_xtreg_tipo_mod.tex
+Overfull \hbox (107.39548pt too wide) in alignment at lines 1--45
+ [] [] [] [] [] [] [] 
+ []
+
+[11]) [12] (testparam_xtreg.tex) [13
+
+] [14
+
+] (est_xt_marcas.tex) [15
+
+]
+(est_xtreg_dif_mod.tex)
+Overfull \hbox (107.39548pt too wide) in paragraph at lines 1--230
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 110.19998pt on input line 230.
+
+(est_xtreg_dif_tipo_mod.tex)
+Overfull \hbox (137.39557pt too wide) in paragraph at lines 1--246
+ [][] 
+ []
+
+[16
+
+] [17] [18] [19] (testparam_xtreg_dyn.tex) [20
+
+] [21
+
+] [22
+
+] [23
+
+]
+(est_xtreg_dyn_marca_mod.tex) [24] [25
+
+
+] (est_xtreg_dyn_marca_nov_dic.tex)
+[26] [27
+
+
+] (est_xtreg_dif_tipo_con_otras.tex)
+Overfull \hbox (8.61795pt too wide) in paragraph at lines 1--313
+ [][] 
+ []
+
+[28] (est_xt_dm.tex) [29
+
+
+] (est_xtsur_premium.tex) (est_xtsur_bajo.tex)
+(est_xtsur_medio.tex) [30] (hausman_tests_static.tex) [31] (unitroot_tests.tex)
+
+Overfull \hbox (11.41806pt too wide) in paragraph at lines 1--387
+ [][] 
+ []
+
+[32
+
+] (hausman_tests_dyn.tex) [33
+
+] (modelos_panel.aux) ) 
+Here is how much of TeX's memory you used:
+ 3430 strings out of 478864
+ 58734 string characters out of 2847712
+ 386450 words of memory out of 3000000
+ 21289 multiletter control sequences out of 15000+600000
+ 409420 words of font info for 48 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,9n,66p,792b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
+<C:/Users/USUARIO/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmbx10.pfb><C:/Users/USUARIO/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/USUARIO/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/USUARIO/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/USU
+ARIO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
+/Users/USUARIO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
+10.pfb><C:/Users/USUARIO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
+nts/cm/cmr12.pfb><C:/Users/USUARIO/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmr17.pfb><C:/Users/USUARIO/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/USUARIO/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/USUARIO/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/USUARIO/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/USU
+ARIO/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on modelos_panel.pdf (33 pages, 748754 bytes).
+PDF statistics:
+ 185 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+
