@@ -7,13 +7,13 @@ set more off
 
 capture log close
 // CHANGES FOR FULL SAMPLE
-*log using "resultados/encuesta/est_boxcox_cons.log", replace
-*use "$datos/cons_w_1to8.dta", clear
+log using "resultados/encuesta/est_boxcox_cons.log", replace
+use "$datos/cons_w_1to8.dta", clear
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-log using "resultados/encuesta/boxcox_cons_balanc.log", replace
-use "$datos/cp_w456balanc.dta", clear
+*log using "resultados/encuesta/boxcox_cons_balanc.log", replace
+*use "$datos/cp_w456balanc.dta", clear
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
@@ -22,9 +22,9 @@ global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 //global depvar "cons_por_dia"
 // semanal
 // total
-//global mod = "boxcox"
+global mod = "boxcox"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-global mod = "boxcox_balanc"
+*global mod = "boxcox_balanc"
 global depvar "consumo_semanal"
 
 // regresiones
@@ -33,10 +33,10 @@ global vars_regpatron "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave singles"
 global vars_regsingles "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron"
 // impuestos
 // CHANGES FOR FULL SAMPLE ------------------------------------------;
-*global vars_txc "tax2020 tax2021 " 
+global vars_txc "tax2020 tax2021 " 
 
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ------------------------------------------
-global vars_txc "tax2020 " 
+*global vars_txc "tax2020 " 
 
 
 *boxcox $depvar $vars_txc $vars_regpatron if $seleccion
@@ -100,7 +100,7 @@ outreg2 using resultados/encuesta/$mod$depvar, word excel append
 *boxcox $depvar $vars_txc vr_* singles if $seleccion, lrtest model(theta)
 
 log close
-/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------
 /// precios
 *use "$datos/cp_w1a8.dta", clear
 // CHANGES FOR FULL SAMPLE
