@@ -8,7 +8,7 @@ capture log close
 log using "$resultados/para_precio_consumo_w1_a_w8.log", replace
 
 // MACROS
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 //use "$datos/wave4_5unbalanced.dta", replace
 use "$datos/cons_w_1to8.dta", replace

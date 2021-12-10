@@ -9,11 +9,12 @@ global datos = "datos/encuesta/"
 global codigo = "stata_code\encuesta_\"
 global resultados = "resultados\encuesta\"
 
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/Base_original_w1_w8_conweights.dta", clear
 
 keep if wave == 3
 
-do "$codigo/etiquetas_marcas.do"
+do "$codigo/2_d_etiquetas_marcas.do"
 
 keep id wave marca q019 q029 
 

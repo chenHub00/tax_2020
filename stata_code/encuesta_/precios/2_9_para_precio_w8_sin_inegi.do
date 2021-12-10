@@ -13,11 +13,12 @@ global codigo = "stata_code\encuesta_\"
 *cd "C:\Users\danny\Desktop\Cohorte de fumadores\"
 
 *use "91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
-use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+*use "$datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta", clear
+use "$datos/Base_original_w1_w8_conweights.dta", clear
 
 keep if wave == 8
 
-do "$codigo/etiquetas_marcas.do"
+do "$codigo/2_d_etiquetas_marcas.do"
 
 // solo cantidades 14, 20 y 25
 // no considera compras de cigarro suelto
