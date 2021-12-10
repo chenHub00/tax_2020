@@ -8,7 +8,7 @@ capture log close
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6 <<<<<<<<<------------------------------------------
 log using "resultados/encuesta/mods_ppu_balanc_iwave.log", replace
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 // otros y no responde se eliminan
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
@@ -23,26 +23,26 @@ global v_tipo "sexo#i.tipo i.edad_gr3#i.tipo i.educ_gr3#i.tipo i.ingr_gr#tipo i.
 *global v_covid19 "covid19#singles covid19#patron"
 
 // CHANGES FOR FULL SAMPLE <<<<<<<<<------------------------------------------
-*use "$datos/cp_w1a8.dta", clear
+use "$datos/cp_w1a8.dta", clear
 // impuestos
-*global vars_txc "tax2020 tax2021 " 
+global vars_txc "tax2020 tax2021 " 
 // interacciones
-//global v_txc_singles "tax2020#singles tax2021#singles"
-//global v_txc_patron "tax2020#patron tax2021#patron"
-//global v_txc_tipo "tax2020#i.tipo tax2021#i.tipo"
+global v_txc_singles "tax2020#singles tax2021#singles"
+global v_txc_patron "tax2020#patron tax2021#patron"
+global v_txc_tipo "tax2020#i.tipo tax2021#i.tipo"
 
-*global mod = "_lineal_iwave"
+global mod = "_lineal_iwave"
 
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6 <<<<<<<<<------------------------------------------
-use "$datos/cp_w456balanc.dta", clear
+*use "$datos/cp_w456balanc.dta", clear
 // impuestos
-global vars_txc "tax2020 " 
+*global vars_txc "tax2020 " 
 // interacciones
-global v_txc_singles "tax2020#singles "
-global v_txc_patron "tax2020#patron "
-global v_txc_tipo "tax2020#i.tipo "
+*global v_txc_singles "tax2020#singles "
+*global v_txc_patron "tax2020#patron "
+*global v_txc_tipo "tax2020#i.tipo "
 
-global mod = "_balanc_iwave"
+*global mod = "_balanc_iwave"
 
 /***************************************************************************/
 // 1.0 MODELOS

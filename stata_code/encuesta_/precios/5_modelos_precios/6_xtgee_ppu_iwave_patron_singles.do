@@ -5,11 +5,11 @@ capture log close
 // CHANGES FOR FULL SAMPLE
 *log using "resultados/encuesta/mods_xtgee_cons_patron_singles.log", replace
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-log using "resultados/encuesta/xtgee_cons_balanc.log", replace
+*log using "resultados/encuesta/xtgee_cons_balanc.log", replace
 
 /************************************************************************************/
 /* 	GLOBALS, DIRS --------------------------------------------------*/
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
@@ -20,14 +20,14 @@ global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
 // semanal
 // CHANGES FOR FULL SAMPLE ------------------------------------------;
-*global mod = "xtgee_"
+global mod = "xtgee_"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-global mod = "xtgee_balanc"
+*global mod = "xtgee_balanc"
 
 
-global patsing = "patron_"
-global inter = "01"
-global depvar "consumo_semanal"
+*global patsing = "patron_"
+*global inter = "01"
+*global depvar "consumo_semanal"
 
 // regresiones
 global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr i.wave patron singles"
@@ -58,7 +58,7 @@ global v_txc_singles "tax2020#singles tax2021#singles"
 global v_txc_patron "tax2020#patron tax2021#patron"
 global v_txc_tipo "tax2020#i.tipo tax2021#i.tipo"
 // global v_covid19 "covid19#singles covid19#patron"*/
-/* 	end: GLOBALS, DIRS --------------------------------------------------*/
+/* 	end: GLOBALS, DIRS --------------------------------------------------
 // CHANGES FOR FULL SAMPLE
 *use "$datos/cons_w_1to8.dta", clear
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
@@ -146,7 +146,7 @@ foreach value of numlist 0/1 {
 
 }
 log close
-//end: SAME CODE FOR BOTH DATA SETS ---------------------------------------------
+//end: SAME CODE FOR BOTH DATA SETS ---------------------------------------------*/
 
 /************************************************************************************/
 /* Precios con gaussian */
@@ -156,13 +156,13 @@ log close
 **																					**
 **																					**
 /************************************************************************************/
-capture log close
+
 // CHANGES FOR FULL SAMPLE
-*log using "resultados/encuesta/mods_xtgee_ppu_patron_singles.log", replace
-*use "$datos/cp_w1a8.dta", clear
+log using "resultados/encuesta/mods_xtgee_ppu_patron_singles.log", replace
+use "$datos/cp_w1a8.dta", clear
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-log using "resultados/encuesta/xtgee_ppu_balanc.log", replace
-use "$datos/cp_w456balanc.dta", clear
+*log using "resultados/encuesta/xtgee_ppu_balanc.log", replace
+*use "$datos/cp_w456balanc.dta", clear
 
 // precios
 // semanal
