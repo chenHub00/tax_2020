@@ -111,7 +111,7 @@ xtunitroot fisher error_ppu_ym_fe2, dfuller lags(4) drift
 // se rechaza raiz unitaria en todos los paneles solo con drift
 
 // hausman favorece efectos individuales fijos
-xtreg ppu $varsRegStatic, fe
+xtreg ppu $varsRegStatic if marca == 2, fe
 
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
@@ -230,7 +230,7 @@ foreach number of numlist 3 {
 	di "`number'"
 
 // hausman favorece efectos individuales fijos
-xtreg ppu $varsRegStatic, fe
+xtreg ppu $varsRegStatic if marca == `number', fe
 
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
@@ -241,7 +241,7 @@ foreach number of numlist 4 {
 	di "`number'"
 
 // hausman favorece efectos individuales fijos
-xtreg ppu $varsRegStatic, fe
+xtreg ppu $varsRegStatic if marca == `number', fe
 
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
@@ -252,7 +252,7 @@ foreach number of numlist 5/7 {
 	di "`number'"
 
 // hausman favorece efectos individuales fijos
-xtreg ppu $varsRegStatic, fe
+xtreg ppu $varsRegStatic if marca == `number', fe
 
 outreg2 using resultados/doc/est_xt_marcas ///
 			, keep($varsRegStatic) bdec(3) nocons  tex(fragment) append
