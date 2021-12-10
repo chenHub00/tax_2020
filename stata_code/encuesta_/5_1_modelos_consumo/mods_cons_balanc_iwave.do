@@ -15,7 +15,7 @@ capture log close
 *log:
 log using "resultados/encuesta/$mod.log", replace
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 * modelo en niveles
 global depvar "consumo_semanal"

@@ -4,7 +4,7 @@ set more off
 capture log close
 log using "resultados/encuesta/mods_tnb_cons_patron_singles.log", replace
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 //global mod = "w1a8_iwave_patron_singles"
 //global depvar "cons_por_dia"

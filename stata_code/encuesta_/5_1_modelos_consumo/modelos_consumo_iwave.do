@@ -8,7 +8,7 @@ global mod = "balanc_iwave"
 capture log close
 log using "resultados/encuesta/modelos_cons$mod.log", replace
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
 global depvar "consumo_semanal"
@@ -30,9 +30,9 @@ global v_txc_tipo "tax2020#i.tipo tax2021#i.tipo"
 // CHANGES FOR FULL SAMPLE
 //use "$datos/wave4_5unbalanced.dta", clear
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
-use "$datos/cons_w456_balanc.dta", replace
+*use "$datos/cons_w456_balanc.dta", replace
 
-*use "$datos/cons_w_1to8.dta", clear
+use "$datos/cons_w_1to8.dta", clear
 /***************************************************************************/
 // 1.0 MODELOS
 // 1.2 MODELOS ajustes variables agrupadas
