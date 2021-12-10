@@ -2,8 +2,8 @@
 set more off
 
 // CHANGES FOR FULL SAMPLE
-global mod = "_iwave"
-*global mod = "balanc_iwave"
+*global mod = "_iwave"
+global mod = "balanc_iwave"
 
 capture log close
 log using "resultados/encuesta/modelos_cons$mod.log", replace
@@ -98,14 +98,14 @@ hausman fixed random , sigmamore
 
 // modelo
 regress  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion
-outreg2 using resultados/encuesta/mods_consumo_tipo_$mod, word excel replace
+outreg2 using resultados/encuesta/mods_consumo_tipo, word excel replace
 
 // pruebas
 *testparm $v_txc_patron // no se rechaza igualdad
 
 // estimación panel
 xtreg  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion, fe
-outreg2 using resultados/encuesta/mods_consumo_tipo_$mod, word excel append
+outreg2 using resultados/encuesta/mods_consumo_tipo, word excel append
 
 estimates store fixed
 *xttest2
@@ -119,7 +119,7 @@ end of do-file
 *testparm $v_txc_patron // no se rechaza igualdad
 
 xtreg  $depvar $v_txc_tipo $v_tipo i.wave#i.tipo if $seleccion, re
-outreg2 using resultados/encuesta/mods_consumo_tipo_$mod, word excel append
+outreg2 using resultados/encuesta/mods_consumo_tipo, word excel append
 
 estimates store random
 xttest0 
@@ -136,7 +136,7 @@ hausman fixed random , sigmamore
 /*---------------------------------------------------------*/
 // 1.3b MODELOS interacciones, patron * vars
 regress $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion
-outreg2 using resultados/encuesta/mods_cons_patron_$mod, word excel replace
+outreg2 using "resultados/encuesta/mods_cons_patron_", word excel replace
 
 // pruebas
 //testparm i.tipo // se rechaza igualdad
@@ -147,7 +147,7 @@ outreg2 using resultados/encuesta/mods_cons_patron_$mod, word excel replace
 
 // estimación panel
 xtreg $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion, fe
-outreg2 using resultados/encuesta/mods_cons_patron_$mod, word excel append
+outreg2 using resultados/encuesta/mods_cons_patron_, word excel append
 
 estimates store fixed
 *xttest2
@@ -161,7 +161,7 @@ end of do-file
 
 * Aleatorios
 xtreg $depvar $v_txc_patron $v_patron i.wave##patron if $seleccion, re
-outreg2 using resultados/encuesta/mods_cons_patron_$mod, word excel append
+outreg2 using resultados/encuesta/mods_cons_patron_, word excel append
 
 estimates store random
 xttest0 

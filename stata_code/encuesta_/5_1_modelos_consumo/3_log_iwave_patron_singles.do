@@ -6,9 +6,9 @@
 set more off
 
 // CHANGES FOR FULL SAMPLE
-global mod = "modelos_cons_patron_singles"
+*global mod = "modelos_cons_patron_singles"
 * log:
-*global mod = "log_modelos_cons_patron_singles"
+global mod = "log_modelos_cons_patron_singles"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
 *global mod = "mods_cons_balanc_iwave_patron_singles"
 * log:
@@ -22,9 +22,9 @@ do stata_code/encuesta_/0_dir_encuesta.do
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
 * modelo en niveles o lineal:
-global depvar "consumo_semanal"
+*global depvar "consumo_semanal"
 // logaritmos: comentar si lineal
-*global depvar "log_cons_sem"
+global depvar "log_cons_sem"
 
 // por dia
 //global depvar "cons_por_dia"
@@ -50,8 +50,8 @@ global vars_reg "sexo i.edad_gr3 i.educ_gr3 i.ingr_gr patron singles"
 
 // CHANGES FOR FULL SAMPLE
 // lineal: comentar si logaritmos
-global modx = "cons_patron"
-*global modx = "log_cons_patron"
+// global modx = "cons_patron"
+global modx = "log_cons_patron"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6
 *global modx = "balanc_patron"
 *global modx = "balanc_log_cons_patron"
