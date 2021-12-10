@@ -6,25 +6,26 @@ set more off
 // global codigo = "stata_code\encuesta_\"
 // global resultados = "resultados\encuesta\"
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 global depvar "ppu"
 
 capture log close
 * FULL SAMPLE ---------------------------------------------
-*log using "resultados/encuesta/ppu_tobit_patron_singles.log", replace
-*use "$datos/cp_w1a8.dta", clear
+log using "resultados/encuesta/ppu_tobit_patron_singles.log", replace
+use "$datos/cp_w1a8.dta", clear
 // impuestos
-*global vars_txc "tax2020 tax2021 " 
-*global mod = "ppu_tobit_patron"
+global vars_txc "tax2020 tax2021 " 
+global mod = "ppu_tobit_patron"
 
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ---------------------------------------------
-log using "resultados/encuesta/ppu_balanc_tobit.log", replace
-use datos/encuesta//cp_w456balanc.dta, clear
+*log using "resultados/encuesta/ppu_balanc_tobit.log", replace
+*use datos/encuesta//cp_w456balanc.dta, clear
 // impuestos
-global vars_txc "tax2020 " 
+*global vars_txc "tax2020 " 
 
-global mod = "ppu_tobit_balanc_patron"
+*global mod = "ppu_tobit_balanc_patron"
+
 
 /* MACROS ---------------------------------------------*/
 
@@ -67,9 +68,9 @@ outreg2 using "resultados/encuesta/mods_$depvar$mod`value'", word excel append
 
 }
 
-*global mod = "ppu_tobit_singles"
+global mod = "ppu_tobit_singles"
 // CHANGES FOR BALANCED SAMPLE IN 4 TO 6 ---------------------------------------------
-global mod = "ppu_tobit_balanc_singles"
+*global mod = "ppu_tobit_balanc_singles"
 
 foreach value of numlist 0/1 {
 /***************************************************************************
