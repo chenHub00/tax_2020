@@ -1,0 +1,72 @@
+
+clean01.R: 1_clean.R
+- usa:
+archivo <- paste0(directorio,"Tabla_descriptivos_diciembre.xlsx")
+tabla_ago18_sep20<-read_excel(archivo,sheet="aux_ago18_sept20",range="A6:Y8196")
+tabla_ene11_jul18<-read_xlsx(archivo,sheet="aux_ene11_jul18",range="A8:Y24851")
+archivo2 <- paste0(directorio,"Oct2020_abr2021.xlsx")
+tabla_oct20_abr21<-read_xlsx(archivo2,sheet="aux_oct20_abr21",range="A6:Y2211")
+- genera:
+write.csv(df_means,"datos/prelim/de_inpc/df_means.csv", row.names = FALSE)
+
+library("openxlsx")
+write.xlsx(to_review, "datos/prelim/de_inpc/to_review.xlsx")
+
+LimpiezaMarcas2 <- data.frame(table(df_review$marca))
+write.csv(LimpiezaMarcas2,"datos/prelim/de_inpc/LimpiezaMarcas2.csv", row.names = FALSE)
+
+save(df_review, file = "datos/prelim/de_inpc/df_review.RData")
+
+- gráficos:
+dfplot1 = ggplot(df_review, aes(fecha, ppu, colour = marca)) + 
+  geom_point()
+
+clean02.R: 2_clean.R
+- usa:
+load("datos/prelim/de_inpc/df_review.RData")
+summary(df_review)
+
+- genera:
+# 
+write.csv(df_review,"datos/prelim/de_inpc/df_review.csv", row.names = FALSE)
+# agregados por ciudad
+save(fecha_marca_sum, file = "datos/prelim/de_inpc/fecha_marca_sum.RData") 
+
+
+save(table11_principales7, file = "datos/prelim/de_inpc/table11_principales7.RData")
+# load("~/R/tax_ene2020/table11_principales7.RData")
+write.csv(table11_principales7,"datos/prelim/de_inpc/table11_principales7.csv", row.names = FALSE)
+save(table11_Otras, file = "datos/prelim/de_inpc/table11_Otras.RData")
+write.csv(table11_Otras,"datos/prelim/de_inpc/table11_Otras.csv", row.names = FALSE)
+save(principales7, file = "datos/prelim/de_inpc/principales7.RData")
+save(OtrasMarcas, file = "datos/prelim/de_inpc/OtrasMarcas.RData")
+
+- gráficos:
+dfplot2 = ggplot(principales7, aes(fecha, prom_ppu, colour = marca )) + 
+  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  geom_point()
+
+dfplot3 = ggplot(OtrasMarcas, aes(fecha, prom_ppu, colour = marca )) + 
+  labs(title = "Precios promedio por unidad\n", x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  geom_point()
+
+# graficos
+lines
+points 
+symbols
+https://intro2r.com/custom-plot.html
+
+3_proc_otras.R
+* tratamiento de datos para gráficas de otras marcas
+
+4_dif_entre_7principales.R
+
+
+5_diferencia_otras_7principales.R
+
+sink("diferencia_otras_7principales.txt")
+
+write.table(distances, file=paste0(directorioFinal,"distancias.csv"),sep=",")
+write.table(Avdistances, file=paste0(directorioFinal,"Avdistances.csv"),sep=",")
+
+6_graficas_otras_marcas.R

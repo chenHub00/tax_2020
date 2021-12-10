@@ -10,7 +10,7 @@ directorio <- "datos/iniciales/"
 # 
 # queremos las marcas o presentaciones m'as representativas
 # considerar las que tienen una presencia mayor en las ciudades
-
+#install.packages("tidyverse")
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
@@ -57,8 +57,8 @@ OtrasMarcas <- fecha_marca_sum  %>%
 # # Names Otras: principales
 marcas_tipo4 =  c("BAHREIN", "BARONET", "BOHEMIOS", "DALTON", "DONTABAKO","GARAÑON",
   "L&M","LAREDO","LM BARONET","RGD", "RODEO", "ROMA","SCENIC 101", "SENECA")
-marcas_tipo1 = c("DUNHILL BLONDE","SALEM","VICEROY")
-marcas_tipo2 = c("FAROS", "FIESTA","KENT")
+marcas_tipo1 = c("DUNHILL BLONDE","KENT","SALEM","VICEROY")
+marcas_tipo2 = c("FAROS", "FIESTA")
 marcas_tipo3 = c("ALAS","FORTUNA","MURATTI","WINSTON")
 
 library(stringr)
@@ -75,14 +75,56 @@ fecha_marca_sum$otros=factor(ifelse(fecha_marca_sum$marca %in% marcas_2011_2018_
 #  theme(legend.position = c(0.15, 0.75)) +
 
 names_prin7_otros_tipo4 <- c(marcasPrincipales_Nombres, marcas_tipo4)
-to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo4)
-tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+to_graph <- fecha_marca_sum %>% 
+    filter(marca %in% names_prin7_otros_tipo4) %>% 
+    select(marca, fecha, prom_ppu,otros) %>%
+  #select(marca, fecha, prom_ppu) %>%
+    group_by(marca) %>% mutate(count = row_number(marca))
+
+# tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+#   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+#   theme_bw()+
+#   geom_line()+
+#   geom_point(size=1)
+# tipo4_ppu_plot
+
+# MISMA COLUMNA
+#https://r-charts.com/color-palettes/#discrete
+# paletteer_d("colorBlindness::paletteMartin") 
+color_types=c('#920000','#E69F00', "#333333",'#DB6D00',"#666666", "#999999",
+              '#24FF24','#6DB6FF', '#56B4E9', '#920000',"#999999", "#999999",
+              "#666666","#666666", '#FF6DB6','#006DDB','#490092', '#009292', 
+              '#004949')
+tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros)) +
+#tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca))) +
+  geom_line(aes(linetype=otros, color=marca))+
   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
-  theme_bw()+
-  geom_line()+
+  theme_light()+
+#  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
   geom_point(size=1)
 tipo4_ppu_plot
 
+
+names_prin7_otros_tipo1 <- c("Marlboro","Pall Mall","Montana", marcas_tipo4)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
+
+color_types=c('#006DDB','#24FF24',"#333333","#666666",'#DB6D00', "#999999", '#FF6DB6')
+color_types=c('#920000','#E69F00', '#DB6D00',
+              '#24FF24','#6DB6FF', '#56B4E9', '#920000',"#999999",
+              "#666666","#333333", '#FF6DB6','#006DDB','#490092', '#009292', 
+              '#004949')
+
+tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros)) +
+  #geom_line(aes(linetype=marca))+
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_light()+
+ scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
+tipo4_ppu_plot
 
 pdf('resultados/doc/ppu_prin7_otros4.pdf', height=8,width=12)
 # gr'afico con las otras marcas
@@ -99,9 +141,23 @@ names_prin7_otros_tipo3 <- c(marcasPrincipales_Nombres, marcas_tipo3)
 to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo3)
 #  theme(legend.position = c(0.15, 0.75)) +
 #theme(legend.text = element_text(size = 8, colour = "black")) +
-tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca,shape = otros)) + 
+# tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca,shape = otros)) + 
+#   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+#     geom_point()
+# tipo3_ppu_plot
+
+color_types=c('#920000',"#333333","#666666", "#999999",'#E69F00',"#999999",
+              "#999999","#666666",'#DB6D00',"#666666", '#FF6DB6')
+tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros)) +
+  #tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca))) +
+  geom_line(aes(linetype=otros, color=marca))+
   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
-    geom_point()
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
 tipo3_ppu_plot
 
 #tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca,shape = otros)) + 
@@ -117,6 +173,23 @@ tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),sh
 
 tipo3_ppu_plot
 
+
+
+names_prin7_otros_tipo1 <- c("Marlboro","Pall Mall","Montana", marcas_tipo3)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
+
+color_types=c('#006DDB','#24FF24',"#333333","#666666",'#DB6D00', "#999999", '#FF6DB6')
+tipo3_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = marca)) +
+  geom_line(aes(linetype=marca))+
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  # scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
+tipo3_ppu_plot
+
 pdf('resultados/doc/ppu_prin7_otros3.pdf', height=12,width=8)
 # gr'afico con las otras marcas
 tipo3_ppu_plot
@@ -129,12 +202,41 @@ dev.off()
 # por tipos: 2
 names_prin7_otros_tipo2 <- c(marcasPrincipales_Nombres, marcas_tipo2)
 to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo2)
-tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
-  geom_point()
-tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+# tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+#   geom_point()
+# tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+#   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+#   theme_bw()+
+#   geom_line()+
+#   geom_point(size=1)
+# tipo2_ppu_plot
+
+color_types=c("#333333","#666666", "#999999",'#920000','#E69F00','#DB6D00',
+              "#999999","#999999","#666666","#666666")
+tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros)) +
+  #tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca))) +
+  geom_line(aes(linetype=otros, color=marca))+
   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
-  theme_bw()+
-  geom_line()+
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
+tipo2_ppu_plot
+
+names_prin7_otros_tipo1 <- c("Marlboro","Pall Mall","Montana", marcas_tipo2)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
+
+color_types=c('#006DDB','#24FF24',"#333333","#666666", "#999999")
+tipo2_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = marca)) +
+  geom_line(aes(linetype=marca))+
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  # scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
   geom_point(size=1)
 tipo2_ppu_plot
 
@@ -151,14 +253,44 @@ dev.off()
 # por tipos: 1
 names_prin7_otros_tipo1 <- c(marcasPrincipales_Nombres, marcas_tipo1)
 to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
-tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
-  geom_point()
-tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+# tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+#   geom_point()
+# tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros )) + 
+#   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+#   theme_bw()+
+#   geom_line()+
+#   geom_point(size=1)
+# tipo1_ppu_plot
+
+color_types=c("#333333","#666666", "#999999",'#006DDB',"#999999","#999999",
+              "#666666","#666666",'#E69F00','#24FF24')
+tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = otros)) +
+  #tipo4_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca))) +
+  geom_line(aes(linetype=otros, color=marca))+
   labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
-  theme_bw()+
-  geom_line()+
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+  scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
   geom_point(size=1)
 tipo1_ppu_plot
+
+names_prin7_otros_tipo1 <- c("Marlboro","Pall Mall","Montana", marcas_tipo1)
+to_graph <- filter(fecha_marca_sum,marca %in% names_prin7_otros_tipo1)
+#,'#920000','#E69F00',
+color_types=c('#006DDB','#DB6D00',"#333333","#666666", "#999999",'#E69F00','#24FF24')
+tipo1_ppu_plot = ggplot(to_graph, aes(fecha, prom_ppu, colour = factor(marca),shape = marca)) +
+  geom_line(aes(linetype=marca))+
+  labs(x = "Periodo", y = "Pesos corrientes", color = "Marca\n") +
+  theme_light()+
+  #  scale_linetype_manual(values=lines_types)+
+  #scale_shape_manual(values=shapes_types)+
+ # scale_shape_manual(values=c(0,6))+
+  scale_color_manual(values=color_types)+
+  geom_point(size=1)
+tipo1_ppu_plot
+
 pdf('resultados/doc/ppu_prin7_otros1.pdf', height=12,width=8)
 # gr'afico con las otras marcas
 tipo1_ppu_plot
@@ -168,6 +300,12 @@ jpeg('resultados/doc/ppu_prin7_otros1.jpg', height=480,width=600)
 tipo1_ppu_plot
 dev.off() 
 
+
+#
+names7_1otro <- c("Marlboro","Pall Mall","Montana","Kent")
+to_graph <- filter(fecha_marca_sum,marca %in% names7_1otro)
+ggplot(to_graph, aes(fecha, prom_ppu, colour = marca)) + 
+  geom_point()
 
 # por marca
 names7_1otro <- c(marcasPrincipales_Nombres, "ALAS")
