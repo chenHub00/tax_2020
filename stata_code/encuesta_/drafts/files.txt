@@ -1,5 +1,6 @@
 0_cd_local.do
 0_cd_localUSUARIO.do
+
 0_dir_encuesta.do
 2_1_para_consumo.do
 2_2_para_consumo_w4_w5_w6.do
@@ -11,8 +12,10 @@
 4_1_descr_cons_w1a8.do
 5_1_modelos_consumo.do
 Contenido.txt
+
 cant_cig_caj_w1_a_w8.do
 comp_descr_precio_w8.do
+
 descr_cons_w04_w05.do
 descr_cons_w04_w05balanc.do
 descr_cp_w1a8_marca.do
@@ -23,6 +26,7 @@ descriptivos.do
 do_definicion_precios.do
 do_modelos_consumo.do
 draft_tabsum_dual.do
+
 ejemplos_previos/
 encuesta.stpr
 est_boxcox.do

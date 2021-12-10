@@ -1,61 +1,96 @@
 
 0. Directorios de trabajo
-cd_local.do
-cd_localUSUARIO.do
+0_cd_local.do
+0_cd_localUSUARIO.do
+0_dir_encuesta.do
 
 1. Importar datos
 
-
 2. Tablas con variables para análisis
-2_1_para_consumo.do (8 waves)
+
 
 usa:
 < 91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
 : Base_original_w1_w8_conweights.dta
-< $codigo/2_a_recodificar_.do (variables dependientes)
-< $codigo/2_b_gen_vars.do (para descriptivos)
-< $codigo/2_c_gen_interacciones.do (para modelos con interacciones)
-< $codigo/2_d_etiquetas_marcas.do (re-asignar nombres de marcas)
-do $codigo/2_d_2_marcas_w8_q019r30oe.do
-<> s8_idN_q3_009.dta
 resultado:
-> cons_w_1to8.dta
+> 
 
 2_2_para_consumo_w4_w5_w6.do (balanceado) 
 usa: 
 $datos/91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
 : Base_original_w1_w8_conweights.dta
-< $codigo/2_a_recodificar_.do (variables dependientes)
-< $codigo/2_b_gen_vars.do (para descriptivos)
-< $codigo/2_c_gen_interacciones.do (para modelos con interacciones)
-< $codigo/2_d_etiquetas_marcas.do (re-asignar nombres de marcas)
-<> "$datos/s2_idN_q3_009_w6.dta"
-<> "$datos/cons_w456_unbalanc.dta"
-<> save "$datos/cons_w456_unbalanc.dta", replace
-> save "$datos/cons_w456_balanc.dta", replace
+> save "$datos/c_w456_balanc.dta", replace
 
-recodificar_.do
-* definir variables para tener categorias con total de observaciones más representativo
-
-?reshape_wide_consumo.do
-* transformar las tablas de datos para estimación de modelos de consumo en formato amplio (wide)
-para estimar modelos SUR
 
 3. Unir tablas // Preparar para el análisis
 
 4. Descriptivos
-4_1_descr_cons_w1a8.do
-* descriptivos de consumo
-usa: $datos/cons_w_1to8.dta
-genera: $resultados/descr_cons_w1a8.log
-- $resultados/descriptivos/cons_por_dia_.xlsx
-- "$resultados/descriptivos/cons_por_dia_1.xlsx"
+4_1_
+
+usa: $datos/c_w_1to8.dta
+genera: $resultados/descr_c_w1a8.log
+
+
+======================= definición de precios --------------------
+
+2_11_: para_precio_consumo_w1_a_w8.do
+* tabla con precios (y consumo) desde wave 1 hasta 8.
+usa: cant_cig_caj_w1_a_w8.dta
+cons_w_1to8.dta
+tabla> cp_w1a8.dta
+
+2_10_ : cant_cig_caj_w1_a_w8.do // antes cant_cig_caj_w4_w5_w6.do // sigue a para_precio_w1.do hasta para_precio_w8.do
+* unir las estimaciones de cantidades de cigarros por cajetilla 
+: cant_cig_caj_w1_a_w8.dta
+
+
+/*************************************************************/
+2_1 al 2_9
+para_precio_w1.do hasta para_precio_w8.do con para_precio_w4_w5_prom_minmax.do (para 4 y 5)
+* ppu para comparar con w4 y w5 generados
+(descriptivos)
+para_precio_w6.do 
+- usar datos de INPC de INEGI para definir los puntos de corte
+
+para_precio_w8_sin_inegi.do
+*ppu_cuest variable obtenida del cuestionario
+
+para_precio_consumo_w4_w5_w6.do  // ANTES: para_precio_consumo_w4_w5.do 
+* cantidades por cajetilla, ppu y consumo wave 4 y 5
+* une las tablas de consumo y precios para wave 4 y wave 5.
+-usa:
+< cons_w456_unbalanc.dta  // use "$datos/wave4_5unbalanced.dta", replace
+< cant_cig_caj_w4_w5_w6.dta // "$datos/cant_cigarros_w4_w5.dta",
+< cons_w456_balanc // use "$datos/wave4_5balanc.dta", replace
+- resultados:
+> cp_w456unbalanc.dta // "$datos/c_pw4_w5_w6unbalanc.dta"
+> cp_w456balanc.dta // "$datos/c_pw4_w5_w6balanc.dta"
+
+para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
+- A partir de los datos de INEGI
+usa:
+/// ANTERIOR 91224059_w01_w08_appended_merge_w1_w8_v1_06042021_ETIQUETA SEND_weights.dta
+"$datos/Base_original_w1_w8_conweights.dta"
+2_d_etiquetas_marcas.do
+> cantidades_cigarros_w4.dta
+> cantidades_cigarros_w5.dta
+/// ANTES cant_cigarros_w4_w5.dta
+
+
+======================= modelos de precios --------------------
+
+etiquetas_marcas.do
+- para identificar marcas 
+> con mayor preferencia
+> de 'ultima compra
 
 5. Modelos
 *-----------------------------------------------
 5_1_modelos_consumo/ : 5_
 
-modelos_consumo_iwave.do : 1_xtreg_iwave.do
+modelos_precio_iwave.do : 1_xtreg_precio_iwave.do
+mod = "_lineal_iwave"
+
 mod = "_iwave" > (modelos_cons$mod.log)
 usa: 
 - cons_w_1to8.dta 
@@ -77,15 +112,36 @@ produce: (word, excel)
 > $depvar$modx`value'
 
 
-3_log_iwave_patron_singles.do > (log_modelos_cons_patron_singles.log)
-modx = "log_cons_patron"
-patron == `value' | singles == `value'
-: value = (0,1)
-usa:
-cons_w_1to8.dta
-produce: (word, excel)
-> $depvar$modx`value'
+modelos_precio_iwave_patron_singles.do : 2_xtreg_precio_iwave_patron_singles.do
+usa: cp_w1a8.dta
+depvar "ppu" 
+(xtreg_patron_singles_$depvar.log)
+mod "ppu_patron"
+patron == `value' 
+>$mod`value'" : value =(0,1)
+& singles == `value'
+mod = "ppu_singles"
+>$mod`value'" : value =(0,1)
 
+
+3_log_precio_iwave_patron_singles.do
+usa: cp_w1a8.dta
+depvar "log_ppu" 
+(xtreg_patron_singles_$depvar.log)
+mod = "log_ppu_patron"
+patron == `value' 
+>$mod`value'" : value =(0,1)
+& singles == `value'
+mod = "log_ppu_singles"
+>$mod`value'" : value =(0,1)
+
+4_ 
+mod = "ppu_tobit_patron"
+patron == `value' 
+>mods_$depvar$mod`value' : value =(0,1)
+singles == `value'
+mod = "ppu_tobit_singles"
+>mods_$depvar$mod`value' : value =(0,1)
 
 
 mods_tnb_cons_iwave_patron_singles.do: 4_
@@ -109,6 +165,26 @@ usa:
 cons_w_1to8.dta
 produce: (word, excel)
 > $mod$patsing$inter
+
+mods_xtgee_cp_patron_singles.do (mods_xtgee_cons_patron_singles.log) 
+:6_xtgee_ppu_patron_singles.do
+usa: cp_w1a8.dta
+global mod = "xtgee_"
+global patsing = "patron_"
+global inter = "01"
+global depvar "ppu"
+
+$mod$depvar$patsing$inter
+
+(mods_xtqreg_ppu_patron_singles.log)
+: 7_
+usa: cp_w1a8.dta
+global mod = "xtqreg_"
+global depvar "ppu"
+global patsing= "patron"
+> $mod$depvar$patsing`value'
+global patsing= "singles"
+> $mod$depvar$patsing`value'
 
 *-----------------------------------------------
 5_1_modelos_consumo/2_balanc/
@@ -213,91 +289,12 @@ usa:
 < cp_w456unbalanc.dta
 < cp_w456balanc.dta
 
-======================= definición de precios --------------------
 
+=============================== ejemplos_previos ----------------------------------
 gr_ppu_w04_w05.do
 * gr'afico para comparar w8 con w4 y w8
 
-para_precio_consumo_w1_a_w8.do
-* tabla con precios (y consumo) desde wave 1 hasta 8.
-usa: cant_cig_caj_w1_a_w8.dta
-cons_w_1to8.dta
-tabla> cp_w1a8.dta
 
-cant_cig_caj_w1_a_w8.do // antes cant_cig_caj_w4_w5_w6.do // sigue a para_precio_w1.do hasta para_precio_w8.do
-* unir las estimaciones de cantidades de cigarros por cajetilla 
-: cant_cig_caj_w1_a_w8.dta
-
-para_precio_w1.do hasta para_precio_w8.do con para_precio_w4_w5_prom_minmax.do (para 4 y 5)
-* ppu para comparar con w4 y w5 generados
-(descriptivos)
-para_precio_w6.do 
-- usar datos de INPC de INEGI para definir los puntos de corte
-
-para_precio_w8_sin_inegi.do
-*ppu_cuest variable obtenida del cuestionario
-
-para_precio_consumo_w4_w5_w6.do  // ANTES: para_precio_consumo_w4_w5.do 
-* cantidades por cajetilla, ppu y consumo wave 4 y 5
-* une las tablas de consumo y precios para wave 4 y wave 5.
--usa:
-< cons_w456_unbalanc.dta  // use "$datos/wave4_5unbalanced.dta", replace
-< cant_cig_caj_w4_w5_w6.dta // "$datos/cant_cigarros_w4_w5.dta",
-< cons_w456_balanc // use "$datos/wave4_5balanc.dta", replace
-- resultados:
-> cp_w456unbalanc.dta // "$datos/c_pw4_w5_w6unbalanc.dta"
-> cp_w456balanc.dta // "$datos/c_pw4_w5_w6balanc.dta"
-
-para_precio_w4_w5_prom_minmax.do // ANTES para_precio4_5.do
-- A partir de los datos de INEGI
-> cant_cigarros_w4_w5.dta
-
-======================= modelos de precios --------------------
-
-
-to_project.do
-- llama otro c'odigo para hacer definiciones y salvar 
-
-gen_vars.do
-- variables para tabla descriptiva
-- genera variables para modelos
-
-pre_panel.do
-- definici'on del panel (completo, 8 waves)
-- identificar los individuos con varias respuestas en varios levantamientos
-
-descriptivos.do
-- comprobaci'on de variables por "wave" y etiquetas.
-* sin considerar el ajuste en los precios? 
-* sin asignar un precio por unidad, dado un precio por cajetilla
-* 
-- w01_w05_: wave 1 a 4
-- age, gender, education > (q001, q002, q003)
-- consumo (semanal)> q012
-- marca favorita > q019 (q018, tiene marca favorita)
-- 'ultima marca > q026
-- pagado por la cajetilla > q029 [q028 = 1, compro cajetilla]
-- pagado por cigarro suelto > q030 [q028 = 2, compro cigarro suelto]
-
-etiquetas_marcas.do
-- para identificar marcas 
-> con mayor preferencia
-> de 'ultima compra
-
-para_muestra_analitica.do
-* procedimiento y descriptivos para definir las observaciones a usar en el análisis 
-  de las encuestas 4 y 5.
-
-quit_smoking_analysis.do
-- apartir del ejemplo de an'alisis previo
-. islead? 2617 (antes 2588)
-. 
-
-solo_wave8_excel.do
-* descriptivos de wave 8 para comparar con encuesta nacional.
-- 
-
-=============================== ejemplos_previos ----------------------------------
 descriptivos_wave_precio_inpc.do
 - datos de inpc de inegi para identificar puntos de corte entre marcas
 

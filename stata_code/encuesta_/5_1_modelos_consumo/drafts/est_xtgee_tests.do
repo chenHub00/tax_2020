@@ -9,7 +9,7 @@ set more off
 capture log close
 log using "resultados/encuesta/est_xtgee_tests.log", replace
 
-do stata_code/encuesta_/dir_encuesta.do
+do stata_code/encuesta_/0_dir_encuesta.do
 
 global seleccion " educ_gr3 != 9 & ingr_gr != 99"
 
@@ -61,7 +61,8 @@ tnbreg $depvar $vars_txc $vars_regpatron if $seleccion
 // nbinomial log independent nbreg (see note 3)
 // no tobit, no tobit negative binomial
 
-/*--------------------------------------------------------------*/
+log close
+/*--------------------------------------------------------------
 /// precios
 use "$datos/cp_w1a8.dta", clear
 global depvar "ppu"

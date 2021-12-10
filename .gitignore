@@ -13,5 +13,7 @@
 /resultados/doc/*.log
 /resultados/doc/*.gz
 /resultados/logs/*
+/resultados/ensanut/*
+/resultados/encuesta/*
 /stata_code/elasticidad/
 
