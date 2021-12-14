@@ -88,7 +88,7 @@ Usa: (PMC)
 > f_tests_xtreg_pooled_fe_re.xlsx
 > est_xt_marcas.tex
 
- one_panel_dyn.do: group tiempo y ciudad; lags & diff;
+5_3_xtreg_panel_dyn.do: group tiempo y ciudad; lags & diff;
 * Dinámico
 usa: (PMC)
 > est_one_panel_dyn.log

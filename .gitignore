@@ -1,6 +1,8 @@
 .Rproj.user
 .Rhistory
 .Ruserdata
+updateR.R
+.obsidian/
 *.RData
 *.csv
 *.jpg
@@ -8,6 +10,11 @@
 /resultados/doc/*.aux
 *.xlsx
 /datos/*
+/anteriores/*
+/graficos/*
+previos/*
+/resultados/*.txt
+/resultados/*.log
 /resultados/*.xlsx
 /resultados/encuesta/*
 /resultados/doc/*.log
@@ -15,5 +22,12 @@
 /resultados/logs/*
 /resultados/ensanut/*
 /resultados/encuesta/*
+/resultados/encuesta/*.log
+/ensanut/anteriores/*
 /stata_code/elasticidad/
+/stata_code/dyn/
+stata_code/kernels/*
+stata_code/ensanut/drafts/*
+stata_code/ensanut/anteriores/*
+
 
