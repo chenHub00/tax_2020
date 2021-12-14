@@ -65,7 +65,8 @@ save datos/prelim/de_inpc/table11_Otras.dta, replace
 promedios marca y ciudad
 > tpCiudad2.dta
 */
-do stata_code/inicial_marcas2.do
+*do stata_code/inicial_marcas2.do
+do stata_code/1_2_import_prom_marca_ciudad.do
 
 capture log close 
 log using resultados\inicial.log, append

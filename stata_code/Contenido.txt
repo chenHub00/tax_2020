@@ -3,22 +3,53 @@
 
 #----------------------------------------------------
 1. Carga de DATOS
-=inicial.do 
+=inicial.do : 1_1_import_a_promedios.do
 # transformaciones iniciales de los datos
 # genera variables indicadoras para periodos del impuesto
 usa:
-< precios_indices.xlsx 
-< table11_principales7.csv
-< inicial_marcas2.do
-inicial_marcas2.do < tpCiudad2.dta
-salva:
-> precios_indices.dta
-> table11_principales7.dtaCo
-- limita total de ciudades
-- promedios por marca/ciudad> 
+< precios_indices.xlsx (iniciales)
+genera:
+> precios_indices.dta, replace
+< table11_principales7.csv (prelim/de_inpc)
+> table11_principales7.dta
+< table11_Otras.csv
+> table11_Otras.dta
++ inicial_marcas2.do (inicial_marcas2.log)
+< tpCiudad2.dta, clear
+< precios_indices.dta
 - promedios por marca> df_x.dta
 - promedio por ciudades> df_m.dta
-usa: inicial_marcas2.do / marcas2.do
+
+inicial_marcas2.do : 1_2_import_prom_marca_ciudad.do
+* limita total de ciudades
+# promedios por marca/ciudad
+< table11_principales7.dta
+< precios_indices.dta
+?< pp_lt_cerveza11_.dta
+> tpCiudad2.dta
+> tpCiudad2.xlsx
+* promedios con otras marcas
+< table11_Otras.dta
+?< pp_lt_cerveza11_.dta
+> tpCiudad2_Otras.dta
+> tpCiudad2_Otras.xlsx
+* Otras marcas
+< tpCiudad2_Otras.dta
+< tpCiudad2.dta
+> tpCiudad2_Otras7Principales.dta
+> tpCiudad2_Otras7Principales.xlsx
+
+marca2.do: 1_2_a_recode_marcas
+* renumerar para incluir otras marcas
+
+marca_marca2.do : 1_2_b_recode_marcas
+*
+
+encode_marca2_otras.do: 1_2_c_encode_otras_marcas
+*
+
+tipo_marca_otras.do: 1_2_d_tipo_otras_marcas
+*
 
 2. Transformación de DATOS
 inicial_marcas2.do 

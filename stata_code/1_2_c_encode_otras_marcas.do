@@ -1,4 +1,5 @@
-
+*** 
+* renumerar para incluir otras marcas
 rename marca2 marca2_str
 encode marca2_str, gen(marca2)
 * empezar en el 12

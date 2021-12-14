@@ -31,7 +31,8 @@ ta year marca
 // observaciones perdidas al hacer collapse?
 // Despu'es 808 en 2021 
 // no cambia al hacer collapse por marca2
-do stata_code/marca2.do
+*do stata_code/marca2.do
+do stata_code/1_2_a_recode_marcas.do
 // marca se puede obtener a partir de marca2, 
 
 ta year marca2
@@ -41,7 +42,7 @@ keep if m_ == 3
 
 ta tipo, su(ppu)
 
-merge m:1 year month cve_ciudad using datos\pp_lt_cerveza11_.dta, gen(m_otro_precio)
+*merge m:1 year month cve_ciudad using datos\pp_lt_cerveza11_.dta, gen(m_otro_precio)
  
 gen l_ppu = log(ppu)
 
@@ -53,7 +54,8 @@ gen ym_y2020=y2020*ym
 gen y2021 = year==2021
 gen l_ppu_y2021=y2021*l_ppu 
 
-do stata_code/marca_marca2.do
+*do stata_code/marca_marca2.do
+do stata_code/1_2_b_recode_marcas.do
 
 save datos/prelim/de_inpc/tpCiudad2.dta, replace
 export excel using "datos/prelim/de_inpc/tpCiudad2.xlsx", replace
@@ -86,8 +88,11 @@ collapse (mean) pzas pp ppu (sd) sd_pzas = pzas sd_pp = pp sd_ppu=ppu, ///
 /*Comparar con 7 marcas principales */
 // no cambia al hacer collapse por marca2
 *do stata_code/marca2.do :
-do stata_code/encode_marca2_otras.do
-do stata_code/tipo_marca_otras.do
+*do stata_code/encode_marca2_otras.do
+do stata_code/1_2_c_encode_otras_marcas.do
+*do stata_code/tipo_marca_otras.do
+do stata_code/1_2_d_tipo_otras_marcas.do
+
 
 // marca se puede obtener a partir de marca2, 
 *ta year marca2
@@ -97,8 +102,8 @@ keep if m_ == 3
 
 *ta tipo, su(ppu)
 
-merge m:1 year month cve_ciudad using datos\pp_lt_cerveza11_.dta, gen(m_otro_precio)
-keep if m_otro == 3
+*merge m:1 year month cve_ciudad using datos\pp_lt_cerveza11_.dta, gen(m_otro_precio)
+*keep if m_otro == 3
  
 gen l_ppu = log(ppu)
 
