@@ -49,27 +49,10 @@ encode_marca2_otras.do: 1_2_c_encode_otras_marcas
 *
 
 tipo_marca_otras.do: 1_2_d_tipo_otras_marcas
-*
+# tipo 2: 
 
 2. Transformación de DATOS
-inicial_marcas2.do 
-usa:
-< table11_principales7.dta
-< marca2.do
-< precios_indices.dta
-< pp_lt_cerveza11_.dta
-< marca_marca2.do
-salva:
-> tpCiudad2.dta/tpCiudad2.xlsx
-
-= marcas2.do 
-= marca_marca2.do
-= encode_marca2_otras.do
-# tipo 2: 
-= tipo_marca_otras.do
-
-3. Reacomodo de Datos
-= datos_paneles_promedios.do >
+datos_paneles_promedios.do : 2_panel_promedios.do
 #s'olo datos de 46 ciudades, presentes en la muestra anterior a 2018.
  usa: 
 < tpCiudad2.dta
@@ -77,12 +60,22 @@ salva:
 > xt_marca.dta
 > xt_ciudad.dta
 > panel_marca2_ciudad.dta
-> panel_marca_ciudad.dta / panel_marca_ciudad.xlsx 
-= promedios sobre el grupo marca-ciudad
+> (PMC) panel_marca_ciudad.dta / panel_marca_ciudad.xlsx 
+
+# promedios sobre el grupo marca-ciudad
 > datos/wide_complete_panel.dta
 
-Datos:
-(PMC) datos/prelim/de_inpc/panel_marca_ciudad.dta
+# otras7principales
+< tpCiudad2_Otras7Principales.dta
+> xt_marca_ot7prin.dta
+> xt_ciudad_ot7prin.dta
+> panel_marca2_ciudad_ot7prin.dta
+> panel_marca2_ciudad_ot7prin.xlsx
+> panel_marca_ciudad_ot7prin.dta
+> panel_marca_ciudad_ot7prin.xlsx
+
+3. Unir Tablas
+
 
 4. Descriptivos
 
@@ -104,7 +97,7 @@ xtreg_dyn_nov_dic.do
 5_1_xtreg_pooled.do: regresion con ciudad y marcas como un nivel, por marcas 
 * Estático
 > est_xtreg_pooled.log
-> est_xtreg_total.tex
+> est_xtreg_total.tex (est_areg_total_mod.tex)
 > est_xtreg_tipo.tex
 > hausman_xtreg_pooled.xlsx
 > uroot_xtreg_pooled.xlsx
@@ -126,21 +119,12 @@ usa: (PMC)
 > est_xtreg_dif.tex, est_xtreg_2dif.tex
 > est_xtreg_dif_tipo.tex
 
- xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex, est_xt_means_diff.tex
- xt_means_marcas > mean by marca: lags & diff > est_xt_means_marcas.tex
- xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un :
-	est_xt_means_marcas.tex
- xtsur > usa: wide_complete_panel.dta > est_xtsur_premium.tex, est_xtsur_medio.tex, est_xtsur_bajo.tex > section 2
- xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium :
-	est_xtsur_det2.tex :  (to section 3, subsection)
- xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos : 
-	resultados\sample_changes\marcas_medias.xlsx 
 ?util: areg_pooled_city
 / fixed-random coeficients <= testing_panel_data.do
 / unit-root test (i = ciudad y marca) 
 (section 4) three way, with mixed coefs? 
 
-xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es, 
+5_6_: xtreg_means_marcas_ciudades: consistente estimaci'on de parametros de inter'es, 
 para pruebas directas de coeficientes por marcas : testparm > est_xt_dm.tex > Section 4
 // resta la cuesti'on de los coeficientes de tiempo, 
 // usar multiplicacion por 100 para analizar el cambio en terminos de centavos
@@ -165,4 +149,18 @@ drafts/xtreg_fe_re_xtunitroot: pruebas de raiz unitaria sobre la especificacion 
 > est_xt_marcas.tex
 
 drafts/est_one_panel > group tiempo y ciudad
+
+ xt_means_cities > mean by cities: lags & diff > est_xt_means_cities.tex, est_xt_means_diff.tex
+ xt_means_marcas > mean by marca: lags & diff > est_xt_means_marcas.tex
+ xt_wide_marcas > formato "wide" para acercarse a la estimaci'on con muestra com'un :
+	est_xt_means_marcas.tex
+ xtsur > usa: wide_complete_panel.dta > est_xtsur_premium.tex, est_xtsur_medio.tex, est_xtsur_bajo.tex > section 2
+ xtsur_det2 > ajustes de los modelos con muestra com'un para las marcas medium :
+	est_xtsur_det2.tex :  (to section 3, subsection)
+ xtsur_medium > ajustes de modelos para marcas medium con diferentes periodos : 
+	resultados\sample_changes\marcas_medias.xlsx 
+
 *------------------------------------------------
+
+6. Análisis resultados
+gr_xtreg_dyn.do : 6_gr_xtreg_dyn.do

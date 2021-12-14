@@ -9,8 +9,8 @@ keep if ym == ym(2020,12)
 
 *### ParÃ¡metros
 scalar sc_vat = .16
-scalar sc_iepsf = 0.35*20
-*scalar sc_iepsf2020 = 0.4944*20 // # incremento del impuesto vigente desde 1 enero 2020
+*scalar sc_iepsf = 0.35*20
+scalar sc_iepsf2020 = 0.4944*20 // # incremento del impuesto vigente desde 1 enero 2020
 scalar sc_iepsf2021 = 0.5108*20 //# ajuste por la inflaciÃ³n vigente desde 1 enero 2021
 scalar sc_iepsav = 1.60
 scalar sc_ret = .28
@@ -37,7 +37,9 @@ gen vat_test = p*sc_vat_factor
 su vat_test
 compare vat0 vat_test
 */
-gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
+*gen taxbase0 = (p-vat0-sc_iepsf)/(1+sc_ret+sc_iepsav)
+/* ajuste 2021 */
+gen taxbase0 = (p-vat0-sc_iepsf2020)/(1+sc_ret+sc_iepsav)
 su taxbase0
 *histogram taxbase0
 

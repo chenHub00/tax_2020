@@ -118,10 +118,10 @@ egen p1_2020a = mean(p1_2020), by(marca ym cve_)
 *egen p1_2020a = min(p1_2020), by(marca ym cve_) missing
 gen p1_2020a = p1_2020[_n-1]
 
-save "datos/finales/pass_through100_jan2020.data", replace
+save "datos/finales/pass_through100_jan2020.dta", replace
 restore
 
-use "datos/finales/pass_through100_jan2020.data", clear
+use "datos/finales/pass_through100_jan2020.dta", clear
 
 *pass_through100  ppu p1_2020 iepsf2020 infe2020 
 
@@ -132,7 +132,7 @@ keep if ym >= ym(2020,12) & ym <= ym(2021,1)
 
 
 
-save "datos/finales/pass_through100_jan2021.data", replace
+save "datos/finales/pass_through100_jan2021.dta", replace
 
 restore
 
