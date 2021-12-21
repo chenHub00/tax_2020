@@ -7,9 +7,9 @@ clear mata
 set more off
 
 //global pathin "/Users/Belen/Documents/Proyecto_IDRC_CancerUK_2018_2021/ECEAII_modelo_subnal/Elasticidad-precio/Datos"
-global pathin "datos/prelim/de_enigh/"
+
 //global pathout "/Users/Belen/Documents/Proyecto_IDRC_CancerUK_2018_2021/ECEAII_modelo_subnal/Resultados"
-global pathout "resultados"
+
 
 capture log close
 log using $pathout/Demand_clust_mun_2016-18.log, replace
