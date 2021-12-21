@@ -5,20 +5,20 @@
 *************************************************************
 clear
 set more off
-foreach i of global anios {
+//foreach i of global anios {
 //  	if `i'==2008 { 
 //       	use "$path/ENIGH_`i'/Microdatos/final_ecea2.dta"
 //       	g anio=`i'
 
-		use "datos/prelim/de_enigh/2016/final_ecea2.dta", clear
+		use "$path/ENIGH/2016/final_ecea2.dta", clear
        	g anio=2016
 //	}
 //  	if `i'==2010 |`i'==2012 | `i'==2014 | `i'==2016 | `i'==2018 {
 //       	append using "$path/ENIGH_`i'/Microdatos/final_ecea2.dta"
-		append using "datos/prelim/de_enigh/2018/final_ecea2.dta"
-       	replace anio=`i' if anio==.
+		append using "$path/ENIGH/`i'/2018/final_ecea2.dta"
+       	replace anio=2018 if anio==.
 //	}
-}
+//}
 
 *OJO: hay 1445 observ que tienen el mismo identificador en ENIGH 2016 y ENIGH 2018
 *Por lo tanto, el id único una vez que se unen las bd es:
@@ -63,7 +63,7 @@ su prueba*	//alrededor de 12.9 en todos los casos
 drop prueba* difgasto* 
 
 
-do "codigo/elasticidad/0_Variables_MODELO.do"
+do "$do_files/3_a_vars_MODELO.do"
 
 // save "$ecea2/final_total_ecea2.dta",replace	
-	save "datos/prelim/de_enigh/final_total_ecea2.dta", replace
+	save "$ecea2/final_total_ecea2.dta", replace

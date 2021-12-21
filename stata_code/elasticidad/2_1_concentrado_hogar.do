@@ -9,7 +9,7 @@ clear
 set more off
 foreach i of global anios {	
 //	use "$path/ENIGH_`i'/Microdatos/concentradohogar.dta"		
-	use "$path/datos/enigh/`i'/concentradohogar.dta"		
+	use "$path/ENIGH/`i'/concentradohogar.dta"		
 	if `i'==2008 | `i'==2010 {
 		rename sexo sexo_jefe
 		rename edad edad_jefe
@@ -84,6 +84,6 @@ foreach i of global anios {
 	
 	keep folioviv foliohog mujerjefa edadjefa edadjefa2 educajefa gastotabinegi factor upm est_dis ing_cor ///
 		hsize maleratio exptotal exptotalpc ictpc* qictpc tictpc entidad municipio rural
-	save "datos/prelim/de_enigh/`i'/final_ecea2.dta", replace
+	save "$path/ENIGH/`i'/final_ecea2.dta", replace
 	duplicates repor folioviv foliohog 
 } 

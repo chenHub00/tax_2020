@@ -8,7 +8,7 @@ set more off
 foreach i of global anios {	
 	tempfile adultos`i'
 	// use "$path/ENIGH_`i'/Microdatos/poblacion.dta"
-	use "datos/enigh/`i'/poblacion.dta"
+	use "$path/ENIGH/`i'/poblacion.dta"
 
 	if `i'==2008 {	
 		rename parentesco parentor
@@ -25,13 +25,13 @@ foreach i of global anios {
 	save `adultos`i''
 	
 //	use "$path/ENIGH_`i'/Microdatos/final_ecea2.dta", clear
-	use "datos/prelim/de_enigh/`i'/final_ecea2.dta", clear
+	use "$path/ENIGH/`i'/final_ecea2.dta", clear
 
 	joinby folioviv foliohog using `adultos`i'', unmatched(both)
 	ta _merge
 	drop _merge
 //	save "$path/ENIGH_`i'/Microdatos/final_ecea2.dta", replace 
-	save "datos/prelim/de_enigh/`i'/final_ecea2.dta", replace
+	save "$path/ENIGH/`i'/final_ecea2.dta", replace
 
 	duplicates repor folioviv foliohog 	
 }

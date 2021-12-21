@@ -6,7 +6,7 @@ set more off
 foreach i of global anios {	
 	tempfile fumador`i'
 	//use "$path/ENIGH_`i'/Microdatos/gastoshogar.dta"
-	use "datos/enigh/`i'/gastoshogar.dta"		
+	use "$path/ENIGH/`i'/gastoshogar.dta"		
 
 	keep if clave=="A239"
 	if `i'==2008 | `i'==2010 {	
@@ -34,7 +34,7 @@ foreach i of global anios {
 	*save `fumadorpersona`i''
 	
 //	use "$path/ENIGH_`i'/Microdatos/final_ecea2.dta", clear
-	use "datos/prelim/de_enigh/`i'/final_ecea2.dta", clear
+	use "$path/ENIGH/`i'/final_ecea2.dta", clear
 
 	joinby folioviv foliohog using `fumador`i'', unmatched(both)
 	ta _merge
@@ -80,7 +80,7 @@ foreach i of global anios {
 		g gastocigs=gastocigs_nodef*1
 	}
 //	save "$path/ENIGH_`i'/Microdatos/final_ecea2.dta", replace
-	save "datos/prelim/de_enigh/`i'/final_ecea2.dta", replace
+	save "$path/ENIGH/`i'/final_ecea2.dta", replace
 	duplicates repor folioviv foliohog 
 }
 
