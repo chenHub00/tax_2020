@@ -12,7 +12,8 @@ set more off
 
 
 capture log close
-log using $pathout/Demand_clust_mun_2016-18.log, replace
+*log using $pathout/Demand_clust_mun_2016-18.log, replace
+log using $pathout/Demand_clust_mun_2016-20.log, replace
 
 use $pathin/final_total_ecea2.dta
 
